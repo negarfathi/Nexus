@@ -1,0 +1,6 @@
+{
+  "loop_id": "L1",
+  "kind": "ranking",
+  "rf": "If(v7 == 1, IntVal(0), IntVal(1))",
+  "rfp": "If(v7p == 1, IntVal(0), IntVal(1))"
+}
