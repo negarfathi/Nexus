@@ -1,0 +1,1 @@
+{"candidate_expressions":[{"expression_ast":{"args":[{"args":["l3_v7",2],"op":"="},{"args":["l3_v5",0],"op":"="}],"op":"and"},"expression_kind":"recurrent-set"}],"candidate_kind":"non-terminating","loop_id":"l3"}

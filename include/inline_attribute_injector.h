@@ -9,17 +9,16 @@
 
 class InlineAttributeInjectorVisitor : public clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor> {
     public:
-        InlineAttributeInjectorVisitor(clang::ASTContext *context, clang::Rewriter &rewriter) : context(context), rewriter(rewriter) {}
+        InlineAttributeInjectorVisitor(clang::Rewriter &rewriter) : rewriter(rewriter) {}
         bool VisitFunctionDecl(clang::FunctionDecl *FD);
 
     private:
-        clang::ASTContext *context;
         clang::Rewriter &rewriter;
 };
 
 class InlineAttributeInjectorConsumer : public clang::ASTConsumer {
     public:
-        InlineAttributeInjectorConsumer(clang::ASTContext *context, clang::Rewriter &rewriter, const std::filesystem::path &outputPath) : visitor(context, rewriter), rewriter(rewriter), outputPath(outputPath) {}
+        InlineAttributeInjectorConsumer(clang::Rewriter &rewriter, const std::filesystem::path &outputPath) : visitor(rewriter), rewriter(rewriter), outputPath(outputPath) {}
         void HandleTranslationUnit(clang::ASTContext &context) override;
 
     private:
@@ -31,7 +30,7 @@ class InlineAttributeInjectorConsumer : public clang::ASTConsumer {
 class InlineAttributeInjectorAction : public clang::ASTFrontendAction {
     public:
         explicit InlineAttributeInjectorAction(const std::filesystem::path &outputPath) : outputPath(outputPath) {}
-        std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef inputFile) override;
+        std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef) override;
 
     private:
         clang::Rewriter rewriter;

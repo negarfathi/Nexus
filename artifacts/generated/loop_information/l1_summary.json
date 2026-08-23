@@ -1,0 +1,709 @@
+{
+  "loop_id": "l1",
+  "function": "main",
+  "llvm_header_block": "%20",
+  "llvm_must_progress": true,
+  "parent_loop_id": null,
+  "child_loop_ids": [],
+  "previous_sequential_loop_ids": [],
+  "next_sequential_loop_ids": [
+    "l2"
+  ],
+  "variables": [
+    {
+      "name": "l1_v1",
+      "type": "i32",
+      "llvm_slot": "%1"
+    },
+    {
+      "name": "l1_v2",
+      "type": "i32",
+      "llvm_slot": "%2"
+    },
+    {
+      "name": "l1_v3",
+      "type": "i32",
+      "llvm_slot": "%3"
+    },
+    {
+      "name": "l1_v4",
+      "type": "i32",
+      "llvm_slot": "%4"
+    },
+    {
+      "name": "l1_v5",
+      "type": "i32",
+      "llvm_slot": "%5"
+    },
+    {
+      "name": "l1_v6",
+      "type": "i32",
+      "llvm_slot": "%6"
+    },
+    {
+      "name": "l1_v7",
+      "type": "i32",
+      "llvm_slot": "%7"
+    }
+  ],
+  "loop_guard": {
+    "id": "l1_guard",
+    "formula": {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    }
+  },
+  "entry_states": {
+    "id": "l1_entry_states",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "path_id": "l1_entry_states_p1",
+        "condition": {
+          "op": "<",
+          "args": [
+            "nd1",
+            0
+          ]
+        },
+        "local_symbols": {
+          "quantifier": "exists",
+          "symbols": [
+            "nd1",
+            "nd2",
+            "nd3",
+            "nd4"
+          ]
+        },
+        "updates": {
+          "l1_v1": 0,
+          "l1_v2": 6,
+          "l1_v3": "nd2",
+          "l1_v4": "nd3",
+          "l1_v5": "nd4",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      },
+      {
+        "path_id": "l1_entry_states_p2",
+        "condition": {
+          "op": "and",
+          "args": [
+            {
+              "op": ">=",
+              "args": [
+                "nd1",
+                0
+              ]
+            },
+            {
+              "op": ">",
+              "args": [
+                "nd1",
+                10
+              ]
+            }
+          ]
+        },
+        "local_symbols": {
+          "quantifier": "exists",
+          "symbols": [
+            "nd1",
+            "nd2",
+            "nd3",
+            "nd4"
+          ]
+        },
+        "updates": {
+          "l1_v1": 0,
+          "l1_v2": 10,
+          "l1_v3": "nd2",
+          "l1_v4": "nd3",
+          "l1_v5": "nd4",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      },
+      {
+        "path_id": "l1_entry_states_p3",
+        "condition": {
+          "op": "and",
+          "args": [
+            {
+              "op": ">=",
+              "args": [
+                "nd1",
+                0
+              ]
+            },
+            {
+              "op": "<=",
+              "args": [
+                "nd1",
+                10
+              ]
+            }
+          ]
+        },
+        "local_symbols": {
+          "quantifier": "exists",
+          "symbols": [
+            "nd1",
+            "nd2",
+            "nd3",
+            "nd4"
+          ]
+        },
+        "updates": {
+          "l1_v1": 0,
+          "l1_v2": "nd1",
+          "l1_v3": "nd2",
+          "l1_v4": "nd3",
+          "l1_v5": "nd4",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      }
+    ]
+  },
+  "loop_iteration_steps": {
+    "id": "l1_iteration_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "path_id": "l1_iteration_steps_p1",
+        "condition": {
+          "op": "and",
+          "args": [
+            {
+              "op": ">",
+              "args": [
+                "l1_v2",
+                0
+              ]
+            },
+            {
+              "op": "!=",
+              "args": [
+                "l1_v2",
+                9
+              ]
+            },
+            {
+              "op": "!=",
+              "args": [
+                "l1_v2",
+                7
+              ]
+            },
+            {
+              "op": "=",
+              "args": [
+                {
+                  "op": "-",
+                  "args": [
+                    "l1_v2",
+                    1
+                  ]
+                },
+                5
+              ]
+            }
+          ]
+        },
+        "child_calls": [],
+        "local_symbols": [],
+        "updates": {
+          "l1_v1": "l1_v1",
+          "l1_v2": {
+            "op": "-",
+            "args": [
+              "l1_v2",
+              1
+            ]
+          },
+          "l1_v3": "l1_v3",
+          "l1_v4": "l1_v4",
+          "l1_v5": "l1_v5",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      },
+      {
+        "path_id": "l1_iteration_steps_p2",
+        "condition": {
+          "op": "and",
+          "args": [
+            {
+              "op": ">",
+              "args": [
+                "l1_v2",
+                0
+              ]
+            },
+            {
+              "op": "!=",
+              "args": [
+                "l1_v2",
+                9
+              ]
+            },
+            {
+              "op": "!=",
+              "args": [
+                "l1_v2",
+                7
+              ]
+            },
+            {
+              "op": "!=",
+              "args": [
+                {
+                  "op": "-",
+                  "args": [
+                    "l1_v2",
+                    1
+                  ]
+                },
+                5
+              ]
+            }
+          ]
+        },
+        "child_calls": [],
+        "local_symbols": [],
+        "updates": {
+          "l1_v1": "l1_v1",
+          "l1_v2": {
+            "op": "-",
+            "args": [
+              {
+                "op": "-",
+                "args": [
+                  "l1_v2",
+                  1
+                ]
+              },
+              1
+            ]
+          },
+          "l1_v3": "l1_v3",
+          "l1_v4": "l1_v4",
+          "l1_v5": "l1_v5",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      }
+    ]
+  },
+  "loop_exit_steps": {
+    "id": "l1_exit_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "id": "l1_exit_steps_p1",
+        "condition": {
+          "op": "or",
+          "args": [
+            {
+              "op": "and",
+              "args": [
+                {
+                  "op": ">",
+                  "args": [
+                    "l1_v2",
+                    0
+                  ]
+                },
+                {
+                  "op": "!=",
+                  "args": [
+                    "l1_v2",
+                    9
+                  ]
+                },
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    7
+                  ]
+                }
+              ]
+            },
+            {
+              "op": "<=",
+              "args": [
+                "l1_v2",
+                0
+              ]
+            }
+          ]
+        },
+        "child_calls": [],
+        "local_symbols": [],
+        "updates": {
+          "l1_v1": "l1_v1",
+          "l1_v2": "l1_v2",
+          "l1_v3": "l1_v3",
+          "l1_v4": "l1_v4",
+          "l1_v5": "l1_v5",
+          "l1_v6": "l1_v6",
+          "l1_v7": "l1_v7"
+        }
+      }
+    ]
+  },
+  "loop_return_steps": {
+    "id": "l1_return_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "id": "l1_return_steps_p1",
+        "condition": {
+          "op": "and",
+          "args": [
+            {
+              "op": ">",
+              "args": [
+                "l1_v2",
+                0
+              ]
+            },
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                9
+              ]
+            }
+          ]
+        },
+        "child_calls": [],
+        "local_symbols": []
+      }
+    ]
+  },
+  "reachable_header_states": {
+    "id": "l1_reachable_header_states",
+    "formula_semantics": "least_fixedpoint",
+    "formula": {
+      "op": "or",
+      "args": [
+        {
+          "op": "relation_call",
+          "relation": "l1_entry_states",
+          "arguments": {
+            "state": [
+              "l1_v1",
+              "l1_v2",
+              "l1_v3",
+              "l1_v4",
+              "l1_v5",
+              "l1_v6",
+              "l1_v7"
+            ]
+          }
+        },
+        {
+          "op": "exists",
+          "variables": [
+            "l1_v1_prev",
+            "l1_v2_prev",
+            "l1_v3_prev",
+            "l1_v4_prev",
+            "l1_v5_prev",
+            "l1_v6_prev",
+            "l1_v7_prev"
+          ],
+          "body": {
+            "op": "and",
+            "args": [
+              {
+                "op": "relation_call",
+                "relation": "l1_reachable_header_states",
+                "arguments": {
+                  "state": [
+                    "l1_v1_prev",
+                    "l1_v2_prev",
+                    "l1_v3_prev",
+                    "l1_v4_prev",
+                    "l1_v5_prev",
+                    "l1_v6_prev",
+                    "l1_v7_prev"
+                  ]
+                }
+              },
+              {
+                "op": "relation_call",
+                "relation": "l1_iteration_steps",
+                "arguments": {
+                  "current_state": [
+                    "l1_v1_prev",
+                    "l1_v2_prev",
+                    "l1_v3_prev",
+                    "l1_v4_prev",
+                    "l1_v5_prev",
+                    "l1_v6_prev",
+                    "l1_v7_prev"
+                  ],
+                  "next_state": [
+                    "l1_v1",
+                    "l1_v2",
+                    "l1_v3",
+                    "l1_v4",
+                    "l1_v5",
+                    "l1_v6",
+                    "l1_v7"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "header_to_exit": {
+    "id": "l1_header_to_exit",
+    "formula_semantics": "least_fixedpoint",
+    "formula": {
+      "op": "or",
+      "args": [
+        {
+          "op": "relation_call",
+          "relation": "l1_exit_steps",
+          "arguments": {
+            "current_state": [
+              "l1_v1",
+              "l1_v2",
+              "l1_v3",
+              "l1_v4",
+              "l1_v5",
+              "l1_v6",
+              "l1_v7"
+            ],
+            "output_state": [
+              "l1_v1_out",
+              "l1_v2_out",
+              "l1_v3_out",
+              "l1_v4_out",
+              "l1_v5_out",
+              "l1_v6_out",
+              "l1_v7_out"
+            ]
+          }
+        },
+        {
+          "op": "exists",
+          "variables": [
+            "l1_v1_step",
+            "l1_v2_step",
+            "l1_v3_step",
+            "l1_v4_step",
+            "l1_v5_step",
+            "l1_v6_step",
+            "l1_v7_step"
+          ],
+          "body": {
+            "op": "and",
+            "args": [
+              {
+                "op": "relation_call",
+                "relation": "l1_iteration_steps",
+                "arguments": {
+                  "current_state": [
+                    "l1_v1",
+                    "l1_v2",
+                    "l1_v3",
+                    "l1_v4",
+                    "l1_v5",
+                    "l1_v6",
+                    "l1_v7"
+                  ],
+                  "next_state": [
+                    "l1_v1_step",
+                    "l1_v2_step",
+                    "l1_v3_step",
+                    "l1_v4_step",
+                    "l1_v5_step",
+                    "l1_v6_step",
+                    "l1_v7_step"
+                  ]
+                }
+              },
+              {
+                "op": "relation_call",
+                "relation": "l1_header_to_exit",
+                "arguments": {
+                  "state": [
+                    "l1_v1_step",
+                    "l1_v2_step",
+                    "l1_v3_step",
+                    "l1_v4_step",
+                    "l1_v5_step",
+                    "l1_v6_step",
+                    "l1_v7_step"
+                  ],
+                  "output_state": [
+                    "l1_v1_out",
+                    "l1_v2_out",
+                    "l1_v3_out",
+                    "l1_v4_out",
+                    "l1_v5_out",
+                    "l1_v6_out",
+                    "l1_v7_out"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "header_to_return": {
+    "id": "l1_header_to_return",
+    "formula_semantics": "least_fixedpoint",
+    "formula": {
+      "op": "or",
+      "args": [
+        {
+          "op": "relation_call",
+          "relation": "l1_return_steps",
+          "arguments": {
+            "state": [
+              "l1_v1",
+              "l1_v2",
+              "l1_v3",
+              "l1_v4",
+              "l1_v5",
+              "l1_v6",
+              "l1_v7"
+            ]
+          }
+        },
+        {
+          "op": "exists",
+          "variables": [
+            "l1_v1_step",
+            "l1_v2_step",
+            "l1_v3_step",
+            "l1_v4_step",
+            "l1_v5_step",
+            "l1_v6_step",
+            "l1_v7_step"
+          ],
+          "body": {
+            "op": "and",
+            "args": [
+              {
+                "op": "relation_call",
+                "relation": "l1_iteration_steps",
+                "arguments": {
+                  "current_state": [
+                    "l1_v1",
+                    "l1_v2",
+                    "l1_v3",
+                    "l1_v4",
+                    "l1_v5",
+                    "l1_v6",
+                    "l1_v7"
+                  ],
+                  "next_state": [
+                    "l1_v1_step",
+                    "l1_v2_step",
+                    "l1_v3_step",
+                    "l1_v4_step",
+                    "l1_v5_step",
+                    "l1_v6_step",
+                    "l1_v7_step"
+                  ]
+                }
+              },
+              {
+                "op": "relation_call",
+                "relation": "l1_header_to_return",
+                "arguments": {
+                  "state": [
+                    "l1_v1_step",
+                    "l1_v2_step",
+                    "l1_v3_step",
+                    "l1_v4_step",
+                    "l1_v5_step",
+                    "l1_v6_step",
+                    "l1_v7_step"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "actual_exit": {
+    "id": "l1_actual_exit",
+    "formula": {
+      "op": "exists",
+      "variables": [
+        "l1_v1_entry",
+        "l1_v2_entry",
+        "l1_v3_entry",
+        "l1_v4_entry",
+        "l1_v5_entry",
+        "l1_v6_entry",
+        "l1_v7_entry"
+      ],
+      "body": {
+        "op": "and",
+        "args": [
+          {
+            "op": "relation_call",
+            "relation": "l1_entry_states",
+            "arguments": {
+              "state": [
+                "l1_v1_entry",
+                "l1_v2_entry",
+                "l1_v3_entry",
+                "l1_v4_entry",
+                "l1_v5_entry",
+                "l1_v6_entry",
+                "l1_v7_entry"
+              ]
+            }
+          },
+          {
+            "op": "relation_call",
+            "relation": "l1_header_to_exit",
+            "arguments": {
+              "state": [
+                "l1_v1_entry",
+                "l1_v2_entry",
+                "l1_v3_entry",
+                "l1_v4_entry",
+                "l1_v5_entry",
+                "l1_v6_entry",
+                "l1_v7_entry"
+              ],
+              "output_state": [
+                "l1_v1_out",
+                "l1_v2_out",
+                "l1_v3_out",
+                "l1_v4_out",
+                "l1_v5_out",
+                "l1_v6_out",
+                "l1_v7_out"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  },
+  "unsupported": []
+}

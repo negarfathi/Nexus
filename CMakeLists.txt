@@ -1,50 +1,131 @@
 cmake_minimum_required(VERSION 4.0)
-project(Nexus)
+project(Nexus LANGUAGES C CXX)
 
-# Set the C++ standard to C++26
-set(CMAKE_CXX_STANDARD 26)
+# ------------------------------------------------------------------
+# C++ standard
+# ------------------------------------------------------------------
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
 
-# Find LLVM package
+# ------------------------------------------------------------------
+# Homebrew package locations
+# ------------------------------------------------------------------
+list(APPEND CMAKE_PREFIX_PATH
+        "/opt/homebrew"
+        "/opt/homebrew/opt/llvm"
+        "/opt/homebrew/opt/nlohmann-json"
+        "/opt/homebrew/opt/curl"
+)
+
+# ------------------------------------------------------------------
+# LLVM
+# ------------------------------------------------------------------
 find_package(LLVM REQUIRED CONFIG)
+
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
-# Include LLVM headers
 include_directories(${LLVM_INCLUDE_DIRS})
 add_definitions(${LLVM_DEFINITIONS})
 
-# Find Clang package
+# ------------------------------------------------------------------
+# Clang
+# ------------------------------------------------------------------
 find_package(Clang REQUIRED CONFIG)
-message(STATUS "Using ClangConfig.cmake in: ${CLANG_DIR}")
 
-# Include Clang headers
+message(STATUS "Using ClangConfig.cmake in: ${Clang_DIR}")
+
 include_directories(${CLANG_INCLUDE_DIRS})
 
-list(APPEND CMAKE_PREFIX_PATH "/opt/homebrew" "/opt/homebrew/opt/nlohmann-json")
+# ------------------------------------------------------------------
+# nlohmann/json
+# ------------------------------------------------------------------
 find_package(nlohmann_json CONFIG REQUIRED)
 
+# ------------------------------------------------------------------
+# CURL
+# ------------------------------------------------------------------
+find_package(CURL REQUIRED)
+
+message(STATUS "Found CURL ${CURL_VERSION_STRING}")
+message(STATUS "CURL libraries: ${CURL_LIBRARIES}")
+
+# ------------------------------------------------------------------
+# OpenXLSX
+# ------------------------------------------------------------------
+include(FetchContent)
+
+FetchContent_Declare(
+        OpenXLSX
+        GIT_REPOSITORY https://github.com/troldal/OpenXLSX.git
+        GIT_TAG master
+)
+
+set(OPENXLSX_CREATE_DOCS OFF)
+set(OPENXLSX_BUILD_SAMPLES OFF)
+set(OPENXLSX_BUILD_TESTS OFF)
+set(OPENXLSX_BUILD_BENCHMARKS OFF)
+set(BUILD_SHARED_LIBS OFF)
+
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
+FetchContent_MakeAvailable(OpenXLSX)
+
+# ------------------------------------------------------------------
+# Nexus executable
+# ------------------------------------------------------------------
 add_executable(Nexus
         src/main.cpp
 
         src/inline_attribute_injector.cpp
         include/inline_attribute_injector.h
 
-        include/loop_summary_extractor.h
-        src/loop_summary_extractor.cpp
+        src/loop_information_extractor.cpp
+        include/loop_information_extractor.h
 
-        include/candidate_synthesizer.h
         src/candidate_synthesizer.cpp
+        include/candidate_synthesizer.h
+
+        src/candidate_parser.cpp
+        include/candidate_parser.h
 
         src/validator_generator.cpp
-        include/validator_generator.h)
+        include/validator_generator.h
 
-target_include_directories(Nexus PRIVATE include)
+        src/experiment_recorder.cpp
+        include/experiment_recorder.h
+)
 
-# Link against specific LLVM and Clang libraries
+# ------------------------------------------------------------------
+# Project headers
+# ------------------------------------------------------------------
+target_include_directories(Nexus
+        PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${OpenXLSX_INCLUDES}
+)
+
+# ------------------------------------------------------------------
+# Libraries
+# ------------------------------------------------------------------
 target_link_libraries(Nexus
         PRIVATE
+
+        # LLVM
         LLVM
+
+        # Clang
         clangAST
         clangFrontend
         clangTooling
-        nlohmann_json::nlohmann_json)
+
+        # JSON
+        nlohmann_json::nlohmann_json
+
+        # HTTP client used for OpenAI API
+        CURL::libcurl
+
+        # Excel
+        OpenXLSX::OpenXLSX
+)

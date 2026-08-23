@@ -1,7 +1,13 @@
 #ifndef CANDIDATE_SYNTHESIZER_H
 #define CANDIDATE_SYNTHESIZER_H
 
+#include <set>
 #include <fstream>
+#include <sstream>
+#include <iostream>
+
+#include <curl/curl.h>
+#include <nlohmann/json.hpp>
 
 enum SynthesisMode {
     Initial,
@@ -9,10 +15,18 @@ enum SynthesisMode {
     AnalysisRefinement
 };
 
-class CandidateSynthesizer {
-    public:
-        bool synthesize(const std::filesystem::path& loopSummaryPath, const std::filesystem::path& grammarsDirectory, const std::filesystem::path& resultPath, const std::filesystem::path& candidatePath, SynthesisMode& synthesisMode);
-        bool parse(const std::filesystem::path& candidatePath, const std::filesystem::path& grammarsDirectory, const std::filesystem::path& resultPath);
+struct SynthesisResult {
+    bool success = false;
+    std::string kind;
+    long long inputTokens = 0;
+    long long outputTokens = 0;
+    double latency = 0.0;
+    double cost = 0.0;
 };
 
-#endif //CANDIDATE_SYNTHESIZER_H
+class CandidateSynthesizer {
+public:
+    SynthesisResult synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode);
+};
+
+#endif // CANDIDATE_SYNTHESIZER_H

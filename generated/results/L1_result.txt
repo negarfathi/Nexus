@@ -1,5 +1,0 @@
-Traceback (most recent call last):
-  File "/Users/nfathi2/Documents/liveness_analysis/Nexus/artifacts/generated/validators/validate_L1.py", line 67, in <module>
-    fp.rule(
-    ^^
-NameError: name 'fp' is not defined

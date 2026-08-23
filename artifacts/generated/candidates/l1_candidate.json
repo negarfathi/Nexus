@@ -1,0 +1,1 @@
+{"candidate_expressions":[{"expression_ast":{"args":[{"args":["l1_v2",-1],"op":">="},{"args":["l1_v2",10],"op":"<="}],"op":"and"},"expression_kind":"invariant"},{"expression_ast":"l1_v2","expression_kind":"ranking-function"}],"candidate_kind":"terminating","loop_id":"l1"}

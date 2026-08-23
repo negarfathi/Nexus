@@ -12,7 +12,9 @@ bool InlineAttributeInjectorVisitor::VisitFunctionDecl(clang::FunctionDecl *FD) 
                 textToInsert += "inline ";
             }
             if (!textToInsert.empty()) {
-                rewriter.InsertTextBefore(beginLoc, textToInsert);
+                if (rewriter.InsertTextBefore(beginLoc, textToInsert)) {
+                    return false;
+                }
             }
         }
     }
@@ -23,11 +25,12 @@ void InlineAttributeInjectorConsumer::HandleTranslationUnit(clang::ASTContext &c
     std::error_code errorCode;
     llvm::raw_fd_ostream outputStream(outputPath.string(), errorCode, llvm::sys::fs::OF_Text);
     if (errorCode) {
-        llvm::errs() << "Failed to open output file: " << outputPath.string() << "\n";
-        return;
+        throw std::runtime_error("Failed to open output file '" + outputPath.string() + "': " + errorCode.message());
     }
 
-    visitor.TraverseDecl(context.getTranslationUnitDecl());
+    if (!visitor.TraverseDecl(context.getTranslationUnitDecl())) {
+        throw std::runtime_error("Failed to traverse the translation unit.");
+    }
 
     clang::SourceManager &sourceManager = rewriter.getSourceMgr();
 
@@ -36,19 +39,22 @@ void InlineAttributeInjectorConsumer::HandleTranslationUnit(clang::ASTContext &c
     const auto *rewriteBuffer = rewriter.getRewriteBufferFor(mainFileID);
     if (rewriteBuffer != nullptr) {
         rewriteBuffer->write(outputStream);
-        outputStream.close();
-        return;
     }
-
-    bool invalid = false;
-    llvm::StringRef originalCode = sourceManager.getBufferData(mainFileID, &invalid);
-    if (!invalid) {
+    else {
+        bool invalid = false;
+        llvm::StringRef originalCode = sourceManager.getBufferData(mainFileID, &invalid);
+        if (invalid) {
+            throw std::runtime_error("Failed to read the main source file.");
+        }
         outputStream << originalCode;
     }
     outputStream.close();
+    if (outputStream.has_error()) {
+        throw std::runtime_error("Failed to write output file: " + outputPath.string());
+    }
 }
 
-std::unique_ptr<clang::ASTConsumer> InlineAttributeInjectorAction::CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef inputFile) {
+std::unique_ptr<clang::ASTConsumer> InlineAttributeInjectorAction::CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef) {
     rewriter.setSourceMgr(compiler.getSourceManager(), compiler.getLangOpts());
-    return std::make_unique<InlineAttributeInjectorConsumer>(&compiler.getASTContext(), rewriter, outputPath);
+    return std::make_unique<InlineAttributeInjectorConsumer>(rewriter, outputPath);
 }

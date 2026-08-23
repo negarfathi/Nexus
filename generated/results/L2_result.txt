@@ -1,5 +1,0 @@
-nonnegativity violated: unsat
-
-decrease violated: unsat
-
-L2 ranking candidate proved.
