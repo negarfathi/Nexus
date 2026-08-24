@@ -6,6 +6,7 @@
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "clang/Frontend/FrontendAction.h"
 #include "clang/AST/RecursiveASTVisitor.h"
+#include "clang/Frontend/CompilerInstance.h"
 
 class InlineAttributeInjectorVisitor : public clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor> {
     public:

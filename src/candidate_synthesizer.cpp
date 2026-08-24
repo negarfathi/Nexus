@@ -238,7 +238,7 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
     return {taskInstructions + "\n" + commonInstructions, input.dump(2)};
 }
 
-static Response sendRequest(const std::string& llmModel, const Prompt& prompt) {
+static Response sendRequest(const std::string& llmModel, const Prompt& prompt, long timeout) {
     // Read the vLLM server base URL from the environment.
     const char* baseUrl = std::getenv("VLLM_BASE_URL");
     if (!baseUrl || !*baseUrl) {
@@ -356,8 +356,8 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt) {
 
     // Apply model-specific inference configuration.
     if (llmModel == "gpt-oss-20b") {
-        request["reasoning_effort"] = "high";
-        request["include_reasoning"] = false;
+        request["reasoning_effort"] = "medium";
+        request["include_reasoning"] = true;
     }
 
     else if (llmModel == "Qwen3-8B") {
@@ -420,7 +420,7 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt) {
 
     // Configure connection and request timeouts.
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, 180L);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
 
     // Send the request and measure latency.
     const auto startTime = std::chrono::steady_clock::now();
@@ -462,12 +462,21 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt) {
 
     // Extract the generated candidate text from the response.
     // Missing or malformed candidate text is handled later by CandidateParser.
-    if (responseData.contains("choices") && responseData.at("choices").is_array() && !responseData.at("choices").empty()) {
-        const nlohmann::json& choice = responseData.at("choices").at(0);
-        if (choice.contains("message") && choice.at("message").is_object() && choice.at("message").contains("content") && choice.at("message").at("content").is_string()) {
-            response.outputText = choice.at("message").at("content").get<std::string>();
-        }
+    if (!responseData.contains("choices") || !responseData.at("choices").is_array() || responseData.at("choices").empty()) {
+        throw std::runtime_error("vLLM response contains no choices: " + responseData.dump());
     }
+
+    const nlohmann::json& choice = responseData.at("choices").at(0);
+    if (!choice.contains("message") || !choice.at("message").is_object()) {
+        throw std::runtime_error("vLLM response contains no message: " + responseData.dump());
+    }
+
+    const nlohmann::json& message = choice.at("message");
+    if (!message.contains("content") || !message.at("content").is_string() || message.at("content").get<std::string>().empty()) {
+        throw std::runtime_error("vLLM returned empty candidate content: " + responseData.dump());
+    }
+
+    response.outputText = message.at("content").get<std::string>();
 
     // Extract token-usage information from the response.
     if (responseData.contains("usage") && responseData.at("usage").is_object()) {
@@ -510,7 +519,7 @@ static void populateSynthesisResult(SynthesisResult& synthesisResult, const Resp
     synthesisResult.cost = 0.0;
 }
 
-SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode) {
+SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeout) {
     SynthesisResult synthesisResult;
 
     try {
@@ -524,7 +533,7 @@ SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, cons
 
         const Prompt prompt = buildPrompt(loopId, loopBundle, candidateGrammar, refinementFeedbackPath, candidatePath, synthesisMode);
 
-        Response response = sendRequest(llmModel, prompt);
+        Response response = sendRequest(llmModel, prompt, timeout);
 
         saveCandidate(response, candidatePath);
 

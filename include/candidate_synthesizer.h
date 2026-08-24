@@ -26,7 +26,7 @@ struct SynthesisResult {
 
 class CandidateSynthesizer {
 public:
-    SynthesisResult synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode);
+    SynthesisResult synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeout);
 };
 
 #endif // CANDIDATE_SYNTHESIZER_H

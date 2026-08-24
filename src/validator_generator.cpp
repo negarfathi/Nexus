@@ -1608,11 +1608,37 @@ static void generateTerminationValidation(
             targetLoopId + "_ranking_function[" + std::to_string(i) + "]");
     }
 
-    const std::string badDecrease = targetLoopId + "_bad_ranking_decrease";
-    registerBooleanQuery(
-        badDecrease,
-        "And(" + targetLoopId + "_invariant, " + guard + ", " + relationCall(iterationSteps, currentNext) +
-        ", Not(" + join(lexicographicAlternatives, "Or", "BoolVal(False)") + "))");
+    // Spacer rejects integer div/mod when candidate arithmetic is embedded in a
+    // Horn rule.  The target loop's concrete one-step path formulas have already
+    // been emitted as ordinary Z3 Bool expressions, so use those formulas in a
+    // normal SMT Solver for ranking decrease instead of creating
+    // <loop>_bad_ranking_decrease as a Fixedpoint rule.
+    std::vector<std::string> iterationPathIds;
+    const nlohmann::ordered_json& iterationRelation = targetLoop.at("loop_iteration_steps");
+    if (iterationRelation.contains("paths") && iterationRelation.at("paths").is_array()) {
+        const nlohmann::ordered_json& paths = iterationRelation.at("paths");
+        for (std::size_t pathIndex = 0; pathIndex < paths.size(); ++pathIndex) {
+            const nlohmann::ordered_json& path = paths.at(pathIndex);
+            const std::string pathId =
+                path.contains("path_id") && path.at("path_id").is_string()
+                    ? path.at("path_id").get<std::string>()
+                    : path.contains("id") && path.at("id").is_string()
+                        ? path.at("id").get<std::string>()
+                        : iterationSteps + "_p" + std::to_string(pathIndex + 1);
+            iterationPathIds.push_back(pathId);
+        }
+    }
+
+    const std::string iterationFormula =
+        join(iterationPathIds, "Or", "BoolVal(False)");
+
+    context.output
+        << targetLoopId << "_ranking_decrease_solver = Solver()\n"
+        << targetLoopId << "_ranking_decrease_solver.add("
+        << targetLoopId << "_invariant, " << guard << ", "
+        << iterationFormula << ", Not("
+        << join(lexicographicAlternatives, "Or", "BoolVal(False)")
+        << "))\n\n";
 
     context.output << R"PY(def check_fixedpoint(name, relation, expected):
     result = fp.query(relation())
@@ -1687,9 +1713,9 @@ def validation_status(checks):
         << "    unsat\n"
         << ")\n\n"
 
-        << targetLoopId << "_ranking_decrease_result = check_fixedpoint(\n"
+        << targetLoopId << "_ranking_decrease_result = check_solver(\n"
         << "    \"RANKING_DECREASE\",\n"
-        << "    " << badDecrease << ",\n"
+        << "    " << targetLoopId << "_ranking_decrease_solver,\n"
         << "    unsat\n"
         << ")\n\n"
 

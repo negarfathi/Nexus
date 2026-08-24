@@ -132,24 +132,24 @@ int main(int argc, char *argv[]) {
 
         std::cout << "Injecting inline attributes..." << "\n";
         std::filesystem::path inlineCPath = generatedDirectory / (cName + ".inline" + cExtension);
-        bool injectionResult = clang::tooling::runToolOnCode(std::make_unique<InlineAttributeInjectorAction>(inlineCPath), cFile);
+        bool injectionResult = clang::tooling::runToolOnCodeWithArgs(std::make_unique<InlineAttributeInjectorAction>(inlineCPath), cFile, {"-x", "c", "-std=c11"}, cName + cExtension);
+
         if (!injectionResult) {
             throw std::runtime_error("Failed to inject inline attributes.");
         }
 
         std::cout << "Compiling to LLVM bitcode..." << "\n";
         std::filesystem::path inlineBcPath = generatedDirectory / (cName + ".inline.bc");
-        std::string inlineBcCommand = "set -o pipefail; "
-                                      "clang -O0 -Xclang -disable-O0-optnone -emit-llvm -c \"" + inlineCPath.string() + "\" -o - "
-                                      "| opt -passes=always-inline - -o \"" + inlineBcPath.string() + "\"";
+        std::string inlineBcCommand = "\"" + std::string(NEXUS_CLANG_EXECUTABLE) + "\" -O0 -Xclang -disable-O0-optnone -emit-llvm -c \"" + inlineCPath.string() + "\" -o - | \"" +
+                                      std::string(NEXUS_OPT_EXECUTABLE) + "\" -passes=always-inline - -o \"" + inlineBcPath.string() + "\"";
         int inlineBcResult = std::system(inlineBcCommand.c_str());
-        if (inlineBcResult != 0) {
+        if (inlineBcResult != 0 || !std::filesystem::exists(inlineBcPath) || std::filesystem::file_size(inlineBcPath) == 0) {
             throw std::runtime_error("Failed to compile to LLVM bitcode and inline functions.");
         }
 
         std::cout << "Disassembling LLVM bitcode to LLVM IR..." << "\n";
         std::filesystem::path inlineLlPath = generatedDirectory / (cName + ".inline.ll");
-        std::string inlineLlCommand = "llvm-dis \"" + inlineBcPath.string() + "\" -o \"" + inlineLlPath.string() + "\"";
+        std::string inlineLlCommand = "\"" + std::string(NEXUS_LLVM_DIS_EXECUTABLE) + "\" \"" + inlineBcPath.string() + "\" -o \"" + inlineLlPath.string() + "\"";
         int inlineLlResult = std::system(inlineLlCommand.c_str());
         if (inlineLlResult != 0) {
             throw std::runtime_error("Failed to disassemble LLVM bitcode to LLVM IR.");
@@ -214,7 +214,7 @@ int main(int argc, char *argv[]) {
                         std::cout << "Refining candidate for loop " << loopInformation.id << " using validation feedback, attempt " << analysisRefinements << "...\n";
                     }
 
-                    const SynthesisResult synthesisResult = candidateSynthesizer.synthesize(loopInformation.id, loopInformationDirectory, candidateGrammarPath, refinementFeedbackPath, candidatePath, llmModel, synthesisMode);
+                    const SynthesisResult synthesisResult = candidateSynthesizer.synthesize(loopInformation.id, loopInformationDirectory, candidateGrammarPath, refinementFeedbackPath, candidatePath, llmModel, synthesisMode, timeout);
                     if (!synthesisResult.success) {
                         throw std::runtime_error("Failed to synthesize or refine candidate for loop " + loopInformation.id + ".");
                     }
