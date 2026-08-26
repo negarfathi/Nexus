@@ -23,22 +23,22 @@ struct ExperimentResult {
     long long initialSynthesisOutputTokens = 0;
     double initialSynthesisCost = 0.0;
 
-    int grammarRefinementCalls = 0;
-    double grammarRefinementTime = 0.0;
-    long long grammarRefinementInputTokens = 0;
-    long long grammarRefinementOutputTokens = 0;
-    double grammarRefinementCost = 0.0;
+    int syntacticRefinementCalls = 0;
+    double syntacticRefinementTime = 0.0;
+    long long syntacticRefinementInputTokens = 0;
+    long long syntacticRefinementOutputTokens = 0;
+    double syntacticRefinementCost = 0.0;
 
-    int analysisRefinementCalls = 0;
-    double analysisRefinementTime = 0.0;
-    long long analysisRefinementInputTokens = 0;
-    long long analysisRefinementOutputTokens = 0;
-    double analysisRefinementCost = 0.0;
+    int sematicRefinementCalls = 0;
+    double sematicRefinementTime = 0.0;
+    long long sematicRefinementInputTokens = 0;
+    long long sematicRefinementOutputTokens = 0;
+    double sematicRefinementCost = 0.0;
 };
 
 class ExperimentRecorder {
 public:
-    bool record(const std::filesystem::path& experimentResultsPath, const ExperimentResult& experimentResult);
+    bool record(const ExperimentResult& experimentResult, const std::string& llmModel, const std::filesystem::path& experimentResultsPath);
 };
 
 #endif // EXPERIMENT_RECORDER_H

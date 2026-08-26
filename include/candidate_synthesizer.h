@@ -11,8 +11,8 @@
 
 enum SynthesisMode {
     Initial,
-    GrammarRefinement,
-    AnalysisRefinement
+    SyntacticRefinement,
+    SemanticRefinement
 };
 
 struct SynthesisResult {

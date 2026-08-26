@@ -1,11 +1,10 @@
 #include "../include/experiment_recorder.h"
 
-bool ExperimentRecorder::record(const std::filesystem::path& experimentResultsPath, const ExperimentResult& experimentResult) {
+bool ExperimentRecorder::record(const ExperimentResult& experimentResult, const std::string& llmModel, const std::filesystem::path& experimentResultsPath) {
     try {
         OpenXLSX::XLDocument document;
 
         const bool newWorkbook = !std::filesystem::exists(experimentResultsPath);
-
         if (newWorkbook) {
             document.create(experimentResultsPath.string(), OpenXLSX::XLForceOverwrite);
         }
@@ -13,9 +12,19 @@ bool ExperimentRecorder::record(const std::filesystem::path& experimentResultsPa
             document.open(experimentResultsPath.string());
         }
 
-        auto worksheet = document.workbook().worksheet("Sheet1");
-
+        bool newWorksheet = false;
         if (newWorkbook) {
+            auto worksheet = document.workbook().worksheet("Sheet1");
+            worksheet.setName(llmModel);
+            newWorksheet = true;
+        }
+        else if (!document.workbook().worksheetExists(llmModel)) {
+            document.workbook().addWorksheet(llmModel);
+            newWorksheet = true;
+        }
+        auto worksheet = document.workbook().worksheet(llmModel);
+
+        if (newWorksheet) {
             worksheet.cell(1, 1).value() = "Program";
             worksheet.cell(1, 2).value() = "Ground Truth";
             worksheet.cell(1, 3).value() = "Total Loops";
@@ -29,22 +38,21 @@ bool ExperimentRecorder::record(const std::filesystem::path& experimentResultsPa
             worksheet.cell(1, 11).value() = "Initial Synthesis Input Tokens";
             worksheet.cell(1, 12).value() = "Initial Synthesis Output Tokens";
             worksheet.cell(1, 13).value() = "Initial Synthesis Cost (USD)";
-            worksheet.cell(1, 14).value() = "Grammar Refinement Calls";
-            worksheet.cell(1, 15).value() = "Grammar Refinement Time (ms)";
-            worksheet.cell(1, 16).value() = "Grammar Refinement Input Tokens";
-            worksheet.cell(1, 17).value() = "Grammar Refinement Output Tokens";
-            worksheet.cell(1, 18).value() = "Grammar Refinement Cost (USD)";
-            worksheet.cell(1, 19).value() = "Analysis Refinement Calls";
-            worksheet.cell(1, 20).value() = "Analysis Refinement Time (ms)";
-            worksheet.cell(1, 21).value() = "Analysis Refinement Input Tokens";
-            worksheet.cell(1, 22).value() = "Analysis Refinement Output Tokens";
-            worksheet.cell(1, 23).value() = "Analysis Refinement Cost (USD)";
+            worksheet.cell(1, 14).value() = "Syntactic Refinement Calls";
+            worksheet.cell(1, 15).value() = "Syntactic Refinement Time (ms)";
+            worksheet.cell(1, 16).value() = "Syntactic Refinement Input Tokens";
+            worksheet.cell(1, 17).value() = "Syntactic Refinement Output Tokens";
+            worksheet.cell(1, 18).value() = "Syntactic Refinement Cost (USD)";
+            worksheet.cell(1, 19).value() = "Semantic Refinement Calls";
+            worksheet.cell(1, 20).value() = "Semantic Refinement Time (ms)";
+            worksheet.cell(1, 21).value() = "Semantic Refinement Input Tokens";
+            worksheet.cell(1, 22).value() = "Semantic Refinement Output Tokens";
+            worksheet.cell(1, 23).value() = "Semantic Refinement Cost (USD)";
         }
 
         std::uint32_t targetRow = 0;
         std::uint32_t firstEmptyRow = 0;
         const std::uint32_t lastRow = std::max<std::uint32_t>(worksheet.rowCount(), 1);
-
         for (std::uint32_t row = 2; row <= lastRow; ++row) {
             const OpenXLSX::XLCellValue programCell = worksheet.cell(row, 1).value();
             if (programCell.type() == OpenXLSX::XLValueType::Empty) {
@@ -89,16 +97,16 @@ bool ExperimentRecorder::record(const std::filesystem::path& experimentResultsPa
         worksheet.cell(targetRow, 11).value() = static_cast<std::int64_t>(experimentResult.initialSynthesisInputTokens);
         worksheet.cell(targetRow, 12).value() = static_cast<std::int64_t>(experimentResult.initialSynthesisOutputTokens);
         worksheet.cell(targetRow, 13).value() = experimentResult.initialSynthesisCost;
-        worksheet.cell(targetRow, 14).value() = experimentResult.grammarRefinementCalls;
-        worksheet.cell(targetRow, 15).value() = experimentResult.grammarRefinementTime;
-        worksheet.cell(targetRow, 16).value() = static_cast<std::int64_t>(experimentResult.grammarRefinementInputTokens);
-        worksheet.cell(targetRow, 17).value() = static_cast<std::int64_t>(experimentResult.grammarRefinementOutputTokens);
-        worksheet.cell(targetRow, 18).value() = experimentResult.grammarRefinementCost;
-        worksheet.cell(targetRow, 19).value() = experimentResult.analysisRefinementCalls;
-        worksheet.cell(targetRow, 20).value() = experimentResult.analysisRefinementTime;
-        worksheet.cell(targetRow, 21).value() = static_cast<std::int64_t>(experimentResult.analysisRefinementInputTokens);
-        worksheet.cell(targetRow, 22).value() = static_cast<std::int64_t>(experimentResult.analysisRefinementOutputTokens);
-        worksheet.cell(targetRow, 23).value() = experimentResult.analysisRefinementCost;
+        worksheet.cell(targetRow, 14).value() = experimentResult.syntacticRefinementCalls;
+        worksheet.cell(targetRow, 15).value() = experimentResult.syntacticRefinementTime;
+        worksheet.cell(targetRow, 16).value() = static_cast<std::int64_t>(experimentResult.syntacticRefinementInputTokens);
+        worksheet.cell(targetRow, 17).value() = static_cast<std::int64_t>(experimentResult.syntacticRefinementOutputTokens);
+        worksheet.cell(targetRow, 18).value() = experimentResult.syntacticRefinementCost;
+        worksheet.cell(targetRow, 19).value() = experimentResult.sematicRefinementCalls;
+        worksheet.cell(targetRow, 20).value() = experimentResult.sematicRefinementTime;
+        worksheet.cell(targetRow, 21).value() = static_cast<std::int64_t>(experimentResult.sematicRefinementInputTokens);
+        worksheet.cell(targetRow, 22).value() = static_cast<std::int64_t>(experimentResult.sematicRefinementOutputTokens);
+        worksheet.cell(targetRow, 23).value() = experimentResult.sematicRefinementCost;
 
         document.save();
         document.close();

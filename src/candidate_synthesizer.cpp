@@ -6,10 +6,11 @@ struct Prompt {
 };
 
 struct Response {
-    std::string outputText;
+    std::string data;
     long long inputTokens = 0;
     long long outputTokens = 0;
     double latency = 0.0;
+    double cost = 0.0;
 };
 
 static std::map<std::string, nlohmann::json> loadLoopInformation(const std::filesystem::path& loopInformationDirectory) {
@@ -133,11 +134,11 @@ Dependency loops provide context only; construct a candidate only for the target
 )PROMPT";
     }
 
-    else if (synthesisMode == GrammarRefinement) {
+    else if (synthesisMode == SyntacticRefinement) {
         taskInstructions = R"PROMPT(
 Refine the previous candidate for the target loop using the supplied loop information, candidate grammar, and parsing feedback.
 
-Correct the reported candidate-format, target-loop identifier, candidate-kind, expression-kind, grammar, typing, operator-arity, and target-variable errors while preserving valid parts when possible.
+Correct the reported candidate-format, target-loop identifier, candidate-kind, expression-kind, grammar, typing, operator-arity, and target-current-state-symbol errors while preserving valid parts when possible.
 
 Treat these as grammar and representation issues only; preserve the previous termination or non-termination classification.
 
@@ -145,7 +146,7 @@ Dependency loops provide context only; refine the candidate only for the target 
 )PROMPT";
     }
 
-    else if (synthesisMode == AnalysisRefinement) {
+    else if (synthesisMode == SemanticRefinement) {
         taskInstructions = R"PROMPT(
 Refine the previous candidate for the target loop using the supplied loop information, candidate grammar, and validation feedback.
 
@@ -199,7 +200,7 @@ Unknown:
   "candidate_expressions": []
 }
 
-Each expression AST must conform exactly to the supplied candidate grammar and use only target-loop variables.
+Each expression AST must conform exactly to the supplied candidate grammar and use only the target loop's current-state symbols listed in state_symbols[*].current. Do not use state_symbols[*].next, state_symbols[*].output, or nondeterministic_symbols in candidate expressions.
 
 Return only the JSON object, with no mathematical-expression strings, Markdown, or explanations.
 )PROMPT";
@@ -227,11 +228,11 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
         std::ostringstream refinementFeedbackBuffer;
         refinementFeedbackBuffer << refinementFeedbackStream.rdbuf();
 
-        if (synthesisMode == GrammarRefinement) {
-            input["parsing_feedback"] = refinementFeedbackBuffer.str();
+        if (synthesisMode == SyntacticRefinement) {
+            input["syntactic_feedback"] = refinementFeedbackBuffer.str();
         }
-        else if (synthesisMode == AnalysisRefinement) {
-            input["validation_feedback"] = refinementFeedbackBuffer.str();
+        else if (synthesisMode == SemanticRefinement) {
+            input["semantic_feedback"] = refinementFeedbackBuffer.str();
         }
     }
 
@@ -239,12 +240,6 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
 }
 
 static Response sendRequest(const std::string& llmModel, const Prompt& prompt, long timeout) {
-    // Read the vLLM server base URL from the environment.
-    const char* baseUrl = std::getenv("VLLM_BASE_URL");
-    if (!baseUrl || !*baseUrl) {
-        throw std::runtime_error("VLLM_BASE_URL is not set.");
-    }
-
     // Define the JSON schema for expression ASTs.
     const nlohmann::json expressionAstSchema = {
         {"anyOf", nlohmann::json::array({
@@ -331,48 +326,89 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
         }}
     };
 
-    // Construct the common vLLM Chat Completions request.
-    nlohmann::json request = {
-        {"model", llmModel},
-        {"messages", nlohmann::json::array({
-            {
-                {"role", "system"},
-                {"content", prompt.instructions}
-            },
-            {
-                {"role", "user"},
-                {"content", prompt.input}
-            }
-        })},
-        {"response_format", {
-            {"type", "json_schema"},
-            {"json_schema", {
-                {"name", "nexus_candidate"},
-                {"strict", true},
-                {"schema", candidateSchema}
+    nlohmann::json request;
+    std::string url;
+    std::string authorizationHeader;
+
+    if (llmModel == "gpt-5.6-terra") {
+        // Read the OpenAI API key from the environment.
+        const char* apiKey = std::getenv("OPENAI_API_KEY");
+        if (!apiKey || !*apiKey) {
+            throw std::runtime_error("OPENAI_API_KEY is not set.");
+        }
+
+        // Construct the OpenAI Responses API request.
+        request = {
+            {"model", llmModel},
+            {"instructions", prompt.instructions},
+            {"input", prompt.input},
+            {"reasoning", {
+                {"effort", "medium"}
+            }},
+            {"text", {
+                {"format", {
+                    {"type", "json_schema"},
+                    {"name", "nexus_candidate"},
+                    {"strict", true},
+                    {"schema", candidateSchema}
+                }}
             }}
-        }}
-    };
-
-    // Apply model-specific inference configuration.
-    if (llmModel == "gpt-oss-20b") {
-        request["reasoning_effort"] = "medium";
-        request["include_reasoning"] = true;
-    }
-
-    else if (llmModel == "Qwen3-8B") {
-        request["chat_template_kwargs"] = {
-            {"enable_thinking", true}
         };
-        request["include_reasoning"] = false;
-    }
 
-    else if (llmModel == "CodeLlama-7B-Instruct") {
-        // Use the default non-reasoning inference configuration.
+        url = "https://api.openai.com/v1/responses";
+
+        authorizationHeader = "Authorization: Bearer " + std::string(apiKey);
     }
 
     else {
-        throw std::runtime_error("Unsupported LLM model: " + llmModel);
+        // Read the vLLM server base URL from the environment.
+        const char* baseUrl = std::getenv("VLLM_BASE_URL");
+        if (!baseUrl || !*baseUrl) {
+            throw std::runtime_error("VLLM_BASE_URL is not set.");
+        }
+
+        // Construct the vLLM Chat Completions request.
+        request = {
+            {"model", llmModel},
+            {"messages", nlohmann::json::array({
+                {
+                    {"role", "system"},
+                    {"content", prompt.instructions}
+                },
+                {
+                    {"role", "user"},
+                    {"content", prompt.input}
+                }
+            })},
+            {"response_format", {
+                {"type", "json_schema"},
+                {"json_schema", {
+                    {"name", "nexus_candidate"},
+                    {"strict", true},
+                    {"schema", candidateSchema}
+                }}
+            }}
+        };
+
+        // Apply model-specific inference configuration.
+        if (llmModel == "gpt-oss-20b") {
+            request["reasoning_effort"] = "medium";
+            request["include_reasoning"] = true;
+        }
+        else if (llmModel == "Qwen3-8B") {
+            request["chat_template_kwargs"] = {
+                {"enable_thinking", true}
+            };
+            request["include_reasoning"] = false;
+        }
+        else if (llmModel == "CodeLlama-7B-Instruct") {
+            // Keep the default inference configuration.
+        }
+        else {
+            throw std::runtime_error("Unsupported LLM model: " + llmModel);
+        }
+
+        url = std::string(baseUrl) + "/v1/chat/completions";
     }
 
     // Serialize the request body.
@@ -382,9 +418,9 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     static const bool curlInitialized = []() {
         return curl_global_init(CURL_GLOBAL_DEFAULT) == CURLE_OK;
     }();
-
     if (!curlInitialized) {
-        throw std::runtime_error("Failed to initialize libcurl.");
+        throw std::runtime_error(
+            "Failed to initialize libcurl.");
     }
 
     // Create the CURL request handle.
@@ -396,9 +432,9 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     // Prepare the HTTP request headers.
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, "Content-Type: application/json");
-
-    // Construct the vLLM Chat Completions endpoint URL.
-    const std::string url = std::string(baseUrl) + "/v1/chat/completions";
+    if (llmModel == "gpt-5.6-terra") {
+        headers = curl_slist_append(headers, authorizationHeader.c_str());
+    }
 
     // Prepare storage for the HTTP response body.
     std::string responseBody;
@@ -424,11 +460,8 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
 
     // Send the request and measure latency.
     const auto startTime = std::chrono::steady_clock::now();
-
     const CURLcode curlCode = curl_easy_perform(curl);
-
     const auto endTime = std::chrono::steady_clock::now();
-
     const double latency = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 
     // Retrieve the HTTP status code.
@@ -439,9 +472,11 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     curl_slist_free_all(headers);
     curl_easy_cleanup(curl);
 
+    const std::string providerName = llmModel == "gpt-5.6-terra" ? "OpenAI" : "vLLM";
+
     // Check for network or transport errors.
     if (curlCode != CURLE_OK) {
-        throw std::runtime_error("Failed to send vLLM request: " + std::string(curl_easy_strerror(curlCode)) + ".");
+        throw std::runtime_error("Failed to send " + providerName + " request: " + std::string(curl_easy_strerror(curlCode)) + ".");
     }
 
     // Parse the HTTP response body.
@@ -449,40 +484,86 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     try {
         responseData = nlohmann::json::parse(responseBody);
     }
-    catch (const std::exception& ex) {
-        throw std::runtime_error("Failed to parse vLLM response: " + std::string(ex.what()) + ".");
+    catch (const std::exception& exception) {
+        throw std::runtime_error("Failed to parse " + providerName + " response: " + std::string(exception.what()) + ".");
     }
 
     // Check for HTTP-level errors.
     if (statusCode < 200 || statusCode >= 300) {
-        throw std::runtime_error("Failed to complete vLLM request: HTTP " + std::to_string(statusCode) + ": " + responseData.dump());
+        throw std::runtime_error("Failed to complete " + providerName + " request: HTTP " + std::to_string(statusCode) + ": " + responseData.dump());
     }
 
     Response response;
 
-    // Extract the generated candidate text from the response.
-    // Missing or malformed candidate text is handled later by CandidateParser.
-    if (!responseData.contains("choices") || !responseData.at("choices").is_array() || responseData.at("choices").empty()) {
-        throw std::runtime_error("vLLM response contains no choices: " + responseData.dump());
+    if (llmModel == "gpt-5.6-terra") {
+        // Extract the generated candidate text from the OpenAI response.
+        if (responseData.contains("output") && responseData.at("output").is_array()) {
+            for (const auto& outputItem : responseData.at("output")) {
+                if (!outputItem.contains("content") || !outputItem.at("content").is_array()) {
+                    continue;
+                }
+                for (const auto& contentItem : outputItem.at("content")) {
+                    if (contentItem.contains("type") && contentItem.at("type").is_string() && contentItem.at("type").get<std::string>() == "output_text" && contentItem.contains("text") && contentItem.at("text").is_string()) {
+                        response.data = contentItem.at("text").get<std::string>();
+                        break;
+                    }
+                }
+                if (!response.data.empty()) {
+                    break;
+                }
+            }
+        }
+        if (response.data.empty()) {
+            throw std::runtime_error("OpenAI returned empty candidate content: " + responseData.dump());
+        }
+
+        // Extract token-usage and cost information from the OpenAI response.
+        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
+            const nlohmann::json& usage = responseData.at("usage");
+            response.inputTokens = usage.value("input_tokens", 0LL);
+            response.outputTokens = usage.value("output_tokens", 0LL);
+            long long cachedInputTokens = 0;
+            if (usage.contains("input_tokens_details") && usage.at("input_tokens_details").is_object()) {
+                cachedInputTokens = usage.at("input_tokens_details").value("cached_tokens", 0LL);
+            }
+            const long long uncachedInputTokens = std::max(0LL, response.inputTokens - cachedInputTokens);
+            response.cost =
+                static_cast<double>(
+                    uncachedInputTokens) /
+                    1'000'000.0 *
+                    2.00 +
+                static_cast<double>(
+                    cachedInputTokens) /
+                    1'000'000.0 *
+                    0.20 +
+                static_cast<double>(
+                    response.outputTokens) /
+                    1'000'000.0 *
+                    12.00;
+        }
     }
 
-    const nlohmann::json& choice = responseData.at("choices").at(0);
-    if (!choice.contains("message") || !choice.at("message").is_object()) {
-        throw std::runtime_error("vLLM response contains no message: " + responseData.dump());
-    }
+    else {
+        // Extract the generated candidate text from the vLLM response.
+        if (!responseData.contains("choices") || !responseData.at("choices").is_array() || responseData.at("choices").empty()) {
+            throw std::runtime_error("vLLM response contains no choices: " + responseData.dump());
+        }
+        const nlohmann::json& choice = responseData.at("choices").at(0);
+        if (!choice.contains("message") || !choice.at("message").is_object()) {
+            throw std::runtime_error("vLLM response contains no message: " + responseData.dump());
+        }
+        const nlohmann::json& message = choice.at("message");
+        if (!message.contains("content") || !message.at("content").is_string() || message.at("content").get<std::string>().empty()) {
+            throw std::runtime_error("vLLM returned empty candidate content: " + responseData.dump());
+        }
+        response.data = message.at("content").get<std::string>();
 
-    const nlohmann::json& message = choice.at("message");
-    if (!message.contains("content") || !message.at("content").is_string() || message.at("content").get<std::string>().empty()) {
-        throw std::runtime_error("vLLM returned empty candidate content: " + responseData.dump());
-    }
-
-    response.outputText = message.at("content").get<std::string>();
-
-    // Extract token-usage information from the response.
-    if (responseData.contains("usage") && responseData.at("usage").is_object()) {
-        const nlohmann::json& usage = responseData.at("usage");
-        response.inputTokens = usage.value("prompt_tokens", 0LL);
-        response.outputTokens = usage.value("completion_tokens", 0LL);
+        // Extract token-usage information from the vLLM response.
+        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
+            const nlohmann::json& usage = responseData.at("usage");
+            response.inputTokens = usage.value("prompt_tokens", 0LL);
+            response.outputTokens = usage.value("completion_tokens", 0LL);
+        }
     }
 
     // Record the measured request latency.
@@ -493,11 +574,141 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
 }
 
 static void saveCandidate(const Response& response, const std::filesystem::path& candidatePath) {
+    std::string candidateText = response.data;
+
+    try {
+        const nlohmann::json candidate = nlohmann::json::parse(response.data);
+
+        if (candidate.is_object()) {
+            std::function<nlohmann::ordered_json(const nlohmann::json&)> orderAst = [&](const nlohmann::json& ast) -> nlohmann::ordered_json {
+                if (ast.is_array()) {
+                    nlohmann::ordered_json orderedArray = nlohmann::ordered_json::array();
+                    for (const auto& element : ast) {
+                        orderedArray.push_back(orderAst(element));
+                    }
+                    return orderedArray;
+                }
+                if (ast.is_object()) {
+                    nlohmann::ordered_json orderedObject;
+                    if (ast.contains("op")) {
+                        orderedObject["op"] = orderAst(ast.at("op"));
+                    }
+                    if (ast.contains("args")) {
+                        orderedObject["args"] = orderAst(ast.at("args"));
+                    }
+                    for (auto it = ast.begin(); it != ast.end(); ++it) {
+                        if (it.key() == "op" || it.key() == "args") {
+                            continue;
+                        }
+                        orderedObject[it.key()] = orderAst(it.value());
+                    }
+                    return orderedObject;
+                }
+                return ast;
+            };
+
+            auto orderExpression = [&](const nlohmann::json& expression) -> nlohmann::ordered_json {
+                if (!expression.is_object()) {
+                    return orderAst(expression);
+                }
+                nlohmann::ordered_json orderedExpression;
+                if (expression.contains("expression_kind")) {
+                    orderedExpression["expression_kind"] = expression.at("expression_kind");
+                }
+                if (expression.contains("expression_ast")) {
+                    orderedExpression["expression_ast"] = orderAst(expression.at("expression_ast"));
+                }
+                for (auto it = expression.begin(); it != expression.end(); ++it) {
+                    if (it.key() == "expression_kind" || it.key() == "expression_ast") {
+                        continue;
+                    }
+                    orderedExpression[it.key()] = orderAst(it.value());
+                }
+                return orderedExpression;
+            };
+
+            nlohmann::ordered_json orderedCandidate;
+
+            if (candidate.contains("loop_id")) {
+                orderedCandidate["loop_id"] = candidate.at("loop_id");
+            }
+
+            if (candidate.contains("candidate_kind")) {
+                orderedCandidate["candidate_kind"] = candidate.at("candidate_kind");
+            }
+
+            if (candidate.contains("candidate_expressions") && candidate.at("candidate_expressions").is_array()) {
+                const nlohmann::json& expressions = candidate.at("candidate_expressions");
+
+                nlohmann::ordered_json orderedExpressions = nlohmann::ordered_json::array();
+
+                const std::string candidateKind = candidate.contains("candidate_kind") && candidate.at("candidate_kind").is_string() ? candidate.at("candidate_kind").get<std::string>() : "";
+
+                if (candidateKind == "terminating") {
+                    for (const char* requiredKind : {"invariant", "ranking-function"}) {
+                        for (const auto& expression : expressions) {
+                            if (expression.is_object() && expression.contains("expression_kind") && expression.at("expression_kind").is_string() && expression.at("expression_kind").get<std::string>() == requiredKind) {
+                                orderedExpressions.push_back(orderExpression(expression));
+                            }
+                        }
+                    }
+                    for (const auto& expression : expressions) {
+                        if (!expression.is_object() || !expression.contains("expression_kind") || !expression.at("expression_kind").is_string()) {
+                            orderedExpressions.push_back(orderExpression(expression));
+                            continue;
+                        }
+                        const std::string expressionKind = expression.at("expression_kind").get<std::string>();
+                        if (expressionKind != "invariant" && expressionKind != "ranking-function") {
+                            orderedExpressions.push_back(orderExpression(expression));
+                        }
+                    }
+                }
+
+                else if (candidateKind == "non-terminating") {
+                    for (const auto& expression : expressions) {
+                        if (expression.is_object() && expression.contains("expression_kind") && expression.at("expression_kind").is_string() && expression.at("expression_kind").get<std::string>() == "recurrent-set") {
+                            orderedExpressions.push_back(orderExpression(expression));
+                        }
+                    }
+                    for (const auto& expression : expressions) {
+                        if (!expression.is_object() || !expression.contains("expression_kind") || !expression.at("expression_kind").is_string()) {
+                            orderedExpressions.push_back(orderExpression(expression));
+                            continue;
+                        }
+                        if (expression.at("expression_kind").get<std::string>() != "recurrent-set") {
+                            orderedExpressions.push_back(orderExpression(expression));
+                        }
+                    }
+                }
+
+                else {
+                    for (const auto& expression : expressions) {
+                        orderedExpressions.push_back(orderExpression(expression));
+                    }
+                }
+
+                orderedCandidate["candidate_expressions"] = std::move(orderedExpressions);
+            }
+
+            for (auto it = candidate.begin(); it != candidate.end(); ++it) {
+                if (it.key() == "loop_id" || it.key() == "candidate_kind" || it.key() == "candidate_expressions") {
+                    continue;
+                }
+                orderedCandidate[it.key()] = orderAst(it.value());
+            }
+
+            candidateText = orderedCandidate.dump(2);
+        }
+    }
+    catch (const std::exception&) {
+        // CandidateParser will handle malformed output.
+    }
+
     std::ofstream candidateStream(candidatePath);
     if (!candidateStream) {
         throw std::runtime_error(std::string(strerror(errno)) + ": " + candidatePath.string());
     }
-    candidateStream << response.outputText << '\n';
+    candidateStream << candidateText << '\n';
     if (!candidateStream) {
         throw std::runtime_error("Failed to write candidate: " + candidatePath.string());
     }
@@ -505,7 +716,7 @@ static void saveCandidate(const Response& response, const std::filesystem::path&
 
 static void populateSynthesisResult(SynthesisResult& synthesisResult, const Response& response) {
     try {
-        const nlohmann::json candidate = nlohmann::json::parse(response.outputText);
+        const nlohmann::json candidate = nlohmann::json::parse(response.data);
         if (candidate.contains("candidate_kind") && candidate.at("candidate_kind").is_string()) {
             synthesisResult.kind = candidate.at("candidate_kind").get<std::string>();
         }
@@ -516,7 +727,7 @@ static void populateSynthesisResult(SynthesisResult& synthesisResult, const Resp
     synthesisResult.inputTokens = response.inputTokens;
     synthesisResult.outputTokens = response.outputTokens;
     synthesisResult.latency = response.latency;
-    synthesisResult.cost = 0.0;
+    synthesisResult.cost = response.cost;
 }
 
 SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeout) {

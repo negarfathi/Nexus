@@ -1,13 +1,167 @@
 #!/usr/bin/env python3
-# Auto-generated Nexus Z3 validator for l3.
-# Loop-information and candidate JSON are interpreted in C++.
-# This file contains only direct Z3 objects, rules, proof obligations,
-# and solver-result reporting.
 
 from z3 import *
 
 fp = Fixedpoint()
 fp.set(engine="spacer")
+
+# ============================================================
+# Variables
+# ============================================================
+
+# l1
+# State symbols
+l1_v1 = Int("l1_v1")
+fp.declare_var(l1_v1)
+l1_v1_next = Int("l1_v1_next")
+fp.declare_var(l1_v1_next)
+l1_v1_out = Int("l1_v1_out")
+fp.declare_var(l1_v1_out)
+l1_v2 = Int("l1_v2")
+fp.declare_var(l1_v2)
+l1_v2_next = Int("l1_v2_next")
+fp.declare_var(l1_v2_next)
+l1_v2_out = Int("l1_v2_out")
+fp.declare_var(l1_v2_out)
+l1_v3 = Int("l1_v3")
+fp.declare_var(l1_v3)
+l1_v3_next = Int("l1_v3_next")
+fp.declare_var(l1_v3_next)
+l1_v3_out = Int("l1_v3_out")
+fp.declare_var(l1_v3_out)
+l1_v4 = Int("l1_v4")
+fp.declare_var(l1_v4)
+l1_v4_next = Int("l1_v4_next")
+fp.declare_var(l1_v4_next)
+l1_v4_out = Int("l1_v4_out")
+fp.declare_var(l1_v4_out)
+l1_v5 = Int("l1_v5")
+fp.declare_var(l1_v5)
+l1_v5_next = Int("l1_v5_next")
+fp.declare_var(l1_v5_next)
+l1_v5_out = Int("l1_v5_out")
+fp.declare_var(l1_v5_out)
+l1_v6 = Int("l1_v6")
+fp.declare_var(l1_v6)
+l1_v6_next = Int("l1_v6_next")
+fp.declare_var(l1_v6_next)
+l1_v6_out = Int("l1_v6_out")
+fp.declare_var(l1_v6_out)
+l1_v7 = Int("l1_v7")
+fp.declare_var(l1_v7)
+l1_v7_next = Int("l1_v7_next")
+fp.declare_var(l1_v7_next)
+l1_v7_out = Int("l1_v7_out")
+fp.declare_var(l1_v7_out)
+l1_state = [l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7]
+l1_next_state = [l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next]
+l1_output_state = [l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out]
+
+# Nondeterministic symbols
+l1_nd1 = Int("l1_nd1")
+fp.declare_var(l1_nd1)
+l1_nd2 = Int("l1_nd2")
+fp.declare_var(l1_nd2)
+l1_nd3 = Int("l1_nd3")
+fp.declare_var(l1_nd3)
+l1_nd4 = Int("l1_nd4")
+fp.declare_var(l1_nd4)
+
+# l2
+# State symbols
+l2_v1 = Int("l2_v1")
+fp.declare_var(l2_v1)
+l2_v1_next = Int("l2_v1_next")
+fp.declare_var(l2_v1_next)
+l2_v1_out = Int("l2_v1_out")
+fp.declare_var(l2_v1_out)
+l2_v2 = Int("l2_v2")
+fp.declare_var(l2_v2)
+l2_v2_next = Int("l2_v2_next")
+fp.declare_var(l2_v2_next)
+l2_v2_out = Int("l2_v2_out")
+fp.declare_var(l2_v2_out)
+l2_v3 = Int("l2_v3")
+fp.declare_var(l2_v3)
+l2_v3_next = Int("l2_v3_next")
+fp.declare_var(l2_v3_next)
+l2_v3_out = Int("l2_v3_out")
+fp.declare_var(l2_v3_out)
+l2_v4 = Int("l2_v4")
+fp.declare_var(l2_v4)
+l2_v4_next = Int("l2_v4_next")
+fp.declare_var(l2_v4_next)
+l2_v4_out = Int("l2_v4_out")
+fp.declare_var(l2_v4_out)
+l2_v5 = Int("l2_v5")
+fp.declare_var(l2_v5)
+l2_v5_next = Int("l2_v5_next")
+fp.declare_var(l2_v5_next)
+l2_v5_out = Int("l2_v5_out")
+fp.declare_var(l2_v5_out)
+l2_v6 = Int("l2_v6")
+fp.declare_var(l2_v6)
+l2_v6_next = Int("l2_v6_next")
+fp.declare_var(l2_v6_next)
+l2_v6_out = Int("l2_v6_out")
+fp.declare_var(l2_v6_out)
+l2_v7 = Int("l2_v7")
+fp.declare_var(l2_v7)
+l2_v7_next = Int("l2_v7_next")
+fp.declare_var(l2_v7_next)
+l2_v7_out = Int("l2_v7_out")
+fp.declare_var(l2_v7_out)
+l2_state = [l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7]
+l2_next_state = [l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next]
+l2_output_state = [l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out]
+
+# l3
+# State symbols
+l3_v1 = Int("l3_v1")
+fp.declare_var(l3_v1)
+l3_v1_next = Int("l3_v1_next")
+fp.declare_var(l3_v1_next)
+l3_v1_out = Int("l3_v1_out")
+fp.declare_var(l3_v1_out)
+l3_v2 = Int("l3_v2")
+fp.declare_var(l3_v2)
+l3_v2_next = Int("l3_v2_next")
+fp.declare_var(l3_v2_next)
+l3_v2_out = Int("l3_v2_out")
+fp.declare_var(l3_v2_out)
+l3_v3 = Int("l3_v3")
+fp.declare_var(l3_v3)
+l3_v3_next = Int("l3_v3_next")
+fp.declare_var(l3_v3_next)
+l3_v3_out = Int("l3_v3_out")
+fp.declare_var(l3_v3_out)
+l3_v4 = Int("l3_v4")
+fp.declare_var(l3_v4)
+l3_v4_next = Int("l3_v4_next")
+fp.declare_var(l3_v4_next)
+l3_v4_out = Int("l3_v4_out")
+fp.declare_var(l3_v4_out)
+l3_v5 = Int("l3_v5")
+fp.declare_var(l3_v5)
+l3_v5_next = Int("l3_v5_next")
+fp.declare_var(l3_v5_next)
+l3_v5_out = Int("l3_v5_out")
+fp.declare_var(l3_v5_out)
+l3_v6 = Int("l3_v6")
+fp.declare_var(l3_v6)
+l3_v6_next = Int("l3_v6_next")
+fp.declare_var(l3_v6_next)
+l3_v6_out = Int("l3_v6_out")
+fp.declare_var(l3_v6_out)
+l3_v7 = Int("l3_v7")
+fp.declare_var(l3_v7)
+l3_v7_next = Int("l3_v7_next")
+fp.declare_var(l3_v7_next)
+l3_v7_out = Int("l3_v7_out")
+fp.declare_var(l3_v7_out)
+l3_state = [l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7]
+l3_next_state = [l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next]
+l3_output_state = [l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out]
 
 # ============================================================
 # Relation declarations
@@ -71,72 +225,17 @@ fp.register_relation(l3_actual_exit)
 # Dependency loop: l1
 # ============================================================
 
-# Variables
-l1_v1 = Int("l1_v1")
-fp.declare_var(l1_v1)
-l1_v1_next = Int("l1_v1_next")
-fp.declare_var(l1_v1_next)
-l1_v1_out = Int("l1_v1_out")
-fp.declare_var(l1_v1_out)
-l1_v2 = Int("l1_v2")
-fp.declare_var(l1_v2)
-l1_v2_next = Int("l1_v2_next")
-fp.declare_var(l1_v2_next)
-l1_v2_out = Int("l1_v2_out")
-fp.declare_var(l1_v2_out)
-l1_v3 = Int("l1_v3")
-fp.declare_var(l1_v3)
-l1_v3_next = Int("l1_v3_next")
-fp.declare_var(l1_v3_next)
-l1_v3_out = Int("l1_v3_out")
-fp.declare_var(l1_v3_out)
-l1_v4 = Int("l1_v4")
-fp.declare_var(l1_v4)
-l1_v4_next = Int("l1_v4_next")
-fp.declare_var(l1_v4_next)
-l1_v4_out = Int("l1_v4_out")
-fp.declare_var(l1_v4_out)
-l1_v5 = Int("l1_v5")
-fp.declare_var(l1_v5)
-l1_v5_next = Int("l1_v5_next")
-fp.declare_var(l1_v5_next)
-l1_v5_out = Int("l1_v5_out")
-fp.declare_var(l1_v5_out)
-l1_v6 = Int("l1_v6")
-fp.declare_var(l1_v6)
-l1_v6_next = Int("l1_v6_next")
-fp.declare_var(l1_v6_next)
-l1_v6_out = Int("l1_v6_out")
-fp.declare_var(l1_v6_out)
-l1_v7 = Int("l1_v7")
-fp.declare_var(l1_v7)
-l1_v7_next = Int("l1_v7_next")
-fp.declare_var(l1_v7_next)
-l1_v7_out = Int("l1_v7_out")
-fp.declare_var(l1_v7_out)
-l1_state = [l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7]
-l1_next_state = [l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next]
-l1_output_state = [l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out]
-
 # Guard
 l1_guard = (l1_v2 > IntVal(0))
 
 # Entry states
-nd1 = Int("nd1")
-fp.declare_var(nd1)
-nd2 = Int("nd2")
-fp.declare_var(nd2)
-nd3 = Int("nd3")
-fp.declare_var(nd3)
-nd4 = Int("nd4")
-fp.declare_var(nd4)
-l1_entry_states_p1 = And((nd1 < IntVal(0)), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(6)), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p1 = And((l1_nd1 < IntVal(0)), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(6)), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p1, name="l1_entry_states_p1")
 
-l1_entry_states_p2 = And(And((nd1 >= IntVal(0)), (nd1 > IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(10)), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p2 = And(And((l1_nd1 >= IntVal(0)), (l1_nd1 > IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(10)), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p2, name="l1_entry_states_p2")
 
-l1_entry_states_p3 = And(And((nd1 >= IntVal(0)), (nd1 <= IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == nd1), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p3 = And(And((l1_nd1 >= IntVal(0)), (l1_nd1 <= IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == l1_nd1), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p3, name="l1_entry_states_p3")
 
 # Iteration steps
@@ -158,119 +257,30 @@ fp.rule(l1_return_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_ret
 l1_reachable_header_states_base = l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7)
 fp.rule(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_reachable_header_states_base, name="l1_reachable_header_states_base")
 
-l1_v1_prev = Int("l1_v1_prev")
-fp.declare_var(l1_v1_prev)
-l1_v2_prev = Int("l1_v2_prev")
-fp.declare_var(l1_v2_prev)
-l1_v3_prev = Int("l1_v3_prev")
-fp.declare_var(l1_v3_prev)
-l1_v4_prev = Int("l1_v4_prev")
-fp.declare_var(l1_v4_prev)
-l1_v5_prev = Int("l1_v5_prev")
-fp.declare_var(l1_v5_prev)
-l1_v6_prev = Int("l1_v6_prev")
-fp.declare_var(l1_v6_prev)
-l1_v7_prev = Int("l1_v7_prev")
-fp.declare_var(l1_v7_prev)
-l1_reachable_header_states_step = And(l1_reachable_header_states(l1_v1_prev, l1_v2_prev, l1_v3_prev, l1_v4_prev, l1_v5_prev, l1_v6_prev, l1_v7_prev), l1_iteration_steps(l1_v1_prev, l1_v2_prev, l1_v3_prev, l1_v4_prev, l1_v5_prev, l1_v6_prev, l1_v7_prev, l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7))
-fp.rule(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_reachable_header_states_step, name="l1_reachable_header_states_step")
+l1_reachable_header_states_recursive = And(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next))
+fp.rule(l1_reachable_header_states(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_reachable_header_states_recursive, name="l1_reachable_header_states_recursive")
 
 # Header to exit
 l1_header_to_exit_base = l1_exit_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out)
 fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_base, name="l1_header_to_exit_base")
 
-l1_v1_step = Int("l1_v1_step")
-fp.declare_var(l1_v1_step)
-l1_v2_step = Int("l1_v2_step")
-fp.declare_var(l1_v2_step)
-l1_v3_step = Int("l1_v3_step")
-fp.declare_var(l1_v3_step)
-l1_v4_step = Int("l1_v4_step")
-fp.declare_var(l1_v4_step)
-l1_v5_step = Int("l1_v5_step")
-fp.declare_var(l1_v5_step)
-l1_v6_step = Int("l1_v6_step")
-fp.declare_var(l1_v6_step)
-l1_v7_step = Int("l1_v7_step")
-fp.declare_var(l1_v7_step)
-l1_header_to_exit_step = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step), l1_header_to_exit(l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
-fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_step, name="l1_header_to_exit_step")
+l1_header_to_exit_recursive = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_header_to_exit(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
+fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_recursive, name="l1_header_to_exit_recursive")
 
 # Header to return
 l1_header_to_return_base = l1_return_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7)
 fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_base, name="l1_header_to_return_base")
 
-l1_header_to_return_step = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step), l1_header_to_return(l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step))
-fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_step, name="l1_header_to_return_step")
+l1_header_to_return_recursive = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_header_to_return(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next))
+fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_recursive, name="l1_header_to_return_recursive")
 
 # Actual exit
-l1_v1_entry = Int("l1_v1_entry")
-fp.declare_var(l1_v1_entry)
-l1_v2_entry = Int("l1_v2_entry")
-fp.declare_var(l1_v2_entry)
-l1_v3_entry = Int("l1_v3_entry")
-fp.declare_var(l1_v3_entry)
-l1_v4_entry = Int("l1_v4_entry")
-fp.declare_var(l1_v4_entry)
-l1_v5_entry = Int("l1_v5_entry")
-fp.declare_var(l1_v5_entry)
-l1_v6_entry = Int("l1_v6_entry")
-fp.declare_var(l1_v6_entry)
-l1_v7_entry = Int("l1_v7_entry")
-fp.declare_var(l1_v7_entry)
-l1_actual_exit_rule = And(l1_entry_states(l1_v1_entry, l1_v2_entry, l1_v3_entry, l1_v4_entry, l1_v5_entry, l1_v6_entry, l1_v7_entry), l1_header_to_exit(l1_v1_entry, l1_v2_entry, l1_v3_entry, l1_v4_entry, l1_v5_entry, l1_v6_entry, l1_v7_entry, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
+l1_actual_exit_rule = And(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
 fp.rule(l1_actual_exit(l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_actual_exit_rule, name="l1_actual_exit_rule")
 
 # ============================================================
 # Dependency loop: l2
 # ============================================================
-
-# Variables
-l2_v1 = Int("l2_v1")
-fp.declare_var(l2_v1)
-l2_v1_next = Int("l2_v1_next")
-fp.declare_var(l2_v1_next)
-l2_v1_out = Int("l2_v1_out")
-fp.declare_var(l2_v1_out)
-l2_v2 = Int("l2_v2")
-fp.declare_var(l2_v2)
-l2_v2_next = Int("l2_v2_next")
-fp.declare_var(l2_v2_next)
-l2_v2_out = Int("l2_v2_out")
-fp.declare_var(l2_v2_out)
-l2_v3 = Int("l2_v3")
-fp.declare_var(l2_v3)
-l2_v3_next = Int("l2_v3_next")
-fp.declare_var(l2_v3_next)
-l2_v3_out = Int("l2_v3_out")
-fp.declare_var(l2_v3_out)
-l2_v4 = Int("l2_v4")
-fp.declare_var(l2_v4)
-l2_v4_next = Int("l2_v4_next")
-fp.declare_var(l2_v4_next)
-l2_v4_out = Int("l2_v4_out")
-fp.declare_var(l2_v4_out)
-l2_v5 = Int("l2_v5")
-fp.declare_var(l2_v5)
-l2_v5_next = Int("l2_v5_next")
-fp.declare_var(l2_v5_next)
-l2_v5_out = Int("l2_v5_out")
-fp.declare_var(l2_v5_out)
-l2_v6 = Int("l2_v6")
-fp.declare_var(l2_v6)
-l2_v6_next = Int("l2_v6_next")
-fp.declare_var(l2_v6_next)
-l2_v6_out = Int("l2_v6_out")
-fp.declare_var(l2_v6_out)
-l2_v7 = Int("l2_v7")
-fp.declare_var(l2_v7)
-l2_v7_next = Int("l2_v7_next")
-fp.declare_var(l2_v7_next)
-l2_v7_out = Int("l2_v7_out")
-fp.declare_var(l2_v7_out)
-l2_state = [l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7]
-l2_next_state = [l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next]
-l2_output_state = [l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out]
 
 # Guard
 l2_guard = (l2_v6 >= IntVal(0))
@@ -289,17 +299,10 @@ fp.rule(l2_entry_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_ent
 l2_iteration_steps_p1 = And(And((l2_v6 >= IntVal(0)), (l2_v6 == IntVal(10))), (l2_v1_next == l2_v1), (l2_v2_next == l2_v2), (l2_v3_next == l2_v3), (l2_v4_next == l2_v4), (l2_v5_next == l2_v5), (l2_v6_next == IntVal(4)), (l2_v7_next == l2_v7))
 fp.rule(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_iteration_steps_p1, name="l2_iteration_steps_p1")
 
-fp.declare_var(Int("l3_v1_out"))
-fp.declare_var(Int("l3_v2_out"))
-fp.declare_var(Int("l3_v3_out"))
-fp.declare_var(Int("l3_v4_out"))
-fp.declare_var(Int("l3_v5_out"))
-fp.declare_var(Int("l3_v6_out"))
-fp.declare_var(Int("l3_v7_out"))
-l2_iteration_steps_p2 = And(And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 == IntVal(0)), (l2_v6 == IntVal(2))), l3_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, (l2_v6 + IntVal(2)), Int("l3_v1_out"), Int("l3_v2_out"), Int("l3_v3_out"), Int("l3_v4_out"), Int("l3_v5_out"), Int("l3_v6_out"), Int("l3_v7_out")), (l2_v1_next == l2_v1), (l2_v2_next == l2_v2), (l2_v3_next == l2_v3), (l2_v4_next == l2_v4), (l2_v5_next == l2_v5), (l2_v6_next == l2_v6), (l2_v7_next == Int("l3_v7_out")))
+l2_iteration_steps_p2 = And(And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 == IntVal(0)), (l2_v6 == IntVal(2))), l3_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, (l2_v6 + IntVal(2)), l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), (l2_v1_next == l2_v1), (l2_v2_next == l2_v2), (l2_v3_next == l2_v3), (l2_v4_next == l2_v4), (l2_v5_next == l2_v5), (l2_v6_next == l2_v6), (l2_v7_next == l3_v7_out))
 fp.rule(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_iteration_steps_p2, name="l2_iteration_steps_p2")
 
-l2_iteration_steps_p3 = And(Or(And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 == IntVal(0)), (l2_v6 != IntVal(2))), And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 != IntVal(0)))), l3_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, (l2_v6 + IntVal(2)), Int("l3_v1_out"), Int("l3_v2_out"), Int("l3_v3_out"), Int("l3_v4_out"), Int("l3_v5_out"), Int("l3_v6_out"), Int("l3_v7_out")), (l2_v1_next == l2_v1), (l2_v2_next == l2_v2), (l2_v3_next == l2_v3), (l2_v4_next == l2_v4), (l2_v5_next == l2_v5), (l2_v6_next == (l2_v6 - IntVal(1))), (l2_v7_next == Int("l3_v7_out")))
+l2_iteration_steps_p3 = And(Or(And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 == IntVal(0)), (l2_v6 != IntVal(2))), And((l2_v6 >= IntVal(0)), (l2_v6 != IntVal(10)), (l2_v6 != IntVal(8)), (l2_v6 != IntVal(6)), (l2_v4 != IntVal(0)))), l3_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, (l2_v6 + IntVal(2)), l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), (l2_v1_next == l2_v1), (l2_v2_next == l2_v2), (l2_v3_next == l2_v3), (l2_v4_next == l2_v4), (l2_v5_next == l2_v5), (l2_v6_next == (l2_v6 - IntVal(1))), (l2_v7_next == l3_v7_out))
 fp.rule(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_iteration_steps_p3, name="l2_iteration_steps_p3")
 
 # Exit steps
@@ -317,112 +320,30 @@ fp.rule(l2_return_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_ret
 l2_reachable_header_states_base = l2_entry_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7)
 fp.rule(l2_reachable_header_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_reachable_header_states_base, name="l2_reachable_header_states_base")
 
-l2_v1_prev = Int("l2_v1_prev")
-fp.declare_var(l2_v1_prev)
-l2_v2_prev = Int("l2_v2_prev")
-fp.declare_var(l2_v2_prev)
-l2_v3_prev = Int("l2_v3_prev")
-fp.declare_var(l2_v3_prev)
-l2_v4_prev = Int("l2_v4_prev")
-fp.declare_var(l2_v4_prev)
-l2_v5_prev = Int("l2_v5_prev")
-fp.declare_var(l2_v5_prev)
-l2_v6_prev = Int("l2_v6_prev")
-fp.declare_var(l2_v6_prev)
-l2_v7_prev = Int("l2_v7_prev")
-fp.declare_var(l2_v7_prev)
-l2_reachable_header_states_step = And(l2_reachable_header_states(l2_v1_prev, l2_v2_prev, l2_v3_prev, l2_v4_prev, l2_v5_prev, l2_v6_prev, l2_v7_prev), l2_iteration_steps(l2_v1_prev, l2_v2_prev, l2_v3_prev, l2_v4_prev, l2_v5_prev, l2_v6_prev, l2_v7_prev, l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7))
-fp.rule(l2_reachable_header_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_reachable_header_states_step, name="l2_reachable_header_states_step")
+l2_reachable_header_states_recursive = And(l2_reachable_header_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next))
+fp.rule(l2_reachable_header_states(l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_reachable_header_states_recursive, name="l2_reachable_header_states_recursive")
 
 # Header to exit
 l2_header_to_exit_base = l2_exit_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out)
 fp.rule(l2_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out), l2_header_to_exit_base, name="l2_header_to_exit_base")
 
-l2_v1_step = Int("l2_v1_step")
-fp.declare_var(l2_v1_step)
-l2_v2_step = Int("l2_v2_step")
-fp.declare_var(l2_v2_step)
-l2_v3_step = Int("l2_v3_step")
-fp.declare_var(l2_v3_step)
-l2_v4_step = Int("l2_v4_step")
-fp.declare_var(l2_v4_step)
-l2_v5_step = Int("l2_v5_step")
-fp.declare_var(l2_v5_step)
-l2_v6_step = Int("l2_v6_step")
-fp.declare_var(l2_v6_step)
-l2_v7_step = Int("l2_v7_step")
-fp.declare_var(l2_v7_step)
-l2_header_to_exit_step = And(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_step, l2_v2_step, l2_v3_step, l2_v4_step, l2_v5_step, l2_v6_step, l2_v7_step), l2_header_to_exit(l2_v1_step, l2_v2_step, l2_v3_step, l2_v4_step, l2_v5_step, l2_v6_step, l2_v7_step, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out))
-fp.rule(l2_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out), l2_header_to_exit_step, name="l2_header_to_exit_step")
+l2_header_to_exit_recursive = And(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_header_to_exit(l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out))
+fp.rule(l2_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out), l2_header_to_exit_recursive, name="l2_header_to_exit_recursive")
 
 # Header to return
 l2_header_to_return_base = l2_return_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7)
 fp.rule(l2_header_to_return(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_header_to_return_base, name="l2_header_to_return_base")
 
-l2_header_to_return_step = And(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_step, l2_v2_step, l2_v3_step, l2_v4_step, l2_v5_step, l2_v6_step, l2_v7_step), l2_header_to_return(l2_v1_step, l2_v2_step, l2_v3_step, l2_v4_step, l2_v5_step, l2_v6_step, l2_v7_step))
-fp.rule(l2_header_to_return(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_header_to_return_step, name="l2_header_to_return_step")
+l2_header_to_return_recursive = And(l2_iteration_steps(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next), l2_header_to_return(l2_v1_next, l2_v2_next, l2_v3_next, l2_v4_next, l2_v5_next, l2_v6_next, l2_v7_next))
+fp.rule(l2_header_to_return(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_header_to_return_recursive, name="l2_header_to_return_recursive")
 
 # Actual exit
-l2_v1_entry = Int("l2_v1_entry")
-fp.declare_var(l2_v1_entry)
-l2_v2_entry = Int("l2_v2_entry")
-fp.declare_var(l2_v2_entry)
-l2_v3_entry = Int("l2_v3_entry")
-fp.declare_var(l2_v3_entry)
-l2_v4_entry = Int("l2_v4_entry")
-fp.declare_var(l2_v4_entry)
-l2_v5_entry = Int("l2_v5_entry")
-fp.declare_var(l2_v5_entry)
-l2_v6_entry = Int("l2_v6_entry")
-fp.declare_var(l2_v6_entry)
-l2_v7_entry = Int("l2_v7_entry")
-fp.declare_var(l2_v7_entry)
-l2_actual_exit_rule = And(l2_entry_states(l2_v1_entry, l2_v2_entry, l2_v3_entry, l2_v4_entry, l2_v5_entry, l2_v6_entry, l2_v7_entry), l2_header_to_exit(l2_v1_entry, l2_v2_entry, l2_v3_entry, l2_v4_entry, l2_v5_entry, l2_v6_entry, l2_v7_entry, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out))
+l2_actual_exit_rule = And(l2_entry_states(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7), l2_header_to_exit(l2_v1, l2_v2, l2_v3, l2_v4, l2_v5, l2_v6, l2_v7, l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out))
 fp.rule(l2_actual_exit(l2_v1_out, l2_v2_out, l2_v3_out, l2_v4_out, l2_v5_out, l2_v6_out, l2_v7_out), l2_actual_exit_rule, name="l2_actual_exit_rule")
 
 # ============================================================
 # Target loop: l3
 # ============================================================
-
-# Variables
-l3_v1 = Int("l3_v1")
-fp.declare_var(l3_v1)
-l3_v1_next = Int("l3_v1_next")
-fp.declare_var(l3_v1_next)
-l3_v1_out = Int("l3_v1_out")
-l3_v2 = Int("l3_v2")
-fp.declare_var(l3_v2)
-l3_v2_next = Int("l3_v2_next")
-fp.declare_var(l3_v2_next)
-l3_v2_out = Int("l3_v2_out")
-l3_v3 = Int("l3_v3")
-fp.declare_var(l3_v3)
-l3_v3_next = Int("l3_v3_next")
-fp.declare_var(l3_v3_next)
-l3_v3_out = Int("l3_v3_out")
-l3_v4 = Int("l3_v4")
-fp.declare_var(l3_v4)
-l3_v4_next = Int("l3_v4_next")
-fp.declare_var(l3_v4_next)
-l3_v4_out = Int("l3_v4_out")
-l3_v5 = Int("l3_v5")
-fp.declare_var(l3_v5)
-l3_v5_next = Int("l3_v5_next")
-fp.declare_var(l3_v5_next)
-l3_v5_out = Int("l3_v5_out")
-l3_v6 = Int("l3_v6")
-fp.declare_var(l3_v6)
-l3_v6_next = Int("l3_v6_next")
-fp.declare_var(l3_v6_next)
-l3_v6_out = Int("l3_v6_out")
-l3_v7 = Int("l3_v7")
-fp.declare_var(l3_v7)
-l3_v7_next = Int("l3_v7_next")
-fp.declare_var(l3_v7_next)
-l3_v7_out = Int("l3_v7_out")
-l3_state = [l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7]
-l3_next_state = [l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next]
-l3_output_state = [l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out]
 
 # Guard
 l3_guard = (l3_v7 > IntVal(0))
@@ -450,67 +371,25 @@ fp.rule(l3_return_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_ret
 l3_reachable_header_states_base = l3_entry_states(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7)
 fp.rule(l3_reachable_header_states(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_reachable_header_states_base, name="l3_reachable_header_states_base")
 
-l3_v1_prev = Int("l3_v1_prev")
-fp.declare_var(l3_v1_prev)
-l3_v2_prev = Int("l3_v2_prev")
-fp.declare_var(l3_v2_prev)
-l3_v3_prev = Int("l3_v3_prev")
-fp.declare_var(l3_v3_prev)
-l3_v4_prev = Int("l3_v4_prev")
-fp.declare_var(l3_v4_prev)
-l3_v5_prev = Int("l3_v5_prev")
-fp.declare_var(l3_v5_prev)
-l3_v6_prev = Int("l3_v6_prev")
-fp.declare_var(l3_v6_prev)
-l3_v7_prev = Int("l3_v7_prev")
-fp.declare_var(l3_v7_prev)
-l3_reachable_header_states_step = And(l3_reachable_header_states(l3_v1_prev, l3_v2_prev, l3_v3_prev, l3_v4_prev, l3_v5_prev, l3_v6_prev, l3_v7_prev), l3_iteration_steps(l3_v1_prev, l3_v2_prev, l3_v3_prev, l3_v4_prev, l3_v5_prev, l3_v6_prev, l3_v7_prev, l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7))
-fp.rule(l3_reachable_header_states(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_reachable_header_states_step, name="l3_reachable_header_states_step")
+l3_reachable_header_states_recursive = And(l3_reachable_header_states(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_iteration_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next))
+fp.rule(l3_reachable_header_states(l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next), l3_reachable_header_states_recursive, name="l3_reachable_header_states_recursive")
 
 # Header to exit
 l3_header_to_exit_base = l3_exit_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out)
 fp.rule(l3_header_to_exit(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), l3_header_to_exit_base, name="l3_header_to_exit_base")
 
-l3_v1_step = Int("l3_v1_step")
-fp.declare_var(l3_v1_step)
-l3_v2_step = Int("l3_v2_step")
-fp.declare_var(l3_v2_step)
-l3_v3_step = Int("l3_v3_step")
-fp.declare_var(l3_v3_step)
-l3_v4_step = Int("l3_v4_step")
-fp.declare_var(l3_v4_step)
-l3_v5_step = Int("l3_v5_step")
-fp.declare_var(l3_v5_step)
-l3_v6_step = Int("l3_v6_step")
-fp.declare_var(l3_v6_step)
-l3_v7_step = Int("l3_v7_step")
-fp.declare_var(l3_v7_step)
-l3_header_to_exit_step = And(l3_iteration_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_step, l3_v2_step, l3_v3_step, l3_v4_step, l3_v5_step, l3_v6_step, l3_v7_step), l3_header_to_exit(l3_v1_step, l3_v2_step, l3_v3_step, l3_v4_step, l3_v5_step, l3_v6_step, l3_v7_step, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out))
-fp.rule(l3_header_to_exit(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), l3_header_to_exit_step, name="l3_header_to_exit_step")
+l3_header_to_exit_recursive = And(l3_iteration_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next), l3_header_to_exit(l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out))
+fp.rule(l3_header_to_exit(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), l3_header_to_exit_recursive, name="l3_header_to_exit_recursive")
 
 # Header to return
 l3_header_to_return_base = l3_return_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7)
 fp.rule(l3_header_to_return(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_header_to_return_base, name="l3_header_to_return_base")
 
-l3_header_to_return_step = And(l3_iteration_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_step, l3_v2_step, l3_v3_step, l3_v4_step, l3_v5_step, l3_v6_step, l3_v7_step), l3_header_to_return(l3_v1_step, l3_v2_step, l3_v3_step, l3_v4_step, l3_v5_step, l3_v6_step, l3_v7_step))
-fp.rule(l3_header_to_return(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_header_to_return_step, name="l3_header_to_return_step")
+l3_header_to_return_recursive = And(l3_iteration_steps(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next), l3_header_to_return(l3_v1_next, l3_v2_next, l3_v3_next, l3_v4_next, l3_v5_next, l3_v6_next, l3_v7_next))
+fp.rule(l3_header_to_return(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_header_to_return_recursive, name="l3_header_to_return_recursive")
 
 # Actual exit
-l3_v1_entry = Int("l3_v1_entry")
-fp.declare_var(l3_v1_entry)
-l3_v2_entry = Int("l3_v2_entry")
-fp.declare_var(l3_v2_entry)
-l3_v3_entry = Int("l3_v3_entry")
-fp.declare_var(l3_v3_entry)
-l3_v4_entry = Int("l3_v4_entry")
-fp.declare_var(l3_v4_entry)
-l3_v5_entry = Int("l3_v5_entry")
-fp.declare_var(l3_v5_entry)
-l3_v6_entry = Int("l3_v6_entry")
-fp.declare_var(l3_v6_entry)
-l3_v7_entry = Int("l3_v7_entry")
-fp.declare_var(l3_v7_entry)
-l3_actual_exit_rule = And(l3_entry_states(l3_v1_entry, l3_v2_entry, l3_v3_entry, l3_v4_entry, l3_v5_entry, l3_v6_entry, l3_v7_entry), l3_header_to_exit(l3_v1_entry, l3_v2_entry, l3_v3_entry, l3_v4_entry, l3_v5_entry, l3_v6_entry, l3_v7_entry, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out))
+l3_actual_exit_rule = And(l3_entry_states(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7), l3_header_to_exit(l3_v1, l3_v2, l3_v3, l3_v4, l3_v5, l3_v6, l3_v7, l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out))
 fp.rule(l3_actual_exit(l3_v1_out, l3_v2_out, l3_v3_out, l3_v4_out, l3_v5_out, l3_v6_out, l3_v7_out), l3_actual_exit_rule, name="l3_actual_exit_rule")
 
 # ============================================================
@@ -546,7 +425,6 @@ fp.rule(l3_bad_recurrent_return(), And(l3_recurrent_set, l3_return_steps(l3_v1, 
 def check_fixedpoint(name, relation, expected):
     result = fp.query(relation())
     print(f'{name}: "{result}"')
-
     if result != expected and result == sat:
         print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
         try:
@@ -557,7 +435,6 @@ def check_fixedpoint(name, relation, expected):
             except Exception as ex:
                 print(f'Could not extract Spacer counterexample: {ex}')
         print(f'COUNTEREXAMPLE_END: "{name}"')
-
     if result == unknown:
         print(f'DETAIL_BEGIN: "{name}"')
         try:
@@ -568,23 +445,18 @@ def check_fixedpoint(name, relation, expected):
 
     return result
 
-
 def check_solver(name, solver, expected):
     result = solver.check()
     print(f'{name}: "{result}"')
-
     if result != expected and result == sat:
         print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
         print(solver.model())
         print(f'COUNTEREXAMPLE_END: "{name}"')
-
     if result == unknown:
         print(f'DETAIL_BEGIN: "{name}"')
         print(solver.reason_unknown())
         print(f'DETAIL_END: "{name}"')
-
     return result
-
 
 def validation_status(checks):
     saw_unknown = False

@@ -1,3 +1,27 @@
+/*
+OPENAI_API_KEY=...
+*/
+/*
+VLLM_BASE_URL=...
+cd ~/Documents/Nexus
+source .venv/bin/activate
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve openai/gpt-oss-20b \
+  --served-model-name gpt-oss-20b \
+  --download-dir ./models \
+  --host 127.0.0.1 \
+  --port 8000
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve Qwen/Qwen3-8B \
+  --served-model-name Qwen3-8B \
+  --download-dir ./models \
+  --host 127.0.0.1 \
+  --port 8000
+VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve codellama/CodeLlama-7b-Instruct-hf \
+  --served-model-name CodeLlama-7B-Instruct \
+  --download-dir ./models \
+  --host 127.0.0.1 \
+  --port 8000
+*/
+
 #include <sstream>
 #include <iostream>
 
@@ -20,21 +44,35 @@ public:
 };
 
 static void checkTimeout() {
-    const double elapsedSeconds = std::chrono::duration<double>(std::chrono::steady_clock::now() - startTime).count();
-    if (timeout > 0 && elapsedSeconds >= timeout) {
+    const double elapsedTime = std::chrono::duration<double>(std::chrono::steady_clock::now() - startTime).count();
+    if (timeout > 0 && elapsedTime >= timeout) {
         throw TimeoutException();
     }
 }
 
-static bool isDescendant(const std::string& childId, const std::string& parentId, const std::vector<loopInformation>& loopInformationList) {
-    if (childId == parentId) {
+static int recordExperimentResult(ExperimentRecorder& experimentRecorder, ExperimentResult& experimentResult, const std::string& llmModel, const std::filesystem::path& experimentResultsPath) {
+    experimentResult.totalAnalysisTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count();
+
+    std::cout << "Program: " << experimentResult.finalVerdict << "\n";
+    std::cout << "Runtime: " << experimentResult.totalAnalysisTime << " milliseconds\n";
+
+    if (!experimentRecorder.record(experimentResult, llmModel, experimentResultsPath)) {
+        std::cerr << "Failed to record experiment results.\n";
+        return 1;
+    }
+
+    return 0;
+}
+
+static bool hasTerminatingParent(const std::string& unresolvedLoopId, const std::string& terminatingLoopId, const std::vector<loopInformation>& loopInformationList) {
+    if (unresolvedLoopId == terminatingLoopId) {
         return false;
     }
-    std::string currentId = childId;
+    std::string currentLoopId = unresolvedLoopId;
     while (true) {
         const loopInformation* currentLoop = nullptr;
         for (const auto& loop : loopInformationList) {
-            if (loop.id == currentId) {
+            if (loop.id == currentLoopId) {
                 currentLoop = &loop;
                 break;
             }
@@ -45,37 +83,23 @@ static bool isDescendant(const std::string& childId, const std::string& parentId
         if (!currentLoop->parent.has_value()) {
             return false;
         }
-        const std::string& currentParentId = currentLoop->parent.value();
-        if (currentParentId == parentId) {
+        const std::string& parentLoopId = currentLoop->parent.value();
+        if (parentLoopId == terminatingLoopId) {
             return true;
         }
-        currentId = currentParentId;
+        currentLoopId = parentLoopId;
     }
-}
-
-static int recordExperimentResult(ExperimentRecorder& experimentRecorder, ExperimentResult& experimentResult, const std::filesystem::path& experimentResultsPath) {
-    const auto endTime = std::chrono::steady_clock::now();
-    experimentResult.totalAnalysisTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
-
-    std::cout << "Program: " << experimentResult.finalVerdict << "\n";
-    std::cout << "Runtime: " << experimentResult.totalAnalysisTime << " milliseconds\n";
-
-    if (!experimentRecorder.record(experimentResultsPath, experimentResult)) {
-        std::cerr << "Failed to record experiment results.\n";
-        return 1;
-    }
-
-    return 0;
 }
 
 int main(int argc, char *argv[]) {
     if (argc < 6) {
-        std::cerr << "Usage: ./Nexus <path/to/SourceCode.c> llm-model=<gpt-oss-20b|Qwen3-8B|CodeLlama-7B-Instruct> max-grammar-refinements=X max-analysis-refinements=X timeout=X(s)\n";
+        std::cerr << "Usage: ./Nexus <path/to/SourceCode.c> llm-model=<gpt-5.6-terra|gpt-oss-20b|Qwen3-8B|CodeLlama-7B-Instruct> max-syntactic-refinements=X max-semantic-refinements=X timeout=X(s)\n";
         return 1;
     }
 
     startTime = std::chrono::steady_clock::now();
 
+    std::string llmModel;
     ExperimentResult experimentResult;
     ExperimentRecorder experimentRecorder;
     std::filesystem::path experimentResultsPath;
@@ -101,16 +125,16 @@ int main(int argc, char *argv[]) {
         std::string cExtension = cPath.extension().string();
         std::filesystem::path cDirectory = cPath.parent_path();
 
-        std::string llmModel = argv[2];
+        llmModel = argv[2];
         llmModel.erase(llmModel.find("llm-model="), std::string("llm-model=").length());
 
-        std::string maxGrammarRefinementsStr = argv[3];
-        maxGrammarRefinementsStr.erase(maxGrammarRefinementsStr.find("max-grammar-refinements="), std::string("max-grammar-refinements=").length());
-        int maxGrammarRefinements = std::stoi(maxGrammarRefinementsStr);
+        std::string maxSyntacticRefinementsStr = argv[3];
+        maxSyntacticRefinementsStr.erase(maxSyntacticRefinementsStr.find("max-syntactic-refinements="), std::string("max-syntactic-refinements=").length());
+        int maxSyntacticRefinements = std::stoi(maxSyntacticRefinementsStr);
 
-        std::string maxAnalysisRefinementsStr = argv[4];
-        maxAnalysisRefinementsStr.erase(maxAnalysisRefinementsStr.find("max-analysis-refinements="), std::string("max-analysis-refinements=").length());
-        int maxAnalysisRefinements = std::stoi(maxAnalysisRefinementsStr);
+        std::string maxSemanticRefinementsStr = argv[4];
+        maxSemanticRefinementsStr.erase(maxSemanticRefinementsStr.find("max-semantic-refinements="), std::string("max-semantic-refinements=").length());
+        int maxSemanticRefinements = std::stoi(maxSemanticRefinementsStr);
 
         std::string timeoutStr = argv[5];
         timeoutStr.erase(timeoutStr.find("timeout="), std::string("timeout=").length());
@@ -170,16 +194,14 @@ int main(int argc, char *argv[]) {
 
         experimentResult.totalLoops = static_cast<int>(loopInformationList.size());
 
-        const auto preprocessingTime = std::chrono::steady_clock::now();
-        experimentResult.initialAnalysisTime = std::chrono::duration_cast<std::chrono::milliseconds>(preprocessingTime - startTime).count();
+        experimentResult.initialVerdict = "terminating";
+        experimentResult.initialAnalysisTime = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count();
+
+        std::set<std::string> unresolvedLoops;
 
         CandidateSynthesizer candidateSynthesizer;
         CandidateParser candidateParser;
         ValidatorGenerator validatorGenerator;
-
-        std::set<std::string> unresolvedLoops;
-
-        experimentResult.initialVerdict = "terminating";
 
         for (const auto& loopInformation : loopInformationList) {
             checkTimeout();
@@ -192,26 +214,26 @@ int main(int argc, char *argv[]) {
             std::filesystem::path validatorPath = validatorsDirectory / ("validate_" + loopInformation.id + ".py");
             std::filesystem::path refinementFeedbackPath = refinementFeedbackDirectory / (loopInformation.id + "_refinement_feedback.txt");
 
-            int analysisRefinements = 0;
+            int semanticRefinements = 0;
             SynthesisMode synthesisMode = Initial;
 
-            while (true) { // Analysis refinement
+            while (true) { // Semantic refinement
                 checkTimeout();
 
-                int grammarRefinements = 0;
+                int syntacticRefinements = 0;
                 bool loopUnresolved = false;
 
-                while (true) { // Grammar refinement
+                while (true) { // Syntactic refinement
                     checkTimeout();
 
                     if (synthesisMode == Initial) {
                         std::cout << "Synthesizing candidate for loop " << loopInformation.id << "...\n";
                     }
-                    else if (synthesisMode == GrammarRefinement) {
-                        std::cout << "Refining candidate for loop " << loopInformation.id << " using parsing feedback, attempt " << grammarRefinements << "...\n";
+                    else if (synthesisMode == SyntacticRefinement) {
+                        std::cout << "Refining candidate for loop " << loopInformation.id << " using syntactic feedback, attempt " << syntacticRefinements << "...\n";
                     }
-                    else if (synthesisMode == AnalysisRefinement) {
-                        std::cout << "Refining candidate for loop " << loopInformation.id << " using validation feedback, attempt " << analysisRefinements << "...\n";
+                    else if (synthesisMode == SemanticRefinement) {
+                        std::cout << "Refining candidate for loop " << loopInformation.id << " using semantic feedback, attempt " << semanticRefinements << "...\n";
                     }
 
                     const SynthesisResult synthesisResult = candidateSynthesizer.synthesize(loopInformation.id, loopInformationDirectory, candidateGrammarPath, refinementFeedbackPath, candidatePath, llmModel, synthesisMode, timeout);
@@ -235,26 +257,26 @@ int main(int argc, char *argv[]) {
                             experimentResult.initialVerdict = "unknown";
                         }
                     }
-                    else if (synthesisMode == GrammarRefinement) {
-                        ++experimentResult.grammarRefinementCalls;
-                        experimentResult.grammarRefinementTime += synthesisResult.latency;
-                        experimentResult.grammarRefinementInputTokens += synthesisResult.inputTokens;
-                        experimentResult.grammarRefinementOutputTokens += synthesisResult.outputTokens;
-                        experimentResult.grammarRefinementCost += synthesisResult.cost;
+                    else if (synthesisMode == SyntacticRefinement) {
+                        ++experimentResult.syntacticRefinementCalls;
+                        experimentResult.syntacticRefinementTime += synthesisResult.latency;
+                        experimentResult.syntacticRefinementInputTokens += synthesisResult.inputTokens;
+                        experimentResult.syntacticRefinementOutputTokens += synthesisResult.outputTokens;
+                        experimentResult.syntacticRefinementCost += synthesisResult.cost;
                     }
-                    else if (synthesisMode == AnalysisRefinement) {
-                        ++experimentResult.analysisRefinementCalls;
-                        experimentResult.analysisRefinementTime += synthesisResult.latency;
-                        experimentResult.analysisRefinementInputTokens += synthesisResult.inputTokens;
-                        experimentResult.analysisRefinementOutputTokens += synthesisResult.outputTokens;
-                        experimentResult.analysisRefinementCost += synthesisResult.cost;
+                    else if (synthesisMode == SemanticRefinement) {
+                        ++experimentResult.sematicRefinementCalls;
+                        experimentResult.sematicRefinementTime += synthesisResult.latency;
+                        experimentResult.sematicRefinementInputTokens += synthesisResult.inputTokens;
+                        experimentResult.sematicRefinementOutputTokens += synthesisResult.outputTokens;
+                        experimentResult.sematicRefinementCost += synthesisResult.cost;
                     }
 
                     if (synthesisResult.kind != "terminating" && synthesisResult.kind != "non-terminating") {
-                        std::cout << "Loop " << loopInformation.id << " is unknown.\n";
+                        loopUnresolved = true;
                         unresolvedLoops.insert(loopInformation.id);
 
-                        loopUnresolved = true;
+                        std::cout << "Loop " << loopInformation.id << " is unknown.\n";
 
                         break;
                     }
@@ -267,43 +289,43 @@ int main(int argc, char *argv[]) {
                     }
 
                     if (parseResult.valid) {
-                        std::cout << "Candidate for loop " << loopInformation.id << " is grammar-valid.\n";
+                        std::cout << "Candidate for loop " << loopInformation.id << " is syntactically valid.\n";
 
                         break;
                     }
 
-                    std::cout << "Candidate for loop " << loopInformation.id << " is grammar-invalid.\n";
+                    std::cout << "Candidate for loop " << loopInformation.id << " is syntactically invalid.\n";
 
-                    if (grammarRefinements >= maxGrammarRefinements) {
-                        std::cout << "Maximum number of grammar refinement attempts reached for loop " << loopInformation.id << ".\n";
-
-                        std::cout << "Loop " << loopInformation.id << " is unknown.\n";
-                        unresolvedLoops.insert(loopInformation.id);
+                    if (syntacticRefinements >= maxSyntacticRefinements) {
+                        std::cout << "Maximum number of syntactic refinement attempts reached for loop " << loopInformation.id << ".\n";
 
                         loopUnresolved = true;
+                        unresolvedLoops.insert(loopInformation.id);
+
+                        std::cout << "Loop " << loopInformation.id << " is unknown.\n";
 
                         break;
                     }
 
-                    ++grammarRefinements;
-                    synthesisMode = GrammarRefinement;
+                    ++syntacticRefinements;
+                    synthesisMode = SyntacticRefinement;
                 }
 
                 if (loopUnresolved) {
                     break;
                 }
 
-                std::cout << "Generating validator for loop " << loopInformation.id << "...\n";
+                std::cout << "Generating validator script for loop " << loopInformation.id << "...\n";
                 if (!validatorGenerator.generate(loopInformation.id, loopInformationDirectory, candidatePath, validatorPath)) {
                     throw std::runtime_error("Failed to generate validator for loop " + loopInformation.id + ".");
                 }
 
-                std::cout << "Running validator for loop " << loopInformation.id << "...\n";
+                std::cout << "Running validator script for loop " << loopInformation.id << "...\n";
                 std::string validatorRunnerCommand = "\"" + (projectRoot / ".venv" / "bin" / "python").string() + "\" " +
                                                      "\"" + validatorPath.string() + "\" > \"" + refinementFeedbackPath.string() + "\" 2>&1";
                 int validatorRunnerResult = std::system(validatorRunnerCommand.c_str());
                 if (validatorRunnerResult != 0) {
-                    throw std::runtime_error("Failed to run validator for loop " + loopInformation.id + ".");
+                    throw std::runtime_error("Failed to run validator script for loop " + loopInformation.id + ".");
                 }
 
                 std::ifstream validationFeedbackStream(refinementFeedbackPath);
@@ -316,7 +338,7 @@ int main(int argc, char *argv[]) {
 
                     unresolvedLoops.erase(loopInformation.id);
                     for (auto it = unresolvedLoops.begin(); it != unresolvedLoops.end();) {
-                        if (isDescendant(*it, loopInformation.id, loopInformationList)) {
+                        if (hasTerminatingParent(*it, loopInformation.id, loopInformationList)) {
                             std::cout << "Loop " << *it << " was unknown, but is terminating because parent loop " << loopInformation.id << " is terminating.\n";
                             it = unresolvedLoops.erase(it);
                         }
@@ -331,25 +353,26 @@ int main(int argc, char *argv[]) {
                 if (validationFeedbackText.find("RECURRENT_SET_RESULT: \"valid\"") != std::string::npos) {
                     std::cout << "Candidate for loop " << loopInformation.id << " is semantically valid.\n";
 
-                    std::cout << "Loop " << loopInformation.id << " is non-terminating.\n";
                     experimentResult.finalVerdict = "non-terminating";
+                    std::cout << "Loop " << loopInformation.id << " is non-terminating.\n";
 
-                    return recordExperimentResult(experimentRecorder, experimentResult, experimentResultsPath);
+                    return recordExperimentResult(experimentRecorder, experimentResult, llmModel, experimentResultsPath);
                 }
 
-                if (analysisRefinements >= maxAnalysisRefinements) {
-                    std::cout << "Maximum number of analysis refinement attempts reached for loop " << loopInformation.id << ".\n";
+                if (semanticRefinements >= maxSemanticRefinements) {
+                    std::cout << "Maximum number of semantic refinement attempts reached for loop " << loopInformation.id << ".\n";
+
+                    unresolvedLoops.insert(loopInformation.id);
 
                     std::cout << "Loop " << loopInformation.id << " is unknown.\n";
-                    unresolvedLoops.insert(loopInformation.id);
 
                     break;
                 }
 
                 std::cout << "Candidate for loop " << loopInformation.id << " is semantically invalid.\n";
 
-                ++analysisRefinements;
-                synthesisMode = AnalysisRefinement;
+                ++semanticRefinements;
+                synthesisMode = SemanticRefinement;
             }
         }
 
@@ -360,7 +383,7 @@ int main(int argc, char *argv[]) {
             experimentResult.finalVerdict = "unknown";
         }
 
-        return recordExperimentResult(experimentRecorder, experimentResult, experimentResultsPath);
+        return recordExperimentResult(experimentRecorder, experimentResult, llmModel, experimentResultsPath);
     }
 
     catch (const TimeoutException& ex) {
@@ -368,10 +391,10 @@ int main(int argc, char *argv[]) {
 
         std::cerr << ex.what() << "\n";
 
-        const int saveResult = recordExperimentResult(experimentRecorder, experimentResult, experimentResultsPath);
+        const int recordingExitCode = recordExperimentResult(experimentRecorder, experimentResult, llmModel, experimentResultsPath);
 
-        if (saveResult != 0) {
-            return saveResult;
+        if (recordingExitCode != 0) {
+            return recordingExitCode;
         }
 
         return 124;
@@ -382,10 +405,10 @@ int main(int argc, char *argv[]) {
 
         std::cerr << ex.what() << "\n";
 
-        const int saveResult = recordExperimentResult(experimentRecorder, experimentResult, experimentResultsPath);
+        const int recordingExitCode = recordExperimentResult(experimentRecorder, experimentResult, llmModel, experimentResultsPath);
 
-        if (saveResult != 0) {
-            return saveResult;
+        if (recordingExitCode != 0) {
+            return recordingExitCode;
         }
 
         return 1;

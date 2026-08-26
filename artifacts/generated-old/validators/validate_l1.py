@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-# Auto-generated Nexus Z3 validator for l1.
-# Loop-information and candidate JSON are interpreted in C++.
-# This file contains only direct Z3 objects, rules, proof obligations,
-# and solver-result reporting.
 
 from z3 import *
 
@@ -10,32 +6,11 @@ fp = Fixedpoint()
 fp.set(engine="spacer")
 
 # ============================================================
-# Relation declarations
+# Variables
 # ============================================================
 
 # l1
-l1_entry_states = Function("l1_entry_states", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_entry_states)
-l1_iteration_steps = Function("l1_iteration_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_iteration_steps)
-l1_exit_steps = Function("l1_exit_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_exit_steps)
-l1_return_steps = Function("l1_return_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_return_steps)
-l1_reachable_header_states = Function("l1_reachable_header_states", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_reachable_header_states)
-l1_header_to_exit = Function("l1_header_to_exit", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_header_to_exit)
-l1_header_to_return = Function("l1_header_to_return", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_header_to_return)
-l1_actual_exit = Function("l1_actual_exit", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
-fp.register_relation(l1_actual_exit)
-
-# ============================================================
-# Target loop: l1
-# ============================================================
-
-# Variables
+# State symbols
 l1_v1 = Int("l1_v1")
 fp.declare_var(l1_v1)
 l1_v1_next = Int("l1_v1_next")
@@ -82,25 +57,53 @@ l1_state = [l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7]
 l1_next_state = [l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next]
 l1_output_state = [l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out]
 
+# Nondeterministic symbols
+l1_nd1 = Int("l1_nd1")
+fp.declare_var(l1_nd1)
+l1_nd2 = Int("l1_nd2")
+fp.declare_var(l1_nd2)
+l1_nd3 = Int("l1_nd3")
+fp.declare_var(l1_nd3)
+l1_nd4 = Int("l1_nd4")
+fp.declare_var(l1_nd4)
+
+# ============================================================
+# Relation declarations
+# ============================================================
+
+# l1
+l1_entry_states = Function("l1_entry_states", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_entry_states)
+l1_iteration_steps = Function("l1_iteration_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_iteration_steps)
+l1_exit_steps = Function("l1_exit_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_exit_steps)
+l1_return_steps = Function("l1_return_steps", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_return_steps)
+l1_reachable_header_states = Function("l1_reachable_header_states", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_reachable_header_states)
+l1_header_to_exit = Function("l1_header_to_exit", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_header_to_exit)
+l1_header_to_return = Function("l1_header_to_return", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_header_to_return)
+l1_actual_exit = Function("l1_actual_exit", IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), IntSort(), BoolSort())
+fp.register_relation(l1_actual_exit)
+
+# ============================================================
+# Target loop: l1
+# ============================================================
+
 # Guard
 l1_guard = (l1_v2 > IntVal(0))
 
 # Entry states
-nd1 = Int("nd1")
-fp.declare_var(nd1)
-nd2 = Int("nd2")
-fp.declare_var(nd2)
-nd3 = Int("nd3")
-fp.declare_var(nd3)
-nd4 = Int("nd4")
-fp.declare_var(nd4)
-l1_entry_states_p1 = And((nd1 < IntVal(0)), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(6)), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p1 = And((l1_nd1 < IntVal(0)), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(6)), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p1, name="l1_entry_states_p1")
 
-l1_entry_states_p2 = And(And((nd1 >= IntVal(0)), (nd1 > IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(10)), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p2 = And(And((l1_nd1 >= IntVal(0)), (l1_nd1 > IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == IntVal(10)), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p2, name="l1_entry_states_p2")
 
-l1_entry_states_p3 = And(And((nd1 >= IntVal(0)), (nd1 <= IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == nd1), (l1_v3 == nd2), (l1_v4 == nd3), (l1_v5 == nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
+l1_entry_states_p3 = And(And((l1_nd1 >= IntVal(0)), (l1_nd1 <= IntVal(10))), (l1_v1 == IntVal(0)), (l1_v2 == l1_nd1), (l1_v3 == l1_nd2), (l1_v4 == l1_nd3), (l1_v5 == l1_nd4), (l1_v6 == l1_v6), (l1_v7 == l1_v7))
 fp.rule(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_entry_states_p3, name="l1_entry_states_p3")
 
 # Iteration steps
@@ -122,75 +125,33 @@ fp.rule(l1_return_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_ret
 l1_reachable_header_states_base = l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7)
 fp.rule(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_reachable_header_states_base, name="l1_reachable_header_states_base")
 
-l1_v1_prev = Int("l1_v1_prev")
-fp.declare_var(l1_v1_prev)
-l1_v2_prev = Int("l1_v2_prev")
-fp.declare_var(l1_v2_prev)
-l1_v3_prev = Int("l1_v3_prev")
-fp.declare_var(l1_v3_prev)
-l1_v4_prev = Int("l1_v4_prev")
-fp.declare_var(l1_v4_prev)
-l1_v5_prev = Int("l1_v5_prev")
-fp.declare_var(l1_v5_prev)
-l1_v6_prev = Int("l1_v6_prev")
-fp.declare_var(l1_v6_prev)
-l1_v7_prev = Int("l1_v7_prev")
-fp.declare_var(l1_v7_prev)
-l1_reachable_header_states_step = And(l1_reachable_header_states(l1_v1_prev, l1_v2_prev, l1_v3_prev, l1_v4_prev, l1_v5_prev, l1_v6_prev, l1_v7_prev), l1_iteration_steps(l1_v1_prev, l1_v2_prev, l1_v3_prev, l1_v4_prev, l1_v5_prev, l1_v6_prev, l1_v7_prev, l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7))
-fp.rule(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_reachable_header_states_step, name="l1_reachable_header_states_step")
+l1_reachable_header_states_recursive = And(l1_reachable_header_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next))
+fp.rule(l1_reachable_header_states(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_reachable_header_states_recursive, name="l1_reachable_header_states_recursive")
 
 # Header to exit
 l1_header_to_exit_base = l1_exit_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out)
 fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_base, name="l1_header_to_exit_base")
 
-l1_v1_step = Int("l1_v1_step")
-fp.declare_var(l1_v1_step)
-l1_v2_step = Int("l1_v2_step")
-fp.declare_var(l1_v2_step)
-l1_v3_step = Int("l1_v3_step")
-fp.declare_var(l1_v3_step)
-l1_v4_step = Int("l1_v4_step")
-fp.declare_var(l1_v4_step)
-l1_v5_step = Int("l1_v5_step")
-fp.declare_var(l1_v5_step)
-l1_v6_step = Int("l1_v6_step")
-fp.declare_var(l1_v6_step)
-l1_v7_step = Int("l1_v7_step")
-fp.declare_var(l1_v7_step)
-l1_header_to_exit_step = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step), l1_header_to_exit(l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
-fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_step, name="l1_header_to_exit_step")
+l1_header_to_exit_recursive = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_header_to_exit(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
+fp.rule(l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_header_to_exit_recursive, name="l1_header_to_exit_recursive")
 
 # Header to return
 l1_header_to_return_base = l1_return_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7)
 fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_base, name="l1_header_to_return_base")
 
-l1_header_to_return_step = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step), l1_header_to_return(l1_v1_step, l1_v2_step, l1_v3_step, l1_v4_step, l1_v5_step, l1_v6_step, l1_v7_step))
-fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_step, name="l1_header_to_return_step")
+l1_header_to_return_recursive = And(l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), l1_header_to_return(l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next))
+fp.rule(l1_header_to_return(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_return_recursive, name="l1_header_to_return_recursive")
 
 # Actual exit
-l1_v1_entry = Int("l1_v1_entry")
-fp.declare_var(l1_v1_entry)
-l1_v2_entry = Int("l1_v2_entry")
-fp.declare_var(l1_v2_entry)
-l1_v3_entry = Int("l1_v3_entry")
-fp.declare_var(l1_v3_entry)
-l1_v4_entry = Int("l1_v4_entry")
-fp.declare_var(l1_v4_entry)
-l1_v5_entry = Int("l1_v5_entry")
-fp.declare_var(l1_v5_entry)
-l1_v6_entry = Int("l1_v6_entry")
-fp.declare_var(l1_v6_entry)
-l1_v7_entry = Int("l1_v7_entry")
-fp.declare_var(l1_v7_entry)
-l1_actual_exit_rule = And(l1_entry_states(l1_v1_entry, l1_v2_entry, l1_v3_entry, l1_v4_entry, l1_v5_entry, l1_v6_entry, l1_v7_entry), l1_header_to_exit(l1_v1_entry, l1_v2_entry, l1_v3_entry, l1_v4_entry, l1_v5_entry, l1_v6_entry, l1_v7_entry, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
+l1_actual_exit_rule = And(l1_entry_states(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7), l1_header_to_exit(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out))
 fp.rule(l1_actual_exit(l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1_v6_out, l1_v7_out), l1_actual_exit_rule, name="l1_actual_exit_rule")
 
 # ============================================================
 # Target candidate: l1 (terminating)
 # ============================================================
 
-l1_invariant = And((l1_v2 >= IntVal(-1)), (l1_v2 <= IntVal(10)))
-l1_invariant_next = And((l1_v2_next >= IntVal(-1)), (l1_v2_next <= IntVal(10)))
+l1_invariant = BoolVal(True)
+l1_invariant_next = BoolVal(True)
 
 l1_ranking_function = [l1_v2]
 l1_ranking_function_next = [l1_v2_next]
@@ -210,14 +171,12 @@ fp.rule(l1_bad_invariant_preservation(), And(l1_invariant, l1_guard, l1_iteratio
 l1_ranking_nonnegativity_solver = Solver()
 l1_ranking_nonnegativity_solver.add(l1_invariant, l1_guard, l1_ranking_function[0] < 0)
 
-l1_bad_ranking_decrease = Function("l1_bad_ranking_decrease", BoolSort())
-fp.register_relation(l1_bad_ranking_decrease)
-fp.rule(l1_bad_ranking_decrease(), And(l1_invariant, l1_guard, l1_iteration_steps(l1_v1, l1_v2, l1_v3, l1_v4, l1_v5, l1_v6, l1_v7, l1_v1_next, l1_v2_next, l1_v3_next, l1_v4_next, l1_v5_next, l1_v6_next, l1_v7_next), Not(l1_ranking_function_next[0] < l1_ranking_function[0])), name="l1_bad_ranking_decrease_rule")
+l1_ranking_decrease_solver = Solver()
+l1_ranking_decrease_solver.add(l1_invariant, l1_guard, Or(l1_iteration_steps_p1, l1_iteration_steps_p2), Not(l1_ranking_function_next[0] < l1_ranking_function[0]))
 
 def check_fixedpoint(name, relation, expected):
     result = fp.query(relation())
     print(f'{name}: "{result}"')
-
     if result != expected and result == sat:
         print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
         try:
@@ -228,7 +187,6 @@ def check_fixedpoint(name, relation, expected):
             except Exception as ex:
                 print(f'Could not extract Spacer counterexample: {ex}')
         print(f'COUNTEREXAMPLE_END: "{name}"')
-
     if result == unknown:
         print(f'DETAIL_BEGIN: "{name}"')
         try:
@@ -236,26 +194,20 @@ def check_fixedpoint(name, relation, expected):
         except Exception as ex:
             print(f'Z3 returned unknown: {ex}')
         print(f'DETAIL_END: "{name}"')
-
     return result
-
 
 def check_solver(name, solver, expected):
     result = solver.check()
     print(f'{name}: "{result}"')
-
     if result != expected and result == sat:
         print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
         print(solver.model())
         print(f'COUNTEREXAMPLE_END: "{name}"')
-
     if result == unknown:
         print(f'DETAIL_BEGIN: "{name}"')
         print(solver.reason_unknown())
         print(f'DETAIL_END: "{name}"')
-
     return result
-
 
 def validation_status(checks):
     saw_unknown = False
@@ -284,9 +236,9 @@ l1_ranking_nonnegativity_result = check_solver(
     unsat
 )
 
-l1_ranking_decrease_result = check_fixedpoint(
+l1_ranking_decrease_result = check_solver(
     "RANKING_DECREASE",
-    l1_bad_ranking_decrease,
+    l1_ranking_decrease_solver,
     unsat
 )
 

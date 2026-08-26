@@ -40,7 +40,7 @@ static void checkStructure(nlohmann::json& candidate, const std::filesystem::pat
                 {"path", "$." + it.key()},
                 {"message", "Unexpected candidate field '" + it.key() + "'."}
             });
-            }
+        }
     }
 }
 
@@ -272,7 +272,7 @@ static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResu
     }
 }
 
-// Checks that every variable leaf in each expression_ast belongs to the target loop.
+// Checks that every variable leaf in each expression_ast is a current-state symbol of the target loop.
 static void checkVariables(const nlohmann::json& candidate, const std::string& loopId, const std::filesystem::path& loopInformationDirectory, ParseResult& parseResult) {
     if (!candidate.is_object() || !candidate.contains("candidate_expressions") || !candidate.at("candidate_expressions").is_array()) {
         return;
@@ -300,14 +300,16 @@ static void checkVariables(const nlohmann::json& candidate, const std::string& l
 
         targetLoopFound = true;
 
-        if (!loopInformation.contains("variables") || !loopInformation.at("variables").is_array()) {
-            throw std::runtime_error("Loop information for '" + loopId + "' has no valid variables array.");
+        if (!loopInformation.contains("state_symbols") || !loopInformation.at("state_symbols").is_array()) {
+            throw std::runtime_error("Loop information for '" + loopId + "' has no valid state_symbols array.");
         }
 
-        for (const auto& variable : loopInformation.at("variables")) {
-            if (variable.is_object() && variable.contains("name") && variable.at("name").is_string()) {
-                targetVariables.insert(variable.at("name").get<std::string>());
+        for (const auto& stateSymbol : loopInformation.at("state_symbols")) {
+            if (!stateSymbol.is_object() || !stateSymbol.contains("current") || !stateSymbol.at("current").is_string()) {
+                throw std::runtime_error("Loop information for '" + loopId + "' contains a malformed state_symbols entry.");
             }
+
+            targetVariables.insert(stateSymbol.at("current").get<std::string>());
         }
 
         break;
@@ -326,7 +328,7 @@ static void checkVariables(const nlohmann::json& candidate, const std::string& l
                 parseResult.errors.push_back({
                     {"check", "target-variables"},
                     {"path", path},
-                    {"message", "Variable '" + variable + "' is not a target-loop variable."}
+                    {"message", "Variable '" + variable + "' is not a current-state symbol of the target loop."}
                 });
             }
 

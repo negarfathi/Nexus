@@ -65,8 +65,10 @@ struct LoopContext {
     llvm::Loop* loop = nullptr;
     llvm::Function* function = nullptr;
     llvm::DominatorTree* dominatorTree = nullptr;
+    std::string loopId;
     std::vector<Variable> variables;
     std::map<const llvm::Value*, std::string> variableNames;
+    std::vector<std::pair<std::string, std::string>> nondeterministicSymbols;
     std::vector<std::string> unsupported;
     unsigned nextNondetId = 1;
 };
@@ -328,9 +330,7 @@ std::string makeOutVariableName(const std::string& variableName) {
     return variableName + "_out";
 }
 
-std::string makePrevVariableName(const std::string& variableName) {
-    return variableName + "_prev";
-}
+
 
 std::string makeRelationName(const std::string& loopId, const std::string& relationSuffix) {
     return loopId + "_" + relationSuffix;
@@ -739,38 +739,6 @@ void sortLoopsByProgramOccurrence(std::vector<llvm::Loop*>& loops) {
         [](llvm::Loop* leftLoop, llvm::Loop* rightLoop) {
             return loopIsBeforeLoopInFunctionOrder(leftLoop, rightLoop);
         });
-}
-
-bool loopHasMustProgressMetadata(const llvm::Loop* loop) {
-    if (!loop) {
-        return false;
-    }
-
-    const llvm::MDNode* loopIdMetadata = loop->getLoopID();
-    if (!loopIdMetadata) {
-        return false;
-    }
-
-    for (unsigned operandIndex = 1;
-         operandIndex < loopIdMetadata->getNumOperands();
-         ++operandIndex) {
-        const llvm::Metadata* propertyMetadata =
-            loopIdMetadata->getOperand(operandIndex).get();
-        const auto* propertyNode =
-            llvm::dyn_cast_or_null<llvm::MDNode>(propertyMetadata);
-        if (!propertyNode || propertyNode->getNumOperands() == 0) {
-            continue;
-        }
-
-        const auto* propertyName = llvm::dyn_cast_or_null<llvm::MDString>(
-            propertyNode->getOperand(0).get());
-        if (propertyName &&
-            propertyName->getString() == "llvm.loop.mustprogress") {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 
@@ -1360,7 +1328,13 @@ Expression evalValue(const llvm::Value* llvmValue, LoopContext& loopContext, Sym
         const llvm::Function* calledFunction = callInstruction->getCalledFunction();
         if (calledFunction && callInstruction->getType()->isIntegerTy() &&
             (calledFunction->getName().starts_with("__VERIFIER_nondet_") || calledFunction->getName() == "nondet")) {
-            result = atom("nd" + std::to_string(loopContext.nextNondetId++));
+            const std::string nondeterministicName =
+                loopContext.loopId + "_nd" +
+                std::to_string(loopContext.nextNondetId++);
+            loopContext.nondeterministicSymbols.emplace_back(
+                nondeterministicName,
+                getIntegerTypeName(callInstruction->getType()));
+            result = atom(nondeterministicName);
         }
         else {
             addUnsupported(loopContext, "unsupported call: " + convertLLVMValueToString(instruction));
@@ -2868,6 +2842,7 @@ LoopBundle getLoopBundle(llvm::Function& loopFunction, llvm::Loop* targetLoop, c
     loopContext.loop = targetLoop;
     loopContext.function = &loopFunction;
     const std::string targetLoopId = getLoopId(targetLoop);
+    loopContext.loopId = targetLoopId;
     loopContext.variables = extractVariables(targetLoop, targetLoopId);
     for (const auto& variable : loopContext.variables) {
         loopContext.variableNames[variable.slot] = variable.name;
@@ -2955,16 +2930,31 @@ nlohmann::ordered_json convertStringsToJson(const std::vector<std::string>& S) {
     return stringsJson;
 }
 
-nlohmann::ordered_json convertVariablesToJson(const std::vector<Variable>& variables) {
-    nlohmann::ordered_json variablesJson = nlohmann::ordered_json::array();
+nlohmann::ordered_json convertStateSymbolsToJson(const std::vector<Variable>& variables) {
+    nlohmann::ordered_json stateSymbolsJson = nlohmann::ordered_json::array();
     for (const auto& variable : variables) {
-        nlohmann::ordered_json variableJson;
-        variableJson["name"] = variable.name;
-        variableJson["type"] = variable.type;
-        variableJson["llvm_slot"] = variable.llvmName;
-        variablesJson.push_back(std::move(variableJson));
+        nlohmann::ordered_json symbolJson;
+        symbolJson["current"] = variable.name;
+        symbolJson["next"] = makeNextVariableName(variable.name);
+        symbolJson["output"] = makeOutVariableName(variable.name);
+        symbolJson["type"] = variable.type;
+        symbolJson["llvm_slot"] = variable.llvmName;
+        stateSymbolsJson.push_back(std::move(symbolJson));
     }
-    return variablesJson;
+    return stateSymbolsJson;
+}
+
+nlohmann::ordered_json convertNondeterministicSymbolsToJson(
+    const std::vector<std::pair<std::string, std::string>>& symbols) {
+
+    nlohmann::ordered_json symbolsJson = nlohmann::ordered_json::array();
+    for (const auto& [name, type] : symbols) {
+        nlohmann::ordered_json symbolJson;
+        symbolJson["name"] = name;
+        symbolJson["type"] = type;
+        symbolsJson.push_back(std::move(symbolJson));
+    }
+    return symbolsJson;
 }
 
 std::vector<std::string> getCurrentVariableNames(const std::vector<Variable>& variables) {
@@ -2983,57 +2973,12 @@ std::vector<std::string> getNextVariableNames(const std::vector<Variable>& varia
     return names;
 }
 
-std::vector<std::string> getPrevVariableNames(const std::vector<Variable>& variables) {
-    std::vector<std::string> names;
-    for (const auto& variable : variables) {
-        names.push_back(makePrevVariableName(variable.name));
-    }
-    return names;
-}
 
-std::vector<std::string> getStepVariableNames(const std::vector<Variable>& variables) {
-    std::vector<std::string> names;
-    for (const auto& variable : variables) {
-        names.push_back(variable.name + "_step");
-    }
-    return names;
-}
 
-std::vector<std::string> getEntryVariableNames(const std::vector<Variable>& variables) {
-    std::vector<std::string> names;
-    for (const auto& variable : variables) {
-        names.push_back(variable.name + "_entry");
-    }
-    return names;
-}
 
-nlohmann::ordered_json makeLocalSymbolsJson(const std::set<std::string>& symbols) {
-    if (symbols.empty()) {
-        return nlohmann::ordered_json::array();
-    }
 
-    nlohmann::ordered_json localSymbolsJson;
-    localSymbolsJson["quantifier"] = "exists";
-    localSymbolsJson["symbols"] = nlohmann::ordered_json::array();
-    for (const auto& symbol : symbols) {
-        localSymbolsJson["symbols"].push_back(symbol);
-    }
-    return localSymbolsJson;
-}
 
-nlohmann::ordered_json makeLocalSymbolsJson(const std::vector<std::string>& symbols) {
-    if (symbols.empty()) {
-        return nlohmann::ordered_json::array();
-    }
 
-    nlohmann::ordered_json localSymbolsJson;
-    localSymbolsJson["quantifier"] = "exists";
-    localSymbolsJson["symbols"] = nlohmann::ordered_json::array();
-    for (const auto& symbol : symbols) {
-        localSymbolsJson["symbols"].push_back(symbol);
-    }
-    return localSymbolsJson;
-}
 
 
 std::vector<std::string> getOutVariableNames(const std::vector<Variable>& variables) {
@@ -3678,9 +3623,6 @@ std::vector<llvm::BasicBlock*> collectEntryCFGBlocks(LoopContext& loopContext,
 }
 
 
-void collectNondeterministicSymbols(const Expression& expression,
-                                    std::set<std::string>& symbols);
-
 struct ReadableEntrySourceCall {
     std::string purpose;
     std::string loopId;
@@ -3690,7 +3632,6 @@ struct ReadableEntrySourceCall {
 
 struct ReadableEntryPath {
     Expression condition;
-    std::set<std::string> localSymbols;
     std::vector<ReadableEntrySourceCall> sourceCalls;
     std::map<std::string, Expression> updates;
 };
@@ -3703,17 +3644,12 @@ void recordReadableEntryPath(LoopContext& loopContext,
     entryPath.condition = mkAnd(stateAtHeader.pathConditions);
     entryPath.sourceCalls = sourceCalls;
 
-    collectNondeterministicSymbols(entryPath.condition,
-                                   entryPath.localSymbols);
-
     for (const Variable& variable : loopContext.variables) {
         auto valueIt = stateAtHeader.memoryExpr.find(variable.slot);
         Expression value = valueIt == stateAtHeader.memoryExpr.end()
             ? atom(variable.name)
             : valueIt->second;
         entryPath.updates[variable.name] = value;
-        collectNondeterministicSymbols(value,
-                                       entryPath.localSymbols);
     }
 
     entryPaths.push_back(std::move(entryPath));
@@ -3933,7 +3869,6 @@ nlohmann::ordered_json readableEntrySourceCallJson(
     const ReadableEntrySourceCall& sourceCall) {
     nlohmann::ordered_json sourceCallJson;
     sourceCallJson["purpose"] = sourceCall.purpose;
-    sourceCallJson["loop_id"] = sourceCall.loopId;
     sourceCallJson["relation"] = sourceCall.relation;
     sourceCallJson["source_state"] = sourceCall.sourceState;
     return sourceCallJson;
@@ -4119,9 +4054,6 @@ nlohmann::ordered_json generateCFGEntryJson(
                 readableEntrySourceCallJson(entryPath.sourceCalls.front());
         }
 
-        pathJson["local_symbols"] =
-            makeLocalSymbolsJson(entryPath.localSymbols);
-
         pathJson["updates"] = nlohmann::ordered_json::object();
         for (const Variable& variable : loopContext.variables) {
             auto updateIt = entryPath.updates.find(variable.name);
@@ -4135,7 +4067,7 @@ nlohmann::ordered_json generateCFGEntryJson(
 
         appendUniqueSemanticPath(entryJson["paths"],
                                  pathJson,
-                                 "path_id",
+                                 "id",
                                  makeRelationName(loopId, "entry_states"),
                                  seenSemanticPathKeys);
     }
@@ -4808,27 +4740,6 @@ llvm::Loop* findLoopById(llvm::Loop* rootLoop, const std::string& wantedLoopId) 
     return nullptr;
 }
 
-bool isNondeterministicSymbolName(const std::string& symbolName) {
-    if (symbolName.size() < 3 || symbolName[0] != 'n' || symbolName[1] != 'd') {
-        return false;
-    }
-    return std::all_of(symbolName.begin() + 2, symbolName.end(), [](unsigned char character) {
-        return character >= '0' && character <= '9';
-    });
-}
-
-void collectNondeterministicSymbols(const Expression& expression, std::set<std::string>& symbols) {
-    if (!expression.isCompound && !expression.isRelationCall && !expression.isExists) {
-        if (isNondeterministicSymbolName(expression.head)) {
-            symbols.insert(expression.head);
-        }
-        return;
-    }
-    for (const Expression& argument : expression.arguments) {
-        collectNondeterministicSymbols(argument, symbols);
-    }
-}
-
 Expression replaceAtomNames(const Expression& expression,
                             const std::map<std::string, std::string>& replacements) {
     if (!expression.isCompound && !expression.isRelationCall && !expression.isExists) {
@@ -4925,7 +4836,6 @@ nlohmann::ordered_json serializeSemanticChildCalls(LoopContext& loopContext,
         }
 
         nlohmann::ordered_json childCallJson;
-        childCallJson["child_loop_id"] = childCall.childId;
         childCallJson["relation"] =
             makeRelationName(childCall.childId,
                              childCall.isReturn
@@ -4952,6 +4862,7 @@ nlohmann::ordered_json serializeSemanticChildCalls(LoopContext& loopContext,
 
         if (!childCall.isReturn) {
             childCallJson["output_state"] = nlohmann::ordered_json::array();
+
             for (size_t variableIndex = 0;
                  variableIndex < loopContext.variables.size();
                  ++variableIndex) {
@@ -5021,26 +4932,12 @@ nlohmann::ordered_json generateCFGTransitionJson(LoopContext& loopContext) {
             convertExpressionToJson(
                 normalizeReadableCondition(transition.pathCondition));
 
-        pathJson["child_calls"] =
-            serializeSemanticChildCalls(loopContext,
-                                        transition.childCalls,
-                                        "loop_iteration_steps path");
-
-        std::set<std::string> localSymbols;
-        collectNondeterministicSymbols(transition.pathCondition,
-                                       localSymbols);
-        for (const auto& update : transition.updates) {
-            collectNondeterministicSymbols(update.second,
-                                           localSymbols);
+        if (!transition.childCalls.empty()) {
+            pathJson["child_calls"] =
+                serializeSemanticChildCalls(loopContext,
+                                            transition.childCalls,
+                                            "loop_iteration_steps path");
         }
-        for (const ChildCall& childCall : transition.childCalls) {
-            for (const auto& entry : childCall.entryState) {
-                collectNondeterministicSymbols(entry.second,
-                                               localSymbols);
-            }
-        }
-        pathJson["local_symbols"] =
-            makeLocalSymbolsJson(localSymbols);
 
         pathJson["updates"] = nlohmann::ordered_json::object();
         for (const Variable& variable : loopContext.variables) {
@@ -5051,13 +4948,13 @@ nlohmann::ordered_json generateCFGTransitionJson(LoopContext& loopContext) {
                 updateIt == transition.updates.end()
                     ? atom(variable.name)
                     : updateIt->second;
-            pathJson["updates"][variable.name] =
+            pathJson["updates"][oldNextName] =
                 convertExpressionToJson(value);
         }
 
         appendUniqueSemanticPath(transitionJson["paths"],
                                  pathJson,
-                                 "path_id",
+                                 "id",
                                  makeRelationName(loopId, "iteration_steps"),
                                  seenSemanticPathKeys);
     }
@@ -5095,26 +4992,12 @@ nlohmann::ordered_json generateCFGExitStepJson(LoopContext& loopContext) {
             convertExpressionToJson(
                 normalizeReadableCondition(exitTransition.pathCondition));
 
-        pathJson["child_calls"] =
-            serializeSemanticChildCalls(loopContext,
-                                        exitTransition.childCalls,
-                                        "loop_exit_steps path");
-
-        std::set<std::string> localSymbols;
-        collectNondeterministicSymbols(exitTransition.pathCondition,
-                                       localSymbols);
-        for (const auto& update : exitTransition.updates) {
-            collectNondeterministicSymbols(update.second,
-                                           localSymbols);
+        if (!exitTransition.childCalls.empty()) {
+            pathJson["child_calls"] =
+                serializeSemanticChildCalls(loopContext,
+                                            exitTransition.childCalls,
+                                            "loop_exit_steps path");
         }
-        for (const ChildCall& childCall : exitTransition.childCalls) {
-            for (const auto& entry : childCall.entryState) {
-                collectNondeterministicSymbols(entry.second,
-                                               localSymbols);
-            }
-        }
-        pathJson["local_symbols"] =
-            makeLocalSymbolsJson(localSymbols);
 
         pathJson["updates"] = nlohmann::ordered_json::object();
         for (const Variable& variable : loopContext.variables) {
@@ -5125,7 +5008,7 @@ nlohmann::ordered_json generateCFGExitStepJson(LoopContext& loopContext) {
                 updateIt == exitTransition.updates.end()
                     ? atom(variable.name)
                     : updateIt->second;
-            pathJson["updates"][variable.name] =
+            pathJson["updates"][oldOutName] =
                 convertExpressionToJson(value);
         }
 
@@ -5247,22 +5130,12 @@ nlohmann::ordered_json generateCFGReturnStepJson(LoopContext& loopContext) {
         nlohmann::ordered_json pathJson;
         pathJson["condition"] =
             convertExpressionToJson(readableCondition);
-        pathJson["child_calls"] =
-            serializeSemanticChildCalls(loopContext,
-                                        childCalls,
-                                        "loop_return_steps path");
-
-        std::set<std::string> localSymbols;
-        collectNondeterministicSymbols(readableCondition,
-                                       localSymbols);
-        for (const ChildCall& childCall : childCalls) {
-            for (const auto& entry : childCall.entryState) {
-                collectNondeterministicSymbols(entry.second,
-                                               localSymbols);
-            }
+        if (!childCalls.empty()) {
+            pathJson["child_calls"] =
+                serializeSemanticChildCalls(loopContext,
+                                            childCalls,
+                                            "loop_return_steps path");
         }
-        pathJson["local_symbols"] =
-            makeLocalSymbolsJson(localSymbols);
 
         appendUniqueSemanticPath(returnStepJson["paths"],
                                  pathJson,
@@ -5280,10 +5153,22 @@ nlohmann::ordered_json generateEntry2ExitJson(
     const std::vector<Variable>& variables) {
     const std::vector<std::string> currentArgs =
         getCurrentVariableNames(variables);
-    const std::vector<std::string> stepArgs =
-        getStepVariableNames(variables);
+    const std::vector<std::string> nextArgs =
+        getNextVariableNames(variables);
     const std::vector<std::string> outArgs =
         getOutVariableNames(variables);
+
+    const std::string relationId =
+        makeRelationName(loopId, "header_to_exit");
+
+    nlohmann::ordered_json headCall = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {
+            {"state", currentArgs},
+            {"output_state", outArgs}
+        }}
+    };
 
     nlohmann::ordered_json exitStepCall = {
         {"op", "relation_call"},
@@ -5299,37 +5184,40 @@ nlohmann::ordered_json generateEntry2ExitJson(
         {"relation", makeRelationName(loopId, "iteration_steps")},
         {"arguments", {
             {"current_state", currentArgs},
-            {"next_state", stepArgs}
+            {"next_state", nextArgs}
         }}
     };
 
     nlohmann::ordered_json recursiveCall = {
         {"op", "relation_call"},
-        {"relation", makeRelationName(loopId, "header_to_exit")},
+        {"relation", relationId},
         {"arguments", {
-            {"state", stepArgs},
+            {"state", nextArgs},
             {"output_state", outArgs}
         }}
     };
 
     nlohmann::ordered_json headerToExitJson;
-    headerToExitJson["id"] =
-        makeRelationName(loopId, "header_to_exit");
+    headerToExitJson["id"] = relationId;
     headerToExitJson["formula_semantics"] = "least_fixedpoint";
-    headerToExitJson["formula"] = {
-        {"op", "or"},
-        {"args", nlohmann::ordered_json::array({
-            exitStepCall,
-            nlohmann::ordered_json{
-                {"op", "exists"},
-                {"variables", stepArgs},
-                {"body", {
-                    {"op", "and"},
-                    {"args", nlohmann::ordered_json::array({iterationCall, recursiveCall})}
-                }}
-            }
-        })}
-    };
+    headerToExitJson["rules"] = nlohmann::ordered_json::array({
+        nlohmann::ordered_json{
+            {"id", relationId + "_base"},
+            {"head", headCall},
+            {"body", exitStepCall}
+        },
+        nlohmann::ordered_json{
+            {"id", relationId + "_recursive"},
+            {"head", headCall},
+            {"body", {
+                {"op", "and"},
+                {"args", nlohmann::ordered_json::array({
+                    iterationCall,
+                    recursiveCall
+                })}
+            }}
+        }
+    });
     return headerToExitJson;
 }
 
@@ -5351,18 +5239,92 @@ Expression buildTransitionFormula(const std::vector<Transition>& transitions) {
     return mkOr(disjuncts);
 }
 
-// Patch 3: generated semantic relations.
-// These are not extracted from LLVM directly. They are derived mechanically
-// from the primitive per-loop relations: entry, transition, and exit_step.
-//
-// reach(l_v) = entry(l_v) OR exists l_v_prev. reach(l_v_prev) AND t(l_v_prev, l_v)
+// Generated semantic relations are encoded directly as Horn rules
+// over current, next, and output states.
 nlohmann::ordered_json generateReachJson(
     const std::string& loopId,
     const std::vector<Variable>& variables) {
     const std::vector<std::string> currentArgs =
         getCurrentVariableNames(variables);
-    const std::vector<std::string> previousArgs =
-        getPrevVariableNames(variables);
+    const std::vector<std::string> nextArgs =
+        getNextVariableNames(variables);
+
+    const std::string relationId =
+        makeRelationName(loopId, "reachable_header_states");
+
+    nlohmann::ordered_json baseHead = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {{"state", currentArgs}}}
+    };
+
+    nlohmann::ordered_json baseBody = {
+        {"op", "relation_call"},
+        {"relation", makeRelationName(loopId, "entry_states")},
+        {"arguments", {{"state", currentArgs}}}
+    };
+
+    nlohmann::ordered_json recursiveHead = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {{"state", nextArgs}}}
+    };
+
+    nlohmann::ordered_json reachableCurrentCall = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {{"state", currentArgs}}}
+    };
+
+    nlohmann::ordered_json iterationCall = {
+        {"op", "relation_call"},
+        {"relation", makeRelationName(loopId, "iteration_steps")},
+        {"arguments", {
+            {"current_state", currentArgs},
+            {"next_state", nextArgs}
+        }}
+    };
+
+    nlohmann::ordered_json reachJson;
+    reachJson["id"] = relationId;
+    reachJson["formula_semantics"] = "least_fixedpoint";
+    reachJson["rules"] = nlohmann::ordered_json::array({
+        nlohmann::ordered_json{
+            {"id", relationId + "_base"},
+            {"head", baseHead},
+            {"body", baseBody}
+        },
+        nlohmann::ordered_json{
+            {"id", relationId + "_recursive"},
+            {"head", recursiveHead},
+            {"body", {
+                {"op", "and"},
+                {"args", nlohmann::ordered_json::array({
+                    reachableCurrentCall,
+                    iterationCall
+                })}
+            }}
+        }
+    });
+    return reachJson;
+}
+
+nlohmann::ordered_json generateExitJson(
+    const std::string& loopId,
+    const std::vector<Variable>& variables) {
+    const std::vector<std::string> currentArgs =
+        getCurrentVariableNames(variables);
+    const std::vector<std::string> outArgs =
+        getOutVariableNames(variables);
+
+    const std::string relationId =
+        makeRelationName(loopId, "actual_exit");
+
+    nlohmann::ordered_json headCall = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {{"state", outArgs}}}
+    };
 
     nlohmann::ordered_json entryCall = {
         {"op", "relation_call"},
@@ -5370,75 +5332,30 @@ nlohmann::ordered_json generateReachJson(
         {"arguments", {{"state", currentArgs}}}
     };
 
-    nlohmann::ordered_json previousReachCall = {
-        {"op", "relation_call"},
-        {"relation", makeRelationName(loopId, "reachable_header_states")},
-        {"arguments", {{"state", previousArgs}}}
-    };
-
-    nlohmann::ordered_json iterationCall = {
-        {"op", "relation_call"},
-        {"relation", makeRelationName(loopId, "iteration_steps")},
-        {"arguments", {
-            {"current_state", previousArgs},
-            {"next_state", currentArgs}
-        }}
-    };
-
-    nlohmann::ordered_json reachJson;
-    reachJson["id"] =
-        makeRelationName(loopId, "reachable_header_states");
-    reachJson["formula_semantics"] = "least_fixedpoint";
-    reachJson["formula"] = {
-        {"op", "or"},
-        {"args", nlohmann::ordered_json::array({
-            entryCall,
-            nlohmann::ordered_json{
-                {"op", "exists"},
-                {"variables", previousArgs},
-                {"body", {
-                    {"op", "and"},
-                    {"args", nlohmann::ordered_json::array({previousReachCall, iterationCall})}
-                }}
-            }
-        })}
-    };
-    return reachJson;
-}
-
-nlohmann::ordered_json generateExitJson(
-    const std::string& loopId,
-    const std::vector<Variable>& variables) {
-    const std::vector<std::string> entryArgs =
-        getEntryVariableNames(variables);
-    const std::vector<std::string> outArgs =
-        getOutVariableNames(variables);
-
-    nlohmann::ordered_json entryCall = {
-        {"op", "relation_call"},
-        {"relation", makeRelationName(loopId, "entry_states")},
-        {"arguments", {{"state", entryArgs}}}
-    };
-
     nlohmann::ordered_json headerToExitCall = {
         {"op", "relation_call"},
         {"relation", makeRelationName(loopId, "header_to_exit")},
         {"arguments", {
-            {"state", entryArgs},
+            {"state", currentArgs},
             {"output_state", outArgs}
         }}
     };
 
     nlohmann::ordered_json actualExitJson;
-    actualExitJson["id"] = makeRelationName(loopId, "actual_exit");
-    actualExitJson["formula"] = {
-        {"op", "exists"},
-        {"variables", entryArgs},
-        {"body", {
-            {"op", "and"},
-            {"args", nlohmann::ordered_json::array({entryCall, headerToExitCall})}
-        }}
-    };
+    actualExitJson["id"] = relationId;
+    actualExitJson["rules"] = nlohmann::ordered_json::array({
+        nlohmann::ordered_json{
+            {"id", relationId + "_rule"},
+            {"head", headCall},
+            {"body", {
+                {"op", "and"},
+                {"args", nlohmann::ordered_json::array({
+                    entryCall,
+                    headerToExitCall
+                })}
+            }}
+        }
+    });
     return actualExitJson;
 }
 
@@ -5447,8 +5364,17 @@ nlohmann::ordered_json generateEntry2ReturnJson(
     const std::vector<Variable>& variables) {
     const std::vector<std::string> currentArgs =
         getCurrentVariableNames(variables);
-    const std::vector<std::string> stepArgs =
-        getStepVariableNames(variables);
+    const std::vector<std::string> nextArgs =
+        getNextVariableNames(variables);
+
+    const std::string relationId =
+        makeRelationName(loopId, "header_to_return");
+
+    nlohmann::ordered_json headCall = {
+        {"op", "relation_call"},
+        {"relation", relationId},
+        {"arguments", {{"state", currentArgs}}}
+    };
 
     nlohmann::ordered_json returnStepCall = {
         {"op", "relation_call"},
@@ -5461,34 +5387,37 @@ nlohmann::ordered_json generateEntry2ReturnJson(
         {"relation", makeRelationName(loopId, "iteration_steps")},
         {"arguments", {
             {"current_state", currentArgs},
-            {"next_state", stepArgs}
+            {"next_state", nextArgs}
         }}
     };
 
     nlohmann::ordered_json recursiveCall = {
         {"op", "relation_call"},
-        {"relation", makeRelationName(loopId, "header_to_return")},
-        {"arguments", {{"state", stepArgs}}}
+        {"relation", relationId},
+        {"arguments", {{"state", nextArgs}}}
     };
 
     nlohmann::ordered_json headerToReturnJson;
-    headerToReturnJson["id"] =
-        makeRelationName(loopId, "header_to_return");
+    headerToReturnJson["id"] = relationId;
     headerToReturnJson["formula_semantics"] = "least_fixedpoint";
-    headerToReturnJson["formula"] = {
-        {"op", "or"},
-        {"args", nlohmann::ordered_json::array({
-            returnStepCall,
-            nlohmann::ordered_json{
-                {"op", "exists"},
-                {"variables", stepArgs},
-                {"body", {
-                    {"op", "and"},
-                    {"args", nlohmann::ordered_json::array({iterationCall, recursiveCall})}
-                }}
-            }
-        })}
-    };
+    headerToReturnJson["rules"] = nlohmann::ordered_json::array({
+        nlohmann::ordered_json{
+            {"id", relationId + "_base"},
+            {"head", headCall},
+            {"body", returnStepCall}
+        },
+        nlohmann::ordered_json{
+            {"id", relationId + "_recursive"},
+            {"head", headCall},
+            {"body", {
+                {"op", "and"},
+                {"args", nlohmann::ordered_json::array({
+                    iterationCall,
+                    recursiveCall
+                })}
+            }}
+        }
+    });
     return headerToReturnJson;
 }
 
@@ -5538,8 +5467,6 @@ bool loopInformationExtractor::extract(
             loopJson["function"] = function.getName().str();
             loopJson["llvm_header_block"] =
                 getBasicBlockName(loop->getHeader());
-            loopJson["llvm_must_progress"] =
-                loopHasMustProgressMetadata(loop);
 
             if (llvm::Loop* parent = loop->getParentLoop()) {
                 loopJson["parent_loop_id"] = getLoopId(parent);
@@ -5574,23 +5501,41 @@ bool loopInformationExtractor::extract(
             loopContext.loop = loop;
             loopContext.function = &function;
             loopContext.dominatorTree = &dominatorTree;
+            loopContext.loopId = loopId;
             loopContext.variables = extractVariables(loop, loopId);
             for (const auto& variable : loopContext.variables) {
                 loopContext.variableNames[variable.slot] = variable.name;
             }
 
-            loopJson["variables"] =
-                convertVariablesToJson(loopContext.variables);
-            loopJson["loop_guard"] =
+            // Generate the base semantic relations first so every
+            // nondeterministic symbol encountered during symbolic exploration
+            // is known before the ordered JSON object is emitted.
+            nlohmann::ordered_json loopGuardJson =
                 generateCFGGuardJson(loopContext);
-            loopJson["entry_states"] =
+            nlohmann::ordered_json entryStatesJson =
                 generateCFGEntryJson(loopContext, allLoops);
-            loopJson["loop_iteration_steps"] =
+            nlohmann::ordered_json iterationStepsJson =
                 generateCFGTransitionJson(loopContext);
-            loopJson["loop_exit_steps"] =
+            nlohmann::ordered_json exitStepsJson =
                 generateCFGExitStepJson(loopContext);
-            loopJson["loop_return_steps"] =
+            nlohmann::ordered_json returnStepsJson =
                 generateCFGReturnStepJson(loopContext);
+
+            loopJson["state_symbols"] =
+                convertStateSymbolsToJson(loopContext.variables);
+            loopJson["nondeterministic_symbols"] =
+                convertNondeterministicSymbolsToJson(
+                    loopContext.nondeterministicSymbols);
+            loopJson["loop_guard"] =
+                std::move(loopGuardJson);
+            loopJson["entry_states"] =
+                std::move(entryStatesJson);
+            loopJson["loop_iteration_steps"] =
+                std::move(iterationStepsJson);
+            loopJson["loop_exit_steps"] =
+                std::move(exitStepsJson);
+            loopJson["loop_return_steps"] =
+                std::move(returnStepsJson);
             loopJson["reachable_header_states"] =
                 generateReachJson(loopId, loopContext.variables);
             loopJson["header_to_exit"] =
@@ -5613,7 +5558,7 @@ bool loopInformationExtractor::extract(
     std::filesystem::create_directories(summariesDir);
     for (const auto& [loopId, loopJson] : jsonsByLoopId) {
         const std::filesystem::path summaryPath =
-            summariesDir / (loopId + "_summary.json");
+            summariesDir / (loopId + "_loop_information.json");
         std::ofstream summaryFile(summaryPath);
         if (!summaryFile) {
             return false;
@@ -5634,7 +5579,7 @@ bool loopInformationExtractor::order(
     if (!std::filesystem::exists(loopInformationDirectory) ||
         !std::filesystem::is_directory(loopInformationDirectory)) {
         return false;
-    }
+        }
 
     std::vector<std::filesystem::path> summaryFiles;
     for (const auto& entry :
@@ -5642,7 +5587,7 @@ bool loopInformationExtractor::order(
         if (!entry.is_regular_file()) continue;
         if (entry.path().extension() != ".json") continue;
         summaryFiles.push_back(entry.path());
-    }
+         }
     std::sort(summaryFiles.begin(), summaryFiles.end());
 
     std::map<std::string, std::vector<std::string>>
@@ -5666,14 +5611,14 @@ bool loopInformationExtractor::order(
         if (payload.contains("parent_loop_id") &&
             !payload["parent_loop_id"].is_null()) {
             info.parent = payload["parent_loop_id"].get<std::string>();
-        }
+            }
 
         if (payload.contains("child_loop_ids") &&
             payload["child_loop_ids"].is_array()) {
             for (const auto& child : payload["child_loop_ids"]) {
                 info.children.push_back(child.get<std::string>());
             }
-        }
+            }
 
         if (payload.contains("previous_sequential_loop_ids") &&
             payload["previous_sequential_loop_ids"].is_array()) {
@@ -5681,8 +5626,8 @@ bool loopInformationExtractor::order(
                  payload["previous_sequential_loop_ids"]) {
                 previousSequentialLoopsById[info.id].push_back(
                     previousLoop.get<std::string>());
+                 }
             }
-        }
 
         loopInformationList.push_back(std::move(info));
     }
