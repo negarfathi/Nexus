@@ -213,6 +213,7 @@ int main(int argc, char *argv[]) {
             std::filesystem::path candidatePath = candidatesDirectory / (loopInformation.id + "_candidate.json");
             std::filesystem::path validatorPath = validatorsDirectory / ("validate_" + loopInformation.id + ".py");
             std::filesystem::path refinementFeedbackPath = refinementFeedbackDirectory / (loopInformation.id + "_refinement_feedback.txt");
+            std::ofstream(refinementFeedbackPath, std::ios::trunc).close();
 
             int semanticRefinements = 0;
             SynthesisMode synthesisMode = Initial;
@@ -321,14 +322,19 @@ int main(int argc, char *argv[]) {
                 }
 
                 std::cout << "Running validator script for loop " << loopInformation.id << "...\n";
+                const std::uintmax_t validationFeedbackStart = std::filesystem::exists(refinementFeedbackPath) ? std::filesystem::file_size(refinementFeedbackPath) : 0;
                 std::string validatorRunnerCommand = "\"" + (projectRoot / ".venv" / "bin" / "python").string() + "\" " +
-                                                     "\"" + validatorPath.string() + "\" > \"" + refinementFeedbackPath.string() + "\" 2>&1";
+                                                     "\"" + validatorPath.string() + "\" >> \"" + refinementFeedbackPath.string() + "\" 2>&1";
                 int validatorRunnerResult = std::system(validatorRunnerCommand.c_str());
                 if (validatorRunnerResult != 0) {
                     throw std::runtime_error("Failed to run validator script for loop " + loopInformation.id + ".");
                 }
 
                 std::ifstream validationFeedbackStream(refinementFeedbackPath);
+                if (!validationFeedbackStream) {
+                    throw std::runtime_error("Failed to read refinement feedback: " + refinementFeedbackPath.string());
+                }
+                validationFeedbackStream.seekg(static_cast<std::streamoff>(validationFeedbackStart));
                 std::string validationFeedbackText((std::istreambuf_iterator<char>(validationFeedbackStream)), std::istreambuf_iterator<char>());
 
                 if (validationFeedbackText.find("INVARIANT_RESULT: \"valid\"") != std::string::npos && validationFeedbackText.find("RANKING_FUNCTION_RESULT: \"valid\"") != std::string::npos) {

@@ -65,8 +65,7 @@ static std::map<std::string, std::set<std::string>> computeDependencyLoops(const
     std::map<std::string, std::string> relationOwners;
     for (const auto& [loopId, loopInformation] : loopInformationList) {
         for (const std::string& field : relationFields) {
-            if (!loopInformation.contains(field) || !loopInformation.at(field).is_object() ||
-                !loopInformation.at(field).contains("id") || !loopInformation.at(field).at("id").is_string()) {
+            if (!loopInformation.contains(field) || !loopInformation.at(field).is_object() || !loopInformation.at(field).contains("id") || !loopInformation.at(field).at("id").is_string()) {
                 throw std::runtime_error("Loop '" + loopId + "' has malformed relation field '" + field + "'.");
             }
             const std::string relationId = loopInformation.at(field).at("id").get<std::string>();
@@ -213,7 +212,8 @@ static void generateSymbols(PythonContext& context, const nlohmann::ordered_json
     const std::string loopId = loopInformation.at("loop_id").get<std::string>();
     const nlohmann::ordered_json& stateSymbols = getStateSymbols(loopInformation);
     const nlohmann::ordered_json& nondeterministicSymbols = getNondeterministicSymbols(loopInformation);
-    context.output << "# " << loopId << "\n" << "# State symbols\n";
+    context.output << "# " << loopId << "\n"
+                   << "# State symbols\n";
     std::vector<std::string> currentState;
     std::vector<std::string> nextState;
     std::vector<std::string> outputState;
@@ -292,7 +292,8 @@ static void generateRelationDeclarations(PythonContext& context, const std::map<
             for (std::size_t i = 0; i < arity; ++i) {
                 context.output << ", IntSort()";
             }
-            context.output << ", BoolSort())\n" << "fp.register_relation(" << relationId << ")\n";
+            context.output << ", BoolSort())\n"
+                           << "fp.register_relation(" << relationId << ")\n";
         }
         context.output << "\n";
     }
@@ -576,7 +577,8 @@ static void generateGuard(PythonContext& context, const nlohmann::ordered_json& 
     populateSymbolEnvironment(loopInformation, environment);
     const std::string guardId = guard.at("id").get<std::string>();
     const std::string formula = encodeExpression(context, guard.at("formula"), environment, true, false);
-    context.output << "# Guard\n" << guardId << " = " << formula << "\n\n";
+    context.output << "# Guard\n"
+                   << guardId << " = " << formula << "\n\n";
 }
 
 static void generateEntryStates(PythonContext& context, const nlohmann::ordered_json& loopInformation) {
@@ -631,7 +633,8 @@ static void generateEntryStates(PythonContext& context, const nlohmann::ordered_
             conjunction << ")";
             body = conjunction.str();
         }
-        context.output << pathId << " = " << body << "\n" << "fp.rule(" << relationId << "(";
+        context.output << pathId << " = " << body << "\n"
+                       << "fp.rule(" << relationId << "(";
         for (std::size_t i = 0; i < currentVariables.size(); ++i) {
             if (i != 0) {
                 context.output << ", ";
@@ -697,7 +700,8 @@ static void generateLoopIterationSteps(PythonContext& context, const nlohmann::o
             conjunction << ")";
             body = conjunction.str();
         }
-        context.output << pathId << " = " << body << "\n" << "fp.rule(" << relationId << "(";
+        context.output << pathId << " = " << body << "\n"
+                       << "fp.rule(" << relationId << "(";
         bool first = true;
         for (const std::string& current : currentVariables) {
             if (!first) {
@@ -772,7 +776,8 @@ static void generateLoopExitSteps(PythonContext& context, const nlohmann::ordere
             conjunction << ")";
             body = conjunction.str();
         }
-        context.output << pathId << " = " << body << "\n" << "fp.rule(" << relationId << "(";
+        context.output << pathId << " = " << body << "\n"
+                       << "fp.rule(" << relationId << "(";
         bool first = true;
         for (const std::string& current : currentVariables) {
             if (!first) {
@@ -839,7 +844,8 @@ static void generateFunctionReturnSteps(PythonContext& context, const nlohmann::
             conjunction << ")";
             body = conjunction.str();
         }
-        context.output << pathId << " = " << body << "\n" << "fp.rule(" << relationId << "(";
+        context.output << pathId << " = " << body << "\n"
+                       << "fp.rule(" << relationId << "(";
         for (std::size_t i = 0; i < currentVariables.size(); ++i) {
             if (i != 0) {
                 context.output << ", ";
@@ -875,7 +881,8 @@ static void generateDerivedHornRules(PythonContext& context, const nlohmann::ord
         populateSymbolEnvironment(loopInformation, environment);
         const std::string body = encodeExpression(context, rule.at("body"), environment, true, true);
         const std::string head = encodeExpression(context, rule.at("head"), environment, true, true);
-        context.output << ruleId << " = " << body << "\n" << "fp.rule(" << head << ", " << ruleId << ", name=" << nlohmann::ordered_json(ruleId).dump() << ")\n\n";
+        context.output << ruleId << " = " << body << "\n"
+                       << "fp.rule(" << head << ", " << ruleId << ", name=" << nlohmann::ordered_json(ruleId).dump() << ")\n\n";
     }
 }
 
@@ -927,10 +934,10 @@ static CandidateInformation generateCandidate(PythonContext& context, const nloh
         }
         std::map<std::string, std::string> currentInvariantEnvironment = currentEnvironment;
         std::map<std::string, std::string> nextInvariantEnvironment = nextEnvironment;
-        context.output << targetLoopId << "_invariant = " << encodeExpression(context, *invariant, currentInvariantEnvironment, false, false) << "\n" << targetLoopId << "_invariant_next = " << encodeExpression(context, *invariant, nextInvariantEnvironment, false, false) << "\n\n";
+        context.output << targetLoopId << "_invariant = " << encodeExpression(context, *invariant, currentInvariantEnvironment, false, false) << "\n"
+                       << targetLoopId << "_invariant_next = " << encodeExpression(context, *invariant, nextInvariantEnvironment, false, false) << "\n\n";
         std::vector<nlohmann::ordered_json> rankingComponents;
-        if (rankingFunction->is_object() && rankingFunction->contains("op") && rankingFunction->at("op").is_string() &&
-            rankingFunction->at("op").get<std::string>() == "lex") {
+        if (rankingFunction->is_object() && rankingFunction->contains("op") && rankingFunction->at("op").is_string() && rankingFunction->at("op").get<std::string>() == "lex") {
             if (!rankingFunction->contains("args") || !rankingFunction->at("args").is_array() || rankingFunction->at("args").empty()) {
                 throw std::runtime_error("lex ranking expression requires at least one component.");
             }
@@ -974,7 +981,8 @@ static CandidateInformation generateCandidate(PythonContext& context, const nloh
         }
         std::map<std::string, std::string> currentRecurrentEnvironment = currentEnvironment;
         std::map<std::string, std::string> nextRecurrentEnvironment = nextEnvironment;
-        context.output << targetLoopId << "_recurrent_set = " << encodeExpression(context, *recurrentSet, currentRecurrentEnvironment, false, false) << "\n" << targetLoopId << "_recurrent_set_next = " << encodeExpression(context, *recurrentSet, nextRecurrentEnvironment, false, false) << "\n\n";
+        context.output << targetLoopId << "_recurrent_set = " << encodeExpression(context, *recurrentSet, currentRecurrentEnvironment, false, false) << "\n"
+                       << targetLoopId << "_recurrent_set_next = " << encodeExpression(context, *recurrentSet, nextRecurrentEnvironment, false, false) << "\n\n";
     }
     else if (candidateKind != "unknown") {
         throw std::runtime_error("Unsupported candidate_kind '" + candidateKind + "'.");
@@ -1023,7 +1031,9 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
         return result.str();
     };
     auto registerBooleanQuery = [&](const std::string& relationName, const std::string& body) {
-        context.output << relationName << " = Function(" << nlohmann::ordered_json(relationName).dump() << ", BoolSort())\n" << "fp.register_relation(" << relationName << ")\n" << "fp.rule(" << relationName << "(), " << body << ", name=" << nlohmann::ordered_json(relationName + "_rule").dump() << ")\n\n";
+        context.output << relationName << " = Function(" << nlohmann::ordered_json(relationName).dump() << ", BoolSort())\n"
+                       << "fp.register_relation(" << relationName << ")\n"
+                       << "fp.rule(" << relationName << "(), " << body << ", name=" << nlohmann::ordered_json(relationName + "_rule").dump() << ")\n\n";
     };
     context.output << "# ============================================================\n"
                    << "# Termination validation\n"
@@ -1038,7 +1048,8 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
     for (std::size_t i = 0; i < rankingComponents; ++i) {
         negativeComponents.push_back(targetLoopId + "_ranking_function[" + std::to_string(i) + "] < 0");
     }
-    context.output << targetLoopId << "_ranking_nonnegativity_solver = Solver()\n" << targetLoopId << "_ranking_nonnegativity_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << join(negativeComponents, "Or", "BoolVal(False)") << ")\n\n";
+    context.output << targetLoopId << "_ranking_nonnegativity_solver = Solver()\n"
+                   << targetLoopId << "_ranking_nonnegativity_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << join(negativeComponents, "Or", "BoolVal(False)") << ")\n\n";
     std::vector<std::string> lexicographicAlternatives;
     std::vector<std::string> equalPrefix;
     for (std::size_t i = 0; i < rankingComponents; ++i) {
@@ -1058,7 +1069,8 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
         }
     }
     const std::string iterationFormula = join(iterationPathIds, "Or", "BoolVal(False)");
-    context.output << targetLoopId << "_ranking_decrease_solver = Solver()\n" << targetLoopId << "_ranking_decrease_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << iterationFormula << ", Not(" << join(lexicographicAlternatives, "Or", "BoolVal(False)") << "))\n\n";
+    context.output << targetLoopId << "_ranking_decrease_solver = Solver()\n"
+                   << targetLoopId << "_ranking_decrease_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << iterationFormula << ", Not(" << join(lexicographicAlternatives, "Or", "BoolVal(False)") << "))\n\n";
     context.output << R"PY(def check_fixedpoint(name, relation, expected):
     result = fp.query(relation())
     print(f'{name}: "{result}"')
@@ -1160,14 +1172,17 @@ static void generateNonTerminationValidation(PythonContext& context, const nlohm
         return result.str();
     };
     auto registerBooleanQuery = [&](const std::string& relationName, const std::string& body) {
-        context.output << relationName << " = Function(" << nlohmann::ordered_json(relationName).dump() << ", BoolSort())\n" << "fp.register_relation(" << relationName << ")\n" << "fp.rule(" << relationName << "(), " << body << ", name=" << nlohmann::ordered_json(relationName + "_rule").dump() << ")\n\n";
+        context.output << relationName << " = Function(" << nlohmann::ordered_json(relationName).dump() << ", BoolSort())\n"
+                       << "fp.register_relation(" << relationName << ")\n"
+                       << "fp.rule(" << relationName << "(), " << body << ", name=" << nlohmann::ordered_json(relationName + "_rule").dump() << ")\n\n";
     };
     context.output << "# ============================================================\n"
                    << "# Non-termination validation\n"
                    << "# ============================================================\n\n";
     const std::string reachableRecurrentSet = targetLoopId + "_reachable_recurrent_set";
     registerBooleanQuery(reachableRecurrentSet, "And(" + relationCall(reachableHeaderStates, current) + ", " + targetLoopId + "_recurrent_set)");
-    context.output << targetLoopId << "_recurrent_guard_solver = Solver()\n" << targetLoopId << "_recurrent_guard_solver.add(" << targetLoopId << "_recurrent_set, Not(" << guard << "))\n\n";
+    context.output << targetLoopId << "_recurrent_guard_solver = Solver()\n"
+                   << targetLoopId << "_recurrent_guard_solver.add(" << targetLoopId << "_recurrent_set, Not(" << guard << "))\n\n";
     std::vector<std::string> currentNext = current;
     currentNext.insert(currentNext.end(), next.begin(), next.end());
     const std::string badClosure = targetLoopId + "_bad_recurrent_closure";
@@ -1294,6 +1309,33 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
         if (!validatorStream) {
             throw std::runtime_error("Could not create validator: " + validatorPath.string());
         }
+        validatorStream << "print('===================== SEMANTIC FEEDBACK =====================')\n"
+                        << "print('TARGET_LOOP: " << loopId << "')\n"
+                        << "print('CANDIDATE_KIND: " << candidateKind << "')\n"
+                        << "print()\n";
+        for (const auto& candidateExpression : candidate.at("candidate_expressions")) {
+            if (!candidateExpression.is_object() || !candidateExpression.contains("expression_kind") || !candidateExpression.at("expression_kind").is_string() || !candidateExpression.contains("expression_ast")) {
+                continue;
+            }
+            const std::string expressionKind = candidateExpression.at("expression_kind").get<std::string>();
+            std::string label;
+            if (expressionKind == "invariant") {
+                label = "INVARIANT";
+            }
+            else if (expressionKind == "ranking-function") {
+                label = "RANKING_FUNCTION";
+            }
+            else if (expressionKind == "recurrent-set") {
+                label = "RECURRENT_SET";
+            }
+            else {
+                continue;
+            }
+            validatorStream << "print('" << label << ":')\n"
+                            << "print(" << nlohmann::ordered_json(candidateExpression.at("expression_ast").dump(2)).dump() << ")\n"
+                            << "print()\n";
+        }
+        validatorStream << "print('FEEDBACK:')\n";
         std::vector<std::string> unsupported;
         for (const std::string& currentLoopId : orderedLoops) {
             const nlohmann::ordered_json& loopInformation = loopInformationList.at(currentLoopId);
@@ -1301,8 +1343,7 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
                 throw std::runtime_error("Loop '" + currentLoopId + "' is missing unsupported array.");
             }
             for (const auto& value : loopInformation.at("unsupported")) {
-                unsupported.push_back(
-                    currentLoopId + ": " + (value.is_string() ? value.get<std::string>() : value.dump()));
+                unsupported.push_back(currentLoopId + ": " + (value.is_string() ? value.get<std::string>() : value.dump()));
             }
         }
         if (!unsupported.empty()) {
@@ -1313,9 +1354,11 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
                 }
                 message << unsupported[i];
             }
-            validatorStream << "#!/usr/bin/env python3\n\n" << "print(" << nlohmann::ordered_json("UNSUPPORTED: \"" + message.str() + "\"").dump() << ")\n";
+            validatorStream << "#!/usr/bin/env python3\n\n"
+                            << "print(" << nlohmann::ordered_json("UNSUPPORTED: \"" + message.str() + "\"").dump() << ")\n";
             if (candidateKind == "terminating") {
-                validatorStream << "print('INVARIANT_RESULT: \"unknown\"')\n" << "print('RANKING_FUNCTION_RESULT: \"unknown\"')\n";
+                validatorStream << "print('INVARIANT_RESULT: \"unknown\"')\n"
+                                << "print('RANKING_FUNCTION_RESULT: \"unknown\"')\n";
             }
             else if (candidateKind == "non-terminating") {
                 validatorStream << "print('RECURRENT_SET_RESULT: \"unknown\"')\n";
@@ -1328,12 +1371,12 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
         }
         PythonContext context;
         context.output << "#!/usr/bin/env python3\n\n"
-                   << "from z3 import *\n\n"
-                   << "fp = Fixedpoint()\n"
-                   << "fp.set(engine=\"spacer\")\n\n"
-                   << "# ============================================================\n"
-                   << "# Variables\n"
-                   << "# ============================================================\n\n";
+                       << "from z3 import *\n\n"
+                       << "fp = Fixedpoint()\n"
+                       << "fp.set(engine=\"spacer\")\n\n"
+                       << "# ============================================================\n"
+                       << "# Variables\n"
+                       << "# ============================================================\n\n";
         for (const std::string& currentLoopId : orderedLoops) {
             const nlohmann::ordered_json& loopInformation = loopInformationList.at(currentLoopId);
             generateSymbols(context, loopInformation);

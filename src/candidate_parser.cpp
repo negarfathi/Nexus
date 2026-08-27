@@ -643,20 +643,45 @@ ParseResult CandidateParser::parse(const std::filesystem::path& candidatePath, c
 
         checkGrammarAndTypes(candidate, candidateGrammarPath, parseResult);
 
-        const nlohmann::json report = {
-            {"stage", "candidate_parse"},
-            {"target_loop_id", loopId},
-            {"valid", parseResult.valid},
-            {"errors", parseResult.errors}
-        };
-
-        std::ofstream parsingFeedbackStream(refinementFeedbackPath);
+        std::ofstream parsingFeedbackStream(refinementFeedbackPath, std::ios::app);
         if (!parsingFeedbackStream) {
             throw std::runtime_error(std::string(strerror(errno)) + ": " + refinementFeedbackPath.string());
         }
-        parsingFeedbackStream << report.dump(2) << '\n';
+        parsingFeedbackStream << "==================== SYNTACTIC FEEDBACK ====================\n"
+                              << "TARGET_LOOP: " << loopId << "\n";
+        if (candidate.is_object() && candidate.contains("candidate_kind") && candidate.at("candidate_kind").is_string()) {
+            parsingFeedbackStream << "CANDIDATE_KIND: " << candidate.at("candidate_kind").get<std::string>() << "\n\n";
+        }
+        if (candidate.is_object() && candidate.contains("candidate_expressions") && candidate.at("candidate_expressions").is_array()) {
+            for (const auto& candidateExpression : candidate.at("candidate_expressions")) {
+                if (!candidateExpression.is_object() || !candidateExpression.contains("expression_kind") || !candidateExpression.at("expression_kind").is_string() || !candidateExpression.contains("expression_ast")) {
+                    continue;
+                }
+                const std::string expressionKind = candidateExpression.at("expression_kind").get<std::string>();
+                if (expressionKind == "invariant") {
+                    parsingFeedbackStream << "INVARIANT:\n";
+                }
+                else if (expressionKind == "ranking-function") {
+                    parsingFeedbackStream << "RANKING_FUNCTION:\n";
+                }
+                else if (expressionKind == "recurrent-set") {
+                    parsingFeedbackStream << "RECURRENT_SET:\n";
+                }
+                else {
+                    continue;
+                }
+                parsingFeedbackStream << candidateExpression.at("expression_ast").dump(2) << "\n\n";
+            }
+        }
+        parsingFeedbackStream << "FEEDBACK:\n";
+        if (parseResult.valid) {
+            parsingFeedbackStream << "No syntactic issues.\n\n";
+        }
+        else {
+            parsingFeedbackStream << nlohmann::json(parseResult.errors).dump(2) << "\n\n";
+        }
         if (!parsingFeedbackStream) {
-            throw std::runtime_error("Failed to write refinement feedback: " + refinementFeedbackPath.string());
+            throw std::runtime_error("Failed to append refinement feedback: " + refinementFeedbackPath.string());
         }
 
         parseResult.success = true;

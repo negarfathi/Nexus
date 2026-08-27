@@ -1,3 +1,11 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l3')
+print('CANDIDATE_KIND: non-terminating')
+print()
+print('RECURRENT_SET:')
+print("{\n  \"op\": \"and\",\n  \"args\": [\n    {\n      \"op\": \"=\",\n      \"args\": [\n        \"l3_v7\",\n        2\n      ]\n    },\n    {\n      \"op\": \"=\",\n      \"args\": [\n        \"l3_v5\",\n        0\n      ]\n    }\n  ]\n}")
+print()
+print('FEEDBACK:')
 #!/usr/bin/env python3
 
 from z3 import *

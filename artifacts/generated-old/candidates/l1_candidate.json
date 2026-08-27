@@ -4,7 +4,13 @@
   "candidate_expressions": [
     {
       "expression_kind": "invariant",
-      "expression_ast": true
+      "expression_ast": {
+        "op": "<=",
+        "args": [
+          "l1_v2",
+          10
+        ]
+      }
     },
     {
       "expression_kind": "ranking-function",

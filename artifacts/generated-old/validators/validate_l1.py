@@ -1,3 +1,14 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l1')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("{\n  \"op\": \"<=\",\n  \"args\": [\n    \"l1_v2\",\n    10\n  ]\n}")
+print()
+print('RANKING_FUNCTION:')
+print("\"l1_v2\"")
+print()
+print('FEEDBACK:')
 #!/usr/bin/env python3
 
 from z3 import *
@@ -150,8 +161,8 @@ fp.rule(l1_actual_exit(l1_v1_out, l1_v2_out, l1_v3_out, l1_v4_out, l1_v5_out, l1
 # Target candidate: l1 (terminating)
 # ============================================================
 
-l1_invariant = BoolVal(True)
-l1_invariant_next = BoolVal(True)
+l1_invariant = (l1_v2 <= IntVal(10))
+l1_invariant_next = (l1_v2_next <= IntVal(10))
 
 l1_ranking_function = [l1_v2]
 l1_ranking_function_next = [l1_v2_next]
