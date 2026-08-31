@@ -1,27 +1,3 @@
-/*
-OPENAI_API_KEY=...
-*/
-/*
-VLLM_BASE_URL=...
-cd ~/Documents/Nexus
-source .venv/bin/activate
-VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve openai/gpt-oss-20b \
-  --served-model-name gpt-oss-20b \
-  --download-dir ./models \
-  --host 127.0.0.1 \
-  --port 8000
-VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve Qwen/Qwen3-8B \
-  --served-model-name Qwen3-8B \
-  --download-dir ./models \
-  --host 127.0.0.1 \
-  --port 8000
-VLLM_USE_FLASHINFER_SAMPLER=0 vllm serve codellama/CodeLlama-7b-Instruct-hf \
-  --served-model-name CodeLlama-7B-Instruct \
-  --download-dir ./models \
-  --host 127.0.0.1 \
-  --port 8000
-*/
-
 #include <sstream>
 #include <iostream>
 
