@@ -142,7 +142,7 @@ run_model() {
 }
 
 run_model "$models_directory/gpt-oss-20b" "gpt-oss-20b" "openai_gptoss"
-run_model "$models_directory/Qwen3-8B" "Qwen3-8B" "qwen3"
+run_model "$models_directory/Qwen3-8B" "Qwen3-8B" ""
 run_model "$models_directory/CodeLlama-7B-Instruct" "CodeLlama-7B-Instruct" ""
 
 echo

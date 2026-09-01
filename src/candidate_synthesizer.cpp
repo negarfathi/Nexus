@@ -219,7 +219,14 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
         std::ostringstream previousCandidateBuffer;
         previousCandidateBuffer << previousCandidateStream.rdbuf();
 
-        input["previous_candidate"] = previousCandidateBuffer.str();
+        const std::string previousCandidateText = previousCandidateBuffer.str();
+        const nlohmann::json previousCandidateJson = nlohmann::json::parse(previousCandidateText, nullptr, false);
+        if (!previousCandidateJson.is_discarded()) {
+            input["previous_candidate"] = previousCandidateJson;
+        }
+        else {
+            input["previous_candidate"] = previousCandidateText;
+        }
 
         std::ifstream refinementFeedbackStream(refinementFeedbackPath);
         if (!refinementFeedbackStream) {
@@ -236,7 +243,7 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
         }
     }
 
-    return {taskInstructions + "\n" + commonInstructions, input.dump(2)};
+    return {taskInstructions + "\n" + commonInstructions, input.dump()};
 }
 
 static Response sendRequest(const std::string& llmModel, const Prompt& prompt, long timeout) {
@@ -397,9 +404,8 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
         }
         else if (llmModel == "Qwen3-8B") {
             request["chat_template_kwargs"] = {
-                {"enable_thinking", true}
+                {"enable_thinking", false}
             };
-            request["include_reasoning"] = false;
         }
         else if (llmModel == "CodeLlama-7B-Instruct") {
             // Keep the default inference configuration.
