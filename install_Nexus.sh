@@ -4,9 +4,9 @@ set -Eeuo pipefail
 
 root_directory="$(cd "$(dirname "$0")" && pwd)"
 
-repo_url="https://github.com/negarfathi/Nexus.git"
-
-nexus_directory="$root_directory/Nexus"
+nexus_directory="$root_directory"
+build_directory="$nexus_directory/cmake-build-debug"
+nexus_binary="$build_directory/Nexus"
 venv_directory="$nexus_directory/.venv"
 models_directory="$nexus_directory/models"
 
@@ -43,24 +43,30 @@ on_error() {
 trap on_error ERR
 
 ensure_system_tools() {
-    local missing=()
-    command -v git >/dev/null 2>&1 || missing+=("git")
-    command -v curl >/dev/null 2>&1 || missing+=("curl")
-    if ((${#missing[@]} == 0)); then
-        return
-    fi
-    info "Installing required packages: ${missing[*]}"
+    local packages=(
+        curl
+        git
+        build-essential
+        clang
+        llvm-dev
+        libclang-dev
+        nlohmann-json3-dev
+        libcurl4-openssl-dev
+        ninja-build
+    )
+
+    info "Installing required system packages"
+
     if command -v sudo >/dev/null 2>&1; then
         sudo apt-get update
-        sudo apt-get install -y "${missing[@]}"
+        sudo apt-get install -y "${packages[@]}"
     elif [[ "$(id -u)" -eq 0 ]]; then
         apt-get update
-        apt-get install -y "${missing[@]}"
+        apt-get install -y "${packages[@]}"
     else
-        die "Please install these packages first: ${missing[*]}"
+        die "sudo is required to install Nexus build dependencies."
     fi
 }
-
 ensure_uv() {
     if command -v uv >/dev/null 2>&1; then
         echo "uv already installed: $(uv --version)"
@@ -80,21 +86,6 @@ ensure_uv() {
     command -v uv >/dev/null 2>&1 || die "uv installation failed."
 }
 
-clone_nexus() {
-    if [[ -d "$nexus_directory/.git" ]]; then
-        echo "Nexus already exists:"
-        echo "  $nexus_directory"
-        return
-    fi
-    if [[ -e "$nexus_directory" ]]; then
-        die "$nexus_directory exists but is not a Git repository."
-    fi
-    info "Cloning Nexus"
-    git clone "$repo_url" "$nexus_directory"
-    echo "Nexus cloned to:"
-    echo "  $nexus_directory"
-}
-
 create_venv() {
     cd "$nexus_directory"
     if [[ ! -d "$venv_directory" ]]; then
@@ -110,6 +101,45 @@ create_venv() {
     fi
     source "$venv_directory/bin/activate"
     mkdir -p "$models_directory"
+}
+
+install_cmake() {
+    source "$venv_directory/bin/activate"
+
+    if [[ -x "$venv_directory/bin/cmake" ]]; then
+        echo "CMake already installed: $("$venv_directory/bin/cmake" --version | head -n 1)"
+        return
+    fi
+
+    info "Installing CMake"
+
+    uv pip install "cmake>=4.0"
+}
+
+build_nexus() {
+    source "$venv_directory/bin/activate"
+
+    info "Building Nexus"
+
+    rm -rf "$build_directory"
+
+    "$venv_directory/bin/cmake" \
+        -S "$nexus_directory" \
+        -B "$build_directory" \
+        -G Ninja \
+        -DCMAKE_BUILD_TYPE=Debug
+
+    "$venv_directory/bin/cmake" \
+        --build "$build_directory" \
+        --target Nexus \
+        --parallel "$(nproc)"
+
+    if [[ ! -x "$nexus_binary" ]]; then
+        die "Nexus executable was not created: $nexus_binary"
+    fi
+
+    echo "Nexus executable:"
+    echo "  $nexus_binary"
 }
 
 install_vllm() {
@@ -201,8 +231,9 @@ download_all_models() {
 
 ensure_system_tools
 ensure_uv
-clone_nexus
 create_venv
+install_cmake
+build_nexus
 install_vllm
 verify_installation
 download_all_models
@@ -211,6 +242,9 @@ info "NEXUS INSTALLATION COMPLETE"
 
 echo "Nexus:"
 echo "  $nexus_directory"
+echo
+echo "Executable:"
+echo "  $nexus_binary"
 echo
 echo "Virtual environment:"
 echo "  $venv_directory"
