@@ -2,19 +2,19 @@
 
 root_directory="$(cd "$(dirname "$0")" && pwd)"
 
-baselines_directory="$HOME/Documents/Baselines"
+baselines_directory="$root_directory/Baselines"
 benchmarks_directory="$root_directory/Benchmarks"
 results_directory="$root_directory/ExperimentResults"
 
 timeout=600
 
 llvm2kittel_image="llvm2kittel"
-llvm2kittel_directory="$baselines_directory/llvm2kittel"
+llvm2kittel_directory="$baselines_directory/Athena/llvm2kittel"
 muval_image="coar"
 proton_image="proton"
 uautomizer_image="uautomizer"
-aprove_image="nlommen/aprove_koat_loat:578822"
-cpachecker_image="sosylab/cpachecker:dev"
+aprove_image="aprove"
+cpachecker_image="cpachecker"
 twols_image="2ls"
 
 if [[ ! -d "$benchmarks_directory" ]]; then
@@ -96,6 +96,8 @@ baselines = ["Athena", "PROTON", "UAutomizer", "AProVE", "CPAchecker", "2LS"]
 
 def parse_result(baseline, text):
     lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if any(line.upper() == "TIMEOUT" for line in lines):
+        return "TIMEOUT"
     if baseline == "Athena":
         pattern = re.compile(r"^(YES|NO|MAYBE|TIMEOUT|ERROR)$", re.I)
         for line in reversed(lines):
@@ -218,6 +220,9 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
         echo "llvm2KITTeL failed." >> "$output_file"
         exit_code=$llvm_exit
     fi
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
@@ -233,10 +238,13 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
         bash -lc "
             timeout $timeout ./proton --64 \
                 --propertyFile /opt/term/proton/termination.prp \
-                --graphml-witness '/WORK/${filename}.witness.graphml' \
+                --graphml-witness 'witness.graphml' \
                 '/WORK/$filename'
         " > "$output_file" 2>&1
     exit_code=$?
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
@@ -248,18 +256,19 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
     docker run --rm \
         -v "$baselines_directory:/BASELINE_DIR" \
         -v "$result_directory:/FILES_DIR" \
+        -w /opt/uautomizer/UAutomizer-linux \
         "$uautomizer_image" \
         /bin/bash -c "
-            cd /opt/uautomizer/config &&
-            ln -sf svcomp-Termination-64bit-Automizer_Default.epf \
-                   svcomp-Termination-64bit-Automizer_Bitvector.epf &&
             timeout $timeout \
-                python3 /opt/uautomizer/Ultimate.py \
+                python3 ./Ultimate.py \
                 --spec /BASELINE_DIR/UAutomizer/termination.prp \
                 --file '/FILES_DIR/$filename' \
                 --architecture 64bit
         " > "$output_file" 2>&1
     exit_code=$?
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
@@ -281,6 +290,9 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
                 '$filename'
         " > "$output_file" 2>&1
     exit_code=$?
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
@@ -305,6 +317,9 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
                 '$filename'
         " > "$output_file" 2>&1
     exit_code=$?
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
@@ -326,6 +341,9 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
                 '$filename'
         " > "$output_file" 2>&1
     exit_code=$?
+    if [[ $exit_code -eq 124 ]]; then
+        echo "TIMEOUT" >> "$output_file"
+    fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))
     echo "Runtime: $elapsed_time milliseconds" >> "$output_file"
