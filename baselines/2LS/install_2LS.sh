@@ -30,4 +30,6 @@ docker build \
     -t "$twols_image" \
     "$root_directory"
 
+rm -rf "$twols_directory"
+
 echo "2LS successfully installed."
