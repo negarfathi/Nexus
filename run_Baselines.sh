@@ -2,9 +2,10 @@
 
 root_directory="$(cd "$(dirname "$0")" && pwd)"
 
-baselines_directory="$root_directory/Baselines"
-benchmarks_directory="$root_directory/Benchmarks"
-results_directory="$root_directory/ExperimentResults"
+baselines_directory="$root_directory/baselines"
+benchmarks_directory="$root_directory/benchmarks"
+results_directory="$root_directory/experiment_results_baselines"
+excel_file="$root_directory/experiment_results_baselines.xlsx"
 
 timeout=600
 
@@ -49,8 +50,6 @@ cp -r "$benchmarks_directory"/. "$results_directory/UAutomizer/"
 cp -r "$benchmarks_directory"/. "$results_directory/AProVE/"
 cp -r "$benchmarks_directory"/. "$results_directory/CPAchecker/"
 cp -r "$benchmarks_directory"/. "$results_directory/2LS/"
-
-excel_file="$results_directory/ExperimentResults.xlsx"
 
 python3 - "$excel_file" <<'PY'
 import sys

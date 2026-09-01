@@ -3,7 +3,7 @@
 set -Eeuo pipefail
 
 root_directory="$(cd "$(dirname "$0")" && pwd)"
-baselines_directory="$root_directory/Baselines"
+baselines_directory="$root_directory/baselines"
 
 echo "Installing baselines..."
 
