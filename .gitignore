@@ -2,8 +2,8 @@
 .venv/
 models/
 cmake-build-*/
-__pycache__/
-*.pyc
 .idea/
 .vscode/
+__pycache__/
+*.pyc
 baselines/Athena/llvm2kittel/
