@@ -1,34 +1,3 @@
-/*
-OPENAI_API_KEY=...
-*/
-
-/*
-VLLM_BASE_URL=http://127.0.0.1:8000
-
-cd ~/Documents/Nexus
-source .venv/bin/activate
-
-VLLM_USE_FLASHINFER_SAMPLER=0 \
-vllm serve models/gpt-oss-20b \
-    --served-model-name gpt-oss-20b \
-    --reasoning-parser openai_gptoss \
-    --host 127.0.0.1 \
-    --port 8000
-
-VLLM_USE_FLASHINFER_SAMPLER=0 \
-vllm serve models/Qwen3-8B \
-    --served-model-name Qwen3-8B \
-    --reasoning-parser qwen3 \
-    --host 127.0.0.1 \
-    --port 8000
-
-VLLM_USE_FLASHINFER_SAMPLER=0 \
-vllm serve models/CodeLlama-7B-Instruct \
-    --served-model-name CodeLlama-7B-Instruct \
-    --host 127.0.0.1 \
-    --port 8000
-*/
-
 #include <sstream>
 #include <iostream>
 
@@ -118,7 +87,7 @@ int main(int argc, char *argv[]) {
         std::filesystem::path cPath = std::filesystem::canonical(argv[1]);
 
         experimentResult.program = cPath;
-        experimentResultsPath = projectRoot / "experiment_results.xlsx";
+        experimentResultsPath = projectRoot / "experiment_results_Nexus.xlsx";
 
         std::ifstream cStream(cPath);
         if (!cStream) {
