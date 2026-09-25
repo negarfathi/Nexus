@@ -4,8 +4,8 @@ root_directory="$(cd "$(dirname "$0")" && pwd)"
 
 baselines_directory="$root_directory/baselines"
 benchmarks_directory="$root_directory/benchmarks"
-results_directory="$root_directory/experiment_results_baselines"
-excel_file="$root_directory/experiment_results_baselines.xlsx"
+results_directory="$root_directory/results_baselines"
+excel_file="$root_directory/results_baselines.xlsx"
 
 timeout=600
 

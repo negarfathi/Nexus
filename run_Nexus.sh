@@ -9,8 +9,8 @@ models_directory="$root_directory/models"
 
 venv_directory="$root_directory/.venv"
 benchmarks_directory="$root_directory/benchmarks"
-results_directory="$root_directory/experiment_results_Nexus"
-excel_file="$root_directory/experiment_results_Nexus.xlsx"
+results_directory="$root_directory/results_Nexus"
+excel_file="$root_directory/results_Nexus.xlsx"
 
 host="127.0.0.1"
 port=8000
