@@ -16,8 +16,8 @@ host="127.0.0.1"
 port=8000
 
 timeout=600
-max_syntactic_refinements=5
-max_semantic_refinements=5
+max_syntactic_refinements=10
+max_semantic_refinements=10
 
 if [[ ! -d "$benchmarks_directory" ]]; then
     echo "Benchmarks folder not found: $benchmarks_directory"

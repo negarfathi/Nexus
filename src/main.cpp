@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
         std::filesystem::path cPath = std::filesystem::canonical(argv[1]);
 
         experimentResult.program = cPath;
-        experimentResultsPath = projectRoot / "experiment_results_Nexus.xlsx";
+        experimentResultsPath = projectRoot / "results_Nexus.xlsx";
 
         std::ifstream cStream(cPath);
         if (!cStream) {

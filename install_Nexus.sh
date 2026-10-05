@@ -144,34 +144,42 @@ build_nexus() {
 
 install_vllm() {
     source "$venv_directory/bin/activate"
-    if python - <<PY >/dev/null 2>&1
-import vllm
-raise SystemExit(0 if vllm.__version__ == "$vllm_version" else 1)
-PY
-    then
-        echo "vLLM $vllm_version already installed."
-        return
-    fi
+
     info "Installing vLLM $vllm_version with CUDA 12.9"
+
     uv pip install \
         "$vllm_wheel" \
         --extra-index-url "$pytorch_index" \
         --index-strategy unsafe-best-match
+
+    info "Replacing TorchCodec with CPU build"
+
+    uv pip uninstall torchcodec || true
+
+    uv pip install \
+        "torchcodec==0.17.0+cpu" \
+        --index-url "https://download.pytorch.org/whl/cpu"
 }
 
 verify_installation() {
     source "$venv_directory/bin/activate"
-    info "Checking Python / PyTorch / CUDA / vLLM"
+    info "Checking Python / PyTorch / TorchCodec / CUDA / vLLM"
+
     python - <<'PY'
 import torch
+import torchcodec
 import vllm
+
 print("Torch:", torch.__version__)
+print("TorchCodec:", torchcodec.__version__)
 print("CUDA:", torch.version.cuda)
 print("GPU available:", torch.cuda.is_available())
 print("vLLM:", vllm.__version__)
+
 if not torch.cuda.is_available():
     raise SystemExit("ERROR: CUDA GPU is not available to PyTorch.")
 PY
+
     if command -v nvidia-smi >/dev/null 2>&1; then
         echo
         nvidia-smi

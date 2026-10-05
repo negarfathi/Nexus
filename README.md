@@ -97,11 +97,11 @@ The script recursively processes all `.c` files under `benchmarks/` using the th
 
 For each model, `run_Nexus.sh`:
 
-- creates a model-specific copy of the benchmark hierarchy under `experiment_results/`,
+- creates a model-specific copy of the benchmark hierarchy under `results/`,
 - starts the corresponding local vLLM server,
 - runs Nexus on every `.c` benchmark file,
 - stores the generated analysis artifacts next to each copied benchmark,
-- records experiment data in `experiment_results.xlsx`,
+- records experiment data in `results.xlsx`,
 - stops the current vLLM server, and
 - continues with the next model.
 
@@ -115,7 +115,7 @@ max syntactic refinements = 10
 max semantic refinements = 10
 ```
 
-Before starting a new full run, `run_Nexus.sh` recreates `experiment_results/` and removes the previous root-level `experiment_results.xlsx`.
+Before starting a new full run, `run_Nexus.sh` recreates `results/` and removes the previous root-level `results.xlsx`.
 
 ## Custom Input Usage
 
@@ -185,8 +185,8 @@ Then, in another terminal, set the vLLM endpoint and run Nexus:
 VLLM_BASE_URL=http://127.0.0.1:8000 \
 ./cmake-build-debug/Nexus <path/to/SourceCode.c> \
     llm-model=gpt-oss-20b \
-    max-syntactic-refinements=5 \
-    max-semantic-refinements=5 \
+    max-syntactic-refinements=10 \
+    max-semantic-refinements=10 \
     timeout=600
 ```
 
@@ -205,8 +205,8 @@ Then run:
 ```bash
 ./cmake-build-debug/Nexus <path/to/SourceCode.c> \
     llm-model=gpt-5.6-terra \
-    max-syntactic-refinements=5 \
-    max-semantic-refinements=5 \
+    max-syntactic-refinements=10 \
+    max-semantic-refinements=10 \
     timeout=600
 ```
 
@@ -246,7 +246,7 @@ The generated files contain the transformed source, LLVM representations, extrac
 When `run_Nexus.sh` is used, reproduced benchmark trees are written under:
 
 ```text
-experiment_results/
+results/
     gpt-oss-20b/
     Qwen3-8B/
     CodeLlama-7B-Instruct/
@@ -259,7 +259,7 @@ Each model directory contains a copy of the benchmark hierarchy together with th
 Nexus writes the experiment summary to:
 
 ```text
-experiment_results.xlsx
+results.xlsx
 ```
 
 The workbook contains a separate worksheet for each LLM model.
