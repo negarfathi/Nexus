@@ -38,7 +38,7 @@ static void checkStructure(nlohmann::json& candidate, const std::filesystem::pat
             parseResult.errors.push_back({
                 {"check", "json-structure"},
                 {"path", "$." + it.key()},
-                {"message", "Unexpected candidate field '" + it.key() + "'."}
+                {"message", "Unexpected candidate field '" + it.key() + "'. Allowed top-level fields are loop_id, candidate_kind, and candidate_expressions."}
             });
         }
     }
@@ -80,7 +80,7 @@ static void checkLoopId(const nlohmann::json& candidate, const std::string& loop
     }
 }
 
-// Checks that candidate_kind exists, is a string, and is exactly terminating, non-terminating, or unknown.
+// Checks that candidate_kind exists, is a string, and is exactly terminating or non-terminating.
 static void checkCandidateKind(const nlohmann::json& candidate, ParseResult& parseResult) {
     if (!candidate.is_object()) {
         return;
@@ -107,22 +107,21 @@ static void checkCandidateKind(const nlohmann::json& candidate, ParseResult& par
     }
 
     const std::string candidateKind = candidate.at("candidate_kind").get<std::string>();
-    if (candidateKind != "terminating" && candidateKind != "non-terminating" && candidateKind != "unknown") {
+    if (candidateKind != "terminating" && candidateKind != "non-terminating") {
         parseResult.valid = false;
         parseResult.errors.push_back({
             {"check", "candidate-kind"},
             {"path", "$.candidate_kind"},
-            {"message", "candidate_kind must be terminating, non-terminating, or unknown."}
+            {"message", "candidate_kind must be terminating or non-terminating."}
         });
     }
 }
 
 // Checks that candidate_expressions exists and is an array.
 // Checks that each candidate expression is a JSON object, contains no unexpected fields, has an expression_kind field that is a string and is exactly invariant, ranking-function, or recurrent-set, and has an expression_ast field.
-// Checks that terminating, non-terminating, and unknown candidates contain exactly the candidate expressions required by their candidate_kind.
+// Checks that terminating and non-terminating candidates contain exactly the candidate expressions required by their candidate_kind.
 // Checks that a terminating candidate contains exactly one invariant and one ranking-function candidate expression.
 // Checks that a non-terminating candidate contains exactly one recurrent-set candidate expression.
-// Checks that an unknown candidate contains no candidate expressions.
 static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResult& parseResult) {
     if (!candidate.is_object()) {
         return;
@@ -165,7 +164,7 @@ static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResu
             parseResult.errors.push_back({
                 {"check", "candidate-structure"},
                 {"path", path},
-                {"message", "Each candidate expression must be a JSON object."}
+                {"message", "Each candidate expression must be a JSON object containing exactly expression_kind and expression_ast."}
             });
             continue;
         }
@@ -176,7 +175,7 @@ static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResu
                 parseResult.errors.push_back({
                     {"check", "candidate-structure"},
                     {"path", path + "." + it.key()},
-                    {"message", "Unexpected candidate expression field '" + it.key() + "'."}
+                    {"message", "Unexpected candidate expression field '" + it.key() + "'. Allowed fields are expression_kind and expression_ast."}
                 });
             }
         }
@@ -244,7 +243,7 @@ static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResu
             parseResult.errors.push_back({
                 {"check", "candidate-structure"},
                 {"path", "$.candidate_expressions"},
-                {"message", "A terminating candidate must contain exactly one invariant and one ranking-function candidate expression."}
+                {"message", "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found " + std::to_string(invariantCount) + " invariant(s), " + std::to_string(rankingFunctionCount) + " ranking-function(s), and " + std::to_string(recurrentSetCount) + " recurrent-set(s)."}
             });
         }
     }
@@ -255,18 +254,7 @@ static void checkCandidateExpressions(const nlohmann::json& candidate, ParseResu
             parseResult.errors.push_back({
                 {"check", "candidate-structure"},
                 {"path", "$.candidate_expressions"},
-                {"message", "A non-terminating candidate must contain exactly one recurrent-set candidate expression."}
-            });
-        }
-    }
-
-    else if (candidateKind == "unknown") {
-        if (!candidateExpressions.empty()) {
-            parseResult.valid = false;
-            parseResult.errors.push_back({
-                {"check", "candidate-structure"},
-                {"path", "$.candidate_expressions"},
-                {"message", "An unknown candidate must contain an empty candidate_expressions array."}
+                {"message", "A non-terminating candidate must contain exactly one recurrent-set, with no invariant or ranking-function expressions. Found " + std::to_string(invariantCount) + " invariant(s), " + std::to_string(rankingFunctionCount) + " ranking-function(s), and " + std::to_string(recurrentSetCount) + " recurrent-set(s)."}
             });
         }
     }
@@ -322,6 +310,10 @@ static void checkVariables(const nlohmann::json& candidate, const std::string& l
     std::function<void(const nlohmann::json&, const std::string&)> checkExpressionAst = [&](const nlohmann::json& expressionAst, const std::string& path) {
         if (expressionAst.is_string()) {
             const std::string variable = expressionAst.get<std::string>();
+
+            if (variable == "true" || variable == "false") {
+                return;
+            }
 
             if (!targetVariables.contains(variable)) {
                 parseResult.valid = false;
@@ -487,7 +479,11 @@ static void checkGrammarAndTypes(const nlohmann::json& candidate, const std::fil
             return expressionAst.is_number_integer() && expressionAst.get<long long>() >= 0;
         }
         if (nonterminal == "Variable") {
-            return expressionAst.is_string();
+            if (!expressionAst.is_string()) {
+                return false;
+            }
+            const std::string value = expressionAst.get<std::string>();
+            return value != "true" && value != "false";
         }
         const auto production = productions.find(nonterminal);
         if (production == productions.end()) {
@@ -501,10 +497,10 @@ static void checkGrammarAndTypes(const nlohmann::json& candidate, const std::fil
             bool matched = false;
             if (rule.kind == GrammarRule::Kind::Literal) {
                 if (rule.value == "true") {
-                    matched = expressionAst.is_boolean() && expressionAst.get<bool>();
+                    matched = (expressionAst.is_boolean() && expressionAst.get<bool>()) || (expressionAst.is_string() && expressionAst.get<std::string>() == "true");
                 }
                 else if (rule.value == "false") {
-                    matched = expressionAst.is_boolean() && !expressionAst.get<bool>();
+                    matched = (expressionAst.is_boolean() && !expressionAst.get<bool>()) || (expressionAst.is_string() && expressionAst.get<std::string>() == "false");
                 }
                 else {
                     matched = expressionAst.is_string() && expressionAst.get<std::string>() == rule.value;
@@ -598,6 +594,92 @@ static void checkGrammarAndTypes(const nlohmann::json& candidate, const std::fil
         }
     }
 
+    std::function<const GrammarRule*(const std::string&, const std::string&, std::set<std::string>&)> findOperatorRule;
+    findOperatorRule = [&](const std::string& nonterminal, const std::string& operatorName, std::set<std::string>& visited) -> const GrammarRule* {
+        if (!visited.insert(nonterminal).second) {
+            return nullptr;
+        }
+        const auto production = productions.find(nonterminal);
+        if (production == productions.end()) {
+            return nullptr;
+        }
+        for (const GrammarRule& rule : production->second) {
+            if (rule.kind == GrammarRule::Kind::Application && rule.value == operatorName) {
+                return &rule;
+            }
+        }
+        for (const GrammarRule& rule : production->second) {
+            if (rule.kind != GrammarRule::Kind::Reference) {
+                continue;
+            }
+            std::set<std::string> branchVisited = visited;
+            const GrammarRule* nestedRule = findOperatorRule(rule.value, operatorName, branchVisited);
+            if (nestedRule != nullptr) {
+                return nestedRule;
+            }
+        }
+        return nullptr;
+    };
+
+    std::function<void(const std::string&, const nlohmann::json&, const std::string&, std::string&, std::string&)> findGrammarError;
+    findGrammarError = [&](const std::string& nonterminal, const nlohmann::json& expressionAst, const std::string& path, std::string& errorPath, std::string& errorMessage) {
+        if (nonterminal == "Integer") {
+            errorPath = path;
+            errorMessage = "Expression must derive from Integer.";
+            return;
+        }
+        if (nonterminal == "NonNegativeInteger") {
+            errorPath = path;
+            errorMessage = "Expression must derive from NonNegativeInteger.";
+            return;
+        }
+        if (nonterminal == "Variable") {
+            errorPath = path;
+            errorMessage = "Expression must derive from Variable.";
+            return;
+        }
+        if (!expressionAst.is_object() || !expressionAst.contains("op") || !expressionAst.at("op").is_string()) {
+            errorPath = path;
+            errorMessage = "Expression does not derive from " + nonterminal + ".";
+            return;
+        }
+        const std::string operatorName = expressionAst.at("op").get<std::string>();
+        std::set<std::string> visited;
+        const GrammarRule* rule = findOperatorRule(nonterminal, operatorName, visited);
+        if (rule == nullptr) {
+            errorPath = path;
+            errorMessage = "Operator '" + operatorName + "' does not derive from " + nonterminal + ".";
+            return;
+        }
+        if (expressionAst.size() != 2 || !expressionAst.contains("args") || !expressionAst.at("args").is_array()) {
+            errorPath = path;
+            errorMessage = "Operator application '" + operatorName + "' must contain exactly op and args.";
+            return;
+        }
+        const nlohmann::json& args = expressionAst.at("args");
+        if (args.size() != rule->arguments.size()) {
+            errorPath = path + ".args";
+            errorMessage = "Operator '" + operatorName + "' requires " + std::to_string(rule->arguments.size()) + " argument(s), but " + std::to_string(args.size()) + " were provided.";
+            return;
+        }
+        for (std::size_t i = 0; i < rule->arguments.size(); ++i) {
+            const std::string& expectedNonterminal = rule->arguments.at(i);
+            if (derivesFrom(expectedNonterminal, args.at(i))) {
+                continue;
+            }
+            const std::string argumentPath = path + ".args[" + std::to_string(i) + "]";
+            if (args.at(i).is_object() && args.at(i).contains("op") && args.at(i).at("op").is_string()) {
+                findGrammarError(expectedNonterminal, args.at(i), argumentPath, errorPath, errorMessage);
+                return;
+            }
+            errorPath = argumentPath;
+            errorMessage = "Argument " + std::to_string(i + 1) + " of operator '" + operatorName + "' must derive from " + expectedNonterminal + ".";
+            return;
+        }
+        errorPath = path;
+        errorMessage = "Expression does not derive from " + nonterminal + ".";
+    };
+
     for (std::size_t i = 0; i < candidate.at("candidate_expressions").size(); ++i) {
         const nlohmann::json& candidateExpression = candidate.at("candidate_expressions").at(i);
         if (!candidateExpression.is_object() || !candidateExpression.contains("expression_kind") || !candidateExpression.at("expression_kind").is_string() || !candidateExpression.contains("expression_ast")) {
@@ -617,10 +699,13 @@ static void checkGrammarAndTypes(const nlohmann::json& candidate, const std::fil
         const std::string path = "$.candidate_expressions[" + std::to_string(i) + "].expression_ast";
         if (!derivesFrom(requiredNonterminal, candidateExpression.at("expression_ast"))) {
             parseResult.valid = false;
+            std::string errorPath;
+            std::string errorMessage;
+            findGrammarError(requiredNonterminal, candidateExpression.at("expression_ast"), path, errorPath, errorMessage);
             parseResult.errors.push_back({
                 {"check", "grammar-and-types"},
-                {"path", path},
-                {"message", "expression_ast does not derive from " + requiredNonterminal + " for expression_kind '" + expressionKind + "'."}
+                {"path", errorPath},
+                {"message", errorMessage}
             });
         }
     }

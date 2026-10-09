@@ -984,7 +984,7 @@ static CandidateInformation generateCandidate(PythonContext& context, const nloh
         context.output << targetLoopId << "_recurrent_set = " << encodeExpression(context, *recurrentSet, currentRecurrentEnvironment, false, false) << "\n"
                        << targetLoopId << "_recurrent_set_next = " << encodeExpression(context, *recurrentSet, nextRecurrentEnvironment, false, false) << "\n\n";
     }
-    else if (candidateKind != "unknown") {
+    else {
         throw std::runtime_error("Unsupported candidate_kind '" + candidateKind + "'.");
     }
     return candidateInformation;
@@ -1049,7 +1049,11 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
         negativeComponents.push_back(targetLoopId + "_ranking_function[" + std::to_string(i) + "] < 0");
     }
     context.output << targetLoopId << "_ranking_nonnegativity_solver = Solver()\n"
-                   << targetLoopId << "_ranking_nonnegativity_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << join(negativeComponents, "Or", "BoolVal(False)") << ")\n\n";
+                   << targetLoopId << "_ranking_nonnegativity_solver.add("
+                   << targetLoopId << "_invariant, "
+                   << guard << ", "
+                   << join(negativeComponents, "Or", "BoolVal(False)")
+                   << ")\n\n";
     std::vector<std::string> lexicographicAlternatives;
     std::vector<std::string> equalPrefix;
     for (std::size_t i = 0; i < rankingComponents; ++i) {
@@ -1070,40 +1074,97 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
     }
     const std::string iterationFormula = join(iterationPathIds, "Or", "BoolVal(False)");
     context.output << targetLoopId << "_ranking_decrease_solver = Solver()\n"
-                   << targetLoopId << "_ranking_decrease_solver.add(" << targetLoopId << "_invariant, " << guard << ", " << iterationFormula << ", Not(" << join(lexicographicAlternatives, "Or", "BoolVal(False)") << "))\n\n";
-    context.output << R"PY(def check_fixedpoint(name, relation, expected):
-    result = fp.query(relation())
-    print(f'{name}: "{result}"')
-    if result != expected and result == sat:
-        print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
+                   << targetLoopId << "_ranking_decrease_solver.add("
+                   << targetLoopId << "_invariant, "
+                   << guard << ", "
+                   << iterationFormula << ", Not("
+                   << join(lexicographicAlternatives, "Or", "BoolVal(False)")
+                   << "))\n\n";
+    context.output << R"PY(def report_result(name, result, expected, failure_message):
+    if result == unknown:
+        print(f'{name}: unknown')
+    elif result == expected:
+        print(f'{name}: passed')
+    else:
+        print(f'{name}: failed - {failure_message}')
+
+def check_fixedpoint(name, relation, expected, failure_message):
+    remaining = remaining_timeout_ms()
+    if remaining > 0:
+        fp.set(timeout=remaining)
+
+    try:
+        result = fp.query(relation())
+    except Z3Exception as ex:
+        reason = str(ex).lower()
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+        raise
+
+    if result == unknown:
         try:
-            print(fp.get_ground_sat_answer())
+            reason = str(fp.reason_unknown()).lower()
+        except Exception:
+            reason = ""
+
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+
+    report_result(name, result, expected, failure_message)
+
+    if result != expected and result == sat:
+        print('COUNTEREXAMPLE:')
+        try:
+            answer = fp.get_ground_sat_answer()
+            if str(answer) == "False":
+                answer = fp.get_answer()
+            print(answer)
         except Exception:
             try:
                 print(fp.get_answer())
             except Exception as ex:
-                print(f'Could not extract Spacer counterexample: {ex}')
-        print(f'COUNTEREXAMPLE_END: "{name}"')
+                print(f'Could not extract counterexample: {ex}')
+
     if result == unknown:
-        print(f'DETAIL_BEGIN: "{name}"')
+        print('DETAIL:')
         try:
             print(fp.reason_unknown())
         except Exception as ex:
             print(f'Z3 returned unknown: {ex}')
-        print(f'DETAIL_END: "{name}"')
+
+    print()
     return result
 
-def check_solver(name, solver, expected):
-    result = solver.check()
-    print(f'{name}: "{result}"')
-    if result != expected and result == sat:
-        print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
-        print(solver.model())
-        print(f'COUNTEREXAMPLE_END: "{name}"')
+def check_solver(name, solver, expected, failure_message):
+    remaining = remaining_timeout_ms()
+    if remaining > 0:
+        solver.set(timeout=remaining)
+
+    try:
+        result = solver.check()
+    except Z3Exception as ex:
+        reason = str(ex).lower()
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+        raise
+
     if result == unknown:
-        print(f'DETAIL_BEGIN: "{name}"')
+        reason = str(solver.reason_unknown()).lower()
+
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+
+    report_result(name, result, expected, failure_message)
+
+    if result != expected and result == sat:
+        print('COUNTEREXAMPLE:')
+        print(solver.model())
+
+    if result == unknown:
+        print('DETAIL:')
         print(solver.reason_unknown())
-        print(f'DETAIL_END: "{name}"')
+
+    print()
     return result
 
 def validation_status(checks):
@@ -1119,22 +1180,26 @@ def validation_status(checks):
     context.output << targetLoopId << "_invariant_initialization_result = check_fixedpoint(\n"
                    << "    \"INVARIANT_INITIALIZATION\",\n"
                    << "    " << badInitialization << ",\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a reachable entry state violates the invariant.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_invariant_preservation_result = check_fixedpoint(\n"
                    << "    \"INVARIANT_PRESERVATION\",\n"
                    << "    " << badPreservation << ",\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a completed loop iteration can reach a next state that violates the invariant.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_ranking_nonnegativity_result = check_solver(\n"
                    << "    \"RANKING_NONNEGATIVITY\",\n"
                    << "    " << targetLoopId << "_ranking_nonnegativity_solver,\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"the ranking function can be negative while the invariant and loop guard hold.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_ranking_decrease_result = check_solver(\n"
                    << "    \"RANKING_DECREASE\",\n"
                    << "    " << targetLoopId << "_ranking_decrease_solver,\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a completed loop iteration can fail to strictly decrease the ranking function.\"\n"
                    << ")\n\n"
                    << "INVARIANT_RESULT = validation_status([\n"
                    << "    (" << targetLoopId << "_invariant_initialization_result, unsat),\n"
@@ -1182,7 +1247,9 @@ static void generateNonTerminationValidation(PythonContext& context, const nlohm
     const std::string reachableRecurrentSet = targetLoopId + "_reachable_recurrent_set";
     registerBooleanQuery(reachableRecurrentSet, "And(" + relationCall(reachableHeaderStates, current) + ", " + targetLoopId + "_recurrent_set)");
     context.output << targetLoopId << "_recurrent_guard_solver = Solver()\n"
-                   << targetLoopId << "_recurrent_guard_solver.add(" << targetLoopId << "_recurrent_set, Not(" << guard << "))\n\n";
+                   << targetLoopId << "_recurrent_guard_solver.add("
+                   << targetLoopId << "_recurrent_set, Not("
+                   << guard << "))\n\n";
     std::vector<std::string> currentNext = current;
     currentNext.insert(currentNext.end(), next.begin(), next.end());
     const std::string badClosure = targetLoopId + "_bad_recurrent_closure";
@@ -1193,40 +1260,91 @@ static void generateNonTerminationValidation(PythonContext& context, const nlohm
     registerBooleanQuery(badExit, "And(" + targetLoopId + "_recurrent_set, " + relationCall(exitSteps, currentOutput) + ")");
     const std::string badReturn = targetLoopId + "_bad_recurrent_return";
     registerBooleanQuery(badReturn, "And(" + targetLoopId + "_recurrent_set, " + relationCall(returnSteps, current) + ")");
-    context.output << R"PY(def check_fixedpoint(name, relation, expected):
-    result = fp.query(relation())
-    print(f'{name}: "{result}"')
-    if result != expected and result == sat:
-        print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
+    context.output << R"PY(def report_result(name, result, expected, failure_message):
+    if result == unknown:
+        print(f'{name}: unknown')
+    elif result == expected:
+        print(f'{name}: passed')
+    else:
+        print(f'{name}: failed - {failure_message}')
+
+def check_fixedpoint(name, relation, expected, failure_message):
+    remaining = remaining_timeout_ms()
+    if remaining > 0:
+        fp.set(timeout=remaining)
+
+    try:
+        result = fp.query(relation())
+    except Z3Exception as ex:
+        reason = str(ex).lower()
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+        raise
+
+    if result == unknown:
         try:
-            print(fp.get_ground_sat_answer())
+            reason = str(fp.reason_unknown()).lower()
+        except Exception:
+            reason = ""
+
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+
+    report_result(name, result, expected, failure_message)
+
+    if result != expected and result == sat:
+        print('COUNTEREXAMPLE:')
+        try:
+            answer = fp.get_ground_sat_answer()
+            if str(answer) == "False":
+                answer = fp.get_answer()
+            print(answer)
         except Exception:
             try:
                 print(fp.get_answer())
             except Exception as ex:
-                print(f'Could not extract Spacer counterexample: {ex}')
-        print(f'COUNTEREXAMPLE_END: "{name}"')
+                print(f'Could not extract counterexample: {ex}')
+
     if result == unknown:
-        print(f'DETAIL_BEGIN: "{name}"')
+        print('DETAIL:')
         try:
             print(fp.reason_unknown())
         except Exception as ex:
             print(f'Z3 returned unknown: {ex}')
-        print(f'DETAIL_END: "{name}"')
 
+    print()
     return result
 
-def check_solver(name, solver, expected):
-    result = solver.check()
-    print(f'{name}: "{result}"')
-    if result != expected and result == sat:
-        print(f'COUNTEREXAMPLE_BEGIN: "{name}"')
-        print(solver.model())
-        print(f'COUNTEREXAMPLE_END: "{name}"')
+def check_solver(name, solver, expected, failure_message):
+    remaining = remaining_timeout_ms()
+    if remaining > 0:
+        solver.set(timeout=remaining)
+
+    try:
+        result = solver.check()
+    except Z3Exception as ex:
+        reason = str(ex).lower()
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+        raise
+
     if result == unknown:
-        print(f'DETAIL_BEGIN: "{name}"')
+        reason = str(solver.reason_unknown()).lower()
+
+        if "timeout" in reason or "canceled" in reason:
+            sys.exit(124)
+
+    report_result(name, result, expected, failure_message)
+
+    if result != expected and result == sat:
+        print('COUNTEREXAMPLE:')
+        print(solver.model())
+
+    if result == unknown:
+        print('DETAIL:')
         print(solver.reason_unknown())
-        print(f'DETAIL_END: "{name}"')
+
+    print()
     return result
 
 def validation_status(checks):
@@ -1242,27 +1360,32 @@ def validation_status(checks):
     context.output << targetLoopId << "_recurrent_reachability_result = check_fixedpoint(\n"
                    << "    \"RECURRENT_REACHABILITY\",\n"
                    << "    " << reachableRecurrentSet << ",\n"
-                   << "    sat\n"
+                   << "    sat,\n"
+                   << "    \"no reachable loop-header state belongs to the recurrent set.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_recurrent_guard_result = check_solver(\n"
                    << "    \"RECURRENT_GUARD_CONTAINMENT\",\n"
                    << "    " << targetLoopId << "_recurrent_guard_solver,\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a recurrent-set state can violate the loop guard.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_recurrent_closure_result = check_fixedpoint(\n"
                    << "    \"RECURRENT_CLOSURE\",\n"
                    << "    " << badClosure << ",\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a completed loop iteration can leave the recurrent set.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_recurrent_exit_result = check_fixedpoint(\n"
                    << "    \"RECURRENT_NO_NORMAL_EXIT\",\n"
                    << "    " << badExit << ",\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a recurrent-set state can permit normal loop exit.\"\n"
                    << ")\n\n"
                    << targetLoopId << "_recurrent_return_result = check_fixedpoint(\n"
                    << "    \"RECURRENT_NO_FUNCTION_RETURN\",\n"
                    << "    " << badReturn << ",\n"
-                   << "    unsat\n"
+                   << "    unsat,\n"
+                   << "    \"a recurrent-set state can permit function return.\"\n"
                    << ")\n\n"
                    << "RECURRENT_SET_RESULT = validation_status([\n"
                    << "    (" << targetLoopId << "_recurrent_reachability_result, sat),\n"
@@ -1275,7 +1398,7 @@ def validation_status(checks):
                    << "print(f'RECURRENT_SET_RESULT: \"{RECURRENT_SET_RESULT}\"')\n";
 }
 
-bool ValidatorGenerator::generate(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidatePath, const std::filesystem::path& validatorPath) {
+bool ValidatorGenerator::generate(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidatePath, const std::filesystem::path& validatorPath, long timeoutMilliseconds) {
     try {
         if (loopId.empty()) {
             throw std::runtime_error("loopId must not be empty.");
@@ -1299,7 +1422,7 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
             throw std::runtime_error("Candidate is missing candidate_kind or candidate_expressions.");
         }
         const std::string candidateKind = candidate.at("candidate_kind").get<std::string>();
-        if (candidateKind != "terminating" && candidateKind != "non-terminating" && candidateKind != "unknown") {
+        if (candidateKind != "terminating" && candidateKind != "non-terminating") {
             throw std::runtime_error("Unsupported candidate_kind '" + candidateKind + "'.");
         }
         if (!validatorPath.parent_path().empty()) {
@@ -1365,13 +1488,24 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
             }
             return static_cast<bool>(validatorStream);
         }
-        if (candidateKind == "unknown") {
-            validatorStream << "#!/usr/bin/env python3\n\n";
-            return static_cast<bool>(validatorStream);
-        }
         PythonContext context;
         context.output << "#!/usr/bin/env python3\n\n"
-                       << "from z3 import *\n\n"
+                       << "from z3 import *\n"
+                       << "import sys\n"
+                       << "import time\n\n"
+                       << "VALIDATION_TIMEOUT_MS = " << timeoutMilliseconds << "\n"
+                       << "VALIDATION_DEADLINE = (\n"
+                       << "    time.monotonic() + VALIDATION_TIMEOUT_MS / 1000.0\n"
+                       << "    if VALIDATION_TIMEOUT_MS > 0\n"
+                       << "    else None\n"
+                       << ")\n\n"
+                       << "def remaining_timeout_ms():\n"
+                       << "    if VALIDATION_DEADLINE is None:\n"
+                       << "        return 0\n"
+                       << "    remaining = int((VALIDATION_DEADLINE - time.monotonic()) * 1000)\n"
+                       << "    if remaining <= 0:\n"
+                       << "        sys.exit(124)\n"
+                       << "    return max(1, remaining)\n\n"
                        << "fp = Fixedpoint()\n"
                        << "fp.set(engine=\"spacer\")\n\n"
                        << "# ============================================================\n"

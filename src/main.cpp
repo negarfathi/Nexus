@@ -1,5 +1,6 @@
 #include <sstream>
 #include <iostream>
+#include <sys/wait.h>
 
 #include "clang/Tooling/Tooling.h"
 
@@ -19,10 +20,21 @@ public:
     TimeoutException() : std::runtime_error("Analysis timed out.") {}
 };
 
-static void checkTimeout() {
-    const double elapsedTime = std::chrono::duration<double>(std::chrono::steady_clock::now() - startTime).count();
-    if (timeout > 0 && elapsedTime >= timeout) {
+static long getRemainingTimeoutMilliseconds() {
+    if (timeout <= 0) {
+        return 0;
+    }
+    const long elapsedMilliseconds = static_cast<long>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now() - startTime).count());
+    const long remainingMilliseconds = timeout * 1000L - elapsedMilliseconds;
+    if (remainingMilliseconds <= 0) {
         throw TimeoutException();
+    }
+    return remainingMilliseconds;
+}
+
+static void checkTimeout() {
+    if (timeout > 0) {
+        getRemainingTimeoutMilliseconds();
     }
 }
 
@@ -117,23 +129,28 @@ int main(int argc, char *argv[]) {
         timeout = std::stoi(timeoutStr);
 
         std::filesystem::path generatedDirectory  = cDirectory / "generated";
+        if (std::filesystem::exists(generatedDirectory)) {
+            std::filesystem::remove_all(generatedDirectory);
+        }
         std::filesystem::path loopInformationDirectory  = generatedDirectory / "loop_information";
         std::filesystem::path candidatesDirectory = generatedDirectory / "candidates";
         std::filesystem::path validatorsDirectory = generatedDirectory / "validators";
+        std::filesystem::path promptHistoryDirectory = generatedDirectory / "prompt_history";
         std::filesystem::path refinementFeedbackDirectory = generatedDirectory / "refinement_feedback";
 
         std::filesystem::create_directories(generatedDirectory);
         std::filesystem::create_directories(loopInformationDirectory);
         std::filesystem::create_directories(candidatesDirectory);
         std::filesystem::create_directories(validatorsDirectory);
+        std::filesystem::create_directories(promptHistoryDirectory);
         std::filesystem::create_directories(refinementFeedbackDirectory);
 
         std::filesystem::path candidateGrammarPath = projectRoot/ "candidate_grammar.txt";
 
         std::cout << "Injecting inline attributes..." << "\n";
+        std::set<std::string> entryFunctionNames;
         std::filesystem::path inlineCPath = generatedDirectory / (cName + ".inline" + cExtension);
-        bool injectionResult = clang::tooling::runToolOnCodeWithArgs(std::make_unique<InlineAttributeInjectorAction>(inlineCPath), cFile, {"-x", "c", "-std=c11"}, cName + cExtension);
-
+        bool injectionResult = clang::tooling::runToolOnCodeWithArgs(std::make_unique<InlineAttributeInjectorAction>(inlineCPath, entryFunctionNames), cFile, {"-x", "c", "-std=c11"}, cName + cExtension);
         if (!injectionResult) {
             throw std::runtime_error("Failed to inject inline attributes.");
         }
@@ -159,7 +176,7 @@ int main(int argc, char *argv[]) {
         loopInformationExtractor loopInformationExtractor;
 
         std::cout << "Extracting loop information..." << "\n";
-        if (!loopInformationExtractor.extract(inlineBcPath, loopInformationDirectory)) {
+        if (!loopInformationExtractor.extract(inlineBcPath, loopInformationDirectory, entryFunctionNames)) {
             throw std::runtime_error("Failed to extract loop information.");
         }
 
@@ -188,9 +205,10 @@ int main(int argc, char *argv[]) {
 
             std::filesystem::path candidatePath = candidatesDirectory / (loopInformation.id + "_candidate.json");
             std::filesystem::path validatorPath = validatorsDirectory / ("validate_" + loopInformation.id + ".py");
+            std::filesystem::path promptHistoryPath = promptHistoryDirectory / (loopInformation.id + "_prompt_history.txt");
             std::filesystem::path refinementFeedbackPath = refinementFeedbackDirectory / (loopInformation.id + "_refinement_feedback.txt");
-            std::ofstream(refinementFeedbackPath, std::ios::trunc).close();
 
+            int promptAttempt = 0;
             int semanticRefinements = 0;
             SynthesisMode synthesisMode = Initial;
 
@@ -213,7 +231,12 @@ int main(int argc, char *argv[]) {
                         std::cout << "Refining candidate for loop " << loopInformation.id << " using semantic feedback, attempt " << semanticRefinements << "...\n";
                     }
 
-                    const SynthesisResult synthesisResult = candidateSynthesizer.synthesize(loopInformation.id, loopInformationDirectory, candidateGrammarPath, refinementFeedbackPath, candidatePath, llmModel, synthesisMode, timeout);
+                    ++promptAttempt;
+                    const SynthesisResult synthesisResult = candidateSynthesizer.synthesize(loopInformation.id, loopInformationDirectory, candidateGrammarPath, refinementFeedbackPath, candidatePath, llmModel, synthesisMode, getRemainingTimeoutMilliseconds(), promptAttempt, promptHistoryPath);
+                    if (synthesisResult.timedOut) {
+                        throw TimeoutException();
+                    }
+                    checkTimeout();
                     if (!synthesisResult.success) {
                         throw std::runtime_error("Failed to synthesize or refine candidate for loop " + loopInformation.id + ".");
                     }
@@ -293,7 +316,7 @@ int main(int argc, char *argv[]) {
                 }
 
                 std::cout << "Generating validator script for loop " << loopInformation.id << "...\n";
-                if (!validatorGenerator.generate(loopInformation.id, loopInformationDirectory, candidatePath, validatorPath)) {
+                if (!validatorGenerator.generate(loopInformation.id, loopInformationDirectory, candidatePath, validatorPath, getRemainingTimeoutMilliseconds())) {
                     throw std::runtime_error("Failed to generate validator for loop " + loopInformation.id + ".");
                 }
 
@@ -302,6 +325,10 @@ int main(int argc, char *argv[]) {
                 std::string validatorRunnerCommand = "\"" + (projectRoot / ".venv" / "bin" / "python").string() + "\" " +
                                                      "\"" + validatorPath.string() + "\" >> \"" + refinementFeedbackPath.string() + "\" 2>&1";
                 int validatorRunnerResult = std::system(validatorRunnerCommand.c_str());
+                if (validatorRunnerResult != -1 && WIFEXITED(validatorRunnerResult) && WEXITSTATUS(validatorRunnerResult) == 124) {
+                    throw TimeoutException();
+                }
+                checkTimeout();
                 if (validatorRunnerResult != 0) {
                     throw std::runtime_error("Failed to run validator script for loop " + loopInformation.id + ".");
                 }

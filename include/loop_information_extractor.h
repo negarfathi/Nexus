@@ -22,7 +22,7 @@ struct loopInformation {
 
 class loopInformationExtractor {
 public:
-    bool extract(const std::filesystem::path& inlineBcPath, const std::filesystem::path& loopInformationDirectory);
+    bool extract(const std::filesystem::path& inlineBcPath, const std::filesystem::path& loopInformationDirectory, const std::set<std::string>& entryFunctionNames);
     bool order(const std::filesystem::path& loopInformationDirectory, std::vector<loopInformation>& loopInformationList);
 };
 

@@ -10,7 +10,7 @@
 
 class ValidatorGenerator {
 public:
-    bool generate(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidatePath, const std::filesystem::path& validatorPath);
+    bool generate(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidatePath, const std::filesystem::path& validatorPath, long timeoutMilliseconds);
 };
 
 #endif // VALIDATOR_GENERATOR_H

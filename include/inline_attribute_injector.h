@@ -9,33 +9,35 @@
 #include "clang/Frontend/CompilerInstance.h"
 
 class InlineAttributeInjectorVisitor : public clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor> {
-    public:
-        InlineAttributeInjectorVisitor(clang::Rewriter &rewriter) : rewriter(rewriter) {}
-        bool VisitFunctionDecl(clang::FunctionDecl *FD);
+public:
+    InlineAttributeInjectorVisitor(clang::Rewriter &rewriter, const std::set<const clang::FunctionDecl *> &entryFunctions) : rewriter(rewriter), entryFunctions(entryFunctions) {}
+    bool VisitFunctionDecl(clang::FunctionDecl *FD);
 
-    private:
-        clang::Rewriter &rewriter;
+private:
+    clang::Rewriter &rewriter;
+    const std::set<const clang::FunctionDecl *> &entryFunctions;
 };
 
 class InlineAttributeInjectorConsumer : public clang::ASTConsumer {
-    public:
-        InlineAttributeInjectorConsumer(clang::Rewriter &rewriter, const std::filesystem::path &outputPath) : visitor(rewriter), rewriter(rewriter), outputPath(outputPath) {}
-        void HandleTranslationUnit(clang::ASTContext &context) override;
+public:
+    InlineAttributeInjectorConsumer(clang::Rewriter &rewriter, const std::filesystem::path &outputPath, std::set<std::string> &entryFunctionNames) : rewriter(rewriter), outputPath(outputPath), entryFunctionNames(entryFunctionNames) {}
+    void HandleTranslationUnit(clang::ASTContext &context) override;
 
-    private:
-        InlineAttributeInjectorVisitor visitor;
-        clang::Rewriter &rewriter;
-        std::filesystem::path outputPath;
+private:
+    clang::Rewriter &rewriter;
+    std::filesystem::path outputPath;
+    std::set<std::string> &entryFunctionNames;
 };
 
 class InlineAttributeInjectorAction : public clang::ASTFrontendAction {
-    public:
-        explicit InlineAttributeInjectorAction(const std::filesystem::path &outputPath) : outputPath(outputPath) {}
-        std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef) override;
+public:
+    InlineAttributeInjectorAction(const std::filesystem::path &outputPath, std::set<std::string> &entryFunctionNames) : outputPath(outputPath), entryFunctionNames(entryFunctionNames) {}
+    std::unique_ptr<clang::ASTConsumer> CreateASTConsumer(clang::CompilerInstance &compiler, llvm::StringRef) override;
 
-    private:
-        clang::Rewriter rewriter;
-        std::filesystem::path outputPath;
+private:
+    clang::Rewriter rewriter;
+    std::filesystem::path outputPath;
+    std::set<std::string> &entryFunctionNames;
 };
 
 #endif // INLINE_ATTRIBUTE_INJECTOR_H

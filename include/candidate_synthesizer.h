@@ -17,6 +17,7 @@ enum SynthesisMode {
 
 struct SynthesisResult {
     bool success = false;
+    bool timedOut = false;
     std::string kind;
     long long inputTokens = 0;
     long long outputTokens = 0;
@@ -26,7 +27,7 @@ struct SynthesisResult {
 
 class CandidateSynthesizer {
 public:
-    SynthesisResult synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeout);
+    SynthesisResult synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath);
 };
 
 #endif // CANDIDATE_SYNTHESIZER_H

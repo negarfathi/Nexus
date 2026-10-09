@@ -1,8 +1,9 @@
 #include "../include/candidate_synthesizer.h"
 
 struct Prompt {
-    std::string instructions;
+    std::string mode;
     std::string input;
+    std::string instructions;
 };
 
 struct Response {
@@ -11,6 +12,17 @@ struct Response {
     long long outputTokens = 0;
     double latency = 0.0;
     double cost = 0.0;
+};
+
+struct RefinementFeedback {
+    std::string current;
+    std::string history;
+};
+
+class RequestTimeoutException : public std::runtime_error {
+public:
+    explicit RequestTimeoutException(const std::string& message)
+        : std::runtime_error(message) {}
 };
 
 static std::map<std::string, nlohmann::json> loadLoopInformation(const std::filesystem::path& loopInformationDirectory) {
@@ -23,8 +35,7 @@ static std::map<std::string, nlohmann::json> loadLoopInformation(const std::file
 
         std::ifstream inputStream(entry.path());
         if (!inputStream) {
-            throw std::runtime_error(std::string(strerror(errno)) + ": " + entry.path().string()
-            );
+            throw std::runtime_error(std::string(strerror(errno)) + ": " + entry.path().string());
         }
 
         nlohmann::json loopInformation;
@@ -107,6 +118,39 @@ static nlohmann::json buildLoopBundle(const std::map<std::string, nlohmann::json
     return loopBundle;
 }
 
+static std::vector<std::string> getLoopSymbols(const nlohmann::json& loopBundle) {
+    for (const auto& loopEntry : loopBundle) {
+        if (!loopEntry.is_object() || !loopEntry.contains("role") || !loopEntry.at("role").is_string() || loopEntry.at("role").get<std::string>() != "target") {
+            continue;
+        }
+
+        if (!loopEntry.contains("information") || !loopEntry.at("information").is_object()) {
+            throw std::runtime_error("Target loop bundle entry has no valid information object.");
+        }
+
+        const nlohmann::json& loopInformation = loopEntry.at("information");
+        if (!loopInformation.contains("state_symbols") || !loopInformation.at("state_symbols").is_array()) {
+            throw std::runtime_error("Target loop information has no valid state_symbols array.");
+        }
+
+        std::vector<std::string> loopSymbols;
+        for (const auto& stateSymbol : loopInformation.at("state_symbols")) {
+            if (!stateSymbol.is_object() || !stateSymbol.contains("current") || !stateSymbol.at("current").is_string()) {
+                throw std::runtime_error("Target loop contains a malformed state_symbols entry.");
+            }
+            loopSymbols.push_back(stateSymbol.at("current").get<std::string>());
+        }
+
+        if (loopSymbols.empty()) {
+            throw std::runtime_error("Target loop has no current-state symbols.");
+        }
+
+        return loopSymbols;
+    }
+
+    throw std::runtime_error("Target loop entry was not found in the loop bundle.");
+}
+
 static std::string loadCandidateGrammar(const std::filesystem::path& candidateGrammarPath) {
     std::ifstream inputStream(candidateGrammarPath);
     if (!inputStream) {
@@ -119,90 +163,174 @@ static std::string loadCandidateGrammar(const std::filesystem::path& candidateGr
     return candidateGrammar.str();
 }
 
+static RefinementFeedback splitRefinementFeedback(const std::string& feedbackText) {
+    static const std::string syntacticMarker = "==================== SYNTACTIC FEEDBACK ====================";
+    static const std::string semanticMarker = "===================== SEMANTIC FEEDBACK =====================";
+
+    const std::size_t lastSyntactic = feedbackText.rfind(syntacticMarker);
+    const std::size_t lastSemantic = feedbackText.rfind(semanticMarker);
+
+    std::size_t currentPosition = std::string::npos;
+    if (lastSyntactic != std::string::npos && lastSemantic != std::string::npos) {
+        currentPosition = std::max(lastSyntactic, lastSemantic);
+    }
+    else if (lastSyntactic != std::string::npos) {
+        currentPosition = lastSyntactic;
+    }
+    else if (lastSemantic != std::string::npos) {
+        currentPosition = lastSemantic;
+    }
+
+    if (currentPosition == std::string::npos) {
+        return {
+            feedbackText,
+            ""
+        };
+    }
+
+    return {
+        feedbackText.substr(currentPosition),
+        feedbackText.substr(0, currentPosition)
+    };
+}
+
 static Prompt buildPrompt(const std::string& loopId, const nlohmann::json& loopBundle, const std::string& candidateGrammar, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, SynthesisMode synthesisMode) {
+    std::string mode;
     std::string taskInstructions;
 
     if (synthesisMode == Initial) {
+        mode = "Initial";
         taskInstructions = R"PROMPT(
-Construct a candidate witness for termination or non-termination of the target loop using the supplied loop information and candidate grammar.
+Analyze the supplied loop information and determine whether the target loop is terminating or non-terminating.
 
-For termination, construct an inductive invariant and a ranking expression that is non-negative under the loop guard and strictly decreases on every completed iteration.
+A target loop is "terminating" if every reachable execution of the target loop eventually leaves the loop.
 
-For non-termination, construct a recurrent-set predicate over reachable loop-header states that satisfies the guard, is preserved by iteration, and permits continued execution.
+A target loop is "non-terminating" if at least one reachable execution of the target loop can continue indefinitely.
 
-Dependency loops provide context only; construct a candidate only for the target loop.
+If the target loop is terminating, construct one inductive invariant and one ranking function.
+
+The invariant must satisfy:
+- INVARIANT_INITIALIZATION: every reachable entry state must satisfy the invariant.
+- INVARIANT_PRESERVATION: if the invariant and loop guard hold before a completed iteration, the invariant must hold in the resulting next state.
+
+The ranking function must satisfy:
+- RANKING_NONNEGATIVITY: whenever the invariant and loop guard hold, the ranking value must be non-negative.
+- RANKING_DECREASE: on every completed iteration satisfying the invariant and loop guard, the next ranking value must be strictly smaller than the current ranking value.
+
+If the target loop is non-terminating, construct one recurrent set.
+
+The recurrent set must satisfy:
+- RECURRENT_REACHABILITY: at least one reachable loop-header state must belong to the recurrent set.
+- RECURRENT_GUARD_CONTAINMENT: every state in the recurrent set must satisfy the loop guard.
+- RECURRENT_CLOSURE: every completed loop iteration from a recurrent-set state must produce another recurrent-set state.
+- RECURRENT_NO_NORMAL_EXIT: recurrent-set states must not permit normal loop exit.
+- RECURRENT_NO_FUNCTION_RETURN: recurrent-set states must not permit function return.
+
+Dependency loops provide reachability and execution context only. Construct the candidate only for the target loop.
 )PROMPT";
     }
 
     else if (synthesisMode == SyntacticRefinement) {
+        mode = "SyntacticRefinement";
         taskInstructions = R"PROMPT(
-Refine the previous candidate for the target loop using the supplied loop information, candidate grammar, and parsing feedback.
+Analyze the previous candidate and current feedback, and repair the candidate so that it is syntactically valid.
 
-Correct the reported candidate-format, target-loop identifier, candidate-kind, expression-kind, grammar, typing, operator-arity, and target-current-state-symbol errors while preserving valid parts when possible.
+The previous_candidate is the candidate to repair. The current_feedback identifies the errors that must be fixed now.
 
-Treat these as grammar and representation issues only; preserve the previous termination or non-termination classification.
+Do not change the previous candidate's terminating or non-terminating classification.
 
-Dependency loops provide context only; refine the candidate only for the target loop.
+Repair only the syntactically invalid parts. Preserve syntactically valid parts unchanged whenever possible.
+
+The repaired candidate must:
+- use the target loop_id;
+- contain exactly one invariant and one ranking function if terminating, or exactly one recurrent set if non-terminating;
+- use only target-loop current-state variables;
+- make invariant and recurrent-set expressions derive from BoolExpr;
+- make ranking-function expressions derive from RankingExpr;
+- conform exactly to the supplied candidate grammar.
+
+Use the feedback_history to avoid repeating previously rejected syntactic forms or errors.
+
+Dependency loops provide context only. Repair the candidate only for the target loop.
 )PROMPT";
     }
 
     else if (synthesisMode == SemanticRefinement) {
+        mode = "SemanticRefinement";
         taskInstructions = R"PROMPT(
-Refine the previous candidate for the target loop using the supplied loop information, candidate grammar, and validation feedback.
+Analyze the previous candidate and current feedback, and repair the candidate so that it is semantically valid.
 
-Repair or replace the previous witness according to the validation feedback.
+The previous_candidate is the candidate to repair. The current_feedback reports the semantic validation checks for that candidate.
 
-If the loop information and validation feedback justify a different classification, change between termination and non-termination and construct a suitable witness for the revised classification.
+Interpret the feedback as follows:
+- "passed" means the corresponding requirement is satisfied.
+- "failed" means the corresponding requirement is violated; use the failure explanation and any supplied counterexample to repair the relevant witness.
+- "unknown" means the validator could not determine whether the requirement is satisfied.
 
-Dependency loops provide context only; refine the candidate only for the target loop.
+If the candidate is terminating:
+- repair the invariant only when an invariant check failed;
+- repair the ranking function only when a ranking-function check failed;
+- preserve a witness component when all of its checks passed.
+
+If the candidate is non-terminating:
+- repair the recurrent set according to its failed checks while preserving parts that remain valid whenever possible.
+
+Do not change between terminating and non-terminating merely because the current witness failed validation. Change the classification only if the supplied loop semantics provide evidence that the previous classification is incorrect.
+
+Use the feedback_history to avoid repeating previously rejected witnesses or semantic mistakes.
+
+Dependency loops provide reachability and execution context only. Repair the candidate only for the target loop.
 )PROMPT";
     }
 
     const std::string commonInstructions = R"PROMPT(
 Interpret arithmetic over mathematical integers.
 
-Classify the target loop as exactly one of the following:
+Return exactly one candidate for the target loop.
 
-- "terminating": every reachable execution of the target loop terminates.
-  Provide one inductive invariant and one ranking function.
-
-- "non-terminating": some reachable execution of the target loop can continue indefinitely.
-  Provide one recurrent set.
-
-- "unknown": neither a termination nor a non-termination witness can be constructed.
-  Provide no candidate expressions.
-
-Return exactly one JSON object:
-
-Termination:
+A terminating candidate must have exactly this form:
 {
   "loop_id": "<TARGET_LOOP_ID>",
   "candidate_kind": "terminating",
   "candidate_expressions": [
-    {"expression_kind": "invariant", "expression_ast": <BoolExpr as JSON AST>},
-    {"expression_kind": "ranking-function", "expression_ast": <RankingExpr as JSON AST>}
+    {
+      "expression_kind": "invariant",
+      "expression_ast": <BoolExpr>
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": <RankingExpr>
+    }
   ]
 }
 
-Non-termination:
+A non-terminating candidate must have exactly this form:
 {
   "loop_id": "<TARGET_LOOP_ID>",
   "candidate_kind": "non-terminating",
   "candidate_expressions": [
-    {"expression_kind": "recurrent-set", "expression_ast": <BoolExpr as JSON AST>}
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": <BoolExpr>
+    }
   ]
 }
 
-Unknown:
-{
-  "loop_id": "<TARGET_LOOP_ID>",
-  "candidate_kind": "unknown",
-  "candidate_expressions": []
-}
+Every expression_ast must conform to the supplied candidate grammar.
 
-Each expression AST must conform exactly to the supplied candidate grammar and use only the target loop's current-state symbols listed in state_symbols[*].current. Do not use state_symbols[*].next, state_symbols[*].output, or nondeterministic_symbols in candidate expressions.
+Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
 
-Return only the JSON object, with no mathematical-expression strings, Markdown, or explanations.
+Use the following JSON AST encoding:
+- Variable: "l1_v1"
+- Integer: 0, 1, -2
+- Boolean: "true" or "false"
+- Operator application: {"op":"<operator>","args":[...]}
+
+Examples:
+{"op":"<","args":["l1_v1","l1_v2"]}
+{"op":"*","args":[2,"l1_v1"]}
+
+Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
 )PROMPT";
 
     nlohmann::json input = {
@@ -234,70 +362,169 @@ Return only the JSON object, with no mathematical-expression strings, Markdown, 
         }
         std::ostringstream refinementFeedbackBuffer;
         refinementFeedbackBuffer << refinementFeedbackStream.rdbuf();
+        const std::string refinementFeedbackText = refinementFeedbackBuffer.str();
 
-        if (synthesisMode == SyntacticRefinement) {
-            input["syntactic_feedback"] = refinementFeedbackBuffer.str();
-        }
-        else if (synthesisMode == SemanticRefinement) {
-            input["semantic_feedback"] = refinementFeedbackBuffer.str();
+        const RefinementFeedback refinementFeedback = splitRefinementFeedback(refinementFeedbackText);
+
+        input["current_feedback"] = refinementFeedback.current;
+
+        if (!refinementFeedback.history.empty()) {
+            input["feedback_history"] = refinementFeedback.history;
         }
     }
 
-    return {taskInstructions + "\n" + commonInstructions, input.dump()};
+    return {mode, input.dump(), taskInstructions + "\n" + commonInstructions};
 }
 
-static Response sendRequest(const std::string& llmModel, const Prompt& prompt, long timeout) {
-    // Define the JSON schema for expression ASTs.
-    const nlohmann::json expressionAstSchema = {
-        {"anyOf", nlohmann::json::array({
-            nlohmann::json{
-                {"type", "integer"}
-            },
-            nlohmann::json{
-                {"type", "boolean"}
-            },
-            nlohmann::json{
-                {"type", "string"}
-            },
-            nlohmann::json{
-                {"type", "object"},
-                {"properties", {
-                    {"op", {
-                        {"type", "string"}
-                    }},
-                    {"args", {
-                        {"type", "array"},
-                        {"items", {
-                            {"$ref", "#/$defs/expression_ast"}
-                        }}
-                    }}
-                }},
-                {"required", nlohmann::json::array({
-                    "op",
-                    "args"
-                })},
-                {"additionalProperties", false}
-            }
-        })}
+static void appendPromptHistory(const std::filesystem::path& promptHistoryPath, int promptAttempt, const std::string& llmModel, const nlohmann::json& request, const Prompt& prompt, const nlohmann::json& candidateSchema) {
+    std::ofstream historyStream(promptHistoryPath, std::ios::app);
+    if (!historyStream) {
+        throw std::runtime_error(std::string(strerror(errno)) + ": " + promptHistoryPath.string());
+    }
+
+    historyStream << "==================== PROMPT ====================\n"
+                  << "ATTEMPT: " << promptAttempt << "\n"
+                  << "MODE: " << prompt.mode << "\n"
+                  << "MODEL: " << llmModel << "\n";
+
+    if (request.contains("reasoning") && request.at("reasoning").is_object() && request.at("reasoning").contains("effort")) {
+        historyStream << "REASONING_EFFORT: "
+                      << request.at("reasoning").at("effort").get<std::string>()
+                      << "\n";
+    }
+
+    if (request.contains("reasoning_effort")) {
+        historyStream << "REASONING_EFFORT: "
+                      << request.at("reasoning_effort").get<std::string>()
+                      << "\n";
+    }
+
+    if (request.contains("include_reasoning")) {
+        historyStream << "INCLUDE_REASONING: "
+                      << (request.at("include_reasoning").get<bool>() ? "true" : "false")
+                      << "\n";
+    }
+
+    if (request.contains("chat_template_kwargs") && request.at("chat_template_kwargs").is_object() && request.at("chat_template_kwargs").contains("enable_thinking")) {
+        historyStream << "ENABLE_THINKING: "
+                      << (request.at("chat_template_kwargs").at("enable_thinking").get<bool>() ? "true" : "false")
+                      << "\n";
+    }
+
+    if (llmModel == "CodeLlama-7B-Instruct") {
+        historyStream << "INFERENCE_CONFIG: default\n";
+    }
+
+    historyStream << "RESPONSE_FORMAT: json_schema\n"
+                  << "SCHEMA_NAME: nexus_candidate\n"
+                  << "STRICT_SCHEMA: true\n\n"
+
+                  << "INSTRUCTIONS:\n"
+                  << prompt.instructions
+                  << "\n\n"
+
+                  << "INPUT:\n"
+                  << prompt.input
+                  << "\n\n"
+
+                  << "OUTPUT_SCHEMA:\n"
+                  << candidateSchema.dump(2)
+                  << "\n\n";
+
+    if (!historyStream) {
+        throw std::runtime_error("Failed to write prompt history: " + promptHistoryPath.string());
+    }
+}
+
+static Response sendRequest(const std::string& llmModel, const Prompt& prompt, const std::string& loopId, const std::vector<std::string>& loopSymbols, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath) {
+    nlohmann::json allowedStringLeaves = nlohmann::json::array();
+    for (const std::string& symbol : loopSymbols) {
+        allowedStringLeaves.push_back(symbol);
+    }
+    allowedStringLeaves.push_back("true");
+    allowedStringLeaves.push_back("false");
+
+    const std::vector<std::pair<std::string, std::size_t>> operatorArities = {
+        {"and", 2},
+        {"or", 2},
+        {"not", 1},
+        {"implies", 2},
+        {"iff", 2},
+        {"=", 2},
+        {"!=", 2},
+        {"<", 2},
+        {"<=", 2},
+        {">", 2},
+        {">=", 2},
+        {"+", 2},
+        {"-", 2},
+        {"neg", 1},
+        {"*", 2},
+        {"div", 2},
+        {"mod", 2},
+        {"pow", 2},
+        {"abs", 1},
+        {"min", 2},
+        {"max", 2},
+        {"ite", 3},
+        {"lex", 2}
     };
 
-    // Define the JSON schema for candidates.
+    nlohmann::json expressionAlternatives = nlohmann::json::array();
+    expressionAlternatives.push_back({
+        {"type", "integer"}
+    });
+    expressionAlternatives.push_back({
+        {"type", "string"},
+        {"enum", allowedStringLeaves}
+    });
+
+    for (const auto& [operatorName, arity] : operatorArities) {
+        expressionAlternatives.push_back({
+            {"type", "object"},
+            {"properties", {
+                {"op", {
+                    {"type", "string"},
+                    {"enum", nlohmann::json::array({operatorName})}
+                }},
+                {"args", {
+                    {"type", "array"},
+                    {"minItems", arity},
+                    {"maxItems", arity},
+                    {"items", {
+                        {"$ref", "#/$defs/expression_ast"}
+                    }}
+                }}
+            }},
+            {"required", nlohmann::json::array({
+                "op",
+                "args"
+            })},
+            {"additionalProperties", false}
+        });
+    }
+
+    const nlohmann::json expressionAstSchema = {
+        {"anyOf", expressionAlternatives}
+    };
+
     const nlohmann::json candidateSchema = {
         {"type", "object"},
         {"properties", {
             {"loop_id", {
-                {"type", "string"}
+                {"type", "string"},
+                {"enum", nlohmann::json::array({loopId})}
             }},
             {"candidate_kind", {
                 {"type", "string"},
                 {"enum", nlohmann::json::array({
                     "terminating",
-                    "non-terminating",
-                    "unknown"
+                    "non-terminating"
                 })}
             }},
             {"candidate_expressions", {
                 {"type", "array"},
+                {"minItems", 1},
                 {"maxItems", 2},
                 {"items", {
                     {"type", "object"},
@@ -417,6 +644,8 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
         url = std::string(baseUrl) + "/v1/chat/completions";
     }
 
+    appendPromptHistory(promptHistoryPath, promptAttempt, llmModel, request, prompt, candidateSchema);
+
     // Serialize the request body.
     const std::string requestBody = request.dump();
 
@@ -461,8 +690,7 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &responseBody);
 
     // Configure connection and request timeouts.
-    curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30L);
-    curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
+    curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, timeoutMilliseconds);
 
     // Send the request and measure latency.
     const auto startTime = std::chrono::steady_clock::now();
@@ -481,6 +709,9 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, l
     const std::string providerName = llmModel == "gpt-5.6-terra" ? "OpenAI" : "vLLM";
 
     // Check for network or transport errors.
+    if (curlCode == CURLE_OPERATION_TIMEDOUT) {
+        throw RequestTimeoutException(providerName + " request timed out.");
+    }
     if (curlCode != CURLE_OK) {
         throw std::runtime_error("Failed to send " + providerName + " request: " + std::string(curl_easy_strerror(curlCode)) + ".");
     }
@@ -736,7 +967,7 @@ static void populateSynthesisResult(SynthesisResult& synthesisResult, const Resp
     synthesisResult.cost = response.cost;
 }
 
-SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeout) {
+SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath) {
     SynthesisResult synthesisResult;
 
     try {
@@ -746,11 +977,13 @@ SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, cons
 
         const nlohmann::json loopBundle = buildLoopBundle(loopInformationList, loopId, dependencyLoops);
 
+        const std::vector<std::string> loopSymbols = getLoopSymbols(loopBundle);
+
         const std::string candidateGrammar = loadCandidateGrammar(candidateGrammarPath);
 
         const Prompt prompt = buildPrompt(loopId, loopBundle, candidateGrammar, refinementFeedbackPath, candidatePath, synthesisMode);
 
-        Response response = sendRequest(llmModel, prompt, timeout);
+        Response response = sendRequest(llmModel, prompt, loopId, loopSymbols, timeoutMilliseconds, promptAttempt, promptHistoryPath);
 
         saveCandidate(response, candidatePath);
 
@@ -758,9 +991,13 @@ SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, cons
 
         synthesisResult.success = true;
     }
+    catch (const RequestTimeoutException& ex) {
+        std::cerr << "CandidateSynthesizer::synthesize timeout: " << ex.what() << '\n';
+        synthesisResult.timedOut = true;
+        return synthesisResult;
+    }
     catch (const std::exception& ex) {
         std::cerr << "CandidateSynthesizer::synthesize error: " << ex.what() << '\n';
-
         return synthesisResult;
     }
 

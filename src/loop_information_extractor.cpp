@@ -3104,7 +3104,7 @@ nlohmann::ordered_json generateActualExit(const std::string& loopId, const std::
 }
 
 // Public operations.
-bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath, const std::filesystem::path& summariesDir) {
+bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath, const std::filesystem::path& summariesDir, const std::set<std::string>& entryFunctionNames) {
     auto convertStringsToJson = [&](const std::vector<std::string>& S) -> nlohmann::ordered_json {
         nlohmann::ordered_json stringsJson = nlohmann::ordered_json::array();
         for (const auto& string : S) {
@@ -3145,7 +3145,10 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
     }
     std::map<std::string, nlohmann::ordered_json> jsonsByLoopId;
     for (llvm::Function& function : *module) {
-        if (function.isDeclaration() || function.getName() != "main") {
+        if (function.isDeclaration()) {
+            continue;
+        }
+        if (entryFunctionNames.find(function.getName().str()) == entryFunctionNames.end()) {
             continue;
         }
         llvm::DominatorTree dominatorTree(function);
