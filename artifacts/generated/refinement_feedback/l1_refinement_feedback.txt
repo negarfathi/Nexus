@@ -3,16 +3,10 @@ TARGET_LOOP: l1
 CANDIDATE_KIND: terminating
 
 INVARIANT:
-{
-  "args": [
-    "l1_v2",
-    10
-  ],
-  "op": "<="
-}
+"true"
 
 RANKING_FUNCTION:
-"l1_v2"
+"l1_v1"
 
 FEEDBACK:
 No syntactic issues.
@@ -22,22 +16,20 @@ TARGET_LOOP: l1
 CANDIDATE_KIND: terminating
 
 INVARIANT:
-{
-  "op": "<=",
-  "args": [
-    "l1_v2",
-    10
-  ]
-}
+"true"
 
 RANKING_FUNCTION:
-"l1_v2"
+"l1_v1"
 
 FEEDBACK:
-INVARIANT_INITIALIZATION: "unsat"
-INVARIANT_PRESERVATION: "unsat"
-RANKING_NONNEGATIVITY: "unsat"
-RANKING_DECREASE: "unsat"
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
 
 INVARIANT_RESULT: "valid"
 RANKING_FUNCTION_RESULT: "valid"

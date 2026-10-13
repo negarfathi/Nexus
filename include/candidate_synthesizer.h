@@ -16,8 +16,9 @@ enum SynthesisMode {
 };
 
 struct SynthesisResult {
-    bool success = false;
-    bool timedOut = false;
+    bool requestAttempted = false;
+    bool requestTimedOut = false;
+    bool synthesisSucceeded = false;
     std::string kind;
     long long inputTokens = 0;
     long long outputTokens = 0;

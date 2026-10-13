@@ -1,0 +1,1428 @@
+==================== PROMPT ====================
+ATTEMPT: 1
+MODE: Initial
+MODEL: gpt-oss-20b
+REASONING_EFFORT: medium
+INCLUDE_REASONING: true
+RESPONSE_FORMAT: json_schema
+SCHEMA_NAME: nexus_candidate
+STRICT_SCHEMA: true
+
+INSTRUCTIONS:
+
+Analyze the supplied loop information and determine whether the target loop is terminating or non-terminating.
+
+A target loop is "terminating" if every reachable execution of the target loop eventually leaves the loop.
+
+A target loop is "non-terminating" if at least one reachable execution of the target loop can continue indefinitely.
+
+If the target loop is terminating, construct one inductive invariant and one ranking function.
+
+The invariant must satisfy:
+- INVARIANT_INITIALIZATION: every reachable entry state must satisfy the invariant.
+- INVARIANT_PRESERVATION: if the invariant and loop guard hold before a completed iteration, the invariant must hold in the resulting next state.
+
+The ranking function must satisfy:
+- RANKING_NONNEGATIVITY: whenever the invariant and loop guard hold, the ranking value must be non-negative.
+- RANKING_DECREASE: on every completed iteration satisfying the invariant and loop guard, the next ranking value must be strictly smaller than the current ranking value.
+
+If the target loop is non-terminating, construct one recurrent set.
+
+The recurrent set must satisfy:
+- RECURRENT_REACHABILITY: at least one reachable loop-header state must belong to the recurrent set.
+- RECURRENT_GUARD_CONTAINMENT: every state in the recurrent set must satisfy the loop guard.
+- RECURRENT_CLOSURE: every completed loop iteration from a recurrent-set state must produce another recurrent-set state.
+- RECURRENT_NO_NORMAL_EXIT: recurrent-set states must not permit normal loop exit.
+- RECURRENT_NO_FUNCTION_RETURN: recurrent-set states must not permit function return.
+
+Dependency loops provide reachability and execution context only. Construct the candidate only for the target loop.
+
+
+Interpret arithmetic over mathematical integers.
+
+Return exactly one candidate for the target loop.
+
+A terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": <BoolExpr>
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": <RankingExpr>
+    }
+  ]
+}
+
+A non-terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": <BoolExpr>
+    }
+  ]
+}
+
+Every expression_ast must conform to the supplied candidate grammar.
+
+Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
+
+Use the following JSON AST encoding:
+- Variable: "l1_v1"
+- Integer: 0, 1, -2
+- Boolean: "true" or "false"
+- Operator application: {"op":"<operator>","args":[...]}
+
+Examples:
+{"op":"<","args":["l1_v1","l1_v2"]}
+{"op":"*","args":[2,"l1_v1"]}
+
+Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
+
+
+INPUT:
+{"candidate_grammar":"BoolExpr ::=\n      \"true\"\n    | \"false\"\n    | \"and\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"or\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"not\" \"(\" BoolExpr \")\"\n    | \"implies\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"iff\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"!=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n\nArithExpr ::=\n      Integer\n    | Variable\n    | \"+\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"-\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"neg\" \"(\" ArithExpr \")\"\n    | \"*\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"div\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"mod\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"pow\" \"(\" ArithExpr \",\" NonNegativeInteger \")\"\n    | \"abs\" \"(\" ArithExpr \")\"\n    | \"min\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"max\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"ite\" \"(\" BoolExpr \",\" ArithExpr \",\" ArithExpr \")\"\n\nRankingExpr ::=\n      ArithExpr\n    | \"lex\" \"(\" ArithExpr \",\" RankingExpr \")\"\n\nVariable ::= any variable name provided for the target loop\nInteger ::= any mathematical integer literal\nNonNegativeInteger ::= any integer literal k such that k >= 0\n","loop_information":[{"information":{"actual_exit":{"id":"l2_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_entry_states"},{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"]},"op":"relation_call","relation":"l2_actual_exit"},"id":"l2_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l2_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l2_entry_states_p1","source_call":{"purpose":"sequential_predecessor_exit","relation":"l1_actual_exit","source_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"updates":{"l2_v1":"l1_v1_out","l2_v2":"l1_v2_out","l2_v3":"l1_v3_out","l2_v4":"l1_v4_out"}}]},"function":"amir1","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l2_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"]},"op":"relation_call","relation":"l2_exit_steps"},"head":{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"},"id":"l2_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"},{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"},"id":"l2_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l2_header_to_return","rules":[{"body":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_return_steps"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_return"},"id":"l2_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"},{"arguments":{"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_return"},"id":"l2_header_to_return_recursive"}]},"llvm_header_block":"%24","loop_exit_steps":{"id":"l2_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l2_v4",0],"op":"<="},"id":"l2_exit_steps_p1","updates":{"l2_v1_out":"l2_v1","l2_v2_out":"l2_v2","l2_v3_out":"l2_v3","l2_v4_out":"l2_v4"}}]},"loop_guard":{"formula":{"args":["l2_v4",0],"op":">"},"id":"l2_guard"},"loop_id":"l2","loop_iteration_steps":{"id":"l2_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l2_v4",0],"op":">"},"id":"l2_iteration_steps_p1","updates":{"l2_v1_next":"l2_v1","l2_v2_next":"l2_v2","l2_v3_next":"l2_v3","l2_v4_next":{"args":["l2_v4",-1],"op":"+"}}}]},"loop_return_steps":{"id":"l2_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":[],"nondeterministic_symbols":[],"parent_loop_id":null,"previous_sequential_loop_ids":["l1"],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l2_reachable_header_states","rules":[{"body":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_entry_states"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_reachable_header_states"},"id":"l2_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_reachable_header_states"},{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_reachable_header_states"},"id":"l2_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l2_v1","llvm_slot":"%4","next":"l2_v1_next","output":"l2_v1_out","type":"i32"},{"current":"l2_v2","llvm_slot":"%5","next":"l2_v2_next","output":"l2_v2_out","type":"i32"},{"current":"l2_v3","llvm_slot":"%6","next":"l2_v3_next","output":"l2_v3_out","type":"i32"},{"current":"l2_v4","llvm_slot":"%7","next":"l2_v4_next","output":"l2_v4_out","type":"i32"}],"unsupported":[]},"loop_id":"l2","role":"target"},{"information":{"actual_exit":{"id":"l1_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_entry_states"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"op":"relation_call","relation":"l1_actual_exit"},"id":"l1_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l1_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l1_entry_states_p1","updates":{"l1_v1":"arg0","l1_v2":"arg1","l1_v3":"arg2","l1_v4":0}}]},"function":"amir1","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"op":"relation_call","relation":"l1_exit_steps"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_return","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_return_steps"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_recursive"}]},"llvm_header_block":"%8","loop_exit_steps":{"id":"l1_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l1_v1",0],"op":"<="},"id":"l1_exit_steps_p1","updates":{"l1_v1_out":{"args":["l1_v1",-1],"op":"+"},"l1_v2_out":"l1_v2","l1_v3_out":"l1_v3","l1_v4_out":"l1_v4"}}]},"loop_guard":{"formula":{"args":["l1_v1",0],"op":">"},"id":"l1_guard"},"loop_id":"l1","loop_iteration_steps":{"id":"l1_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_nd1",0],"op":"!="}],"op":"and"},"id":"l1_iteration_steps_p1","updates":{"l1_v1_next":{"args":["l1_v1",-1],"op":"+"},"l1_v2_next":{"args":["l1_v2","l1_v3"],"op":"+"},"l1_v3_next":"l1_v3","l1_v4_next":{"args":["l1_v2","l1_v3"],"op":"+"}}},{"condition":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_nd1",0],"op":"="}],"op":"and"},"id":"l1_iteration_steps_p2","updates":{"l1_v1_next":{"args":["l1_v1",-1],"op":"+"},"l1_v2_next":"l1_v3","l1_v3_next":"l1_v3","l1_v4_next":{"args":["l1_v2","l1_v3"],"op":"+"}}}]},"loop_return_steps":{"id":"l1_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":["l2"],"nondeterministic_symbols":[{"name":"l1_nd1","type":"i32"},{"name":"l1_nd2","type":"i32"},{"name":"l1_nd3","type":"i32"}],"parent_loop_id":null,"previous_sequential_loop_ids":[],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l1_reachable_header_states","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_entry_states"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_reachable_header_states"},{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l1_v1","llvm_slot":"%4","next":"l1_v1_next","output":"l1_v1_out","type":"i32"},{"current":"l1_v2","llvm_slot":"%5","next":"l1_v2_next","output":"l1_v2_out","type":"i32"},{"current":"l1_v3","llvm_slot":"%6","next":"l1_v3_next","output":"l1_v3_out","type":"i32"},{"current":"l1_v4","llvm_slot":"%7","next":"l1_v4_next","output":"l1_v4_out","type":"i32"}],"unsupported":[]},"loop_id":"l1","role":"dependency"}],"target_loop_id":"l2"}
+
+OUTPUT_SCHEMA:
+{
+  "$defs": {
+    "expression_ast": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "enum": [
+            "l2_v1",
+            "l2_v2",
+            "l2_v3",
+            "l2_v4",
+            "true",
+            "false"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "and"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "or"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "not"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "implies"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "iff"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "!="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "+"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "-"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "neg"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "*"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "div"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "mod"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "pow"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "abs"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "min"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "max"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "ite"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "lex"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_expressions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "expression_ast": {
+            "$ref": "#/$defs/expression_ast"
+          },
+          "expression_kind": {
+            "enum": [
+              "invariant",
+              "ranking-function",
+              "recurrent-set"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression_kind",
+          "expression_ast"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "type": "array"
+    },
+    "candidate_kind": {
+      "enum": [
+        "terminating",
+        "non-terminating"
+      ],
+      "type": "string"
+    },
+    "loop_id": {
+      "enum": [
+        "l2"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "loop_id",
+    "candidate_kind",
+    "candidate_expressions"
+  ],
+  "type": "object"
+}
+
+==================== PROMPT ====================
+ATTEMPT: 2
+MODE: SemanticRefinement
+MODEL: gpt-oss-20b
+REASONING_EFFORT: medium
+INCLUDE_REASONING: true
+RESPONSE_FORMAT: json_schema
+SCHEMA_NAME: nexus_candidate
+STRICT_SCHEMA: true
+
+INSTRUCTIONS:
+
+Analyze the previous candidate and current feedback, and repair the candidate so that it is semantically valid.
+
+The previous_candidate is the candidate to repair. The current_feedback reports the semantic validation checks for that candidate.
+
+Interpret the feedback as follows:
+- "passed" means the corresponding requirement is satisfied.
+- "failed" means the corresponding requirement is violated; use the failure explanation and any supplied counterexample to repair the relevant witness.
+- "unknown" means the validator could not determine whether the requirement is satisfied.
+
+If the candidate is terminating:
+- repair the invariant only when an invariant check failed;
+- repair the ranking function only when a ranking-function check failed;
+- preserve a witness component when all of its checks passed.
+
+If the candidate is non-terminating:
+- repair the recurrent set according to its failed checks while preserving parts that remain valid whenever possible.
+
+Do not change between terminating and non-terminating merely because the current witness failed validation. Change the classification only if the supplied loop semantics provide evidence that the previous classification is incorrect.
+
+Use the feedback_history to avoid repeating previously rejected witnesses or semantic mistakes.
+
+Dependency loops provide reachability and execution context only. Repair the candidate only for the target loop.
+
+
+Interpret arithmetic over mathematical integers.
+
+Return exactly one candidate for the target loop.
+
+A terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": <BoolExpr>
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": <RankingExpr>
+    }
+  ]
+}
+
+A non-terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": <BoolExpr>
+    }
+  ]
+}
+
+Every expression_ast must conform to the supplied candidate grammar.
+
+Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
+
+Use the following JSON AST encoding:
+- Variable: "l1_v1"
+- Integer: 0, 1, -2
+- Boolean: "true" or "false"
+- Operator application: {"op":"<operator>","args":[...]}
+
+Examples:
+{"op":"<","args":["l1_v1","l1_v2"]}
+{"op":"*","args":[2,"l1_v1"]}
+
+Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
+
+
+INPUT:
+{"candidate_grammar":"BoolExpr ::=\n      \"true\"\n    | \"false\"\n    | \"and\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"or\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"not\" \"(\" BoolExpr \")\"\n    | \"implies\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"iff\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"!=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n\nArithExpr ::=\n      Integer\n    | Variable\n    | \"+\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"-\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"neg\" \"(\" ArithExpr \")\"\n    | \"*\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"div\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"mod\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"pow\" \"(\" ArithExpr \",\" NonNegativeInteger \")\"\n    | \"abs\" \"(\" ArithExpr \")\"\n    | \"min\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"max\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"ite\" \"(\" BoolExpr \",\" ArithExpr \",\" ArithExpr \")\"\n\nRankingExpr ::=\n      ArithExpr\n    | \"lex\" \"(\" ArithExpr \",\" RankingExpr \")\"\n\nVariable ::= any variable name provided for the target loop\nInteger ::= any mathematical integer literal\nNonNegativeInteger ::= any integer literal k such that k >= 0\n","current_feedback":"===================== SEMANTIC FEEDBACK =====================\nTARGET_LOOP: l2\nCANDIDATE_KIND: terminating\n\nINVARIANT:\n{\n  \"op\": \"<=\",\n  \"args\": [\n    \"l2_v4\",\n    0\n  ]\n}\n\nRANKING_FUNCTION:\n\"l2_v4\"\n\nFEEDBACK:\nINVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.\nCOUNTEREXAMPLE:\nmp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G],\n                             Implies(And(l1_header_to_exit(A,\n                                        B,\n                                        C,\n                                        0,\n                                        D,\n                                        E,\n                                        F,\n                                        G),\n                                        Not(0 >= G)),\n                                     query!0))),\n             hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F,\n                                        G,\n                                        H,\n                                        I,\n                                        J,\n                                        K,\n                                        L],\n                                       Implies(And(l1_iteration_steps(A,\n                                        D,\n                                        G,\n                                        J,\n                                        B,\n                                        E,\n                                        H,\n                                        K),\n                                        l1_header_to_exit(B,\n                                        E,\n                                        H,\n                                        K,\n                                        C,\n                                        F,\n                                        I,\n                                        L)),\n                                        l1_header_to_exit(A,\n                                        D,\n                                        G,\n                                        J,\n                                        C,\n                                        F,\n                                        I,\n                                        L)))),\n                       hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F],\n                                        Implies(And(F ==\n                                        C + D,\n                                        Not(A <= 0),\n                                        B == -1 + A),\n                                        l1_iteration_steps(A,\n                                        C,\n                                        D,\n                                        E,\n                                        B,\n                                        D,\n                                        D,\n                                        F)))),\n                                 l1_iteration_steps(1,\n                                        0,\n                                        1,\n                                        0,\n                                        0,\n                                        1,\n                                        1,\n                                        1)),\n                       hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E],\n                                        Implies(And(0 >= A,\n                                        B == -1 + A),\n                                        l1_header_to_exit(A,\n                                        C,\n                                        D,\n                                        E,\n                                        B,\n                                        C,\n                                        D,\n                                        E)))),\n                                 l1_header_to_exit(0,\n                                        1,\n                                        1,\n                                        1,\n                                        -1,\n                                        1,\n                                        1,\n                                        1)),\n                       l1_header_to_exit(1,\n                                        0,\n                                        1,\n                                        0,\n                                        -1,\n                                        1,\n                                        1,\n                                        1)),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)\n\nINVARIANT_PRESERVATION: passed\n\nRANKING_NONNEGATIVITY: passed\n\nRANKING_DECREASE: passed\n\n\nINVARIANT_RESULT: \"invalid\"\nRANKING_FUNCTION_RESULT: \"valid\"\n","feedback_history":"==================== SYNTACTIC FEEDBACK ====================\nTARGET_LOOP: l2\nCANDIDATE_KIND: terminating\n\nINVARIANT:\n{\n  \"args\": [\n    \"l2_v4\",\n    0\n  ],\n  \"op\": \"<=\"\n}\n\nRANKING_FUNCTION:\n\"l2_v4\"\n\nFEEDBACK:\nNo syntactic issues.\n\n","loop_information":[{"information":{"actual_exit":{"id":"l2_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_entry_states"},{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"]},"op":"relation_call","relation":"l2_actual_exit"},"id":"l2_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l2_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l2_entry_states_p1","source_call":{"purpose":"sequential_predecessor_exit","relation":"l1_actual_exit","source_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"updates":{"l2_v1":"l1_v1_out","l2_v2":"l1_v2_out","l2_v3":"l1_v3_out","l2_v4":"l1_v4_out"}}]},"function":"amir1","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l2_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"]},"op":"relation_call","relation":"l2_exit_steps"},"head":{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"},"id":"l2_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"},{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l2_v1_out","l2_v2_out","l2_v3_out","l2_v4_out"],"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_exit"},"id":"l2_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l2_header_to_return","rules":[{"body":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_return_steps"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_return"},"id":"l2_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"},{"arguments":{"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_header_to_return"},"id":"l2_header_to_return_recursive"}]},"llvm_header_block":"%24","loop_exit_steps":{"id":"l2_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l2_v4",0],"op":"<="},"id":"l2_exit_steps_p1","updates":{"l2_v1_out":"l2_v1","l2_v2_out":"l2_v2","l2_v3_out":"l2_v3","l2_v4_out":"l2_v4"}}]},"loop_guard":{"formula":{"args":["l2_v4",0],"op":">"},"id":"l2_guard"},"loop_id":"l2","loop_iteration_steps":{"id":"l2_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l2_v4",0],"op":">"},"id":"l2_iteration_steps_p1","updates":{"l2_v1_next":"l2_v1","l2_v2_next":"l2_v2","l2_v3_next":"l2_v3","l2_v4_next":{"args":["l2_v4",-1],"op":"+"}}}]},"loop_return_steps":{"id":"l2_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":[],"nondeterministic_symbols":[],"parent_loop_id":null,"previous_sequential_loop_ids":["l1"],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l2_reachable_header_states","rules":[{"body":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_entry_states"},"head":{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_reachable_header_states"},"id":"l2_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l2_v1","l2_v2","l2_v3","l2_v4"]},"op":"relation_call","relation":"l2_reachable_header_states"},{"arguments":{"current_state":["l2_v1","l2_v2","l2_v3","l2_v4"],"next_state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l2_v1_next","l2_v2_next","l2_v3_next","l2_v4_next"]},"op":"relation_call","relation":"l2_reachable_header_states"},"id":"l2_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l2_v1","llvm_slot":"%4","next":"l2_v1_next","output":"l2_v1_out","type":"i32"},{"current":"l2_v2","llvm_slot":"%5","next":"l2_v2_next","output":"l2_v2_out","type":"i32"},{"current":"l2_v3","llvm_slot":"%6","next":"l2_v3_next","output":"l2_v3_out","type":"i32"},{"current":"l2_v4","llvm_slot":"%7","next":"l2_v4_next","output":"l2_v4_out","type":"i32"}],"unsupported":[]},"loop_id":"l2","role":"target"},{"information":{"actual_exit":{"id":"l1_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_entry_states"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"op":"relation_call","relation":"l1_actual_exit"},"id":"l1_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l1_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l1_entry_states_p1","updates":{"l1_v1":"arg0","l1_v2":"arg1","l1_v3":"arg2","l1_v4":0}}]},"function":"amir1","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"]},"op":"relation_call","relation":"l1_exit_steps"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out","l1_v3_out","l1_v4_out"],"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_return","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_return_steps"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_recursive"}]},"llvm_header_block":"%8","loop_exit_steps":{"id":"l1_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":["l1_v1",0],"op":"<="},"id":"l1_exit_steps_p1","updates":{"l1_v1_out":{"args":["l1_v1",-1],"op":"+"},"l1_v2_out":"l1_v2","l1_v3_out":"l1_v3","l1_v4_out":"l1_v4"}}]},"loop_guard":{"formula":{"args":["l1_v1",0],"op":">"},"id":"l1_guard"},"loop_id":"l1","loop_iteration_steps":{"id":"l1_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_nd1",0],"op":"!="}],"op":"and"},"id":"l1_iteration_steps_p1","updates":{"l1_v1_next":{"args":["l1_v1",-1],"op":"+"},"l1_v2_next":{"args":["l1_v2","l1_v3"],"op":"+"},"l1_v3_next":"l1_v3","l1_v4_next":{"args":["l1_v2","l1_v3"],"op":"+"}}},{"condition":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_nd1",0],"op":"="}],"op":"and"},"id":"l1_iteration_steps_p2","updates":{"l1_v1_next":{"args":["l1_v1",-1],"op":"+"},"l1_v2_next":"l1_v3","l1_v3_next":"l1_v3","l1_v4_next":{"args":["l1_v2","l1_v3"],"op":"+"}}}]},"loop_return_steps":{"id":"l1_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":["l2"],"nondeterministic_symbols":[{"name":"l1_nd1","type":"i32"},{"name":"l1_nd2","type":"i32"},{"name":"l1_nd3","type":"i32"}],"parent_loop_id":null,"previous_sequential_loop_ids":[],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l1_reachable_header_states","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_entry_states"},"head":{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2","l1_v3","l1_v4"]},"op":"relation_call","relation":"l1_reachable_header_states"},{"arguments":{"current_state":["l1_v1","l1_v2","l1_v3","l1_v4"],"next_state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_next","l1_v2_next","l1_v3_next","l1_v4_next"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l1_v1","llvm_slot":"%4","next":"l1_v1_next","output":"l1_v1_out","type":"i32"},{"current":"l1_v2","llvm_slot":"%5","next":"l1_v2_next","output":"l1_v2_out","type":"i32"},{"current":"l1_v3","llvm_slot":"%6","next":"l1_v3_next","output":"l1_v3_out","type":"i32"},{"current":"l1_v4","llvm_slot":"%7","next":"l1_v4_next","output":"l1_v4_out","type":"i32"}],"unsupported":[]},"loop_id":"l1","role":"dependency"}],"previous_candidate":{"candidate_expressions":[{"expression_ast":{"args":["l2_v4",0],"op":"<="},"expression_kind":"invariant"},{"expression_ast":"l2_v4","expression_kind":"ranking-function"}],"candidate_kind":"terminating","loop_id":"l2"},"target_loop_id":"l2"}
+
+OUTPUT_SCHEMA:
+{
+  "$defs": {
+    "expression_ast": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "enum": [
+            "l2_v1",
+            "l2_v2",
+            "l2_v3",
+            "l2_v4",
+            "true",
+            "false"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "and"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "or"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "not"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "implies"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "iff"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "!="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "+"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "-"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "neg"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "*"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "div"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "mod"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "pow"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 1,
+              "minItems": 1,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "abs"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "min"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "max"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 3,
+              "minItems": 3,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "ite"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "items": {
+                "$ref": "#/$defs/expression_ast"
+              },
+              "maxItems": 2,
+              "minItems": 2,
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "lex"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_expressions": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "expression_ast": {
+            "$ref": "#/$defs/expression_ast"
+          },
+          "expression_kind": {
+            "enum": [
+              "invariant",
+              "ranking-function",
+              "recurrent-set"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "expression_kind",
+          "expression_ast"
+        ],
+        "type": "object"
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "type": "array"
+    },
+    "candidate_kind": {
+      "enum": [
+        "terminating",
+        "non-terminating"
+      ],
+      "type": "string"
+    },
+    "loop_id": {
+      "enum": [
+        "l2"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "loop_id",
+    "candidate_kind",
+    "candidate_expressions"
+  ],
+  "type": "object"
+}
+

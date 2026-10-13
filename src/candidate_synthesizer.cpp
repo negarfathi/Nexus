@@ -7,6 +7,7 @@ struct Prompt {
 };
 
 struct Response {
+    bool requestAttempted = false;
     std::string data;
     long long inputTokens = 0;
     long long outputTokens = 0;
@@ -436,7 +437,7 @@ static void appendPromptHistory(const std::filesystem::path& promptHistoryPath, 
     }
 }
 
-static Response sendRequest(const std::string& llmModel, const Prompt& prompt, const std::string& loopId, const std::vector<std::string>& loopSymbols, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath) {
+static void sendRequest(const std::string& llmModel, const Prompt& prompt, const std::string& loopId, const std::vector<std::string>& loopSymbols, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath, Response& response) {
     nlohmann::json allowedStringLeaves = nlohmann::json::array();
     for (const std::string& symbol : loopSymbols) {
         allowedStringLeaves.push_back(symbol);
@@ -693,10 +694,11 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, c
     curl_easy_setopt(curl, CURLOPT_TIMEOUT_MS, timeoutMilliseconds);
 
     // Send the request and measure latency.
+    response.requestAttempted = true;
     const auto startTime = std::chrono::steady_clock::now();
     const CURLcode curlCode = curl_easy_perform(curl);
     const auto endTime = std::chrono::steady_clock::now();
-    const double latency = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
+    response.latency = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime).count();
 
     // Retrieve the HTTP status code.
     long statusCode = 0;
@@ -725,12 +727,33 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, c
         throw std::runtime_error("Failed to parse " + providerName + " response: " + std::string(exception.what()) + ".");
     }
 
+    if (llmModel == "gpt-5.6-terra") {
+        // Extract token-usage and cost information from the OpenAI response.
+        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
+            const nlohmann::json& usage = responseData.at("usage");
+            response.inputTokens = usage.value("input_tokens", 0LL);
+            response.outputTokens = usage.value("output_tokens", 0LL);
+            long long cachedInputTokens = 0;
+            if (usage.contains("input_tokens_details") && usage.at("input_tokens_details").is_object()) {
+                cachedInputTokens = usage.at("input_tokens_details").value("cached_tokens", 0LL);
+            }
+            const long long uncachedInputTokens = std::max(0LL, response.inputTokens - cachedInputTokens);
+            response.cost = static_cast<double>(uncachedInputTokens) / 1'000'000.0 * 2.00 + static_cast<double>(cachedInputTokens) / 1'000'000.0 * 0.20 + static_cast<double>(response.outputTokens) / 1'000'000.0 * 12.00;
+            }
+    }
+    else {
+        // Extract token-usage information from the vLLM response.
+        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
+            const nlohmann::json& usage = responseData.at("usage");
+            response.inputTokens = usage.value("prompt_tokens", 0LL);
+            response.outputTokens = usage.value("completion_tokens", 0LL);
+        }
+    }
+
     // Check for HTTP-level errors.
     if (statusCode < 200 || statusCode >= 300) {
         throw std::runtime_error("Failed to complete " + providerName + " request: HTTP " + std::to_string(statusCode) + ": " + responseData.dump());
     }
-
-    Response response;
 
     if (llmModel == "gpt-5.6-terra") {
         // Extract the generated candidate text from the OpenAI response.
@@ -753,31 +776,6 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, c
         if (response.data.empty()) {
             throw std::runtime_error("OpenAI returned empty candidate content: " + responseData.dump());
         }
-
-        // Extract token-usage and cost information from the OpenAI response.
-        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
-            const nlohmann::json& usage = responseData.at("usage");
-            response.inputTokens = usage.value("input_tokens", 0LL);
-            response.outputTokens = usage.value("output_tokens", 0LL);
-            long long cachedInputTokens = 0;
-            if (usage.contains("input_tokens_details") && usage.at("input_tokens_details").is_object()) {
-                cachedInputTokens = usage.at("input_tokens_details").value("cached_tokens", 0LL);
-            }
-            const long long uncachedInputTokens = std::max(0LL, response.inputTokens - cachedInputTokens);
-            response.cost =
-                static_cast<double>(
-                    uncachedInputTokens) /
-                    1'000'000.0 *
-                    2.00 +
-                static_cast<double>(
-                    cachedInputTokens) /
-                    1'000'000.0 *
-                    0.20 +
-                static_cast<double>(
-                    response.outputTokens) /
-                    1'000'000.0 *
-                    12.00;
-        }
     }
 
     else {
@@ -794,20 +792,7 @@ static Response sendRequest(const std::string& llmModel, const Prompt& prompt, c
             throw std::runtime_error("vLLM returned empty candidate content: " + responseData.dump());
         }
         response.data = message.at("content").get<std::string>();
-
-        // Extract token-usage information from the vLLM response.
-        if (responseData.contains("usage") && responseData.at("usage").is_object()) {
-            const nlohmann::json& usage = responseData.at("usage");
-            response.inputTokens = usage.value("prompt_tokens", 0LL);
-            response.outputTokens = usage.value("completion_tokens", 0LL);
-        }
     }
-
-    // Record the measured request latency.
-    response.latency = latency;
-
-    // Return the normalized synthesis response.
-    return response;
 }
 
 static void saveCandidate(const Response& response, const std::filesystem::path& candidatePath) {
@@ -961,6 +946,7 @@ static void populateSynthesisResult(SynthesisResult& synthesisResult, const Resp
     catch (const std::exception&) {
         // CandidateParser will handle malformed output.
     }
+    synthesisResult.requestAttempted = response.requestAttempted;
     synthesisResult.inputTokens = response.inputTokens;
     synthesisResult.outputTokens = response.outputTokens;
     synthesisResult.latency = response.latency;
@@ -968,6 +954,7 @@ static void populateSynthesisResult(SynthesisResult& synthesisResult, const Resp
 }
 
 SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidateGrammarPath, const std::filesystem::path& refinementFeedbackPath, const std::filesystem::path& candidatePath, const std::string& llmModel, SynthesisMode synthesisMode, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath) {
+    Response response;
     SynthesisResult synthesisResult;
 
     try {
@@ -983,23 +970,21 @@ SynthesisResult CandidateSynthesizer::synthesize(const std::string& loopId, cons
 
         const Prompt prompt = buildPrompt(loopId, loopBundle, candidateGrammar, refinementFeedbackPath, candidatePath, synthesisMode);
 
-        Response response = sendRequest(llmModel, prompt, loopId, loopSymbols, timeoutMilliseconds, promptAttempt, promptHistoryPath);
+        sendRequest(llmModel, prompt, loopId, loopSymbols, timeoutMilliseconds, promptAttempt, promptHistoryPath, response);
 
         saveCandidate(response, candidatePath);
 
-        populateSynthesisResult(synthesisResult, response);
-
-        synthesisResult.success = true;
+        synthesisResult.synthesisSucceeded = true;
     }
     catch (const RequestTimeoutException& ex) {
         std::cerr << "CandidateSynthesizer::synthesize timeout: " << ex.what() << '\n';
-        synthesisResult.timedOut = true;
-        return synthesisResult;
+        synthesisResult.requestTimedOut = true;
     }
     catch (const std::exception& ex) {
         std::cerr << "CandidateSynthesizer::synthesize error: " << ex.what() << '\n';
-        return synthesisResult;
     }
+
+    populateSynthesisResult(synthesisResult, response);
 
     return synthesisResult;
 }
