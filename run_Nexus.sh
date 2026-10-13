@@ -48,14 +48,13 @@ fi
 rm -rf "$results_directory"
 rm -f "$excel_file"
 
-mkdir -p \
-    "$results_directory/gpt-oss-20b" \
-    "$results_directory/Qwen3-8B" \
-    "$results_directory/CodeLlama-7B-Instruct"
+mkdir -p "$results_directory/gpt-oss-20b"
+# mkdir -p "$results_directory/Qwen3-8B"
+# mkdir -p "$results_directory/CodeLlama-7B-Instruct"
 
 cp -r "$benchmarks_directory"/. "$results_directory/gpt-oss-20b/"
-cp -r "$benchmarks_directory"/. "$results_directory/Qwen3-8B/"
-cp -r "$benchmarks_directory"/. "$results_directory/CodeLlama-7B-Instruct/"
+# cp -r "$benchmarks_directory"/. "$results_directory/Qwen3-8B/"
+# cp -r "$benchmarks_directory"/. "$results_directory/CodeLlama-7B-Instruct/"
 
 server_pid=""
 
@@ -141,8 +140,8 @@ run_model() {
 }
 
 run_model "$models_directory/gpt-oss-20b" "gpt-oss-20b" "openai_gptoss"
-run_model "$models_directory/Qwen3-8B" "Qwen3-8B" ""
-run_model "$models_directory/CodeLlama-7B-Instruct" "CodeLlama-7B-Instruct" ""
+# run_model "$models_directory/Qwen3-8B" "Qwen3-8B" ""
+# run_model "$models_directory/CodeLlama-7B-Instruct" "CodeLlama-7B-Instruct" ""
 
 echo
 echo "Finished."

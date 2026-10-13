@@ -113,8 +113,8 @@ add_executable(Nexus
         src/validator_generator.cpp
         include/validator_generator.h
 
-        src/experiment_recorder.cpp
-        include/experiment_recorder.h
+        src/result_recorder.cpp
+        include/result_recorder.h
 )
 
 # Tool paths
