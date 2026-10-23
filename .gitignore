@@ -6,4 +6,3 @@ cmake-build-*/
 .vscode/
 __pycache__/
 *.pyc
-baselines/Athena/llvm2kittel/
