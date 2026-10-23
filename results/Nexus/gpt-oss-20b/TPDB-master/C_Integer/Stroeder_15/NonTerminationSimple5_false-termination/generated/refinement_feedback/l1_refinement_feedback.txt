@@ -1,0 +1,398 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        B,
+                                        D),
+                                        Not(0 <= D),
+                                        0 <= C),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C ==
+                                        -1 + B,
+                                        0 <= B,
+                                        Not(0 == D)),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        A,
+                                        C)))),
+                       l1_iteration_steps(2, 0, 2, -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+0
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+0
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_nd2 = 0,
+ l1_v2 = 0,
+ l1_v1_next = 0,
+ l1_v2_next = 1,
+ l1_v1 = 0]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        B,
+                                        D),
+                                        Not(0 <= D),
+                                        0 <= C),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C ==
+                                        -1 + B,
+                                        0 <= B,
+                                        Not(0 == D)),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        A,
+                                        C)))),
+                       l1_iteration_steps(2, 0, 2, -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        B,
+                                        D),
+                                        Not(0 <= D),
+                                        0 <= C),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C ==
+                                        -1 + B,
+                                        0 <= B,
+                                        Not(0 == D)),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        A,
+                                        C)))),
+                       l1_iteration_steps(2, 0, 2, -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        B,
+                                        D),
+                                        D <= 0,
+                                        Not(C <= 0)),
+                                     query!10))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C ==
+                                        -1 + B,
+                                        0 <= B,
+                                        Not(0 == D)),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        A,
+                                        C)))),
+                       l1_iteration_steps(2, 1, 2, 0)),
+             query!10),
+   asserted(Implies(query!10, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_nd2 = 0,
+ l1_v2 = 0,
+ l1_v1_next = 0,
+ l1_v2_next = 1,
+ l1_v1 = 0]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"

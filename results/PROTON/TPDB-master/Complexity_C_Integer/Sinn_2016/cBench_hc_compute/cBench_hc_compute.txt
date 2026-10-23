@@ -1,0 +1,94 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.yRWJAQ
+
+Input File is : cBench_hc_compute.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench/office_ghostscript/src/shcgen.c
+
+int random();
+
+void hc_compute(int num_values) {
+    for (int i = num_values; i > 0;) {
+	int j = i;
+	--j;// int len = nodes[--j].code_length;
+	while (j > 0 && random())
+	    {--j;}
+	//qsort(&nodes[j], i - j, sizeof(count_node), compare_values);
+	for(int x = i - j; x > 0; x --)//quadratic loop as substitute for qsort 
+		{for(int y = x; y > 0 && random(); y--){;}} 
+	i = j;
+    }
+}
+
+./proton: line 26:    22 Aborted                 bracer -in $FILE_NAME -c
+
+Input File is : cBench_hc_compute_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench/office_ghostscript/src/shcgen.c
+
+int random();
+
+void hc_compute(int num_values) {
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+ for (int i = num_values; i > 0;) { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int onum_values;if(pStored0){__CPROVER_assert(!(oi==i && onum_values==num_values),"recurrent state found");} if(flag){oi=i;onum_values=num_values;pStored0=myTrue;} 
+	int j = i;
+	--j;// int len = nodes[--j].code_length;
+myBool pStored1 = myFalse; __VERIFIER_reached_control(10, __func__);
+	while (j > 0 && random())
+	    { __VERIFIER_loop_head(10, __func__);
+printf("CBMC Instrumentation @ line10");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int oj;static int onum_values;if(pStored1){__CPROVER_assert(!(oi==i && oj==j && onum_values==num_values),"recurrent state found");} if(flag){oi=i;oj=j;onum_values=num_values;pStored1=myTrue;} --j;}
+	//qsort(&nodes[j], i - j, sizeof(count_node), compare_values);
+myBool pStored2 = myFalse; __VERIFIER_reached_control(13, __func__);
+	for(int x = i - j; x > 0; x --)//quadratic loop as substitute for qsort 
+		{ __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int oj;static int onum_values;static int ox;if(pStored2){__CPROVER_assert(!(oi==i && oj==j && onum_values==num_values && ox==x),"recurrent state found");} if(flag){oi=i;oj=j;onum_values=num_values;ox=x;pStored2=myTrue;} myBool pStored3 = myFalse; __VERIFIER_reached_control(13, __func__);
+for(int y = x; y > 0 && random(); y--){ __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int oj;static int onum_values;static int ox;static int oy;if(pStored3){__CPROVER_assert(!(oi==i && oj==j && onum_values==num_values && ox==x && oy==y),"recurrent state found");} if(flag){oi=i;oj=j;onum_values=num_values;ox=x;oy=y;pStored3=myTrue;} ;}} 
+	i = j;
+    }
+}
+
+./proton: line 26:    24 Aborted                 instrumenter -in *braced.c -c
+cBench_hc_compute_braced_instrumented.c
+NTFILE is cBench_hc_compute_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_hc_compute.c
+FILE=cBench_hc_compute_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 695 milliseconds

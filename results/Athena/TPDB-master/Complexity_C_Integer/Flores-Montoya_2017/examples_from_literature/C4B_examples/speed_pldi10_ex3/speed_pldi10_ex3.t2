@@ -1,0 +1,51 @@
+///*** 1_speed_pldi10_ex3 ***///
+START: speed_pldi10_ex3_bb0;
+
+FROM: speed_pldi10_ex3_bb0;
+var__temp_v.0 := vn;
+TO: speed_pldi10_ex3_bb1;
+
+FROM: speed_pldi10_ex3_bb1;
+v.0 := var__temp_v.0;
+var__temp_v.0.sink := v.0;
+TO: speed_pldi10_ex3_bb1_end;
+
+FROM: speed_pldi10_ex3_bb1_end;
+assume(v.0 > 0);
+TO: speed_pldi10_ex3_bb2;
+
+FROM: speed_pldi10_ex3_bb1_end;
+assume(v.0 <= 0);
+TO: speed_pldi10_ex3_bb4;
+
+FROM: speed_pldi10_ex3_bb2;
+v.0.sink := var__temp_v.0.sink;
+v1 := v.0.sink - 1;
+var__temp_v.0 := v1;
+TO: speed_pldi10_ex3_bb2_end;
+
+FROM: speed_pldi10_ex3_bb2_end;
+assume(v1 > 0);
+TO: speed_pldi10_ex3_bb3;
+
+FROM: speed_pldi10_ex3_bb2_end;
+assume(v1 <= 0);
+TO: speed_pldi10_ex3_bb1;
+
+FROM: speed_pldi10_ex3_bb3;
+v3 := nondet();
+var__temp_v.0 := v1;
+var__temp_v.0.sink := v1;
+TO: speed_pldi10_ex3_bb3_end;
+
+FROM: speed_pldi10_ex3_bb3_end;
+assume(v3 > 0);
+TO: speed_pldi10_ex3_bb1;
+
+FROM: speed_pldi10_ex3_bb3_end;
+assume(v3 <= 0);
+TO: speed_pldi10_ex3_bb2;
+
+FROM: speed_pldi10_ex3_bb4;
+TO: speed_pldi10_ex3_bb4_ret;
+

@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing non_linear17.c
+Converting
+Type-checking non_linear17
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of f
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 338 milliseconds

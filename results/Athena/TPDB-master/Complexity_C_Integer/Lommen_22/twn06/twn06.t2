@@ -1,0 +1,117 @@
+///*** 1_twn06 ***///
+START: twn06_bb0;
+
+FROM: twn06_bb0;
+var__temp_v.010 := vf;
+var__temp_v.08 := ve;
+var__temp_v.06 := vd;
+var__temp_v.03 := vc;
+TO: twn06_bb0_end;
+
+FROM: twn06_bb0_end;
+assume(vd > 0);
+TO: twn06_bb1;
+
+FROM: twn06_bb0_end;
+assume(vd <= 0);
+TO: twn06_bb7;
+
+FROM: twn06_bb1;
+v.010 := var__temp_v.010;
+v.08 := var__temp_v.08;
+v.06 := var__temp_v.06;
+v.03 := var__temp_v.03;
+var__temp_v.14 := v.03;
+var__temp_v.1 := v.06;
+TO: twn06_bb1_end;
+
+FROM: twn06_bb1_end;
+assume(v.03 > 0);
+TO: twn06_bb2;
+
+FROM: twn06_bb1_end;
+assume(v.03 <= 0);
+TO: twn06_bb7;
+
+FROM: twn06_bb2;
+v.14 := var__temp_v.14;
+v.1 := var__temp_v.1;
+var__temp_v.19 := v.08;
+var__temp_v.17 := v.06;
+var__temp_v.25 := v.010;
+var__temp_v.12 := v.08;
+TO: twn06_bb2_end;
+
+FROM: twn06_bb2_end;
+assume(v.14 > 0);
+TO: twn06_bb3;
+
+FROM: twn06_bb2_end;
+assume(v.14 <= 0);
+TO: twn06_bb4;
+
+FROM: twn06_bb3;
+v3 := v.1 + v.14;
+v4 := v.14 - 1;
+var__temp_v.14 := v4;
+var__temp_v.1 := v3;
+TO: twn06_bb2;
+
+FROM: twn06_bb4;
+v.19 := var__temp_v.19;
+v.17 := var__temp_v.17;
+v.25 := var__temp_v.25;
+v.12 := var__temp_v.12;
+v5 := v.12 * v.12;
+TO: twn06_bb4_end;
+
+FROM: twn06_bb4_end;
+assume(v5 > 1);
+TO: twn06_bb5;
+
+FROM: twn06_bb4_end;
+assume(v5 <= 1);
+TO: twn06_.critedge;
+
+FROM: twn06_bb5;
+v7 := v.1 * v.25;
+v8 := 2 * v.1;
+v9 := v7 + v8;
+TO: twn06_bb5_end;
+
+FROM: twn06_bb5_end;
+assume(v9 > 0);
+TO: twn06_bb6;
+
+FROM: twn06_bb5_end;
+assume(v9 <= 0);
+TO: twn06_.critedge;
+
+FROM: twn06_bb6;
+v11 := 3 * v.12;
+v12 := 4 * v.25;
+v13 := v11 - v12;
+v14 := 4 * v.12;
+v15 := 3 * v.25;
+v16 := v14 - v15;
+v17 := 5 * v.17;
+v18 := 5 * v.19;
+v19 := v.1 * v.1;
+v20 := v18 - v19;
+var__temp_v.19 := v20;
+var__temp_v.17 := v17;
+var__temp_v.25 := v16;
+var__temp_v.12 := v13;
+TO: twn06_bb4;
+
+FROM: twn06_.critedge;
+v21 := v.010 - 1;
+var__temp_v.010 := v21;
+var__temp_v.08 := v.19;
+var__temp_v.06 := v.17;
+var__temp_v.03 := v.25;
+TO: twn06_bb1;
+
+FROM: twn06_bb7;
+TO: twn06_bb7_ret;
+

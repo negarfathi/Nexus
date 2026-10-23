@@ -1,0 +1,249 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l4_v3",
+    0
+  ],
+  "op": "="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "=",
+  "args": [
+    "l4_v3",
+    0
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l4_v3",
+    0
+  ],
+  "op": "="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "=",
+  "args": [
+    "l4_v3",
+    0
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l4_v3",
+    103
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l4_v3",
+    103
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l4_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l4_v2",
+        864
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l4_v3",
+        0
+      ],
+      "op": "="
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l4_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l4_v2",
+            864
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l4_v3",
+            0
+          ],
+          "op": "="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l4_v1",
+        0
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l4_v2",
+            864
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l4_v3",
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l4_v3",
+    103
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l4_v3",
+    103
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"

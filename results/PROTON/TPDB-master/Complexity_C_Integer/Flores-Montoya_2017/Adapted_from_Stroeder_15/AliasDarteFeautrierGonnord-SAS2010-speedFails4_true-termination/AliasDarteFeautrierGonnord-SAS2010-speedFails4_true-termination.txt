@@ -1,0 +1,98 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.0cG2wp
+
+Input File is : AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  extern int __VERIFIER_nondet_int(void);
+
+int foo(int i,int x,int n,int b,int t){
+{if (b >= 1) {
+		t = 1;
+	} else {
+		t = -1;
+    }}
+while (x <= n) {
+		{if (b >= 1) {
+			x = x + t;
+		} else {
+			x = x - t;
+		}}
+	}
+return 0;
+}
+
+
+End Main   
+
+Input File is : AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+extern int __VERIFIER_nondet_int(void);
+
+int foo(int i,int x,int n,int b,int t){
+{ __VERIFIER_reached_control(4, __func__);
+if (b >= 1) { __VERIFIER_control_true(4, __func__);
+
+		t = 1;
+	} else { __VERIFIER_control_false(6, __func__);
+
+		t = -1;
+    }}myBool pStored0 = myFalse; __VERIFIER_reached_control(9, __func__);
+
+while (x <= n) { __VERIFIER_loop_head(9, __func__);
+printf("CBMC Instrumentation @ line9");myBool flag=__VERIFIER_nondet_myBool();static int ob;static int oi;static int on;static int ot;static int ox;if(pStored0){__CPROVER_assert(!(ob==b && oi==i && on==n && ot==t && ox==x),"recurrent state found");} if(flag){ob=b;oi=i;on=n;ot=t;ox=x;pStored0=myTrue;} 
+		{ __VERIFIER_reached_control(10, __func__);
+if (b >= 1) { __VERIFIER_control_true(10, __func__);
+
+			x = x + t;
+		} else { __VERIFIER_control_false(12, __func__);
+
+			x = x - t;
+		}}
+	}
+return 0;
+}
+
+
+End Main 
+ AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination_braced_instrumented.c
+NTFILE is AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination.c
+FILE=AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 685 milliseconds

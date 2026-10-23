@@ -1,0 +1,132 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.S8Ss4u
+
+Input File is : cBench_noiseTickSize.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+void noiseTickSize(int DELTAS)
+{
+    int i;
+    int j;
+
+    /*unsigned deltas[DELTAS];
+    unsigned t;
+    struct timeval tv_base, tv_old, tv_new;*/
+
+    i = j = 0;
+    //gettimeofday(&tv_base, 0);
+    //tv_old = tv_base;
+    do {
+		//gettimeofday(&tv_new, 0);
+		{if (nondet()) { //tv_new.tv_usec > tv_old.tv_usec + 2
+			i++;
+			//tv_base = tv_new;
+			j = 0;
+		}}
+
+		//tv_old = tv_new;
+
+		/*
+		 * If we are forever getting <= 2 us, then just assume
+		 * it's 2 us.
+		 */
+		{if (j++ > 10000)
+			{return;}}// 2;
+	} while (i < DELTAS);
+
+    //t = deltas[DELTAS / 2];	/* Median */
+
+//	return t;
+}
+
+End Main   
+
+Input File is : cBench_noiseTickSize_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+void noiseTickSize(int DELTAS)
+{
+    int i;
+    int j;
+
+    /*unsigned deltas[DELTAS];
+    unsigned t;
+    struct timeval tv_base, tv_old, tv_new;*/
+
+    i = j = 0;
+    //gettimeofday(&tv_base, 0);
+    //tv_old = tv_base;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(15, __func__);
+ do { __VERIFIER_loop_head(15, __func__);
+printf("CBMC Instrumentation @ line15");myBool flag=__VERIFIER_nondet_myBool();static int oDELTAS;static int oi;static int oj;if(pStored0){__CPROVER_assert(!(oDELTAS==DELTAS && oi==i && oj==j),"recurrent state found");} if(flag){oDELTAS=DELTAS;oi=i;oj=j;pStored0=myTrue;} 
+		//gettimeofday(&tv_new, 0);
+		{ __VERIFIER_reached_control(17, __func__);
+if (nondet()) { __VERIFIER_control_true(17, __func__);
+ //tv_new.tv_usec > tv_old.tv_usec + 2
+			i++;
+			//tv_base = tv_new;
+			j = 0;
+		}}
+
+		//tv_old = tv_new;
+
+		/*
+		 * If we are forever getting <= 2 us, then just assume
+		 * it's 2 us.
+		 */
+		{ __VERIFIER_reached_control(29, __func__);
+if (j++ > 10000)
+			{ __VERIFIER_control_true(30, __func__);
+return;}}// 2;
+	} while (i < DELTAS);
+
+    //t = deltas[DELTAS / 2];	/* Median */
+
+//	return t;
+}
+
+End Main 
+ cBench_noiseTickSize_braced_instrumented.c
+NTFILE is cBench_noiseTickSize_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_noiseTickSize.c
+FILE=cBench_noiseTickSize_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 712 milliseconds

@@ -1,0 +1,76 @@
+///*** 1_realshellsort ***///
+START: realshellsort_bb0;
+
+FROM: realshellsort_bb0;
+var__temp_varray_size.sink := varray_size;
+TO: realshellsort_bb1;
+
+FROM: realshellsort_bb1;
+varray_size.sink := var__temp_varray_size.sink;
+v0 := varray_size.sink / 2;
+var__temp_vi.0 := 0;
+TO: realshellsort_bb1_end;
+
+FROM: realshellsort_bb1_end;
+assume(v0 > 0);
+TO: realshellsort_bb2;
+
+FROM: realshellsort_bb1_end;
+assume(v0 <= 0);
+TO: realshellsort_bb7;
+
+FROM: realshellsort_bb2;
+vi.0 := var__temp_vi.0;
+var__temp_varray_size.sink := v0;
+TO: realshellsort_bb2_end;
+
+FROM: realshellsort_bb2_end;
+assume(vi.0 < varray_size);
+TO: realshellsort_bb3;
+
+FROM: realshellsort_bb2_end;
+assume(vi.0 >= varray_size);
+TO: realshellsort_bb1;
+
+FROM: realshellsort_bb3;
+v3 := nondet();
+var__temp_vj.0 := vi.0;
+TO: realshellsort_bb4;
+
+FROM: realshellsort_bb4;
+vj.0 := var__temp_vj.0;
+TO: realshellsort_bb4_end;
+
+FROM: realshellsort_bb4_end;
+assume(vj.0 >= v0);
+TO: realshellsort_bb5;
+
+FROM: realshellsort_bb4_end;
+assume(vj.0 < v0);
+TO: realshellsort_.critedge;
+
+FROM: realshellsort_bb5;
+v5 := nondet();
+TO: realshellsort_bb5_end;
+
+FROM: realshellsort_bb5_end;
+assume(v5 > v3);
+TO: realshellsort_bb6;
+
+FROM: realshellsort_bb5_end;
+assume(v5 <= v3);
+TO: realshellsort_.critedge;
+
+FROM: realshellsort_bb6;
+v7 := vj.0 - v0;
+var__temp_vj.0 := v7;
+TO: realshellsort_bb4;
+
+FROM: realshellsort_.critedge;
+v8 := vi.0 + 1;
+var__temp_vi.0 := v8;
+TO: realshellsort_bb2;
+
+FROM: realshellsort_bb7;
+TO: realshellsort_bb7_ret;
+

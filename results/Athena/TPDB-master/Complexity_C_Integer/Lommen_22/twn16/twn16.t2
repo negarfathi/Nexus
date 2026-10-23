@@ -1,0 +1,27 @@
+///*** 1_twn16 ***///
+START: twn16_bb0;
+
+FROM: twn16_bb0;
+var__temp_v.0 := vy;
+TO: twn16_bb1;
+
+FROM: twn16_bb1;
+v.0 := var__temp_v.0;
+TO: twn16_bb1_end;
+
+FROM: twn16_bb1_end;
+assume((v.0 <= 42) && (v.0 > 0));
+TO: twn16_bb2;
+
+FROM: twn16_bb1_end;
+assume((v.0 > 42) || (v.0 <= 0));
+TO: twn16_bb3;
+
+FROM: twn16_bb2;
+v2 := 2 * v.0;
+var__temp_v.0 := v2;
+TO: twn16_bb1;
+
+FROM: twn16_bb3;
+TO: twn16_bb3_ret;
+

@@ -1,0 +1,667 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v3"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v3"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 4,
+ l2_v4_out = 5,
+ l2_v1_out = 2,
+ l1_v5_next = 7720,
+ l2_v2_out = 3,
+ l1_v4_next = 7720,
+ l1_v2 = 39,
+ l1_v1 = 1,
+ l1_v3_next = 7720,
+ l1_v2_next = 7720,
+ l2_v5_out = 7720,
+ l1_v3 = 7720,
+ l1_v1_next = 1,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"true"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"true"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v3 = 0, l1_v2 = 1]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(Or(0 >= B,
+                                        And(Not(B <= 0),
+                                        0 >= A)),
+                                     query!17))),
+             query!17),
+   asserted(Implies(query!17, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v3",
+        0
+      ]
+    },
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H],
+                             Implies(And(l2_header_to_exit(F,
+                                        G,
+                                        H,
+                                        H,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(G <= 0),
+                                        Or(H <= 0, E <= 0),
+                                        Not(H <= 0)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K],
+                                       Implies(And(l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K),
+                                        E >= C,
+                                        Not(C <= 0),
+                                        F == E + -1*C),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(Or(And(E >=
+                                        C,
+                                        0 >= C),
+                                        Not(C <= E)),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E)))),
+                                 l2_header_to_exit(5,
+                                        1,
+                                        1,
+                                        1,
+                                        0,
+                                        5,
+                                        1,
+                                        1,
+                                        1,
+                                        0)),
+                       l2_header_to_exit(5,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        5,
+                                        1,
+                                        1,
+                                        1,
+                                        0)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        2,
+        "l1_v3"
+      ],
+      "op": "*"
+    },
+    "l1_v2"
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "*",
+      "args": [
+        2,
+        "l1_v3"
+      ]
+    },
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 5,
+ l2_v4_out = 6,
+ l2_v1_out = 3,
+ l1_v5_next = 7720,
+ l2_v2_out = 4,
+ l1_v4_next = 1,
+ l1_v2 = 15439,
+ l1_v1 = 2,
+ l1_v3_next = 7720,
+ l1_v2_next = 1,
+ l2_v5_out = 7720,
+ l1_v3 = 1,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        2,
+        "l1_v2"
+      ],
+      "op": "*"
+    },
+    {
+      "args": [
+        1,
+        "l1_v3"
+      ],
+      "op": "*"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "*",
+      "args": [
+        2,
+        "l1_v2"
+      ]
+    },
+    {
+      "op": "*",
+      "args": [
+        1,
+        "l1_v3"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 5,
+ l2_v4_out = 6,
+ l2_v1_out = 3,
+ l1_v5_next = 42477,
+ l2_v2_out = 4,
+ l1_v4_next = 1,
+ l1_v2 = 21239,
+ l1_v1 = 2,
+ l1_v3_next = 42477,
+ l1_v2_next = 1,
+ l2_v5_out = 42477,
+ l1_v3 = 1,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ],
+          "op": "*"
+        },
+        "l1_v3"
+      ],
+      "op": "+"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v2"
+          ],
+          "op": "*"
+        },
+        {
+          "args": [
+            "l1_v3",
+            "l1_v3"
+          ],
+          "op": "*"
+        }
+      ],
+      "op": "+"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "+",
+      "args": [
+        {
+          "op": "*",
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ]
+        },
+        "l1_v3"
+      ]
+    },
+    {
+      "op": "+",
+      "args": [
+        {
+          "op": "*",
+          "args": [
+            "l1_v2",
+            "l1_v2"
+          ]
+        },
+        {
+          "op": "*",
+          "args": [
+            "l1_v3",
+            "l1_v3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 5,
+ l2_v4_out = 6,
+ l2_v1_out = 3,
+ l1_v5_next = -3,
+ l2_v2_out = 4,
+ l1_v4_next = 1,
+ l1_v2 = 1,
+ l1_v1 = 2,
+ l1_v3_next = -3,
+ l1_v2_next = 1,
+ l2_v5_out = -3,
+ l1_v3 = 1,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    {
+      "args": [
+        "l1_v3",
+        2
+      ],
+      "op": "pow"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    "l1_v2",
+    {
+      "op": "pow",
+      "args": [
+        "l1_v3",
+        2
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 5,
+ l2_v4_out = 6,
+ l2_v1_out = 3,
+ l1_v5_next = -1,
+ l2_v2_out = 4,
+ l1_v4_next = 1,
+ l1_v2 = 1,
+ l1_v1 = 2,
+ l1_v3_next = -1,
+ l1_v2_next = 1,
+ l2_v5_out = -1,
+ l1_v3 = 1,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v3",
+    "l1_v2"
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    "l1_v3",
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3_out = 5,
+ l2_v4_out = 6,
+ l2_v1_out = 3,
+ l1_v5_next = 40,
+ l2_v2_out = 4,
+ l1_v4_next = 39,
+ l1_v2 = 40,
+ l1_v1 = 2,
+ l1_v3_next = 40,
+ l1_v2_next = 39,
+ l2_v5_out = 40,
+ l1_v3 = 39,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"

@@ -1,0 +1,220 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    "l1_v3"
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l1_v2",
+    "l1_v3"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v2 = 30, l1_v3 = 31]
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l2_header_to_exit(D,
+                                        E,
+                                        F,
+                                        A,
+                                        B,
+                                        C),
+                                        C <= 12 + B,
+                                        Not(F <= E),
+                                        Not(30 <= E)),
+                                     query!13))),
+             hyper-res(asserted(ForAll([A, B, C],
+                                       Implies(C >= B,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        A,
+                                        B,
+                                        C)))),
+                       l2_header_to_exit(2, -1, 0, 2, -1, 0)),
+             query!13),
+   asserted(Implies(query!13, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(And(Not(B <= A),
+                                        30 <= A),
+                                     query!23))),
+             query!23),
+   asserted(Implies(query!23, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        "l1_v2",
+        "true"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Argument 2 of operator '<' must derive from ArithExpr.",
+    "path": "$.candidate_expressions[0].expression_ast.args[1].args[1]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v3",
+    "l1_v2"
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l1_v3",
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v2 = 30, l1_v3 = 29]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(And(Not(A <= B),
+                                        30 <= A),
+                                     query!53))),
+             query!53),
+   asserted(Implies(query!53, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    30,
+    "l1_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    30,
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v3_next = -6,
+ l1_v2 = 0,
+ l1_v1 = 1,
+ l1_v3 = 2,
+ l1_v2_next = 0,
+ l2_v1_out = 3,
+ l1_v1_next = 1,
+ l2_v2_out = -2,
+ l2_v3_out = 4,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"

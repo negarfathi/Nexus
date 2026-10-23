@@ -1,0 +1,48 @@
+///*** 1_peed_pldi09_fig4_5 ***///
+START: peed_pldi09_fig4_5_bb0;
+
+FROM: peed_pldi09_fig4_5_bb0;
+var__temp_vi.0 := vm;
+TO: peed_pldi09_fig4_5_bb0_end;
+
+FROM: peed_pldi09_fig4_5_bb0_end;
+assume((0 >= vm) || (vm >= vn));
+TO: peed_pldi09_fig4_5_bb3;
+
+FROM: peed_pldi09_fig4_5_bb0_end;
+assume((0 < vm) && (vm < vn));
+TO: peed_pldi09_fig4_5_bb1;
+
+FROM: peed_pldi09_fig4_5_bb1;
+vi.0 := var__temp_vi.0;
+TO: peed_pldi09_fig4_5_bb1_end;
+
+FROM: peed_pldi09_fig4_5_bb1_end;
+assume((0 < vi.0) && (vi.0 < vn));
+TO: peed_pldi09_fig4_5_bb2;
+
+FROM: peed_pldi09_fig4_5_bb1_end;
+assume((0 >= vi.0) || (vi.0 >= vn));
+TO: peed_pldi09_fig4_5_bb3;
+
+FROM: peed_pldi09_fig4_5_bb2;
+v5 := vi.0 + 1;
+v6 := vi.0 + -1;
+TO: peed_pldi09_fig4_5_bb2_vi.1;
+FROM: peed_pldi09_fig4_5_bb2_vi.1;
+assume(vdir == 1);
+vi.1 := v5;
+TO: peed_pldi09_fig4_5_bb2_svi.1;
+
+FROM: peed_pldi09_fig4_5_bb2_vi.1;
+assume(vdir != 1);
+vi.1 := v6;
+TO: peed_pldi09_fig4_5_bb2_svi.1;
+
+FROM: peed_pldi09_fig4_5_bb2_svi.1;
+var__temp_vi.0 := vi.1;
+TO: peed_pldi09_fig4_5_bb1;
+
+FROM: peed_pldi09_fig4_5_bb3;
+TO: peed_pldi09_fig4_5_bb3_ret;
+

@@ -1,0 +1,91 @@
+///*** 1_non_linear09 ***///
+START: non_linear09_bb0;
+
+FROM: non_linear09_bb0;
+var__temp_v.04 := vx6;
+var__temp_v.0 := vx1;
+TO: non_linear09_bb1;
+
+FROM: non_linear09_bb1;
+v.04 := var__temp_v.04;
+v.0 := var__temp_v.0;
+var__temp_v.15 := v.0;
+TO: non_linear09_bb1_end;
+
+FROM: non_linear09_bb1_end;
+assume(1 <= v.04);
+TO: non_linear09_bb2;
+
+FROM: non_linear09_bb1_end;
+assume(1 > v.04);
+TO: non_linear09_bb5;
+
+FROM: non_linear09_bb2;
+v2 := v.04 - 1;
+v3 := nondet();
+var__temp_v.03 := v.04;
+var__temp_v.02 := 2;
+var__temp_v.01 := v.04;
+var__temp_v.1 := v.04;
+TO: non_linear09_bb3;
+
+FROM: non_linear09_bb3;
+v.03 := var__temp_v.03;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.1 := var__temp_v.1;
+v4 := v.02 * v.02;
+v5 := 2 * 2;
+v6 := v5 * 2;
+v7 := v6 * 2;
+v8 := v7 * 2;
+v9 := v4 - v8;
+var__temp_v.04 := v2;
+var__temp_v.0 := v.1;
+TO: non_linear09_bb3_end;
+
+FROM: non_linear09_bb3_end;
+assume((v9 < v.03) && (v.02 != 0));
+TO: non_linear09_bb4;
+
+FROM: non_linear09_bb3_end;
+assume((v9 >= v.03) || (v.02 == 0));
+TO: non_linear09_bb1;
+
+FROM: non_linear09_bb4;
+v12 := 3 * v.1;
+v13 := 2 * v.01;
+v14 := v12 + v13;
+v15 := -5 * v.1;
+v16 := 3 * v.01;
+v17 := v15 - v16;
+v18 := -2 * v.02;
+v19 := 3 * v.03;
+v20 := 2 * 2;
+v21 := v19 + v20;
+var__temp_v.03 := v21;
+var__temp_v.02 := v18;
+var__temp_v.01 := v17;
+var__temp_v.1 := v14;
+TO: non_linear09_bb3;
+
+FROM: non_linear09_bb5;
+v.15 := var__temp_v.15;
+TO: non_linear09_bb5_end;
+
+FROM: non_linear09_bb5_end;
+assume(v.15 > 0);
+TO: non_linear09_bb6;
+
+FROM: non_linear09_bb5_end;
+assume(v.15 <= 0);
+TO: non_linear09_bb7;
+
+FROM: non_linear09_bb6;
+v23 := v.15 - 1;
+var__temp_v.15 := v23;
+TO: non_linear09_bb5;
+
+FROM: non_linear09_bb7;
+TO: non_linear09_bb7_ret;
+

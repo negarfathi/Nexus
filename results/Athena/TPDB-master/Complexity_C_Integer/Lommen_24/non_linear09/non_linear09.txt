@@ -1,0 +1,6 @@
+non_linear09.c:13:9: warning: unused variable 'y' [-Wunused-variable]
+    int y = __VERIFIER_nondet_int();
+        ^
+1 warning generated.
+TIMEOUT
+Runtime: 600747 milliseconds

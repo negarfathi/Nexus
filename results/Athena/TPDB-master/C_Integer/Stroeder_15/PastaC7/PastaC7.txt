@@ -1,0 +1,6 @@
+PastaC7.c:9:9: warning: unused variable 't' [-Wunused-variable]
+    int t;
+        ^
+1 warning generated.
+YES
+Runtime: 816 milliseconds

@@ -1,0 +1,141 @@
+MAYBE
+proof of rank3.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 47 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/rank3.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/rank3.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "nondet" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "rank2" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		%5 = load %2
+		store %5, %3
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		%6 = load %2
+		store %6, %4
+		br %7
+	7:
+		%8 = load %3
+		%9 = icmp sge %8 2
+		br %9, %10, %53
+	10:
+		%11 = load %3
+		%12 = add i32 %11, -1
+		store %12, %3
+		%13 = load %4
+		%14 = load %3
+		%15 = add i32 %13, %14
+		store %15, %4
+		br %16
+	16:
+		%17 = load %4
+		%18 = load %3
+		%19 = add i32 %18, 1
+		%20 = icmp sge %17 %19
+		br %20, %21, %24
+	21:
+		%22 = call i32 (...)* @nondet()
+		%23 = icmp sgt %22 0
+		br %24
+	24:
+		%25 = phi [0, %16], [%23, %21]
+		br %25, %26, %47
+	26:
+		%27 = load %4
+		%28 = add i32 %27, -1
+		store %28, %4
+		br %29
+	29:
+		%30 = load %4
+		%31 = load %3
+		%32 = add i32 %31, 3
+		%33 = icmp sge %30 %32
+		br %33, %34, %37
+	34:
+		%35 = call i32 (...)* @nondet()
+		%36 = icmp sgt %35 0
+		br %37
+	37:
+		%38 = phi [0, %29], [%36, %34]
+		br %38, %39, %44
+	39:
+		%40 = load %3
+		%41 = add i32 %40, 1
+		store %41, %3
+		%42 = load %4
+		%43 = sub i32 %42, 2
+		store %43, %4
+		br %29
+	44:
+		%45 = load %4
+		%46 = add i32 %45, -1
+		store %46, %4
+		br %16
+	47:
+		%48 = load %3
+		%49 = add i32 %48, -1
+		store %49, %3
+		%50 = load %4
+		%51 = load %3
+		%52 = sub i32 %50, %51
+		store %52, %4
+		br %7
+	53:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788543662Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1106 milliseconds

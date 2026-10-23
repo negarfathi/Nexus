@@ -1,0 +1,68 @@
+///*** 1_jama_ex6 ***///
+START: jama_ex6_bb0;
+
+FROM: jama_ex6_bb0;
+var__temp_vi.0 := va;
+TO: jama_ex6_bb1;
+
+FROM: jama_ex6_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := vc;
+TO: jama_ex6_bb1_end;
+
+FROM: jama_ex6_bb1_end;
+assume(vi.0 <= vb);
+TO: jama_ex6_bb2;
+
+FROM: jama_ex6_bb1_end;
+assume(vi.0 > vb);
+TO: jama_ex6_bb8;
+
+FROM: jama_ex6_bb2;
+vj.0 := var__temp_vj.0;
+TO: jama_ex6_bb2_end;
+
+FROM: jama_ex6_bb2_end;
+assume(vj.0 <= vd);
+TO: jama_ex6_bb3;
+
+FROM: jama_ex6_bb2_end;
+assume(vj.0 > vd);
+TO: jama_ex6_bb7;
+
+FROM: jama_ex6_bb3;
+v2 := vi.0 - vj.0;
+var__temp_vk.0 := v2;
+TO: jama_ex6_bb4;
+
+FROM: jama_ex6_bb4;
+vk.0 := var__temp_vk.0;
+v3 := vi.0 + vj.0;
+TO: jama_ex6_bb4_end;
+
+FROM: jama_ex6_bb4_end;
+assume(vk.0 <= v3);
+TO: jama_ex6_bb5;
+
+FROM: jama_ex6_bb4_end;
+assume(vk.0 > v3);
+TO: jama_ex6_bb6;
+
+FROM: jama_ex6_bb5;
+v5 := vk.0 + 1;
+var__temp_vk.0 := v5;
+TO: jama_ex6_bb4;
+
+FROM: jama_ex6_bb6;
+v6 := vj.0 + 1;
+var__temp_vj.0 := v6;
+TO: jama_ex6_bb2;
+
+FROM: jama_ex6_bb7;
+v7 := vi.0 + 1;
+var__temp_vi.0 := v7;
+TO: jama_ex6_bb1;
+
+FROM: jama_ex6_bb8;
+TO: jama_ex6_bb8_ret;
+

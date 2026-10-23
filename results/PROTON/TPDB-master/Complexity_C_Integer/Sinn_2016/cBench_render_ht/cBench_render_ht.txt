@@ -1,0 +1,141 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.UNkSJL
+
+Input File is : cBench_render_ht.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+/**
+ * Taken From cBench/office_ghostscript/gxht.c
+ **/
+
+void
+render_ht(int level, int old_level)
+{
+/*[...]*/
+
+sw:	switch ( level - old_level )
+	{
+	default:
+		{if ( level > old_level )
+		{	//invert(0); invert(1); invert(2); invert(3);
+			old_level += 4;
+		}
+		else
+		{	//invert(-1); invert(-2); invert(-3); invert(-4);
+			old_level -= 4;
+		}}
+		goto sw;
+	case 7: ;//invert(6);
+	case 6: ;//invert(5);
+	case 5: ;//invert(4);
+	case 4: ;//invert(3);
+	case 3: ;//invert(2);
+	case 2: ;//invert(1);
+	case 1: ;//invert(0);
+	case 0: break;
+	case -7: ;//invert(-7);
+	case -6: ;//invert(-6);
+	case -5: ;//invert(-5);
+	case -4: ;//invert(-4);
+	case -3: ;//invert(-3);
+	case -2: ;//invert(-2);
+	case -1: ;//invert(-1);
+	}
+/*[...]*/
+	return;// 0;
+}
+
+
+End Main   
+
+Input File is : cBench_render_ht_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+/**
+ * Taken From cBench/office_ghostscript/gxht.c
+ **/
+
+void
+render_ht(int level, int old_level)
+{
+/*[...]*/
+
+sw:	switch ( level - old_level )
+	{
+	default:
+		{ __VERIFIER_reached_control(14, __func__);
+if ( level > old_level )
+		{ __VERIFIER_control_true(15, __func__);
+	//invert(0); invert(1); invert(2); invert(3);
+			old_level += 4;
+		}
+		else
+		{ __VERIFIER_control_false(19, __func__);
+	//invert(-1); invert(-2); invert(-3); invert(-4);
+			old_level -= 4;
+		}}
+		goto sw;
+	case 7: ;//invert(6);
+	case 6: ;//invert(5);
+	case 5: ;//invert(4);
+	case 4: ;//invert(3);
+	case 3: ;//invert(2);
+	case 2: ;//invert(1);
+	case 1: ;//invert(0);
+	case 0: break;
+	case -7: ;//invert(-7);
+	case -6: ;//invert(-6);
+	case -5: ;//invert(-5);
+	case -4: ;//invert(-4);
+	case -3: ;//invert(-3);
+	case -2: ;//invert(-2);
+	case -1: ;//invert(-1);
+	}
+/*[...]*/
+	return;// 0;
+}
+
+
+End Main 
+ cBench_render_ht_braced_instrumented.c
+NTFILE is cBench_render_ht_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+MISSING RSA
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_render_ht.c
+FILE=cBench_render_ht_braced_instrumented.c GLRES=0 Z3RES=0 NTRES=0 TRES=24 TNT-RESULT=DEFAULT INCONCLUSIVE EXITCODE=3
+INCONCLUSIVE
+Runtime: 630 milliseconds

@@ -1,0 +1,98 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.9a9C8I
+
+Input File is : gcd1_true-termination.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  extern int __VERIFIER_nondet_int(void);
+
+int foo(int r,int x,int y){
+{if (x<0) {x = -x;}}
+{if (y<0) {y = -y;}}
+while (y>0) {
+		
+		r = x;
+		while (r>=y) {
+			r = r-y;
+        }
+		
+		x = y;
+		y = r;
+	}
+return 0;
+}
+
+
+End Main   
+
+Input File is : gcd1_true-termination_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+extern int __VERIFIER_nondet_int(void);
+
+int foo(int r,int x,int y){
+{ __VERIFIER_reached_control(4, __func__);
+if (x<0) { __VERIFIER_control_true(4, __func__);
+x = -x;}}
+{ __VERIFIER_reached_control(5, __func__);
+if (y<0) { __VERIFIER_control_true(5, __func__);
+y = -y;}}myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+
+while (y>0) { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int or;static int ox;static int oy;if(pStored0){__CPROVER_assert(!(or==r && ox==x && oy==y),"recurrent state found");} if(flag){or=r;ox=x;oy=y;pStored0=myTrue;} 
+		
+		r = x;
+	myBool pStored1 = myFalse; __VERIFIER_reached_control(9, __func__);
+	while (r>=y) { __VERIFIER_loop_head(9, __func__);
+printf("CBMC Instrumentation @ line9");myBool flag=__VERIFIER_nondet_myBool();static int or;static int ox;static int oy;if(pStored1){__CPROVER_assert(!(or==r && ox==x && oy==y),"recurrent state found");} if(flag){or=r;ox=x;oy=y;pStored1=myTrue;} 
+			r = r-y;
+        }
+		
+		x = y;
+		y = r;
+	}
+return 0;
+}
+
+
+End Main 
+ gcd1_true-termination_braced_instrumented.c
+NTFILE is gcd1_true-termination_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for gcd1_true-termination.c
+FILE=gcd1_true-termination_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 694 milliseconds

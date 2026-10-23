@@ -1,0 +1,6 @@
+Even.c:7:9: warning: unused variable 'b' [-Wunused-variable]
+    int b;
+        ^
+1 warning generated.
+NO
+Runtime: 822 milliseconds

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="programfile" attr.name="programfile" for="graph"/>
+  <key id="programhash" attr.name="programhash" for="graph"/>
+  <key id="sourcecodelang" attr.name="sourcecodelang" for="graph"/>
+  <key id="producer" attr.name="producer" for="graph"/>
+  <key id="specification" attr.name="specification" for="graph"/>
+  <key id="creationtime" attr.name="creationtime" for="graph"/>
+  <key id="witness-type" attr.name="witness-type" for="graph"/>
+  <key id="architecture" attr.name="architecture" for="graph"/>
+  <key id="entry" attr.name="entry" for="node">
+    <default>false</default>
+  </key>
+  <key id="nodetype" attr.name="nodetype" for="node">
+    <default>path</default>
+  </key>
+  <key id="violation" attr.name="violation" for="node">
+    <default>false</default>
+  </key>
+  <key id="cyclehead" attr.name="cyclehead" for="node">
+    <default>false</default>
+  </key>
+  <key id="invariant" attr.name="invariant" for="node">
+    <default>true</default>
+  </key>
+  <key id="sink" attr.name="sink" for="node">
+    <default>false</default>
+  </key>
+  <key id="endline" attr.name="endline" for="edge"/>
+  <key id="enterLoopHead" attr.name="enterLoopHead" for="edge">
+    <default>false</default>
+  </key>
+  <key id="enterFunction" attr.name="enterFunction" for="edge"/>
+  <key id="startline" attr.name="startline" for="edge"/>
+  <key id="returnFrom" attr.name="returnFrom" for="edge"/>
+  <key id="assumption" attr.name="assumption" for="edge"/>
+  <key id="tokens" attr.name="tokens" for="edge"/>
+  <key id="control" attr.name="control" for="edge"/>
+  <key id="originfile" attr.name="originfile" for="edge">
+    <default>/liveness_analysis/GCD.c</default>
+  </key>
+  <key id="sourcecode" attr.name="sourcecode" for="edge"/>
+  <graph edgedefault="directed">
+    <data key="witness-type">violation_witness</data>
+    <data key="sourcecodelang">C</data>
+    <data key="producer">AProVE</data>
+    <data key="creationtime">2026-09-03T17:16:34Z</data>
+    <data key="specification">CHECK( init(main()), LTL(F end) )</data>
+    <data key="programfile">/liveness_analysis/GCD.c</data>
+    <data key="programhash">5f52b905489768d11946f99b46b2e235c97efbb56a51bc32b8b274637f7dd5d8</data>
+    <data key="architecture">64bit</data>
+    <node id="S166">
+      <data key="entry">true</data>
+    </node>
+    <node id="S172"/>
+    <edge source="S166" target="S172">
+      <data key="startline">5</data>
+      <data key="endline">5</data>
+      <data key="enterFunction">main</data>
+    </edge>
+    <node id="S173"/>
+    <edge source="S172" target="S173">
+      <data key="sourcecode">int x;</data>
+      <data key="startline">6</data>
+      <data key="endline">6</data>
+    </edge>
+    <node id="S174"/>
+    <edge source="S173" target="S174">
+      <data key="sourcecode">int y;</data>
+      <data key="startline">7</data>
+      <data key="endline">7</data>
+    </edge>
+    <node id="S175"/>
+    <edge source="S174" target="S175">
+      <data key="sourcecode">int tmp;</data>
+      <data key="startline">8</data>
+      <data key="endline">8</data>
+    </edge>
+    <node id="S177"/>
+    <edge source="S175" target="S177">
+      <data key="sourcecode">int xtmp;</data>
+      <data key="startline">9</data>
+      <data key="endline">9</data>
+    </edge>
+    <node id="S179"/>
+    <edge source="S177" target="S179">
+      <data key="sourcecode">x = __VERIFIER_nondet_int();</data>
+      <data key="startline">10</data>
+      <data key="endline">10</data>
+    </edge>
+    <node id="S185"/>
+    <edge source="S179" target="S185">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">y = __VERIFIER_nondet_int();</data>
+      <data key="startline">11</data>
+      <data key="endline">11</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S189"/>
+    <edge source="S185" target="S189">
+      <data key="sourcecode">while(y != 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+    </edge>
+    <node id="S191"/>
+    <edge source="S189" target="S191">
+      <data key="sourcecode">tmp = y;</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+    </edge>
+    <node id="S207"/>
+    <edge source="S191" target="S207">
+      <data key="sourcecode">xtmp = x;</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S224"/>
+    <edge source="S207" target="S224">
+      <data key="sourcecode">if(x &lt;= 0 || y &lt;= 0) {</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S252"/>
+    <edge source="S224" target="S252">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">if (x == y) {</data>
+      <data key="startline">20</data>
+      <data key="endline">20</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S274"/>
+    <edge source="S252" target="S274">
+      <data key="sourcecode">while(xtmp&gt;y) {</data>
+      <data key="startline">23</data>
+      <data key="endline">23</data>
+    </edge>
+    <node id="S354"/>
+    <edge source="S274" target="S354">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">xtmp = xtmp - y;</data>
+      <data key="startline">24</data>
+      <data key="endline">24</data>
+    </edge>
+    <node id="S404"/>
+    <edge source="S354" target="S404">
+      <data key="sourcecode">while(xtmp&gt;y) {</data>
+      <data key="startline">23</data>
+      <data key="endline">23</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <edge source="S404" target="S354">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">xtmp = xtmp - y;</data>
+      <data key="startline">24</data>
+      <data key="endline">24</data>
+    </edge>
+  </graph>
+</graphml>

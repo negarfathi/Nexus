@@ -1,0 +1,104 @@
+MAYBE
+proof of AlternKonv.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 24 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/AlternKonv.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/AlternKonv.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "foo" linkageType: EXTERNALLY_VISIBLE returnParam: i32 parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		br %3
+	3:
+		%4 = load %2
+		%5 = icmp ne %4 0
+		br %5, %6, %28
+	6:
+		%7 = load %2
+		%8 = icmp slt %7 0
+		br %8, %9, %18
+	9:
+		%10 = load %2
+		%11 = add i32 %10, 2
+		store %11, %2
+		%12 = load %2
+		%13 = icmp slt %12 0
+		br %13, %14, %17
+	14:
+		%15 = load %2
+		%16 = mul i32 %15, -1
+		store %16, %2
+		br %17
+	17:
+		br %27
+	18:
+		%19 = load %2
+		%20 = sub i32 %19, 2
+		store %20, %2
+		%21 = load %2
+		%22 = icmp sgt %21 0
+		br %22, %23, %26
+	23:
+		%24 = load %2
+		%25 = mul i32 %24, -1
+		store %25, %2
+		br %26
+	26:
+		br %27
+	27:
+		br %3
+	28:
+		ret 0
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788511221Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1431 milliseconds

@@ -1,0 +1,96 @@
+///*** 1_load_mems ***///
+START: load_mems_bb0;
+
+FROM: load_mems_bb0;
+var__temp_v.02 := vbit_num_;
+var__temp_v.01 := vword_num_;
+var__temp_v.0 := vptr;
+TO: load_mems_bb1;
+
+FROM: load_mems_bb1;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.13 := v.02;
+var__temp_v.1 := v.01;
+TO: load_mems_bb1_end;
+
+FROM: load_mems_bb1_end;
+assume(v.0 > 0);
+TO: load_mems_bb2;
+
+FROM: load_mems_bb1_end;
+assume(v.0 <= 0);
+TO: load_mems_bb9;
+
+FROM: load_mems_bb2;
+v.13 := var__temp_v.13;
+v.1 := var__temp_v.1;
+TO: load_mems_bb2_end;
+
+FROM: load_mems_bb2_end;
+assume(v.1 < 2);
+TO: load_mems_bb3;
+
+FROM: load_mems_bb2_end;
+assume(v.1 >= 2);
+TO: load_mems_bb8;
+
+FROM: load_mems_bb3;
+v2 := nondet();
+var__temp_v.2 := v.13;
+TO: load_mems_bb3_end;
+
+FROM: load_mems_bb3_end;
+assume(v2 != 0);
+TO: load_mems_bb4;
+
+FROM: load_mems_bb3_end;
+assume(v2 == 0);
+TO: load_mems_bb7;
+
+FROM: load_mems_bb4;
+v.2 := var__temp_v.2;
+TO: load_mems_bb4_end;
+
+FROM: load_mems_bb4_end;
+assume(v.2 < 64);
+TO: load_mems_bb5;
+
+FROM: load_mems_bb4_end;
+assume(v.2 >= 64);
+TO: load_mems_bb7;
+
+FROM: load_mems_bb5;
+v5 := nondet();
+TO: load_mems_bb5_end;
+
+FROM: load_mems_bb5_end;
+assume(v5 != 0);
+TO: load_mems_bb7;
+
+FROM: load_mems_bb5_end;
+assume(v5 == 0);
+TO: load_mems_bb6;
+
+FROM: load_mems_bb6;
+v7 := v.2 + 1;
+var__temp_v.2 := v7;
+TO: load_mems_bb4;
+
+FROM: load_mems_bb7;
+v8 := v.1 + 1;
+var__temp_v.13 := 0;
+var__temp_v.1 := v8;
+TO: load_mems_bb2;
+
+FROM: load_mems_bb8;
+v9 := v.0 + -1;
+var__temp_v.02 := v.13;
+var__temp_v.01 := 0;
+var__temp_v.0 := v9;
+TO: load_mems_bb1;
+
+FROM: load_mems_bb9;
+TO: load_mems_bb9_ret;
+

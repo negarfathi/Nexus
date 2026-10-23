@@ -1,0 +1,4 @@
+/aprove/AProVE.sh: line 24:     9 Killed                  KOAT2_PATH="$APROVE_HOME/bin" LOAT_PATH="$APROVE_HOME/bin" C_INCLUDE_PATH="$APROVE_HOME/fake_include" LD_LIBRARY_PATH="$APROVE_HOME/lib:$LD_LIBRARY_PATH" PATH="$APROVE_HOME/bin:$PATH" java -Duser.home="$HOME" -Djava.io.tmpdir="$TMPDIR" -Xmx14g -ea -jar "$APROVE_HOME/aprove.jar" "$@" -m wst -p plain -W "witness.graphml" -s "$APROVE_HOME/newstrategy.strategy" 2> "$TMPDIR/errfile"
+Graph finished, checking  consistency
+Graph finished, checked consistency, took 0.0s
+Runtime: 5788 milliseconds

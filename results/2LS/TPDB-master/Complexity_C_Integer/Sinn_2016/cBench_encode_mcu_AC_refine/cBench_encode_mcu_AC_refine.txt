@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing cBench_encode_mcu_AC_refine.c
+Converting
+Type-checking cBench_encode_mcu_AC_refine
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of encode_mcu_AC_refine
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 316 milliseconds

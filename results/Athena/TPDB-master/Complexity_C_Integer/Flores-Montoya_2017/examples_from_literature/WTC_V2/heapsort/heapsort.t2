@@ -1,0 +1,141 @@
+///*** 1_heapsort ***///
+START: heapsort_bb0;
+
+FROM: heapsort_bb0;
+var__temp_vi.0 := 1;
+TO: heapsort_bb1;
+
+FROM: heapsort_bb1;
+vi.0 := var__temp_vi.0;
+TO: heapsort_bb1_end;
+
+FROM: heapsort_bb1_end;
+assume((vsize > 0) && (vi.0 >= 1));
+TO: heapsort_bb2;
+
+FROM: heapsort_bb1_end;
+assume((vsize <= 0) || (vi.0 < 1));
+TO: heapsort_bb11;
+
+FROM: heapsort_bb2;
+v2 := 2 * vi.0;
+v3 := 2 * vi.0;
+v4 := v3 + 1;
+var__temp_vmax.1 := vi.0;
+TO: heapsort_bb2_end;
+
+FROM: heapsort_bb2_end;
+assume(v2 <= vsize);
+TO: heapsort_bb3;
+
+FROM: heapsort_bb2_end;
+assume(v2 > vsize);
+TO: heapsort_bb5;
+
+FROM: heapsort_bb3;
+TO: heapsort_bb3_end;
+
+FROM: heapsort_bb3_end;
+assume((v2 < 1) || (v2 > vsize));
+TO: heapsort_bb11;
+
+FROM: heapsort_bb3_end;
+assume((v2 >= 1) && (v2 <= vsize));
+TO: heapsort_bb4;
+
+FROM: heapsort_bb4;
+v8 := nondet();
+TO: heapsort_bb4_v.i.0;
+FROM: heapsort_bb4_v.i.0;
+assume(v8 > 0);
+v.i.0 := v2;
+TO: heapsort_bb4_sv.i.0;
+
+FROM: heapsort_bb4_v.i.0;
+assume(v8 <= 0);
+v.i.0 := vi.0;
+TO: heapsort_bb4_sv.i.0;
+
+FROM: heapsort_bb4_sv.i.0;
+var__temp_vmax.1 := v.i.0;
+TO: heapsort_bb5;
+
+FROM: heapsort_bb5;
+vmax.1 := var__temp_vmax.1;
+var__temp_vmax.3 := vmax.1;
+TO: heapsort_bb5_end;
+
+FROM: heapsort_bb5_end;
+assume(v4 <= vsize);
+TO: heapsort_bb6;
+
+FROM: heapsort_bb5_end;
+assume(v4 > vsize);
+TO: heapsort_bb8;
+
+FROM: heapsort_bb6;
+TO: heapsort_bb6_end;
+
+FROM: heapsort_bb6_end;
+assume((v4 < 1) || (v4 > vsize));
+TO: heapsort_bb11;
+
+FROM: heapsort_bb6_end;
+assume((v4 >= 1) && (v4 <= vsize));
+TO: heapsort_bb7;
+
+FROM: heapsort_bb7;
+v13 := nondet();
+TO: heapsort_bb7_v.max.1;
+FROM: heapsort_bb7_v.max.1;
+assume(v13 > 0);
+v.max.1 := v4;
+TO: heapsort_bb7_sv.max.1;
+
+FROM: heapsort_bb7_v.max.1;
+assume(v13 <= 0);
+v.max.1 := vmax.1;
+TO: heapsort_bb7_sv.max.1;
+
+FROM: heapsort_bb7_sv.max.1;
+var__temp_vmax.3 := v.max.1;
+TO: heapsort_bb8;
+
+FROM: heapsort_bb8;
+vmax.3 := var__temp_vmax.3;
+TO: heapsort_bb8_end;
+
+FROM: heapsort_bb8_end;
+assume(vi.0 != vmax.3);
+TO: heapsort_bb9;
+
+FROM: heapsort_bb8_end;
+assume(vi.0 == vmax.3);
+TO: heapsort_bb11;
+
+FROM: heapsort_bb9;
+TO: heapsort_bb9_end;
+
+FROM: heapsort_bb9_end;
+assume((vi.0 < 1) || (vi.0 > vsize));
+TO: heapsort_bb11;
+
+FROM: heapsort_bb9_end;
+assume((vi.0 >= 1) && (vi.0 <= vsize));
+TO: heapsort_bb10;
+
+FROM: heapsort_bb10;
+var__temp_vi.0 := vmax.3;
+TO: heapsort_bb10_end;
+
+FROM: heapsort_bb10_end;
+assume((vmax.3 < 1) || (vmax.3 > vsize));
+TO: heapsort_bb11;
+
+FROM: heapsort_bb10_end;
+assume((vmax.3 >= 1) && (vmax.3 <= vsize));
+TO: heapsort_bb1;
+
+FROM: heapsort_bb11;
+TO: heapsort_bb11_ret;
+

@@ -1,0 +1,85 @@
+///*** 1_twn05 ***///
+START: twn05_bb0;
+
+FROM: twn05_bb0;
+var__temp_v.05 := vf;
+var__temp_v.03 := vc;
+TO: twn05_bb0_end;
+
+FROM: twn05_bb0_end;
+assume(vf > 0);
+TO: twn05_bb1;
+
+FROM: twn05_bb0_end;
+assume(vf <= 0);
+TO: twn05_bb7;
+
+FROM: twn05_bb1;
+v.05 := var__temp_v.05;
+v.03 := var__temp_v.03;
+var__temp_v.14 := v.03;
+var__temp_v.1 := vd;
+TO: twn05_bb1_end;
+
+FROM: twn05_bb1_end;
+assume(v.05 > 0);
+TO: twn05_bb2;
+
+FROM: twn05_bb1_end;
+assume(v.05 <= 0);
+TO: twn05_bb7;
+
+FROM: twn05_bb2;
+v.14 := var__temp_v.14;
+v.1 := var__temp_v.1;
+var__temp_v.12 := ve;
+var__temp_v.2 := v.1;
+TO: twn05_bb2_end;
+
+FROM: twn05_bb2_end;
+assume(v.14 > 0);
+TO: twn05_bb3;
+
+FROM: twn05_bb2_end;
+assume(v.14 <= 0);
+TO: twn05_bb4;
+
+FROM: twn05_bb3;
+v3 := v.1 + v.14;
+v4 := v.14 - 1;
+var__temp_v.14 := v4;
+var__temp_v.1 := v3;
+TO: twn05_bb2;
+
+FROM: twn05_bb4;
+v.12 := var__temp_v.12;
+v.2 := var__temp_v.2;
+v5 := v.12 * v.12;
+TO: twn05_bb4_end;
+
+FROM: twn05_bb4_end;
+assume((v.2 < v5) && (v.2 > 0));
+TO: twn05_bb5;
+
+FROM: twn05_bb4_end;
+assume((v.2 >= v5) || (v.2 <= 0));
+TO: twn05_bb6;
+
+FROM: twn05_bb5;
+v8 := 5 * v.2;
+v9 := v.14 * v.14;
+v10 := v8 + v9;
+v11 := 2 * v.12;
+var__temp_v.12 := v11;
+var__temp_v.2 := v10;
+TO: twn05_bb4;
+
+FROM: twn05_bb6;
+v12 := v.05 - 1;
+var__temp_v.05 := v12;
+var__temp_v.03 := v.05;
+TO: twn05_bb1;
+
+FROM: twn05_bb7;
+TO: twn05_bb7_ret;
+

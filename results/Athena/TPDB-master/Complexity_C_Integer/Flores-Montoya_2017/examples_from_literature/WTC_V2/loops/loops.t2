@@ -1,0 +1,64 @@
+///*** 1_loops ***///
+START: loops_bb0;
+
+FROM: loops_bb0;
+var__temp_vx.0 := vn;
+TO: loops_bb0_end;
+
+FROM: loops_bb0_end;
+assume(vn >= 0);
+TO: loops_bb1;
+
+FROM: loops_bb0_end;
+assume(vn < 0);
+TO: loops_bb6;
+
+FROM: loops_bb1;
+vx.0 := var__temp_vx.0;
+TO: loops_bb1_end;
+
+FROM: loops_bb1_end;
+assume(vx.0 >= 0);
+TO: loops_bb2;
+
+FROM: loops_bb1_end;
+assume(vx.0 < 0);
+TO: loops_bb6;
+
+FROM: loops_bb2;
+var__temp_vy.0 := 1;
+TO: loops_bb2_end;
+
+FROM: loops_bb2_end;
+assume(1 < vx.0);
+TO: loops_bb3;
+
+FROM: loops_bb2_end;
+assume(1 >= vx.0);
+TO: loops_bb5;
+
+FROM: loops_bb3;
+vy.0 := var__temp_vy.0;
+TO: loops_bb3_end;
+
+FROM: loops_bb3_end;
+assume(vy.0 < vx.0);
+TO: loops_bb4;
+
+FROM: loops_bb3_end;
+assume(vy.0 >= vx.0);
+TO: loops_bb5;
+
+FROM: loops_bb4;
+v4 := 2 * vy.0;
+var__temp_vy.0 := v4;
+TO: loops_bb3;
+
+FROM: loops_bb5;
+v5 := vx.0 - 1;
+var__temp_vx.0 := v5;
+TO: loops_bb1;
+
+FROM: loops_bb6;
+TO: loops_bb6_ret;
+

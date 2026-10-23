@@ -1,0 +1,76 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.1s7ceR
+
+Input File is : t19.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  void t19(int i, int k)
+{
+  while (i > 100)
+    {i--;}
+  i=i+k+50;
+  while (i >= 0)
+    {i--;}
+}
+
+
+End Main   
+
+Input File is : t19_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+void t19(int i, int k)
+{
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(4, __func__);
+ while (i > 100)
+    { __VERIFIER_loop_head(4, __func__);
+printf("CBMC Instrumentation @ line4");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ok;if(pStored0){__CPROVER_assert(!(oi==i && ok==k),"recurrent state found");} if(flag){oi=i;ok=k;pStored0=myTrue;} i--;}
+  i=i+k+50;
+ myBool pStored1 = myFalse; __VERIFIER_reached_control(7, __func__);
+ while (i >= 0)
+    { __VERIFIER_loop_head(7, __func__);
+printf("CBMC Instrumentation @ line7");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ok;if(pStored1){__CPROVER_assert(!(oi==i && ok==k),"recurrent state found");} if(flag){oi=i;ok=k;pStored1=myTrue;} i--;}
+}
+
+
+End Main 
+ t19_braced_instrumented.c
+NTFILE is t19_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for t19.c
+FILE=t19_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 670 milliseconds

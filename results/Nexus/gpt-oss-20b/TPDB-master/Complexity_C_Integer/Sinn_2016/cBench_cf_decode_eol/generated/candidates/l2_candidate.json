@@ -1,0 +1,22 @@
+{
+  "loop_id": "l2",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": {
+        "op": "<=",
+        "args": [
+          {
+            "op": "-",
+            "args": [
+              "l2_v10",
+              "l2_v9"
+            ]
+          },
+          0
+        ]
+      }
+    }
+  ]
+}

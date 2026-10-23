@@ -1,0 +1,124 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.q6YylQ
+
+Input File is : CPU2006_xdr3dfcoord.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int random();
+
+//Complexity: O(n)
+void xdr3dfcoord(int size, int limit) {
+	int i = 0;
+	while (i < size) {
+	    int is_small = 0;
+	    {if (i + 1 < size) {
+		{if (random()) {
+		    is_small = 1;
+		}}
+    
+	    }}
+	    i++;
+	    
+	    int run = 0;
+	    while (is_small && run < limit) {
+		run++;
+		i++;
+		is_small = 0;
+		{if (i < size &&
+			random()) {
+		    is_small = 1;
+		}}
+	    }
+	    for (int k=0; k < run; k+=3) {
+	    }
+	}
+}
+
+./proton: line 26:    22 Aborted                 bracer -in $FILE_NAME -c
+
+Input File is : CPU2006_xdr3dfcoord_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int random();
+
+//Complexity: O(n)
+void xdr3dfcoord(int size, int limit) {
+	int i = 0;
+myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+	while (i < size) { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int olimit;static int osize;if(pStored0){__CPROVER_assert(!(oi==i && olimit==limit && osize==size),"recurrent state found");} if(flag){oi=i;olimit=limit;osize=size;pStored0=myTrue;} 
+	    int is_small = 0;
+	    { __VERIFIER_reached_control(8, __func__);
+if (i + 1 < size) { __VERIFIER_control_true(8, __func__);
+
+		{ __VERIFIER_reached_control(9, __func__);
+if (random()) { __VERIFIER_control_true(9, __func__);
+
+		    is_small = 1;
+		}}
+    
+	    }}
+	    i++;
+	    
+	    int run = 0;
+	   myBool pStored1 = myFalse; __VERIFIER_reached_control(17, __func__);
+ while (is_small && run < limit) { __VERIFIER_loop_head(17, __func__);
+printf("CBMC Instrumentation @ line17");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ois_small;static int olimit;static int orun;static int osize;if(pStored1){__CPROVER_assert(!(oi==i && ois_small==is_small && olimit==limit && orun==run && osize==size),"recurrent state found");} if(flag){oi=i;ois_small=is_small;olimit=limit;orun=run;osize=size;pStored1=myTrue;} 
+		run++;
+		i++;
+		is_small = 0;
+		{ __VERIFIER_reached_control(21, __func__);
+if (i < size &&
+			random()) { __VERIFIER_control_true(22, __func__);
+
+		    is_small = 1;
+		}}
+	    }
+	   myBool pStored2 = myFalse; __VERIFIER_reached_control(26, __func__);
+ for (int k=0; k < run; k+=3) { __VERIFIER_loop_head(26, __func__);
+printf("CBMC Instrumentation @ line26");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ois_small;static int ok;static int olimit;static int orun;static int osize;if(pStored2){__CPROVER_assert(!(oi==i && ois_small==is_small && ok==k && olimit==limit && orun==run && osize==size),"recurrent state found");} if(flag){oi=i;ois_small=is_small;ok=k;olimit=limit;orun=run;osize=size;pStored2=myTrue;} 
+	    }
+	}
+}
+
+./proton: line 26:    24 Aborted                 instrumenter -in *braced.c -c
+CPU2006_xdr3dfcoord_braced_instrumented.c
+NTFILE is CPU2006_xdr3dfcoord_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for CPU2006_xdr3dfcoord.c
+FILE=CPU2006_xdr3dfcoord_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 722 milliseconds

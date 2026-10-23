@@ -1,0 +1,114 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.71ctAm
+
+Input File is : Loopus2011_ex2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+
+void Loopus2011_ex2(int r, int s) {
+int c = 4; int n; int f = 0; int d = 0;
+do {
+  n = nondet();
+  {if (c == 1 ) {break;}}
+  {if (f) {c /= 2;}}
+  {if (n > r) {
+    {if (d == 1 && !f) {f = 1; c /= 2; }}
+    d = 2; s += c;
+    {if (s > 255) {break;}} }
+  else {if (n < r) {
+    {if (d == 2 && !f) {f = 1; c /= 2; }}
+    d = 1; s -= c;
+    {if (s < 0) {break;}} }
+  else {break;}}} }
+while (1); 
+}
+
+End Main   
+
+Input File is : Loopus2011_ex2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+
+void Loopus2011_ex2(int r, int s) {
+int c = 4; int n; int f = 0; int d = 0;myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+
+do { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int oc;static int od;static int of;static int on;static int or;static int os;if(pStored0){__CPROVER_assert(!(oc==c && od==d && of==f && on==n && or==r && os==s),"recurrent state found");} if(flag){oc=c;od=d;of=f;on=n;or=r;os=s;pStored0=myTrue;} 
+  n = nondet();
+  { __VERIFIER_reached_control(8, __func__);
+if (c == 1 ) { __VERIFIER_control_true(8, __func__);
+break;}}
+  { __VERIFIER_reached_control(9, __func__);
+if (f) { __VERIFIER_control_true(9, __func__);
+c /= 2;}}
+  { __VERIFIER_reached_control(10, __func__);
+if (n > r) { __VERIFIER_control_true(10, __func__);
+
+    { __VERIFIER_reached_control(11, __func__);
+if (d == 1 && !f) { __VERIFIER_control_true(11, __func__);
+f = 1; c /= 2; }}
+    d = 2; s += c;
+    { __VERIFIER_reached_control(13, __func__);
+if (s > 255) { __VERIFIER_control_true(13, __func__);
+break;}} }
+  else { __VERIFIER_control_false(14, __func__);
+ __VERIFIER_reached_control(14, __func__);
+if (n < r) { __VERIFIER_control_true(14, __func__);
+
+    { __VERIFIER_reached_control(15, __func__);
+if (d == 2 && !f) { __VERIFIER_control_true(15, __func__);
+f = 1; c /= 2; }}
+    d = 1; s -= c;
+    { __VERIFIER_reached_control(17, __func__);
+if (s < 0) { __VERIFIER_control_true(17, __func__);
+break;}} }
+  else { __VERIFIER_control_false(18, __func__);
+break;}}} }
+while (1); 
+}
+
+End Main 
+ Loopus2011_ex2_braced_instrumented.c
+NTFILE is Loopus2011_ex2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for Loopus2011_ex2.c
+FILE=Loopus2011_ex2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 711 milliseconds

@@ -1,0 +1,89 @@
+///*** 1_perfect ***///
+START: perfect_bb0;
+
+FROM: perfect_bb0;
+var__temp_vy1.0.sink := vx;
+var__temp_vy3.0 := vx;
+var__temp_v.0 := 0;
+TO: perfect_bb0_end;
+
+FROM: perfect_bb0_end;
+assume(vx <= 1);
+TO: perfect_bb6;
+
+FROM: perfect_bb0_end;
+assume(vx > 1);
+TO: perfect_bb1;
+
+FROM: perfect_bb1;
+vy1.0.sink := var__temp_vy1.0.sink;
+vy3.0 := var__temp_vy3.0;
+v1 := vy1.0.sink - 1;
+var__temp_vy2.1 := vx;
+TO: perfect_bb1_end;
+
+FROM: perfect_bb1_end;
+assume(v1 > 0);
+TO: perfect_bb2;
+
+FROM: perfect_bb1_end;
+assume(v1 <= 0);
+TO: perfect_bb5;
+
+FROM: perfect_bb2;
+vy2.1 := var__temp_vy2.1;
+TO: perfect_bb2_end;
+
+FROM: perfect_bb2_end;
+assume(vy2.1 >= v1);
+TO: perfect_bb3;
+
+FROM: perfect_bb2_end;
+assume(vy2.1 < v1);
+TO: perfect_bb4;
+
+FROM: perfect_bb3;
+v4 := vy2.1 - v1;
+var__temp_vy2.1 := v4;
+TO: perfect_bb2;
+
+FROM: perfect_bb4;
+v6 := vy3.0 - v1;
+TO: perfect_bb4_v.y3.0;
+FROM: perfect_bb4_v.y3.0;
+assume(vy2.1 == 0);
+v.y3.0 := v6;
+TO: perfect_bb4_sv.y3.0;
+
+FROM: perfect_bb4_v.y3.0;
+assume(vy2.1 != 0);
+v.y3.0 := vy3.0;
+TO: perfect_bb4_sv.y3.0;
+
+FROM: perfect_bb4_sv.y3.0;
+var__temp_vy1.0.sink := v1;
+var__temp_vy3.0 := v.y3.0;
+TO: perfect_bb1;
+
+FROM: perfect_bb5;
+TO: perfect_bb5_v7;
+
+FROM: perfect_bb5_v7;
+assume(vy3.0 == 0);
+v7 := 1;
+TO: perfect_bb5_sv7;
+
+FROM: perfect_bb5_v7;
+assume(vy3.0 != 0);
+v7 := 0;
+TO: perfect_bb5_sv7;
+
+FROM: perfect_bb5_sv7;
+v8 := v7;
+var__temp_v.0 := v8;
+TO: perfect_bb6;
+
+FROM: perfect_bb6;
+v.0 := var__temp_v.0;
+TO: perfect_bb6_ret;
+

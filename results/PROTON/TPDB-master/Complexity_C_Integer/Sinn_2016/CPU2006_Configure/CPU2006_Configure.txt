@@ -1,0 +1,250 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.W8m8y3
+
+Input File is : CPU2006_Configure.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from SPEC CPU2006	h264ref/src/configfile.c 	Configure
+
+int random();
+
+//O(n)
+void Configure(int ac)
+{
+    //char *content;
+    int CLcount, ContentLen, NumberParams;
+    /*char *filename = "encoder.cfg";
+    memset(&configinput, 0, sizeof(InputParameters));
+    printf("Setting Default Parameters...\n");
+    InitEncoderParams();*/
+    CLcount = 1;
+    /*if (ac == 2) {
+	if (0 == strncmp(av[1], "-h", 2)) {
+	    JMHelpExit();
+	}
+    }*/
+    {if (ac >= 3) {
+	{if (random()) { //0 == strncmp(av[1], "-d", 2)
+	    //filename = av[2];
+	    CLcount = 3;
+	}}
+	/*if (0 == strncmp(av[1], "-h", 2)) {
+	    JMHelpExit();
+	}*/
+    }}
+    /*printf("Parsing Configfile %s", filename);
+    content = GetConfigFileContent(filename);
+    if (((void *) 0) == content)
+	error(errortext, 300);
+    ParseContent(content, strlen(content));
+    printf("\n");
+    free(content);*/
+    while (CLcount < ac) {
+	/*if (0 == strncmp(av[CLcount], "-h", 2)) {
+	    JMHelpExit();
+	}*/
+	{if (random()) { //0 == strncmp(av[CLcount], "-f", 2)
+	    /*content = GetConfigFileContent(av[CLcount + 1]);
+	    if (((void *) 0) == content)
+		error(errortext, 300);
+	    printf("Parsing Configfile %s", av[CLcount + 1]);
+	    ParseContent(content, strlen(content));
+	    printf("\n");
+	    free(content);*/
+	    CLcount += 2;
+	} else {
+	    {if (random()) { //0 == strncmp(av[CLcount], "-p", 2)
+		CLcount++;
+		//ContentLen = 0;
+		NumberParams = CLcount;
+		while (NumberParams < ac && random()) //av[NumberParams][0] != '-')
+		    {NumberParams++;} //ContentLen += strlen(av[NumberParams++]);
+		//ContentLen += 1000;
+		/*if ((content = malloc(ContentLen)) == ((void *) 0))
+		    no_mem_exit("Configure: content");;
+		content[0] = '\0';*/
+		while (CLcount < NumberParams) {
+		    /*char *source = &av[CLcount][0];
+		    char *destin = &content[strlen(content)];
+		    while (*source != '\0') {
+			if (*source == '=') {
+			    *destin++ = ' ';
+			    *destin++ = '=';
+			    *destin++ = ' ';
+			} else
+			    *destin++ = *source;
+			source++;
+		    }
+		    *destin = '\0';*/
+		    CLcount++;
+		}
+		/*printf("Parsing command line string '%s'", content);
+		ParseContent(content, strlen(content));
+		free(content);
+		printf("\n");*/
+	    } else {
+		/*snprintf(errortext, 300, "Error in command line, ac %d, around string '%s', missing -f or -p parameters?", CLcount, av[CLcount]);
+		error(errortext, 300);*/
+		return; //added
+	    }}
+	}}
+    }
+/*    printf("\n");
+    PatchInp();
+    if (input->DisplayEncParams)
+	DisplayEncoderParams();*/
+}
+
+End Main   
+
+Input File is : CPU2006_Configure_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from SPEC CPU2006	h264ref/src/configfile.c 	Configure
+
+int random();
+
+//O(n)
+void Configure(int ac)
+{
+    //char *content;
+    int CLcount, ContentLen, NumberParams;
+    /*char *filename = "encoder.cfg";
+    memset(&configinput, 0, sizeof(InputParameters));
+    printf("Setting Default Parameters...\n");
+    InitEncoderParams();*/
+    CLcount = 1;
+    /*if (ac == 2) {
+	if (0 == strncmp(av[1], "-h", 2)) {
+	    JMHelpExit();
+	}
+    }*/
+    { __VERIFIER_reached_control(20, __func__);
+if (ac >= 3) { __VERIFIER_control_true(20, __func__);
+
+	{ __VERIFIER_reached_control(21, __func__);
+if (random()) { __VERIFIER_control_true(21, __func__);
+ //0 == strncmp(av[1], "-d", 2)
+	    //filename = av[2];
+	    CLcount = 3;
+	}}
+	/*if (0 == strncmp(av[1], "-h", 2)) {
+	    JMHelpExit();
+	}*/
+    }}
+    /*printf("Parsing Configfile %s", filename);
+    content = GetConfigFileContent(filename);
+    if (((void *) 0) == content)
+	error(errortext, 300);
+    ParseContent(content, strlen(content));
+    printf("\n");
+    free(content);*/
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(36, __func__);
+ while (CLcount < ac) { __VERIFIER_loop_head(36, __func__);
+printf("CBMC Instrumentation @ line36");myBool flag=__VERIFIER_nondet_myBool();static int oCLcount;static int oContentLen;static int oNumberParams;static int oac;if(pStored0){__CPROVER_assert(!(oCLcount==CLcount && oContentLen==ContentLen && oNumberParams==NumberParams && oac==ac),"recurrent state found");} if(flag){oCLcount=CLcount;oContentLen=ContentLen;oNumberParams=NumberParams;oac=ac;pStored0=myTrue;} 
+	/*if (0 == strncmp(av[CLcount], "-h", 2)) {
+	    JMHelpExit();
+	}*/
+	{ __VERIFIER_reached_control(40, __func__);
+if (random()) { __VERIFIER_control_true(40, __func__);
+ //0 == strncmp(av[CLcount], "-f", 2)
+	    /*content = GetConfigFileContent(av[CLcount + 1]);
+	    if (((void *) 0) == content)
+		error(errortext, 300);
+	    printf("Parsing Configfile %s", av[CLcount + 1]);
+	    ParseContent(content, strlen(content));
+	    printf("\n");
+	    free(content);*/
+	    CLcount += 2;
+	} else { __VERIFIER_control_false(49, __func__);
+
+	    { __VERIFIER_reached_control(50, __func__);
+if (random()) { __VERIFIER_control_true(50, __func__);
+ //0 == strncmp(av[CLcount], "-p", 2)
+		CLcount++;
+		//ContentLen = 0;
+		NumberParams = CLcount;
+	myBool pStored1 = myFalse; __VERIFIER_reached_control(55, __func__);
+	while (NumberParams < ac && random()) //av[NumberParams][0] != '-')
+		    { __VERIFIER_loop_head(55, __func__);
+printf("CBMC Instrumentation @ line55");myBool flag=__VERIFIER_nondet_myBool();static int oCLcount;static int oContentLen;static int oNumberParams;static int oac;if(pStored1){__CPROVER_assert(!(oCLcount==CLcount && oContentLen==ContentLen && oNumberParams==NumberParams && oac==ac),"recurrent state found");} if(flag){oCLcount=CLcount;oContentLen=ContentLen;oNumberParams=NumberParams;oac=ac;pStored1=myTrue;} NumberParams++;} //ContentLen += strlen(av[NumberParams++]);
+		//ContentLen += 1000;
+		/*if ((content = malloc(ContentLen)) == ((void *) 0))
+		    no_mem_exit("Configure: content");;
+		content[0] = '\0';*/
+	myBool pStored2 = myFalse; __VERIFIER_reached_control(60, __func__);
+	while (CLcount < NumberParams) { __VERIFIER_loop_head(60, __func__);
+printf("CBMC Instrumentation @ line60");myBool flag=__VERIFIER_nondet_myBool();static int oCLcount;static int oContentLen;static int oNumberParams;static int oac;if(pStored2){__CPROVER_assert(!(oCLcount==CLcount && oContentLen==ContentLen && oNumberParams==NumberParams && oac==ac),"recurrent state found");} if(flag){oCLcount=CLcount;oContentLen=ContentLen;oNumberParams=NumberParams;oac=ac;pStored2=myTrue;} 
+		    /*char *source = &av[CLcount][0];
+		    char *destin = &content[strlen(content)];
+		    while (*source != '\0') {
+			if (*source
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+ == '=') {
+			    *destin++ = ' ';
+			    *destin++ = '=';
+			    *destin++ = ' ';
+			} else
+			    *destin++ = *source;
+			source++;
+		    }
+		    *destin = '\0';*/
+		    CLcount++;
+		}
+		/*printf("Parsing command line string '%s'", content);
+		ParseContent(content, strlen(content));
+		free(content);
+		printf("\n");*/
+	    } else { __VERIFIER_control_false(79, __func__);
+
+		/*snprintf(errortext, 300, "Error in command line, ac %d, around string '%s', missing -f or -p parameters?", CLcount, av[CLcount]);
+		error(errortext, 300);*/
+		return; //added
+	    }}
+	}}
+    }
+/*    printf("\n");
+    PatchInp();
+    if (input->DisplayEncParams)
+	DisplayEncoderParams();*/
+}
+
+End Main 
+ CPU2006_Configure_braced_instrumented.c
+NTFILE is CPU2006_Configure_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for CPU2006_Configure.c
+FILE=CPU2006_Configure_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 699 milliseconds

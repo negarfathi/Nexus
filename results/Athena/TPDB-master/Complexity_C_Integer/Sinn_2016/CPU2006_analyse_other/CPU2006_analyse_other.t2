@@ -1,0 +1,336 @@
+///*** 1_analyse_other ***///
+START: analyse_other_bb0;
+
+FROM: analyse_other_bb0;
+var__temp_vi.0 := 0;
+TO: analyse_other_bb1;
+
+FROM: analyse_other_bb1;
+vi.0 := var__temp_vi.0;
+TO: analyse_other_bb1_end;
+
+FROM: analyse_other_bb1_end;
+assume(vi.0 < vatoms_nres);
+TO: analyse_other_bb2;
+
+FROM: analyse_other_bb1_end;
+assume(vi.0 >= vatoms_nres);
+TO: analyse_other_bb4;
+
+FROM: analyse_other_bb2;
+v1 := nondet();
+TO: analyse_other_bb2_end;
+
+FROM: analyse_other_bb2_end;
+assume(v1 != 0);
+TO: analyse_other_bb4;
+
+FROM: analyse_other_bb2_end;
+assume(v1 == 0);
+TO: analyse_other_bb3;
+
+FROM: analyse_other_bb3;
+v3 := vi.0 + 1;
+var__temp_vi.0 := v3;
+TO: analyse_other_bb1;
+
+FROM: analyse_other_bb4;
+var__temp_vk.0 := 0;
+var__temp_vnrestp.0 := 0;
+TO: analyse_other_bb4_end;
+
+FROM: analyse_other_bb4_end;
+assume(vi.0 < vatoms_nres);
+TO: analyse_other_bb5;
+
+FROM: analyse_other_bb4_end;
+assume(vi.0 >= vatoms_nres);
+TO: analyse_other_bb28;
+
+FROM: analyse_other_bb5;
+vk.0 := var__temp_vk.0;
+vnrestp.0 := var__temp_vnrestp.0;
+var__temp_vi.1 := 0;
+TO: analyse_other_bb5_end;
+
+FROM: analyse_other_bb5_end;
+assume(vk.0 < vatoms_nr);
+TO: analyse_other_bb6;
+
+FROM: analyse_other_bb5_end;
+assume(vk.0 >= vatoms_nr);
+TO: analyse_other_bb12;
+
+FROM: analyse_other_bb6;
+v6 := nondet();
+var__temp_vl.0 := 0;
+var__temp_vnrestp.2 := vnrestp.0;
+TO: analyse_other_bb6_end;
+
+FROM: analyse_other_bb6_end;
+assume(v6 != 0);
+TO: analyse_other_bb7;
+
+FROM: analyse_other_bb6_end;
+assume(v6 == 0);
+TO: analyse_other_bb11;
+
+FROM: analyse_other_bb7;
+vl.0 := var__temp_vl.0;
+TO: analyse_other_bb7_end;
+
+FROM: analyse_other_bb7_end;
+assume(vl.0 < vnrestp.0);
+TO: analyse_other_bb8;
+
+FROM: analyse_other_bb7_end;
+assume(vl.0 >= vnrestp.0);
+TO: analyse_other_bb10;
+
+FROM: analyse_other_bb8;
+v9 := nondet();
+TO: analyse_other_bb8_end;
+
+FROM: analyse_other_bb8_end;
+assume(v9 != 0);
+TO: analyse_other_bb10;
+
+FROM: analyse_other_bb8_end;
+assume(v9 == 0);
+TO: analyse_other_bb9;
+
+FROM: analyse_other_bb9;
+v11 := vl.0 + 1;
+var__temp_vl.0 := v11;
+TO: analyse_other_bb7;
+
+FROM: analyse_other_bb10;
+v13 := vnrestp.0 + 1;
+TO: analyse_other_bb10_v.nrestp.0;
+FROM: analyse_other_bb10_v.nrestp.0;
+assume(vl.0 == vnrestp.0);
+v.nrestp.0 := v13;
+TO: analyse_other_bb10_sv.nrestp.0;
+
+FROM: analyse_other_bb10_v.nrestp.0;
+assume(vl.0 != vnrestp.0);
+v.nrestp.0 := vnrestp.0;
+TO: analyse_other_bb10_sv.nrestp.0;
+
+FROM: analyse_other_bb10_sv.nrestp.0;
+var__temp_vnrestp.2 := v.nrestp.0;
+TO: analyse_other_bb11;
+
+FROM: analyse_other_bb11;
+vnrestp.2 := var__temp_vnrestp.2;
+v14 := vk.0 + 1;
+var__temp_vk.0 := v14;
+var__temp_vnrestp.0 := vnrestp.2;
+TO: analyse_other_bb5;
+
+FROM: analyse_other_bb12;
+vi.1 := var__temp_vi.1;
+var__temp_vnaid.0 := 0;
+var__temp_vj.0 := 0;
+TO: analyse_other_bb12_end;
+
+FROM: analyse_other_bb12_end;
+assume(vi.1 < vnrestp.0);
+TO: analyse_other_bb13;
+
+FROM: analyse_other_bb12_end;
+assume(vi.1 >= vnrestp.0);
+TO: analyse_other_bb28;
+
+FROM: analyse_other_bb13;
+vnaid.0 := var__temp_vnaid.0;
+vj.0 := var__temp_vj.0;
+TO: analyse_other_bb13_end;
+
+FROM: analyse_other_bb13_end;
+assume(vj.0 < vatoms_nr);
+TO: analyse_other_bb14;
+
+FROM: analyse_other_bb13_end;
+assume(vj.0 >= vatoms_nr);
+TO: analyse_other_bb15;
+
+FROM: analyse_other_bb14;
+v17 := nondet();
+v19 := vnaid.0 + 1;
+TO: analyse_other_bb14_v.naid.0;
+FROM: analyse_other_bb14_v.naid.0;
+assume(v17 != 0);
+v.naid.0 := v19;
+TO: analyse_other_bb14_sv.naid.0;
+
+FROM: analyse_other_bb14_v.naid.0;
+assume(v17 == 0);
+v.naid.0 := vnaid.0;
+TO: analyse_other_bb14_sv.naid.0;
+
+FROM: analyse_other_bb14_sv.naid.0;
+v20 := vj.0 + 1;
+var__temp_vnaid.0 := v.naid.0;
+var__temp_vj.0 := v20;
+TO: analyse_other_bb13;
+
+FROM: analyse_other_bb15;
+TO: analyse_other_bb15_end;
+
+FROM: analyse_other_bb15_end;
+assume(vbASK != 0);
+TO: analyse_other_bb16;
+
+FROM: analyse_other_bb15_end;
+assume(vbASK == 0);
+TO: analyse_other_bb27;
+
+FROM: analyse_other_bb16;
+v22 := nondet();
+var__temp_vnatp.0 := 0;
+var__temp_vk.1 := 0;
+TO: analyse_other_bb16_end;
+
+FROM: analyse_other_bb16_end;
+assume(v22 != 0);
+TO: analyse_other_bb17;
+
+FROM: analyse_other_bb16_end;
+assume(v22 == 0);
+TO: analyse_other_bb27;
+
+FROM: analyse_other_bb17;
+vnatp.0 := var__temp_vnatp.0;
+vk.1 := var__temp_vk.1;
+var__temp_vl.1 := 0;
+TO: analyse_other_bb17_end;
+
+FROM: analyse_other_bb17_end;
+assume(vk.1 < vnaid.0);
+TO: analyse_other_bb18;
+
+FROM: analyse_other_bb17_end;
+assume(vk.1 >= vnaid.0);
+TO: analyse_other_bb22;
+
+FROM: analyse_other_bb18;
+vl.1 := var__temp_vl.1;
+TO: analyse_other_bb18_end;
+
+FROM: analyse_other_bb18_end;
+assume(vl.1 < vnatp.0);
+TO: analyse_other_bb19;
+
+FROM: analyse_other_bb18_end;
+assume(vl.1 >= vnatp.0);
+TO: analyse_other_bb21;
+
+FROM: analyse_other_bb19;
+v26 := nondet();
+TO: analyse_other_bb19_end;
+
+FROM: analyse_other_bb19_end;
+assume(v26 != 0);
+TO: analyse_other_bb21;
+
+FROM: analyse_other_bb19_end;
+assume(v26 == 0);
+TO: analyse_other_bb20;
+
+FROM: analyse_other_bb20;
+v28 := vl.1 + 1;
+var__temp_vl.1 := v28;
+TO: analyse_other_bb18;
+
+FROM: analyse_other_bb21;
+v30 := vnatp.0 + 1;
+TO: analyse_other_bb21_v.natp.0;
+FROM: analyse_other_bb21_v.natp.0;
+assume(vl.1 == vnatp.0);
+v.natp.0 := v30;
+TO: analyse_other_bb21_sv.natp.0;
+
+FROM: analyse_other_bb21_v.natp.0;
+assume(vl.1 != vnatp.0);
+v.natp.0 := vnatp.0;
+TO: analyse_other_bb21_sv.natp.0;
+
+FROM: analyse_other_bb21_sv.natp.0;
+v31 := vk.1 + 1;
+var__temp_vnatp.0 := v.natp.0;
+var__temp_vk.1 := v31;
+TO: analyse_other_bb17;
+
+FROM: analyse_other_bb22;
+var__temp_vl.2 := 0;
+TO: analyse_other_bb22_end;
+
+FROM: analyse_other_bb22_end;
+assume(vnatp.0 > 1);
+TO: analyse_other_bb23;
+
+FROM: analyse_other_bb22_end;
+assume(vnatp.0 <= 1);
+TO: analyse_other_bb27;
+
+FROM: analyse_other_bb23;
+vl.2 := var__temp_vl.2;
+var__temp_vnaaid.0 := 0;
+var__temp_vk.2 := 0;
+TO: analyse_other_bb23_end;
+
+FROM: analyse_other_bb23_end;
+assume(vl.2 < vnatp.0);
+TO: analyse_other_bb24;
+
+FROM: analyse_other_bb23_end;
+assume(vl.2 >= vnatp.0);
+TO: analyse_other_bb27;
+
+FROM: analyse_other_bb24;
+vnaaid.0 := var__temp_vnaaid.0;
+vk.2 := var__temp_vk.2;
+TO: analyse_other_bb24_end;
+
+FROM: analyse_other_bb24_end;
+assume(vk.2 < vnaid.0);
+TO: analyse_other_bb25;
+
+FROM: analyse_other_bb24_end;
+assume(vk.2 >= vnaid.0);
+TO: analyse_other_bb26;
+
+FROM: analyse_other_bb25;
+v35 := nondet();
+v37 := vnaaid.0 + 1;
+TO: analyse_other_bb25_v.naaid.0;
+FROM: analyse_other_bb25_v.naaid.0;
+assume(v35 != 0);
+v.naaid.0 := v37;
+TO: analyse_other_bb25_sv.naaid.0;
+
+FROM: analyse_other_bb25_v.naaid.0;
+assume(v35 == 0);
+v.naaid.0 := vnaaid.0;
+TO: analyse_other_bb25_sv.naaid.0;
+
+FROM: analyse_other_bb25_sv.naaid.0;
+v38 := vk.2 + 1;
+var__temp_vnaaid.0 := v.naaid.0;
+var__temp_vk.2 := v38;
+TO: analyse_other_bb24;
+
+FROM: analyse_other_bb26;
+v39 := vl.2 + 1;
+var__temp_vl.2 := v39;
+TO: analyse_other_bb23;
+
+FROM: analyse_other_bb27;
+v40 := vi.1 + 1;
+var__temp_vi.1 := v40;
+TO: analyse_other_bb12;
+
+FROM: analyse_other_bb28;
+TO: analyse_other_bb28_ret;
+

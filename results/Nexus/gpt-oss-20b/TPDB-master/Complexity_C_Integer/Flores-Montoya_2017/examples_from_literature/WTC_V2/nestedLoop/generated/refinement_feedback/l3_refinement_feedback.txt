@@ -1,0 +1,265 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v6",
+    "l3_v3"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l3_v3",
+    "l3_v6"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l3_v6",
+    "l3_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l3_v3",
+    "l3_v6"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l2_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(D <= C),
+                                        Not(B <= E)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(l1_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(A <= D)),
+                                        l2_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        0,
+                                        F)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M],
+                                        Implies(And(l1_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        F,
+                                        G),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        0,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M),
+                                        Not(A <= D),
+                                        E == 1 + K),
+                                        l1_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        E,
+                                        L,
+                                        M)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(0 <= D,
+                                        0 <= C,
+                                        0 <= E),
+                                        l1_reachable_header_states(C,
+                                        D,
+                                        E,
+                                        0,
+                                        A,
+                                        B)))),
+                                        l1_reachable_header_states(2,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0)),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(Or(0 >= G,
+                                        And(Not(G <= 0),
+                                        E >= B)),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                                        l2_header_to_exit(2,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0,
+                                        2,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0)),
+                                 l1_reachable_header_states(2,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0)),
+                       l2_reachable_header_states(2,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v6",
+        "l3_v3"
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        "l3_v3",
+        "l3_v6"
+      ],
+      "op": "-"
+    },
+    0
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "<",
+      "args": [
+        "l3_v6",
+        "l3_v3"
+      ]
+    },
+    {
+      "op": "-",
+      "args": [
+        "l3_v3",
+        "l3_v6"
+      ]
+    },
+    0
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

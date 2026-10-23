@@ -1,0 +1,392 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l2_v2",
+            12
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            3,
+            "l2_v2"
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    12,
+    "l2_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l2_v1",
+        0
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "<=",
+          "args": [
+            "l2_v2",
+            12
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            3,
+            "l2_v2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    12,
+    "l2_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(And(l1_reachable_header_states(A,
+                                        B),
+                                        Or(Not(3 <= B),
+                                        Not(12 >= B),
+                                        Not(0 == A)),
+                                        Not(10 <= A)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C, D, E],
+                                       Implies(And(l1_reachable_header_states(A,
+                                        C),
+                                        l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(10 <= A),
+                                        B == 1 + A),
+                                        l1_reachable_header_states(B,
+                                        E)))),
+                       hyper-res(asserted(l1_reachable_header_states(0,
+                                        3)),
+                                 l1_reachable_header_states(0,
+                                        3)),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        Implies(And(l2_header_to_exit(A,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(12 <= B),
+                                        C == 1 + B),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        D,
+                                        E)))),
+                                        hyper-res(asserted(ForAll([A,
+                                        B],
+                                        Implies(12 <= B,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        A,
+                                        B)))),
+                                        l2_header_to_exit(0,
+                                        12,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        11,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        10,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        9,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        8,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        7,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        6,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        5,
+                                        0,
+                                        12)),
+                                        l2_header_to_exit(0,
+                                        4,
+                                        0,
+...
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v2",
+        12
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        3,
+        "l2_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    12,
+    "l2_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l2_v2",
+        12
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        3,
+        "l2_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    12,
+    "l2_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

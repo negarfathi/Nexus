@@ -1,0 +1,125 @@
+MAYBE
+proof of BradleyMannaSipma-ICALP2005-Fig1_true-termination.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 26 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/BradleyMannaSipma-ICALP2005-Fig1_true-termination.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/BradleyMannaSipma-ICALP2005-Fig1_true-termination.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "__VERIFIER_nondet_int" returnParam: i32 parameters: () variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "foo" linkageType: EXTERNALLY_VISIBLE returnParam: i32 parameters: (0 i32, 1 i32, 2 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		store %1, %5
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		store %2, %6
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		%7 = load %6
+		%8 = icmp slt %7 536870912
+		br %8, %9, %44
+	9:
+		%10 = load %4
+		%11 = icmp slt %10 536870912
+		br %11, %12, %44
+	12:
+		%13 = load %5
+		%14 = icmp slt %13 536870912
+		br %14, %15, %44
+	15:
+		%16 = load %4
+		%17 = icmp sge %16 -1073741824
+		br %17, %18, %44
+	18:
+		%19 = load %4
+		%20 = load %5
+		%21 = add i32 %19, %20
+		%22 = icmp sge %21 0
+		br %22, %23, %43
+	23:
+		br %24
+	24:
+		%25 = load %4
+		%26 = load %6
+		%27 = icmp sle %25 %26
+		br %27, %28, %42
+	28:
+		%29 = call i32 @__VERIFIER_nondet_int()
+		%30 = icmp ne %29 0
+		br %30, %31, %38
+	31:
+		%32 = load %4
+		%33 = mul i32 2, %32
+		%34 = load %5
+		%35 = add i32 %33, %34
+		store %35, %4
+		%36 = load %5
+		%37 = add i32 %36, 1
+		store %37, %5
+		br %41
+	38:
+		%39 = load %4
+		%40 = add i32 %39, 1
+		store %40, %4
+		br %41
+	41:
+		br %24
+	42:
+		br %43
+	43:
+		br %44
+	44:
+		ret 0
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788512510Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1451 milliseconds

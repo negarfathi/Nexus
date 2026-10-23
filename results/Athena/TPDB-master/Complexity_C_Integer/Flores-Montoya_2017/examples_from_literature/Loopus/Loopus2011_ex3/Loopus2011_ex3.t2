@@ -1,0 +1,40 @@
+///*** 1_Loopus2011_ex3 ***///
+START: Loopus2011_ex3_bb0;
+
+FROM: Loopus2011_ex3_bb0;
+var__temp_v.0 := vx;
+TO: Loopus2011_ex3_bb1;
+
+FROM: Loopus2011_ex3_bb1;
+v.0 := var__temp_v.0;
+TO: Loopus2011_ex3_bb1_end;
+
+FROM: Loopus2011_ex3_bb1_end;
+assume((0 < v.0) && (v.0 < 255));
+TO: Loopus2011_ex3_bb2;
+
+FROM: Loopus2011_ex3_bb1_end;
+assume((0 >= v.0) || (v.0 >= 255));
+TO: Loopus2011_ex3_bb3;
+
+FROM: Loopus2011_ex3_bb2;
+v3 := v.0 + 1;
+v4 := v.0 - 1;
+TO: Loopus2011_ex3_bb2_v.1;
+FROM: Loopus2011_ex3_bb2_v.1;
+assume(vb != 0);
+v.1 := v3;
+TO: Loopus2011_ex3_bb2_sv.1;
+
+FROM: Loopus2011_ex3_bb2_v.1;
+assume(vb == 0);
+v.1 := v4;
+TO: Loopus2011_ex3_bb2_sv.1;
+
+FROM: Loopus2011_ex3_bb2_sv.1;
+var__temp_v.0 := v.1;
+TO: Loopus2011_ex3_bb1;
+
+FROM: Loopus2011_ex3_bb3;
+TO: Loopus2011_ex3_bb3_ret;
+

@@ -1,0 +1,20 @@
+**TAIL:**
+
+5: int main() {
+6: int i;
+7: int j;
+8: int r;
+9: i = __VERIFIER_nondet_int();
+10: j = __VERIFIER_nondet_int();
+12: while (i - j &gt;= 1) {
+13: i = i - __VERIFIER_nondet_int();
+14: r = __VERIFIER_nondet_int() + 1;
+15: j = j + r;
+
+**LOOP:**
+
+12: while (i - j &gt;= 1) {
+13: i = i - __VERIFIER_nondet_int();
+14: r = __VERIFIER_nondet_int() + 1;
+15: j = j + r;
+12: while (i - j &gt;= 1) {

@@ -1,0 +1,65 @@
+///*** 1_wise ***///
+START: wise_bb0;
+
+FROM: wise_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: wise_bb0_end;
+
+FROM: wise_bb0_end;
+assume((vx < 0) || (vy < 0));
+TO: wise_bb2;
+
+FROM: wise_bb0_end;
+assume((vx >= 0) && (vy >= 0));
+TO: wise_bb1;
+
+FROM: wise_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v2 := v.0 - v.01;
+v4 := v.01 - v.0;
+TO: wise_bb1_end;
+
+FROM: wise_bb1_end;
+assume((v2 > 2) || (v4 > 2));
+TO: wise_.critedge;
+
+FROM: wise_bb1_end;
+assume((v2 <= 2) && (v4 <= 2));
+TO: wise_bb2;
+
+FROM: wise_.critedge;
+v7 := v.0 + 1;
+v8 := v.01 + 1;
+TO: wise_.critedge_v.12;
+FROM: wise_.critedge_v.12;
+assume(v.0 < v.01);
+v.12 := v.01;
+TO: wise_.critedge_sv.12;
+
+FROM: wise_.critedge_v.12;
+assume(v.0 >= v.01);
+v.12 := v8;
+TO: wise_.critedge_sv.12;
+
+FROM: wise_.critedge_sv.12;
+TO: wise_.critedge_v.1;
+FROM: wise_.critedge_v.1;
+assume(v.0 < v.01);
+v.1 := v7;
+TO: wise_.critedge_sv.1;
+
+FROM: wise_.critedge_v.1;
+assume(v.0 >= v.01);
+v.1 := v.0;
+TO: wise_.critedge_sv.1;
+
+FROM: wise_.critedge_sv.1;
+var__temp_v.01 := v.12;
+var__temp_v.0 := v.1;
+TO: wise_bb1;
+
+FROM: wise_bb2;
+TO: wise_bb2_ret;
+

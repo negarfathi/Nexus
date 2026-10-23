@@ -1,0 +1,108 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.XiKJur
+
+Input File is : ex_paper1.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+int nondet();
+void tick(int c);
+
+void ex_paper1(int x,int y,int z){
+{if(x<=0) {return;}}
+{if(y<=0) {return;}}
+ while(x>0) {
+   x--;
+   y++;
+ while(nondet() && y>0){
+     y--;   
+     tick(2);
+   }
+ }
+  while(y>0){
+    y--; 
+    for(int i=0;i<z;i++)
+       {tick(1);}
+  }
+   
+}
+./proton: line 26:    22 Aborted                 bracer -in $FILE_NAME -c
+
+Input File is : ex_paper1_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+int nondet();
+void tick(int c);
+
+void ex_paper1(int x,int y,int z){
+{ __VERIFIER_reached_control(6, __func__);
+if(x<=0) { __VERIFIER_control_true(6, __func__);
+return;}}
+{ __VERIFIER_reached_control(7, __func__);
+if(y<=0) { __VERIFIER_control_true(7, __func__);
+return;}}
+myBool pStored0 = myFalse; __VERIFIER_reached_control(8, __func__);
+ while(x>0) { __VERIFIER_loop_head(8, __func__);
+printf("CBMC Instrumentation @ line8");myBool flag=__VERIFIER_nondet_myBool();static int ox;static int oy;static int oz;if(pStored0){__CPROVER_assert(!(ox==x && oy==y && oz==z),"recurrent state found");} if(flag){ox=x;oy=y;oz=z;pStored0=myTrue;} 
+   x--;
+   y++;
+myBool pStored1 = myFalse; __VERIFIER_reached_control(11, __func__);
+ while(nondet() && y>0){ __VERIFIER_loop_head(11, __func__);
+printf("CBMC Instrumentation @ line11");myBool flag=__VERIFIER_nondet_myBool();static int ox;static int oy;static int oz;if(pStored1){__CPROVER_assert(!(ox==x && oy==y && oz==z),"recurrent state found");} if(flag){ox=x;oy=y;oz=z;pStored1=myTrue;} 
+     y--;   
+     tick(2);
+   }
+ }
+ myBool pStored2 = myFalse; __VERIFIER_reached_control(16, __func__);
+ while(y>0){ __VERIFIER_loop_head(16, __func__);
+printf("CBMC Instrumentation @ line16");myBool flag=__VERIFIER_nondet_myBool();static int ox;static int oy;static int oz;if(pStored2){__CPROVER_assert(!(ox==x && oy==y && oz==z),"recurrent state found");} if(flag){ox=x;oy=y;oz=z;pStored2=myTrue;} 
+    y--; 
+   myBool pStored3 = myFalse; __VERIFIER_reached_control(19, __func__);
+ for(int i=0;i<z;i++)
+       { __VERIFIER_loop_head(19, __func__);
+printf("CBMC Instrumentation @ line19");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ox;static int oy;static int oz;if(pStored3){__CPROVER_assert(!(oi==i && ox==x && oy==y && oz==z),"recurrent state found");} if(flag){oi=i;ox=x;oy=y;oz=z;pStored3=myTrue;} tick(1);}
+  }
+   
+}
+./proton: line 26:    24 Aborted                 instrumenter -in *braced.c -c
+ex_paper1_braced_instrumented.c
+NTFILE is ex_paper1_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for ex_paper1.c
+FILE=ex_paper1_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 705 milliseconds

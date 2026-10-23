@@ -1,0 +1,756 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v3",
+        {
+          "args": [
+            "l1_v1",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            {
+              "args": [
+                "l1_v1",
+                1
+              ],
+              "op": "+"
+            }
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            "l1_v3",
+            "l1_v2"
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "<=",
+          "args": [
+            "l1_v3",
+            {
+              "op": "+",
+              "args": [
+                "l1_v1",
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            "l1_v3",
+            "l1_v2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        E <= 1 + A,
+                                        E <= C,
+                                        Or(Not(F <= D),
+                                        Not(F <= 1 + B),
+                                        Not(F >= B)),
+                                        E >= A),
+                                     query!8))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C <= B,
+                                        C <= A,
+                                        D == 1 + C),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        C,
+                                        A,
+                                        B,
+                                        D)))),
+                       l1_iteration_steps(0, 0, 0, 0, 0, 1)),
+             query!8),
+   asserted(Implies(query!8, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            {
+              "args": [
+                "l1_v1",
+                1
+              ],
+              "op": "+"
+            }
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                1
+              ],
+              "op": "+"
+            },
+            "l1_v2"
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "<=",
+          "args": [
+            "l1_v3",
+            {
+              "op": "+",
+              "args": [
+                "l1_v1",
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            {
+              "op": "+",
+              "args": [
+                "l1_v3",
+                1
+              ]
+            },
+            "l1_v2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        E <= -1 + C,
+                                        E <= 1 + A,
+                                        Or(Not(F <= 1 + B),
+                                        Not(F <= -1 + D),
+                                        Not(F >= B)),
+                                        E >= A),
+                                     query!8))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(C <= B,
+                                        C <= A,
+                                        D == 1 + C),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        C,
+                                        A,
+                                        B,
+                                        D)))),
+                       l1_iteration_steps(0, 1, 0, 0, 1, 1)),
+             query!8),
+   asserted(Implies(query!8, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v3",
+        {
+          "args": [
+            "l1_v1",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v3",
+        {
+          "op": "+",
+          "args": [
+            "l1_v1",
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v2 = -1, l1_v3 = 0, l1_v1 = 0]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C],
+                             Implies(And(C <= 1 + A,
+                                        Not(C <= B),
+                                        C >= A),
+                                     query!21))),
+             query!21),
+   asserted(Implies(query!21, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            {
+              "args": [
+                "l1_v1",
+                1
+              ],
+              "op": "+"
+            }
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            "l1_v3",
+            "l1_v2"
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                "l1_v1"
+              ],
+              "op": "<="
+            }
+          ],
+          "op": "not"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast.args[1]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1",
+        "l1_v1"
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast.args[1]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v3",
+        {
+          "args": [
+            "l1_v1",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            "l1_v2"
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "not"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "not",
+      "args": [
+        {
+          "op": "<=",
+          "args": [
+            "l1_v3",
+            "l1_v2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v2 = -1, l1_v1 = 0, l1_v3 = 0]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C],
+                             Implies(And(Not(C <= B),
+                                        C >= A),
+                                     query!20))),
+             query!20),
+   asserted(Implies(query!20, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v1",
+            1
+          ],
+          "op": "+"
+        },
+        "l1_v2"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            "l1_v1"
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            {
+              "args": [
+                "l1_v1",
+                1
+              ],
+              "op": "+"
+            }
+          ],
+          "op": "="
+        }
+      ],
+      "op": "or"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        {
+          "op": "+",
+          "args": [
+            "l1_v1",
+            1
+          ]
+        },
+        "l1_v2"
+      ]
+    },
+    {
+      "op": "or",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            "l1_v1"
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            {
+              "op": "+",
+              "args": [
+                "l1_v1",
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "valid"

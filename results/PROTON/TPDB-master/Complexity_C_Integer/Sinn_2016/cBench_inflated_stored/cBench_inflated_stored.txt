@@ -1,0 +1,200 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.PerfER
+
+Input File is : cBench_inflated_stored.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench	security_pgp_d/src/zinflate.c	inflate_stored	
+//similar pattern can be found in cBench	security_pgp_d/src/zinflate.c	inflate_dynamic	
+
+int random();
+
+//Complexity: O(n)
+void inflate_stored(int n, int k, int limit)
+{
+   /* unsigned n;
+    unsigned w;
+    register ULONG b;
+    register unsigned k;
+    b = bb;
+    k = bk;
+    w = wp;
+    n = k & 7; {
+	b >>= (n);*/
+	k -= (n);
+    //}; {
+	while (k < (16)) {
+	    /*if (--incnt < 0 && FillInBuf())
+		return 1;*/
+	    //b |= (ULONG) * inptr++ << k;
+	    k += 8;
+	}
+    //}
+    /*n = b & 0xffff; {
+	b >>= (16);*/
+	k -= (16);
+    //}
+    {
+	while (k < (16)) {
+	    /*if (--incnt < 0 && FillInBuf())
+		return 1;*/
+	    //b |= (ULONG) * inptr++ << k;
+	    k += 8;
+	}
+    }
+    {if (random())//n != ((~b) & 0xffff)
+	{return;}}
+    {
+      //b >>= (16);
+      k -= (16);
+    }
+	while (n-- > 0) { {
+		while (k < limit) { //in original code: limit = (8)
+		    /*if (--incnt < 0 && FillInBuf())
+			return 1;*/
+		    //b |= (ULONG) * inptr++ << k;
+		    k += 8;
+		}
+	}
+	/*slide[w++] = b;
+	if (w == 8192) {
+	    flush(w);
+	    w = 0;
+	}*/
+	    {
+		//b >>= (8);
+		k -= (8);
+	    }
+	}
+	/*wp = w;
+	bb = b;
+	bk = k;*/
+	return;
+}
+
+
+End Main   
+
+Input File is : cBench_inflated_stored_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench	security_pgp_d/src/zinflate.c	inflate_stored	
+//similar pattern can be found in cBench	security_pgp_d/src/zinflate.c	inflate_dynamic	
+
+int random();
+
+//Complexity: O(n)
+void inflate_stored(int n, int k, int limit)
+{
+   /* unsigned n;
+    unsigned w;
+    register ULONG b;
+    register unsigned k;
+    b = bb;
+    k = bk;
+    w = wp;
+    n = k & 7; {
+	b >>= (n);*/
+	k -= (n);
+    //}; {
+myBool pStored0 = myFalse; __VERIFIER_reached_control(20, __func__);
+	while (k < (16)) { __VERIFIER_loop_head(20, __func__);
+printf("CBMC Instrumentation @ line20");myBool flag=__VERIFIER_nondet_myBool();static int ok;static int olimit;static int on;if(pStored0){__CPROVER_assert(!(ok==k && olimit==limit && on==n),"recurrent state found");} if(flag){ok=k;olimit=limit;on=n;pStored0=myTrue;} 
+	    /*if (--incnt < 0 && FillInBuf())
+		return 1;*/
+	    //b |= (ULONG) * inptr++ << k;
+	    k += 8;
+	}
+    //}
+    /*n = b & 0xffff; {
+	b >>= (16);*/
+	k -= (16);
+    //}
+    {
+myBool pStored1 = myFalse; __VERIFIER_reached_control(32, __func__);
+	while (k < (16)) { __VERIFIER_loop_head(32, __func__);
+printf("CBMC Instrumentation @ line32");myBool flag=__VERIFIER_nondet_myBool();static int ok;static int olimit;static int on;if(pStored1){__CPROVER_assert(!(ok==k && olimit==limit && on==n),"recurrent state found");} if(flag){ok=k;olimit=limit;on=n;pStored1=myTrue;} 
+	    /*if (--incnt < 0 && FillInBuf())
+		return 1;*/
+	    //b |= (ULONG) * inptr++ << k;
+	    k += 8;
+	}
+    }
+    { __VERIFIER_reached_control(39, __func__);
+if (random())//n != ((~b) & 0xffff)
+	{ __VERIFIER_control_true(40, __func__);
+return;}}
+    {
+      //b >>= (16);
+      k -= (16);
+    }
+myBool pStored2 = myFalse; __VERIFIER_reached_control(45, __func__);
+	while (n-- > 0) { __VERIFIER_loop_head(45, __func__);
+printf("CBMC Instrumentation @ line45");myBool flag=__VERIFIER_nondet_myBool();static int ok;static int olimit;static int on;if(pStored2){__CPROVER_assert(!(ok==k && olimit==limit && on==n),"recurrent state found");} if(flag){ok=k;olimit=limit;on=n;pStored2=myTrue;}  {
+	myBool pStored3 = myFalse; __VERIFIER_reached_control(46, __func__);
+	while (k < limit) { __VERIFIER_loop_head(46, __func__);
+printf("CBMC Instrumentation @ line46");myBool flag=__VERIFIER_nondet_myBool();static int ok;static int olimit;static int on;if(pStored3){__CPROVER_assert(!(ok==k && olimit==limit && on==n),"recurrent state found");} if(flag){ok=k;olimit=limit;on=n;pStored3=myTrue;}  //in original code: limit = (8)
+		    /*if (--incnt < 0 && FillInBuf())
+			return 1;*/
+		    //b |= (ULONG) * inptr++ << k;
+		    k += 8;
+		}
+	}
+	/*slide[w++] = b;
+	if (w == 8192) {
+	    flush(w);
+	    w = 0;
+	}*/
+	    {
+		//b >>= (8);
+		k -= (8);
+	    }
+	}
+	/*wp = w;
+	bb = b;
+	bk = k;*/
+	return;
+}
+
+
+End Main 
+ cBench_inflated_stored_braced_instrumented.c
+NTFILE is cBench_inflated_stored_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_inflated_stored.c
+FILE=cBench_inflated_stored_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 696 milliseconds

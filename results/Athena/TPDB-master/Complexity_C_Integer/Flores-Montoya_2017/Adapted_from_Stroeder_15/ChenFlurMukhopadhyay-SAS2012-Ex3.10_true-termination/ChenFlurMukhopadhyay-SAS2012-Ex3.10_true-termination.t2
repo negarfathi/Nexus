@@ -1,0 +1,34 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v1 := v.0 + v.01;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume((v.0 >= 0) && (v1 >= 0));
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume((v.0 < 0) || (v1 < 0));
+TO: foo_.critedge;
+
+FROM: foo_bb2;
+v3 := v.0 + v.01;
+v4 := v3 + vz;
+v5 := 0 - vz;
+v6 := v5 - 1;
+var__temp_v.01 := v6;
+var__temp_v.0 := v4;
+TO: foo_bb1;
+
+FROM: foo_.critedge;
+TO: foo_.critedge_ret;
+

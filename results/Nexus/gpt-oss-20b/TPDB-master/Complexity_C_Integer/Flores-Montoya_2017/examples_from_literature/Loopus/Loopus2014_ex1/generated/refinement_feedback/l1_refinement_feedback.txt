@@ -1,0 +1,141 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v3 = 2,
+ l2_v3_out = 6,
+ l1_v4 = 4,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l2_v2_out = 1,
+ l1_v2 = 1,
+ l1_v1 = 2,
+ l1_v2_next = 1,
+ l1_v4_next = 7,
+ l1_v3_next = 6,
+ l1_v1_next = 2,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"l1_v2"
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Expression does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H],
+                             Implies(And(l2_header_to_exit(G,
+                                        B,
+                                        A,
+                                        H,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(B <= -1),
+                                        D <= 0),
+                                     query!14))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(0 >= C,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        A,
+                                        B,
+                                        C,
+                                        D)))),
+                       l2_header_to_exit(2,
+                                        0,
+                                        0,
+                                        3,
+                                        2,
+                                        0,
+                                        0,
+                                        3)),
+             query!14),
+   asserted(Implies(query!14, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"

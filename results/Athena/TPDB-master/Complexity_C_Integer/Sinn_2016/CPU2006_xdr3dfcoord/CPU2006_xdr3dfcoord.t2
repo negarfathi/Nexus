@@ -1,0 +1,128 @@
+///*** 1_xdr3dfcoord ***///
+START: xdr3dfcoord_bb0;
+
+FROM: xdr3dfcoord_bb0;
+var__temp_vi.0 := 0;
+TO: xdr3dfcoord_bb1;
+
+FROM: xdr3dfcoord_bb1;
+vi.0 := var__temp_vi.0;
+TO: xdr3dfcoord_bb1_end;
+
+FROM: xdr3dfcoord_bb1_end;
+assume(vi.0 < vsize);
+TO: xdr3dfcoord_bb2;
+
+FROM: xdr3dfcoord_bb1_end;
+assume(vi.0 >= vsize);
+TO: xdr3dfcoord_bb10;
+
+FROM: xdr3dfcoord_bb2;
+v1 := vi.0 + 1;
+var__temp_vis_small.1 := 0;
+TO: xdr3dfcoord_bb2_end;
+
+FROM: xdr3dfcoord_bb2_end;
+assume(v1 < vsize);
+TO: xdr3dfcoord_bb3;
+
+FROM: xdr3dfcoord_bb2_end;
+assume(v1 >= vsize);
+TO: xdr3dfcoord_bb4;
+
+FROM: xdr3dfcoord_bb3;
+v3 := nondet();
+TO: xdr3dfcoord_bb3_v.;
+FROM: xdr3dfcoord_bb3_v.;
+assume(v3 != 0);
+v. := 1;
+TO: xdr3dfcoord_bb3_sv.;
+
+FROM: xdr3dfcoord_bb3_v.;
+assume(v3 == 0);
+v. := 0;
+TO: xdr3dfcoord_bb3_sv.;
+
+FROM: xdr3dfcoord_bb3_sv.;
+var__temp_vis_small.1 := v.;
+TO: xdr3dfcoord_bb4;
+
+FROM: xdr3dfcoord_bb4;
+vis_small.1 := var__temp_vis_small.1;
+v5 := vi.0 + 1;
+var__temp_vrun.0 := 0;
+var__temp_vis_small.2 := vis_small.1;
+var__temp_vi.1 := v5;
+TO: xdr3dfcoord_bb5;
+
+FROM: xdr3dfcoord_bb5;
+vrun.0 := var__temp_vrun.0;
+vis_small.2 := var__temp_vis_small.2;
+vi.1 := var__temp_vi.1;
+var__temp_vk.0 := 0;
+TO: xdr3dfcoord_bb5_end;
+
+FROM: xdr3dfcoord_bb5_end;
+assume((vis_small.2 != 0) && (vrun.0 < vlimit));
+TO: xdr3dfcoord_bb6;
+
+FROM: xdr3dfcoord_bb5_end;
+assume((vis_small.2 == 0) || (vrun.0 >= vlimit));
+TO: xdr3dfcoord_bb8;
+
+FROM: xdr3dfcoord_bb6;
+v8 := vrun.0 + 1;
+v9 := vi.1 + 1;
+var__temp_vrun.0 := v8;
+var__temp_vis_small.2 := 0;
+var__temp_vi.1 := v9;
+TO: xdr3dfcoord_bb6_end;
+
+FROM: xdr3dfcoord_bb6_end;
+assume(v9 < vsize);
+TO: xdr3dfcoord_bb7;
+
+FROM: xdr3dfcoord_bb6_end;
+assume(v9 >= vsize);
+TO: xdr3dfcoord_bb5;
+
+FROM: xdr3dfcoord_bb7;
+v11 := nondet();
+TO: xdr3dfcoord_bb7_v.2;
+FROM: xdr3dfcoord_bb7_v.2;
+assume(v11 != 0);
+v.2 := 1;
+TO: xdr3dfcoord_bb7_sv.2;
+
+FROM: xdr3dfcoord_bb7_v.2;
+assume(v11 == 0);
+v.2 := 0;
+TO: xdr3dfcoord_bb7_sv.2;
+
+FROM: xdr3dfcoord_bb7_sv.2;
+var__temp_vrun.0 := v8;
+var__temp_vis_small.2 := v.2;
+var__temp_vi.1 := v9;
+TO: xdr3dfcoord_bb5;
+
+FROM: xdr3dfcoord_bb8;
+vk.0 := var__temp_vk.0;
+var__temp_vi.0 := vi.1;
+TO: xdr3dfcoord_bb8_end;
+
+FROM: xdr3dfcoord_bb8_end;
+assume(vk.0 < vrun.0);
+TO: xdr3dfcoord_bb9;
+
+FROM: xdr3dfcoord_bb8_end;
+assume(vk.0 >= vrun.0);
+TO: xdr3dfcoord_bb1;
+
+FROM: xdr3dfcoord_bb9;
+v14 := vk.0 + 3;
+var__temp_vk.0 := v14;
+TO: xdr3dfcoord_bb8;
+
+FROM: xdr3dfcoord_bb10;
+TO: xdr3dfcoord_bb10_ret;
+

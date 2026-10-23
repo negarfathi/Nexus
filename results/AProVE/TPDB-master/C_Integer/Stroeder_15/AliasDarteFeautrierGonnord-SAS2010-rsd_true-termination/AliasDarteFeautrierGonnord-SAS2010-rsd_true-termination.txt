@@ -1,0 +1,217 @@
+YES
+proof of AliasDarteFeautrierGonnord-SAS2010-rsd_true-termination.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could be proven:
+
+(0) C Problem
+(1) CToIRSProof [EQUIVALENT, 0 ms]
+(2) IntTRS
+(3) TerminationGraphProcessor [SOUND, 14 ms]
+(4) IntTRS
+(5) IntTRSCompressionProof [EQUIVALENT, 4 ms]
+(6) IntTRS
+(7) IntTRSUnneededArgumentFilterProof [EQUIVALENT, 0 ms]
+(8) IntTRS
+(9) TerminationGraphProcessor [EQUIVALENT, 12 ms]
+(10) IntTRS
+(11) IntTRSCompressionProof [EQUIVALENT, 0 ms]
+(12) IntTRS
+(13) PolynomialOrderProcessor [EQUIVALENT, 0 ms]
+(14) IntTRS
+(15) IntTRSUnneededArgumentFilterProof [EQUIVALENT, 0 ms]
+(16) IntTRS
+(17) PolynomialOrderProcessor [EQUIVALENT, 0 ms]
+(18) YES
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/AliasDarteFeautrierGonnord-SAS2010-rsd_true-termination.c
+----------------------------------------
+
+(1) CToIRSProof (EQUIVALENT)
+Parsed C Integer Program as IRS.
+----------------------------------------
+
+(2)
+Obligation:
+Rules:
+f1(r, da, db, temp) -> f2(x_1, da, db, temp) :|: TRUE
+f3(x, x1, x2, x3) -> f6(x, arith, x2, x3) :|: TRUE && arith = 2 * x
+f6(x70, x71, x72, x73) -> f7(x70, x71, x74, x73) :|: TRUE && x74 = 2 * x70
+f9(x75, x76, x77, x78) -> f12(x75, x79, x77, x78) :|: TRUE && x79 = x76 - 1
+f10(x12, x13, x14, x15) -> f13(x12, x13, x14, x13) :|: TRUE
+f13(x80, x81, x82, x83) -> f14(x80, x84, x82, x83) :|: TRUE && x84 = x82 - 1
+f14(x20, x21, x22, x23) -> f15(x20, x21, x21, x23) :|: TRUE
+f8(x24, x25, x26, x27) -> f9(x24, x25, x26, x27) :|: x28 < 0
+f8(x85, x86, x87, x88) -> f9(x85, x86, x87, x88) :|: x89 > 0
+f8(x29, x30, x31, x32) -> f10(x29, x30, x31, x32) :|: x33 = 0
+f12(x34, x35, x36, x37) -> f11(x34, x35, x36, x37) :|: TRUE
+f15(x38, x39, x40, x41) -> f11(x38, x39, x40, x41) :|: TRUE
+f7(x42, x43, x44, x45) -> f8(x42, x43, x44, x45) :|: x43 >= x42
+f11(x46, x47, x48, x49) -> f7(x46, x47, x48, x49) :|: TRUE
+f7(x50, x51, x52, x53) -> f16(x50, x51, x52, x53) :|: x51 < x50
+f2(x54, x55, x56, x57) -> f3(x54, x55, x56, x57) :|: x54 >= 0
+f2(x58, x59, x60, x61) -> f4(x58, x59, x60, x61) :|: x58 < 0
+f16(x62, x63, x64, x65) -> f5(x62, x63, x64, x65) :|: TRUE
+f4(x66, x67, x68, x69) -> f5(x66, x67, x68, x69) :|: TRUE
+Start term: f1(r, da, db, temp)
+
+----------------------------------------
+
+(3) TerminationGraphProcessor (SOUND)
+Constructed the termination graph and obtained one non-trivial SCC.
+
+----------------------------------------
+
+(4)
+Obligation:
+Rules:
+f7(x42, x43, x44, x45) -> f8(x42, x43, x44, x45) :|: x43 >= x42
+f11(x46, x47, x48, x49) -> f7(x46, x47, x48, x49) :|: TRUE
+f12(x34, x35, x36, x37) -> f11(x34, x35, x36, x37) :|: TRUE
+f9(x75, x76, x77, x78) -> f12(x75, x79, x77, x78) :|: TRUE && x79 = x76 - 1
+f8(x24, x25, x26, x27) -> f9(x24, x25, x26, x27) :|: x28 < 0
+f8(x85, x86, x87, x88) -> f9(x85, x86, x87, x88) :|: x89 > 0
+f15(x38, x39, x40, x41) -> f11(x38, x39, x40, x41) :|: TRUE
+f14(x20, x21, x22, x23) -> f15(x20, x21, x21, x23) :|: TRUE
+f13(x80, x81, x82, x83) -> f14(x80, x84, x82, x83) :|: TRUE && x84 = x82 - 1
+f10(x12, x13, x14, x15) -> f13(x12, x13, x14, x13) :|: TRUE
+f8(x29, x30, x31, x32) -> f10(x29, x30, x31, x32) :|: x33 = 0
+
+----------------------------------------
+
+(5) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(6)
+Obligation:
+Rules:
+f11(x46:0, x47:0, x48:0, x49:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1, x47:0) :|: x47:0 >= x46:0
+f11(x, x1, x2, x3) -> f11(x, x1 - 1, x2, x3) :|: x1 >= x && x4 > 0
+f11(x5, x6, x7, x8) -> f11(x5, x6 - 1, x7, x8) :|: x6 >= x5 && x9 < 0
+
+----------------------------------------
+
+(7) IntTRSUnneededArgumentFilterProof (EQUIVALENT)
+Some arguments are removed because they cannot influence termination. We removed arguments according to the following replacements:
+
+   f11(x1, x2, x3, x4) -> f11(x1, x2, x3)
+
+----------------------------------------
+
+(8)
+Obligation:
+Rules:
+f11(x46:0, x47:0, x48:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1) :|: x47:0 >= x46:0
+f11(x, x1, x2) -> f11(x, x1 - 1, x2) :|: x1 >= x && x4 > 0
+f11(x5, x6, x7) -> f11(x5, x6 - 1, x7) :|: x6 >= x5 && x9 < 0
+
+----------------------------------------
+
+(9) TerminationGraphProcessor (EQUIVALENT)
+Constructed the termination graph and obtained one non-trivial SCC.
+
+f11(x46:0, x47:0, x48:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1) :|: x47:0 >= x46:0 and 
+f11(x46:0, x47:0, x48:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1) :|: x47:0 >= x46:0
+have been merged into the new rule
+f11(x25, x26, x27) -> f11(x25, x27 - 1 - 1, x27 - 1 - 1) :|: x26 >= x25 && x27 - 1 >= x25
+
+f11(x46:0, x47:0, x48:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1) :|: x47:0 >= x46:0 and 
+f11(x, x1, x2) -> f11(x, x1 - 1, x2) :|: x1 >= x && x4 > 0
+have been merged into the new rule
+f11(x38, x39, x40) -> f11(x38, x40 - 1 - 1, x40 - 1) :|: x39 >= x38 && (x40 - 1 >= x38 && x41 > 0)
+
+f11(x46:0, x47:0, x48:0) -> f11(x46:0, x48:0 - 1, x48:0 - 1) :|: x47:0 >= x46:0 and 
+f11(x5, x6, x7) -> f11(x5, x6 - 1, x7) :|: x6 >= x5 && x9 < 0
+have been merged into the new rule
+f11(x53, x54, x55) -> f11(x53, x55 - 1 - 1, x55 - 1) :|: x54 >= x53 && (x55 - 1 >= x53 && x56 < 0)
+
+
+----------------------------------------
+
+(10)
+Obligation:
+Rules:
+f11(x28, x29, x30) -> f11(x28, x30 + -2, x30 + -2) :|: TRUE && x29 + -1 * x28 >= 0 && x30 + -1 * x28 >= 1
+f11(x42, x43, x44) -> f11(x42, x44 + -2, x44 + -1) :|: TRUE && x43 + -1 * x42 >= 0 && x44 + -1 * x42 >= 1 && x45 >= 1
+f11(x57, x58, x59) -> f11(x57, x59 + -2, x59 + -1) :|: TRUE && x58 + -1 * x57 >= 0 && x59 + -1 * x57 >= 1 && x60 <= -1
+f11(x, x1, x2) -> f11(x, x1 + -1, x2) :|: TRUE && x1 + -1 * x >= 0 && x4 >= 1
+f11(x5, x6, x7) -> f11(x5, x6 + -1, x7) :|: TRUE && x6 + -1 * x5 >= 0 && x9 <= -1
+
+----------------------------------------
+
+(11) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(12)
+Obligation:
+Rules:
+f11(x:0, x1:0, x2:0) -> f11(x:0, x1:0 - 1, x2:0) :|: x4:0 > 0 && x1:0 + -1 * x:0 >= 0
+f11(x42:0, x43:0, x44:0) -> f11(x42:0, x44:0 - 2, x44:0 - 1) :|: x44:0 + -1 * x42:0 >= 1 && x43:0 + -1 * x42:0 >= 0 && x45:0 > 0
+f11(x28:0, x29:0, x30:0) -> f11(x28:0, x30:0 - 2, x30:0 - 2) :|: x30:0 + -1 * x28:0 >= 1 && x29:0 + -1 * x28:0 >= 0
+f11(x57:0, x58:0, x59:0) -> f11(x57:0, x59:0 - 2, x59:0 - 1) :|: x59:0 + -1 * x57:0 >= 1 && x58:0 + -1 * x57:0 >= 0 && x60:0 < 0
+f11(x5:0, x6:0, x7:0) -> f11(x5:0, x6:0 - 1, x7:0) :|: x9:0 < 0 && x6:0 + -1 * x5:0 >= 0
+
+----------------------------------------
+
+(13) PolynomialOrderProcessor (EQUIVALENT)
+Found the following polynomial interpretation:
+[f11(x, x1, x2)] = -1 - x + x2
+
+The following rules are decreasing:
+f11(x42:0, x43:0, x44:0) -> f11(x42:0, x44:0 - 2, x44:0 - 1) :|: x44:0 + -1 * x42:0 >= 1 && x43:0 + -1 * x42:0 >= 0 && x45:0 > 0
+f11(x28:0, x29:0, x30:0) -> f11(x28:0, x30:0 - 2, x30:0 - 2) :|: x30:0 + -1 * x28:0 >= 1 && x29:0 + -1 * x28:0 >= 0
+f11(x57:0, x58:0, x59:0) -> f11(x57:0, x59:0 - 2, x59:0 - 1) :|: x59:0 + -1 * x57:0 >= 1 && x58:0 + -1 * x57:0 >= 0 && x60:0 < 0
+The following rules are bounded:
+f11(x42:0, x43:0, x44:0) -> f11(x42:0, x44:0 - 2, x44:0 - 1) :|: x44:0 + -1 * x42:0 >= 1 && x43:0 + -1 * x42:0 >= 0 && x45:0 > 0
+f11(x28:0, x29:0, x30:0) -> f11(x28:0, x30:0 - 2, x30:0 - 2) :|: x30:0 + -1 * x28:0 >= 1 && x29:0 + -1 * x28:0 >= 0
+f11(x57:0, x58:0, x59:0) -> f11(x57:0, x59:0 - 2, x59:0 - 1) :|: x59:0 + -1 * x57:0 >= 1 && x58:0 + -1 * x57:0 >= 0 && x60:0 < 0
+
+----------------------------------------
+
+(14)
+Obligation:
+Rules:
+f11(x:0, x1:0, x2:0) -> f11(x:0, x1:0 - 1, x2:0) :|: x4:0 > 0 && x1:0 + -1 * x:0 >= 0
+f11(x5:0, x6:0, x7:0) -> f11(x5:0, x6:0 - 1, x7:0) :|: x9:0 < 0 && x6:0 + -1 * x5:0 >= 0
+
+----------------------------------------
+
+(15) IntTRSUnneededArgumentFilterProof (EQUIVALENT)
+Some arguments are removed because they cannot influence termination. We removed arguments according to the following replacements:
+
+   f11(x1, x2, x3) -> f11(x1, x2)
+
+----------------------------------------
+
+(16)
+Obligation:
+Rules:
+f11(x:0, x1:0) -> f11(x:0, x1:0 - 1) :|: x4:0 > 0 && x1:0 + -1 * x:0 >= 0
+f11(x5:0, x6:0) -> f11(x5:0, x6:0 - 1) :|: x9:0 < 0 && x6:0 + -1 * x5:0 >= 0
+
+----------------------------------------
+
+(17) PolynomialOrderProcessor (EQUIVALENT)
+Found the following polynomial interpretation:
+[f11(x, x1)] = -x + x1
+
+The following rules are decreasing:
+f11(x:0, x1:0) -> f11(x:0, x1:0 - 1) :|: x4:0 > 0 && x1:0 + -1 * x:0 >= 0
+f11(x5:0, x6:0) -> f11(x5:0, x6:0 - 1) :|: x9:0 < 0 && x6:0 + -1 * x5:0 >= 0
+The following rules are bounded:
+f11(x:0, x1:0) -> f11(x:0, x1:0 - 1) :|: x4:0 > 0 && x1:0 + -1 * x:0 >= 0
+f11(x5:0, x6:0) -> f11(x5:0, x6:0 - 1) :|: x9:0 < 0 && x6:0 + -1 * x5:0 >= 0
+
+----------------------------------------
+
+(18)
+YES
+Runtime: 21431 milliseconds

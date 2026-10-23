@@ -1,0 +1,131 @@
+MAYBE
+proof of jama_ex6.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 40 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/jama_ex6.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/jama_ex6.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "jama_ex6" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32, 1 i32, 2 i32, 3 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		%7 = alloca i32, align 4
+		%8 = alloca i32, align 4
+		%9 = alloca i32, align 4
+		%10 = alloca i32, align 4
+		%11 = alloca i32, align 4
+		store %0, %5
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		store %1, %6
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		store %2, %7
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %7)
+		store %3, %8
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %8)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %9)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %10)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %11)
+		%12 = load %5
+		store %12, %9
+		br %13
+	13:
+		%14 = load %9
+		%15 = load %6
+		%16 = icmp sle %14 %15
+		br %16, %17, %45
+	17:
+		%18 = load %7
+		store %18, %10
+		br %19
+	19:
+		%20 = load %10
+		%21 = load %8
+		%22 = icmp sle %20 %21
+		br %22, %23, %41
+	23:
+		%24 = load %9
+		%25 = load %10
+		%26 = sub i32 %24, %25
+		store %26, %11
+		br %27
+	27:
+		%28 = load %11
+		%29 = load %9
+		%30 = load %10
+		%31 = add i32 %29, %30
+		%32 = icmp sle %28 %31
+		br %32, %33, %37
+	33:
+		br %34
+	34:
+		%35 = load %11
+		%36 = add i32 %35, 1
+		store %36, %11
+		br %27
+	37:
+		br %38
+	38:
+		%39 = load %10
+		%40 = add i32 %39, 1
+		store %40, %10
+		br %19
+	41:
+		br %42
+	42:
+		%43 = load %9
+		%44 = add i32 %43, 1
+		store %44, %9
+		br %13
+	45:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788531396Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1180 milliseconds

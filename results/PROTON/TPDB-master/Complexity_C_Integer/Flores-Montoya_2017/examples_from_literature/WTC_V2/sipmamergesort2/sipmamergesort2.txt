@@ -1,0 +1,378 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.Phn9Qu
+
+Input File is : sipmamergesort2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+void sipmamergesort2(int n){//int a[]){
+  int i, j, k, l, t;
+  int h, m, p, q, r;
+  int up;              /* really boolean */
+ // int a[2*n+1];
+
+  up = 1;
+  p = 1;
+
+  do{
+    h = 1;
+    m = n;
+    //up==0
+    
+    k = 1;
+    l = n;
+    i = n+1;
+    j = 2*n;
+    
+
+    do{
+      {if(m >= p)
+	{q = p;}
+      else {q = m;}}
+      m = m-q;
+      {if(m >= p)
+        {r = p;}
+      else {r = m;}}
+      m = m-r;
+
+      while(q>0 && r>0)
+        {{if(nondet()>0){
+          //a[k] = a[i];
+          k = k+h;
+          i = i+1;
+          q = q-1;
+        } else {
+          //a[k] = a[j];
+          k = k+h;
+          j = j-1;
+          r = r-1;
+        }}}
+    
+      while(r > 0){
+        //a[k] = a[j];
+        k = k+h;
+        j = j-1;
+        r = r-1;
+      }
+
+      while(q > 0){
+        //a[k] = a[i];
+        k = k+h;
+        i = i+1;
+        q = q-1;
+      }
+
+      h = -h;
+      t = k;
+      k = l;
+      l = t;
+    } while(m > 0);
+    up = 0;
+    p = 2*p;
+    
+    // fin up==1
+    {if (p>=n) {break;}}
+    //up ==0
+    h = 1;
+    m = n;
+    
+    i = 1;
+    j = n;
+    k = n+1;
+    l = 2*n;
+    
+    do{
+      {if(m >= p)
+	{q = p;}
+      else {q = m;}}
+      m = m-q;
+      {if(m >= p)
+        {r = p;}
+      else {r = m;}}
+      m = m-r;
+      
+      while(q>0 && r>0)
+        {{if(nondet()>0){
+          //a[k] = a[i];
+          k = k+h;
+          i = i+1;
+          q = q-1;
+        } else {
+          //a[k] = a[j];
+          k = k+h;
+          j = j-1;
+          r = r-1;
+        }}}
+    
+      while(r > 0){
+        //a[k] = a[j];
+        k = k+h;
+        j = j-1;
+        r = r-1;
+      }
+
+      while(q > 0){
+        //a[k] = a[i];
+        k = k+h;
+        i = i+1;
+        q = q-1;
+      }
+
+      h = -h;
+      t = k;
+      k = l;
+      l = t;
+    } while(m > 0);
+    up = 1;
+    p = 2*p;
+
+    
+  } while(p<n);
+
+
+  // fin 
+
+
+  {if(up == 0){ // recopie
+    i = 1;
+    while(i <= n){
+      //a[i] = a[i+n];
+      i = i+1;
+    }
+  }}
+
+}
+        
+      
+
+End Main   
+
+Input File is : sipmamergesort2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+void sipmamergesort2(int n){//int a[]){
+  int i, j, k, l, t;
+  int h, m, p, q, r;
+  int up;              /* really boolean */
+ // int a[2*n+1];
+
+  up = 1;
+  p = 1;
+
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(12, __func__);
+ do{ __VERIFIER_loop_head(12, __func__);
+printf("CBMC Instrumentation @ line12");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored0){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored0=myTrue;} 
+    h = 1;
+    m = n;
+    //up==0
+    
+    k = 1;
+    l = n;
+    i = n+1;
+    j = 2*n;
+    
+
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(23, __func__);
+ do{ __VERIFIER_loop_head(23, __func__);
+printf("CBMC Instrumentation @ line23");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored1){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored1=myTrue;} 
+      { __VERIFIER_reached_control(24, __func__);
+if(m >= p)
+	{ __VERIFIER_control_true(25, __func__);
+q = p;}
+      else { __VERIFIER_control_false(26, __func__);
+q = m;}}
+      m = m-q;
+      { __VERIFIER_reached_control(28, __func__);
+if(m >= p)
+        { __VERIFIER_control_true(29, __func__);
+r = p;}
+      else { __VERIFIER_control_false(30, __func__);
+r = m;}}
+      m = m-r;
+
+     myBool pStored2 = myFalse; __VERIFIER_reached_control(34, __func__);
+ while(q>0 && r>0)
+        { __VERIFIER_loop_head(34, __func__);
+printf("CBMC Instrumentation @ line34");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored2){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored2=myTrue;} { __VERIFIER_reached_control(34, __func__);
+if(nondet()>0){ __VERIFIER_control_true(34, __func__);
+
+          //a[k] = a[i];
+          k = k+h;
+          i = i+1;
+          q = q-1;
+        } else { __VERIFIER_control_false(39, __func__);
+
+          //a[k] = a[j];
+          k = k+h;
+          j = j-1;
+          r = r-1;
+        }}}
+    
+     myBool pStored3 = myFalse; __VERIFIER_reached_control(46, __func__);
+ while(r > 0){ __VERIFIER_loop_head(46, __func__);
+printf("CBMC Instrumentation @ line46");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored3){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored3=myTrue;} 
+        //a[k] = a[j];
+        k = k+h;
+        j = j-1;
+        r = r-1;
+      }
+
+     myBool pStored4 = myFalse; __VERIFIER_reached_control(53, __func__);
+ while(q > 0){ __VERIFIER_loop_head(53, __func__);
+printf("CBMC Instrumentation @ line53");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored4){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored4=myTrue;} 
+        //a[k] = a[i];
+        k = k+h;
+        i = i+1;
+        q = q-1;
+      }
+
+      h = -h;
+      t = k;
+      k = l;
+      l = t;
+    } while(m > 0);
+    up = 0;
+    p = 2*p;
+    
+    // fin up==1
+    { __VERIFIER_reached_control(69, __func__);
+if (p>=n) { __VERIFIER_control_true(69, __func__);
+break;}}
+    //up ==0
+    h = 1;
+    m = n;
+    
+    i = 1;
+    j = n;
+    k = n+1;
+    l = 2*n;
+    
+   myBool pStored5 = myFalse; __VERIFIER_reached_control(79, __func__);
+ do{ __VERIFIER_loop_head(79, __func__);
+printf("CBMC Instrumentation @ line79");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored5){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored5=myTrue;} 
+      { __VERIFIER_reached_control(80, __func__);
+if(m >= p)
+	{ __VERIFIER_control_true(81, __func__);
+q = p;}
+      else { __VERIFIER_control_false(82, __func__);
+q = m;}}
+      m = m-q;
+      { __VERIFIER_reached_control(84, __func__);
+if(m >= p)
+        { __VERIFIER_control_true(85, __func__);
+r = p;}
+      else { __VERIFIER_control_false(86, __func__);
+r = m;}}
+      m = m-r;
+      
+     myBool pStored6 = myFalse; __VERIFIER_reached_control(90, __func__);
+ while(q>0 && r>0)
+        { __VERIFIER_loop_head(90, __func__);
+printf("CBMC Instrumentation @ line90");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored6){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored6=myTrue;} { __VERIFIER_reached_control(90, __func__);
+if(nondet()>0){ __VERIFIER_control_true(90, __func__);
+
+          //a[k] = a[i];
+          k = k+h;
+          i = i+1;
+          q = q-1;
+        } else { __VERIFIER_control_false(95, __func__);
+
+          //a[k] = a[j];
+          k = k+h;
+          j = j-1;
+          r = r-1;
+        }}}
+    
+     myBool pStored7 = myFalse; __VERIFIER_reached_control(102, __func__);
+ while(r > 0){ __VERIFIER_loop_head(102, __func__);
+printf("CBMC Instrumentation @ line102");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored7){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored7=myTrue;} 
+        //a[k] = a[j];
+        k = k+h;
+        j = j-1;
+        r = r-1;
+      }
+
+     myBool pStored8 = myFalse; __VERIFIER_reached_control(109, __func__);
+ while(q > 0){ __VERIFIER_loop_head(109, __func__);
+printf("CBMC Instrumentation @ line109");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored8){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;o
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+j=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored8=myTrue;} 
+        //a[k] = a[i];
+        k = k+h;
+        i = i+1;
+        q = q-1;
+      }
+
+      h = -h;
+      t = k;
+      k = l;
+      l = t;
+    } while(m > 0);
+    up = 1;
+    p = 2*p;
+
+    
+  } while(p<n);
+
+
+  // fin 
+
+
+  { __VERIFIER_reached_control(131, __func__);
+if(up == 0){ __VERIFIER_control_true(131, __func__);
+ // recopie
+    i = 1;
+   myBool pStored9 = myFalse; __VERIFIER_reached_control(133, __func__);
+ while(i <= n){ __VERIFIER_loop_head(133, __func__);
+printf("CBMC Instrumentation @ line133");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int oj;static int ok;static int ol;static int om;static int on;static int op;static int oq;static int or;static int ot;static int oup;if(pStored9){__CPROVER_assert(!(oh==h && oi==i && oj==j && ok==k && ol==l && om==m && on==n && op==p && oq==q && or==r && ot==t && oup==up),"recurrent state found");} if(flag){oh=h;oi=i;oj=j;ok=k;ol=l;om=m;on=n;op=p;oq=q;or=r;ot=t;oup=up;pStored9=myTrue;} 
+      //a[i] = a[i+n];
+      i = i+1;
+    }
+  }}
+
+}
+        
+      
+
+End Main 
+ sipmamergesort2_braced_instrumented.c
+NTFILE is sipmamergesort2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for sipmamergesort2.c
+FILE=sipmamergesort2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 739 milliseconds

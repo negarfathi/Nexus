@@ -1,0 +1,196 @@
+MAYBE
+proof of realheapsort.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 25 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/realheapsort.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/realheapsort.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "nondet" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "realheapsort" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		%7 = load %2
+		%8 = icmp sgt %7 2
+		br %8, %9, %89
+	9:
+		store 1, %4
+		br %10
+	10:
+		%11 = load %4
+		%12 = load %2
+		%13 = sub i32 %12, 1
+		%14 = icmp sle %11 %13
+		br %14, %15, %36
+	15:
+		%16 = load %4
+		store %16, %5
+		br %17
+	17:
+		%18 = load %5
+		%19 = icmp sgt %18 0
+		br %19, %20, %24
+	20:
+		%21 = call i32 (...)* @nondet()
+		%22 = call i32 (...)* @nondet()
+		%23 = icmp sgt %21 %22
+		br %24
+	24:
+		%25 = phi [0, %17], [%23, %20]
+		br %25, %26, %32
+	26:
+		%27 = call i32 (...)* @nondet()
+		store %27, %3
+		%28 = load %5
+		%29 = add i32 %28, 1
+		%30 = sdiv i32 %29, 2
+		%31 = sub i32 %30, 1
+		store %31, %5
+		br %17
+	32:
+		br %33
+	33:
+		%34 = load %4
+		%35 = add i32 %34, 1
+		store %35, %4
+		br %10
+	36:
+		store 0, %4
+		br %37
+	37:
+		%38 = load %4
+		%39 = load %2
+		%40 = sub i32 %39, 2
+		%41 = icmp sle %38 %40
+		br %41, %42, %88
+	42:
+		store 0, %5
+		store 0, %6
+		%43 = call i32 (...)* @nondet()
+		store %43, %3
+		br %44
+	44:
+		%45 = load %5
+		%46 = mul i32 2, %45
+		%47 = add i32 %46, 1
+		%48 = load %2
+		%49 = sub i32 %48, 2
+		%50 = load %4
+		%51 = sub i32 %49, %50
+		%52 = icmp sle %47 %51
+		br %52, %53, %84
+	53:
+		%54 = load %5
+		%55 = mul i32 2, %54
+		%56 = add i32 %55, 1
+		%57 = load %2
+		%58 = sub i32 %57, 2
+		%59 = load %4
+		%60 = sub i32 %58, %59
+		%61 = icmp eq %56 %60
+		br %61, %66, %62
+	62:
+		%63 = call i32 (...)* @nondet()
+		%64 = call i32 (...)* @nondet()
+		%65 = icmp slt %63 %64
+		br %65, %66, %70
+	66:
+		%67 = load %5
+		%68 = mul i32 2, %67
+		%69 = add i32 %68, 1
+		store %69, %6
+		br %74
+	70:
+		%71 = load %5
+		%72 = mul i32 2, %71
+		%73 = add i32 %72, 2
+		store %73, %6
+		br %74
+	74:
+		%75 = call i32 (...)* @nondet()
+		%76 = call i32 (...)* @nondet()
+		%77 = icmp sgt %75 %76
+		br %77, %78, %81
+	78:
+		%79 = call i32 (...)* @nondet()
+		store %79, %3
+		%80 = load %6
+		store %80, %5
+		br %83
+	81:
+		%82 = load %2
+		store %82, %5
+		br %83
+	83:
+		br %44
+	84:
+		br %85
+	85:
+		%86 = load %4
+		%87 = add i32 %86, 1
+		store %87, %4
+		br %37
+	88:
+		br %89
+	89:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788545499Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1449 milliseconds

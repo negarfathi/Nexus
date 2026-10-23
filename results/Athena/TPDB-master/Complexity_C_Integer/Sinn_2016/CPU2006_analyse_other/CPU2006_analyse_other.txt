@@ -1,0 +1,9 @@
+CPU2006_analyse_other.c:8:7: warning: unused variable 'restp' [-Wunused-variable]
+  int restp=0;
+      ^
+CPU2006_analyse_other.c:9:16: warning: unused variable 'resnr' [-Wunused-variable]
+  int  i,j,k,l,resnr,naid,naaid,natp,nrestp=0;
+               ^
+2 warnings generated.
+TIMEOUT
+Runtime: 600901 milliseconds

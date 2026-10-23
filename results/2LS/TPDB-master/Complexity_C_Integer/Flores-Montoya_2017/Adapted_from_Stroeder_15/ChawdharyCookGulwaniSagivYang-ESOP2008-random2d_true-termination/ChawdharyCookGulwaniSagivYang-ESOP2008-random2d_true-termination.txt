@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing ChawdharyCookGulwaniSagivYang-ESOP2008-random2d_true-termination.c
+Converting
+Type-checking ChawdharyCookGulwaniSagivYang-ESOP2008-random2d_true-termination
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of foo
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 317 milliseconds

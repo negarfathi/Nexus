@@ -1,0 +1,6 @@
+twn13.c:6:15: warning: explicitly assigning value of variable of type 'int' to itself [-Wself-assign]
+            c = c;
+            ~ ^ ~
+1 warning generated.
+TIMEOUT
+Runtime: 600759 milliseconds

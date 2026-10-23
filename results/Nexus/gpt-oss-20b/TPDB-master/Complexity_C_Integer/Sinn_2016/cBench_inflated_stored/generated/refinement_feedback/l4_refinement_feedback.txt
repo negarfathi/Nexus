@@ -1,0 +1,551 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"l4_v3"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Expression does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<="
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 2 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+"l4_v3"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+"l4_v3"
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l4_v3",
+        "l4_v2"
+      ],
+      "op": "-"
+    },
+    8
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l4_v3",
+        "l4_v2"
+      ]
+    },
+    8
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l4_v2",
+    "l4_v3"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l4_v3",
+    "l4_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l3: unsupported call: %26"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"

@@ -1,0 +1,102 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.8TpAMF
+
+Input File is : real2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting   int nondet();
+
+void real2(int len)
+ {
+   //int tab[10];
+   int   tmp;
+   int   again;
+   int   i;
+ 
+   for (again = 1; again;)
+     {for (again = 0, i = 0; i < (len - 1); i++)
+       {
+         {if (nondet() > nondet())
+           {
+             tmp = nondet();//tab[i];
+             ;//tab[i] = tab[i + 1];
+             ;//tab[i + 1] = tmp;
+             again = 1;
+           }}
+       }}
+ }
+
+End Main   
+
+Input File is : real2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+ int nondet();
+
+void real2(int len)
+ {
+   //int tab[10];
+   int   tmp;
+   int   again;
+   int   i;
+ 
+  myBool pStored0 = myFalse; __VERIFIER_reached_control(11, __func__);
+ for (again = 1; again;)
+     { __VERIFIER_loop_head(11, __func__);
+printf("CBMC Instrumentation @ line11");myBool flag=__VERIFIER_nondet_myBool();static int oagain;static int oi;static int olen;static int otmp;if(pStored0){__CPROVER_assert(!(oagain==again && oi==i && olen==len && otmp==tmp),"recurrent state found");} if(flag){oagain=again;oi=i;olen=len;otmp=tmp;pStored0=myTrue;} myBool pStored1 = myFalse; __VERIFIER_reached_control(12, __func__);
+for (again = 0, i = 0; i < (len - 1); i++)
+       { __VERIFIER_loop_head(12, __func__);
+printf("CBMC Instrumentation @ line12");myBool flag=__VERIFIER_nondet_myBool();static int oagain;static int oi;static int olen;static int otmp;if(pStored1){__CPROVER_assert(!(oagain==again && oi==i && olen==len && otmp==tmp),"recurrent state found");} if(flag){oagain=again;oi=i;olen=len;otmp=tmp;pStored1=myTrue;} 
+         { __VERIFIER_reached_control(13, __func__);
+if (nondet() > nondet())
+           { __VERIFIER_control_true(14, __func__);
+
+             tmp = nondet();//tab[i];
+             ;//tab[i] = tab[i + 1];
+             ;//tab[i + 1] = tmp;
+             again = 1;
+           }}
+       }}
+ }
+
+End Main 
+ real2_braced_instrumented.c
+NTFILE is real2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for real2.c
+FILE=real2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 736 milliseconds

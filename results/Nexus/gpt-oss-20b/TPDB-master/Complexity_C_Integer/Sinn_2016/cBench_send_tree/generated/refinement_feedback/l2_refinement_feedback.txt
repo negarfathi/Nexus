@@ -1,0 +1,465 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    0,
+    {
+      "args": [
+        "l2_v5",
+        1
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "max"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "max",
+  "args": [
+    0,
+    {
+      "op": "-",
+      "args": [
+        "l2_v5",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    0,
+    {
+      "args": [
+        "l2_v5",
+        1
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "max"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "max",
+  "args": [
+    0,
+    {
+      "op": "-",
+      "args": [
+        "l2_v5",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v5",
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v5",
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+"l2_v5"
+
+FEEDBACK:
+UNSUPPORTED: "l1: unsupported call: %19 | l1: unsupported call: %34 | l1: unsupported call: %37 | l2: unsupported call: %19"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"

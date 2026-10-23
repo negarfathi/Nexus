@@ -1,0 +1,80 @@
+///*** 1_realbubble ***///
+START: realbubble_bb0;
+
+FROM: realbubble_bb0;
+v0 := vlength - 1;
+var__temp_vi.0 := v0;
+TO: realbubble_bb1;
+
+FROM: realbubble_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := 0;
+var__temp_vtest.0 := 0;
+TO: realbubble_bb1_end;
+
+FROM: realbubble_bb1_end;
+assume(vi.0 > 0);
+TO: realbubble_bb2;
+
+FROM: realbubble_bb1_end;
+assume(vi.0 <= 0);
+TO: realbubble_bb8;
+
+FROM: realbubble_bb2;
+vj.0 := var__temp_vj.0;
+vtest.0 := var__temp_vtest.0;
+TO: realbubble_bb2_end;
+
+FROM: realbubble_bb2_end;
+assume(vj.0 < vi.0);
+TO: realbubble_bb3;
+
+FROM: realbubble_bb2_end;
+assume(vj.0 >= vi.0);
+TO: realbubble_bb6;
+
+FROM: realbubble_bb3;
+v3 := nondet();
+v4 := nondet();
+var__temp_vtest.1 := vtest.0;
+TO: realbubble_bb3_end;
+
+FROM: realbubble_bb3_end;
+assume(v3 > v4);
+TO: realbubble_bb4;
+
+FROM: realbubble_bb3_end;
+assume(v3 <= v4);
+TO: realbubble_bb5;
+
+FROM: realbubble_bb4;
+v6 := nondet();
+var__temp_vtest.1 := 1;
+TO: realbubble_bb5;
+
+FROM: realbubble_bb5;
+vtest.1 := var__temp_vtest.1;
+v7 := vj.0 + 1;
+var__temp_vj.0 := v7;
+var__temp_vtest.0 := vtest.1;
+TO: realbubble_bb2;
+
+FROM: realbubble_bb6;
+TO: realbubble_bb6_end;
+
+FROM: realbubble_bb6_end;
+assume(vtest.0 == 0);
+TO: realbubble_bb8;
+
+FROM: realbubble_bb6_end;
+assume(vtest.0 != 0);
+TO: realbubble_bb7;
+
+FROM: realbubble_bb7;
+v9 := vi.0 + -1;
+var__temp_vi.0 := v9;
+TO: realbubble_bb1;
+
+FROM: realbubble_bb8;
+TO: realbubble_bb8_ret;
+

@@ -1,0 +1,674 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        102
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        102
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        102
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        102
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        102
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        102
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v2",
+    102
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l3_v2",
+    102
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+RECURRENT_SET_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        102
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        102
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l3_v2",
+        101
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    101,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        101
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    101,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l3_v2",
+        101
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    101,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        101
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    101,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        102
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l3_v2",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    102,
+    "l3_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l3_v2",
+        102
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l3_v2",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    102,
+    "l3_v2"
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l2: entry_states has no summarized source-to-header path"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"

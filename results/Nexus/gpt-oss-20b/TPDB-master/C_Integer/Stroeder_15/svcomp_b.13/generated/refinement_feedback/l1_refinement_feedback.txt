@@ -1,0 +1,168 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        "l1_v5"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        "l1_v4",
+        "l1_v5"
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v3",
+        "l1_v5"
+      ]
+    },
+    {
+      "op": "-",
+      "args": [
+        "l1_v4",
+        "l1_v5"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v3 = -2, l1_v4 = 1, l1_v5 = 0]
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            "l1_v5"
+          ],
+          "op": "-"
+        },
+        0
+      ],
+      "op": "max"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v4",
+            "l1_v5"
+          ],
+          "op": "-"
+        },
+        0
+      ],
+      "op": "max"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "max",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v3",
+            "l1_v5"
+          ]
+        },
+        0
+      ]
+    },
+    {
+      "op": "max",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v4",
+            "l1_v5"
+          ]
+        },
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

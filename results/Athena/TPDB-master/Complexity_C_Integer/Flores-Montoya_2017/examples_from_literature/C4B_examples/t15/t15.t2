@@ -1,0 +1,54 @@
+///*** 1_t15 ***///
+START: t15_bb0;
+
+FROM: t15_bb0;
+var__temp_v.0 := vx;
+TO: t15_bb0_end;
+
+FROM: t15_bb0_end;
+assume(vy < 0);
+TO: t15_bb5;
+
+FROM: t15_bb0_end;
+assume(vy >= 0);
+TO: t15_bb1;
+
+FROM: t15_bb1;
+v.0 := var__temp_v.0;
+TO: t15_bb1_end;
+
+FROM: t15_bb1_end;
+assume(v.0 > vy);
+TO: t15_bb2;
+
+FROM: t15_bb1_end;
+assume(v.0 <= vy);
+TO: t15_bb5;
+
+FROM: t15_bb2;
+v2 := vy + 1;
+v3 := v.0 - v2;
+var__temp_vz.0 := vy;
+TO: t15_bb3;
+
+FROM: t15_bb3;
+vz.0 := var__temp_vz.0;
+var__temp_v.0 := v3;
+TO: t15_bb3_end;
+
+FROM: t15_bb3_end;
+assume(vz.0 > 0);
+TO: t15_bb4;
+
+FROM: t15_bb3_end;
+assume(vz.0 <= 0);
+TO: t15_bb1;
+
+FROM: t15_bb4;
+v5 := vz.0 + -1;
+var__temp_vz.0 := v5;
+TO: t15_bb3;
+
+FROM: t15_bb5;
+TO: t15_bb5_ret;
+

@@ -1,0 +1,116 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.Owvv1i
+
+Input File is : alain.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+int alain(int x,int y,int z,int n1,int n2)
+{
+
+  int c1, c2;
+  c1 = 0;
+  {if(n2 <= 2*y) {return 0;}}
+  {if(n2 <= z+y) {return 0;}}
+  {if(z>=0 && x>=0 && y>=0 && n1>=0 && n2>=0)
+    {
+      while(--n1 >= 0 )
+	{
+          c2 = 0;
+          ++c1;
+	  while(n2 > 0)
+	    {
+	      --n2;
+	      z = y;
+              ++c2;
+	    }
+	  z = z+y;
+	  n2 = z;
+	}
+    }}
+  return 0;
+}
+
+End Main   
+
+Input File is : alain_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+int alain(int x,int y,int z,int n1,int n2)
+{
+
+  int c1, c2;
+  c1 = 0;
+  { __VERIFIER_reached_control(7, __func__);
+if(n2 <= 2*y) { __VERIFIER_control_true(7, __func__);
+return 0;}}
+  { __VERIFIER_reached_control(8, __func__);
+if(n2 <= z+y) { __VERIFIER_control_true(8, __func__);
+return 0;}}
+  { __VERIFIER_reached_control(9, __func__);
+if(z>=0 && x>=0 && y>=0 && n1>=0 && n2>=0)
+    { __VERIFIER_control_true(10, __func__);
+
+     myBool pStored0 = myFalse; __VERIFIER_reached_control(12, __func__);
+ while(--n1 >= 0 )
+	{ __VERIFIER_loop_head(12, __func__);
+printf("CBMC Instrumentation @ line12");myBool flag=__VERIFIER_nondet_myBool();static int oc1;static int oc2;static int on1;static int on2;static int ox;static int oy;static int oz;if(pStored0){__CPROVER_assert(!(oc1==c1 && oc2==c2 && on1==n1 && on2==n2 && ox==x && oy==y && oz==z),"recurrent state found");} if(flag){oc1=c1;oc2=c2;on1=n1;on2=n2;ox=x;oy=y;oz=z;pStored0=myTrue;} 
+          c2 = 0;
+          ++c1;
+	 myBool pStored1 = myFalse; __VERIFIER_reached_control(16, __func__);
+ while(n2 > 0)
+	    { __VERIFIER_loop_head(16, __func__);
+printf("CBMC Instrumentation @ line16");myBool flag=__VERIFIER_nondet_myBool();static int oc1;static int oc2;static int on1;static int on2;static int ox;static int oy;static int oz;if(pStored1){__CPROVER_assert(!(oc1==c1 && oc2==c2 && on1==n1 && on2==n2 && ox==x && oy==y && oz==z),"recurrent state found");} if(flag){oc1=c1;oc2=c2;on1=n1;on2=n2;ox=x;oy=y;oz=z;pStored1=myTrue;} 
+	      --n2;
+	      z = y;
+              ++c2;
+	    }
+	  z = z+y;
+	  n2 = z;
+	}
+    }}
+  return 0;
+}
+
+End Main 
+ alain_braced_instrumented.c
+NTFILE is alain_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for alain.c
+FILE=alain_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 693 milliseconds

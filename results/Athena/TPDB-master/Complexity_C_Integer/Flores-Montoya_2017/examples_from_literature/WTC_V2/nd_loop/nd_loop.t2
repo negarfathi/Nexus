@@ -1,0 +1,26 @@
+///*** 1_nd_loop ***///
+START: nd_loop_bb0;
+
+FROM: nd_loop_bb0;
+var__temp_vx.0 := 0;
+TO: nd_loop_bb1;
+
+FROM: nd_loop_bb1;
+vx.0 := var__temp_vx.0;
+v0 := nondet();
+v1 := v0 - vx.0;
+v3 := v0 - vx.0;
+var__temp_vx.0 := v0;
+TO: nd_loop_bb1_end;
+
+FROM: nd_loop_bb1_end;
+assume((!((v1 > 2) || (v3 < 1))) && (v0 < 10));
+TO: nd_loop_bb1;
+
+FROM: nd_loop_bb1_end;
+assume(((v1 > 2) || (v3 < 1)) || (v0 >= 10));
+TO: nd_loop_bb2;
+
+FROM: nd_loop_bb2;
+TO: nd_loop_bb2_ret;
+

@@ -1,0 +1,44 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+TO: foo_bb0_v.;
+FROM: foo_bb0_v.;
+assume(vi > 10);
+v. := 1;
+TO: foo_bb0_sv.;
+
+FROM: foo_bb0_v.;
+assume(vi <= 10);
+v. := 0;
+TO: foo_bb0_sv.;
+
+FROM: foo_bb0_sv.;
+TO: foo_bb0_v.2;
+FROM: foo_bb0_v.2;
+assume(vi > 10);
+v.2 := 0;
+TO: foo_bb0_sv.2;
+
+FROM: foo_bb0_v.2;
+assume(vi <= 10);
+v.2 := 1;
+TO: foo_bb0_sv.2;
+
+FROM: foo_bb0_sv.2;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v. == v.2);
+TO: foo_bb1;
+
+FROM: foo_bb1_end;
+assume(v. != v.2);
+TO: foo_bb2;
+
+FROM: foo_bb2;
+TO: foo_bb2_ret;
+

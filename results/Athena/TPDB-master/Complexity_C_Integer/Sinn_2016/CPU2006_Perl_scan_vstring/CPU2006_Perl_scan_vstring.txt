@@ -1,0 +1,6 @@
+CPU2006_Perl_scan_vstring.c:10:9: warning: unused variable 'start' [-Wunused-variable]
+    int start = s;
+        ^
+1 warning generated.
+YES
+Runtime: 2933 milliseconds

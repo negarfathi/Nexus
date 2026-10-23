@@ -1,0 +1,130 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.6syV7O
+
+Input File is : cBench_sendMTFValues.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench	bzip2d/src/compress.c	sendMTFValues
+
+int random();
+
+//Complexity: O(n)
+void sendMTFValues(int nGroups, int alphaSize)	{	
+	int nPart;//, remF, tFreq, aFreq;
+	nPart = nGroups;
+	//remF = s->nMTF;
+	int gs = 0;
+	while (nPart > 0) {
+		//tFreq = remF / nPart;
+		int ge = gs - 1;
+		//aFreq = 0;
+		while (random() && ge < alphaSize - 1) { //Freq < tFreq
+			ge++;
+			//aFreq += s->mtfFreq[ge];
+		}
+		{if (ge > gs && nPart != nGroups && nPart != 1
+				&& ((nGroups - nPart) % 2 == 1)) {
+			//aFreq -= s->mtfFreq[ge];
+			ge--;
+		}}
+
+		/*for (v = 0; v < alphaSize; v++)
+			if (v >= gs && v <= ge)
+				s->len[nPart - 1][v] = 0;
+			else
+				s->len[nPart - 1][v] = 15;*/
+		nPart--;
+		gs = ge + 1;
+		//remF -= aFreq;
+	}
+}
+
+
+End Main   
+
+Input File is : cBench_sendMTFValues_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench	bzip2d/src/compress.c	sendMTFValues
+
+int random();
+
+//Complexity: O(n)
+void sendMTFValues(int nGroups, int alphaSize)	{	
+	int nPart;//, remF, tFreq, aFreq;
+	nPart = nGroups;
+	//remF = s->nMTF;
+	int gs = 0;
+myBool pStored0 = myFalse; __VERIFIER_reached_control(11, __func__);
+	while (nPart > 0) { __VERIFIER_loop_head(11, __func__);
+printf("CBMC Instrumentation @ line11");myBool flag=__VERIFIER_nondet_myBool();static int oalphaSize;static int ogs;static int onGroups;static int onPart;if(pStored0){__CPROVER_assert(!(oalphaSize==alphaSize && ogs==gs && onGroups==nGroups && onPart==nPart),"recurrent state found");} if(flag){oalphaSize=alphaSize;ogs=gs;onGroups=nGroups;onPart=nPart;pStored0=myTrue;} 
+		//tFreq = remF / nPart;
+		int ge = gs - 1;
+		//aFreq = 0;
+	myBool pStored1 = myFalse; __VERIFIER_reached_control(15, __func__);
+	while (random() && ge < alphaSize - 1) { __VERIFIER_loop_head(15, __func__);
+printf("CBMC Instrumentation @ line15");myBool flag=__VERIFIER_nondet_myBool();static int oalphaSize;static int oge;static int ogs;static int onGroups;static int onPart;if(pStored1){__CPROVER_assert(!(oalphaSize==alphaSize && oge==ge && ogs==gs && onGroups==nGroups && onPart==nPart),"recurrent state found");} if(flag){oalphaSize=alphaSize;oge=ge;ogs=gs;onGroups=nGroups;onPart=nPart;pStored1=myTrue;}  //Freq < tFreq
+			ge++;
+			//aFreq += s->mtfFreq[ge];
+		}
+		{ __VERIFIER_reached_control(19, __func__);
+if (ge > gs && nPart != nGroups && nPart != 1
+				&& ((nGroups - nPart) % 2 == 1)) { __VERIFIER_control_true(20, __func__);
+
+			//aFreq -= s->mtfFreq[ge];
+			ge--;
+		}}
+
+		/*for (v = 0; v < alphaSize; v++)
+			if (v >= gs && v <= ge)
+				s->len[nPart - 1][v] = 0;
+			else
+				s->len[nPart - 1][v] = 15;*/
+		nPart--;
+		gs = ge + 1;
+		//remF -= aFreq;
+	}
+}
+
+
+End Main 
+ cBench_sendMTFValues_braced_instrumented.c
+NTFILE is cBench_sendMTFValues_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_sendMTFValues.c
+FILE=cBench_sendMTFValues_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 716 milliseconds

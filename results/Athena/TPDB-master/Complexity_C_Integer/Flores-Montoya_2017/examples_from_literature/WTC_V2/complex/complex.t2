@@ -1,0 +1,79 @@
+///*** 1_complex ***///
+START: complex_bb0;
+
+FROM: complex_bb0;
+var__temp_v.01 := vb;
+var__temp_v.0 := va;
+TO: complex_bb1;
+
+FROM: complex_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.12 := v.01;
+var__temp_v.1 := v.0;
+TO: complex_bb1_end;
+
+FROM: complex_bb1_end;
+assume(v.0 < 30);
+TO: complex_bb2;
+
+FROM: complex_bb1_end;
+assume(v.0 >= 30);
+TO: complex_bb5;
+
+FROM: complex_bb2;
+v.12 := var__temp_v.12;
+v.1 := var__temp_v.1;
+TO: complex_bb2_end;
+
+FROM: complex_bb2_end;
+assume(v.12 < v.1);
+TO: complex_bb3;
+
+FROM: complex_bb2_end;
+assume(v.12 >= v.1);
+TO: complex_bb4;
+
+FROM: complex_bb3;
+v3 := v.12 + 7;
+v4 := v.12 + 2;
+TO: complex_bb3_v.23;
+FROM: complex_bb3_v.23;
+assume(v.12 > 5);
+v.23 := v3;
+TO: complex_bb3_sv.23;
+
+FROM: complex_bb3_v.23;
+assume(v.12 <= 5);
+v.23 := v4;
+TO: complex_bb3_sv.23;
+
+FROM: complex_bb3_sv.23;
+v7 := v.1 + 10;
+v8 := v.1 + 1;
+TO: complex_bb3_v.2;
+FROM: complex_bb3_v.2;
+assume((v.23 >= 10) && (v.23 <= 12));
+v.2 := v7;
+TO: complex_bb3_sv.2;
+
+FROM: complex_bb3_v.2;
+assume((v.23 < 10) || (v.23 > 12));
+v.2 := v8;
+TO: complex_bb3_sv.2;
+
+FROM: complex_bb3_sv.2;
+var__temp_v.12 := v.23;
+var__temp_v.1 := v.2;
+TO: complex_bb2;
+
+FROM: complex_bb4;
+v9 := v.1 + 2;
+v10 := v.12 - 10;
+var__temp_v.01 := v10;
+var__temp_v.0 := v9;
+TO: complex_bb1;
+
+FROM: complex_bb5;
+TO: complex_bb5_ret;
+

@@ -1,0 +1,61 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v2"
+      ],
+      "op": "*"
+    },
+    9
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    {
+      "op": "*",
+      "args": [
+        "l1_v2",
+        "l1_v2"
+      ]
+    },
+    9
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+Traceback (most recent call last):
+  File "/home/quasar/Documents/Nexus/results_Nexus/gpt-oss-20b/TPDB-master/C_Integer/Stroeder_15/ComplInterv/generated/validators/validate_l1.py", line 269, in <module>
+    l1_recurrent_closure_result = check_fixedpoint(
+                                  ^^^^^^^^^^^^^^^^^
+  File "/home/quasar/Documents/Nexus/results_Nexus/gpt-oss-20b/TPDB-master/C_Integer/Stroeder_15/ComplInterv/generated/validators/validate_l1.py", line 173, in check_fixedpoint
+    result = fp.query(relation())
+             ^^^^^^^^^^^^^^^^^^^^
+  File "/home/quasar/Documents/Nexus/.venv/lib/python3.12/site-packages/z3/z3.py", line 7774, in query
+    r = Z3_fixedpoint_query(self.ctx.ref(), self.fixedpoint, query.as_ast())
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/quasar/Documents/Nexus/.venv/lib/python3.12/site-packages/z3/z3core.py", line 4888, in Z3_fixedpoint_query
+    _elems.Check(a0)
+  File "/home/quasar/Documents/Nexus/.venv/lib/python3.12/site-packages/z3/z3core.py", line 1583, in Check
+    raise self.Exception(self.get_error_message(ctx, err))
+z3.z3types.Z3Exception: b'Stuck on a lemma'

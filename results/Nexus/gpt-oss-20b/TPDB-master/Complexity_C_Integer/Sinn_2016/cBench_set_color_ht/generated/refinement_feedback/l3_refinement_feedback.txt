@@ -1,0 +1,166 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v6",
+    0
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+"l3_v6"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l3_v6",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l3_v6"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l3_entry_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(0 >= F)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(l2_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(D <= 0),
+                                        Not(8 <= D)),
+                                        l3_entry_states(A,
+                                        B,
+                                        C,
+                                        0,
+                                        D,
+                                        D)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(And(l1_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        G == -1 + C),
+                                        l2_reachable_header_states(A,
+                                        B,
+                                        G,
+                                        B,
+                                        E,
+                                        F)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E],
+                                        l1_reachable_header_states(D,
+                                        E,
+                                        D,
+                                        A,
+                                        B,
+                                        C))),
+                                        l1_reachable_header_states(0,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        0)),
+                                 l2_reachable_header_states(0,
+                                        1,
+                                        -1,
+                                        1,
+                                        0,
+                                        0)),
+                       l3_entry_states(0, 1, -1, 0, 1, 1)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v6",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l3_v6"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l3_v6",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l3_v6"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

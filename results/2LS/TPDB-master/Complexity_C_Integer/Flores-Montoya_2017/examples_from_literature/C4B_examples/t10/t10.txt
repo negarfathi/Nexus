@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing t10.c
+Converting
+Type-checking t10
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of t10
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 284 milliseconds

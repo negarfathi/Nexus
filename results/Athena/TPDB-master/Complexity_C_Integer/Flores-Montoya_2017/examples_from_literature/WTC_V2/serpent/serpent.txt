@@ -1,0 +1,9 @@
+serpent.c:8:1: warning: unused label 'W1' [-Wunused-label]
+W1: while(y>=0 && nondet()>0){
+^~~~
+serpent.c:12:1: warning: unused label 'W2' [-Wunused-label]
+W2: while(y<=n && nondet()>0){
+^~~~
+2 warnings generated.
+YES
+Runtime: 5056 milliseconds

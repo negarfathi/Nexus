@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="programfile" attr.name="programfile" for="graph"/>
+  <key id="programhash" attr.name="programhash" for="graph"/>
+  <key id="sourcecodelang" attr.name="sourcecodelang" for="graph"/>
+  <key id="producer" attr.name="producer" for="graph"/>
+  <key id="specification" attr.name="specification" for="graph"/>
+  <key id="creationtime" attr.name="creationtime" for="graph"/>
+  <key id="witness-type" attr.name="witness-type" for="graph"/>
+  <key id="architecture" attr.name="architecture" for="graph"/>
+  <key id="entry" attr.name="entry" for="node">
+    <default>false</default>
+  </key>
+  <key id="nodetype" attr.name="nodetype" for="node">
+    <default>path</default>
+  </key>
+  <key id="violation" attr.name="violation" for="node">
+    <default>false</default>
+  </key>
+  <key id="cyclehead" attr.name="cyclehead" for="node">
+    <default>false</default>
+  </key>
+  <key id="invariant" attr.name="invariant" for="node">
+    <default>true</default>
+  </key>
+  <key id="sink" attr.name="sink" for="node">
+    <default>false</default>
+  </key>
+  <key id="endline" attr.name="endline" for="edge"/>
+  <key id="enterLoopHead" attr.name="enterLoopHead" for="edge">
+    <default>false</default>
+  </key>
+  <key id="enterFunction" attr.name="enterFunction" for="edge"/>
+  <key id="startline" attr.name="startline" for="edge"/>
+  <key id="returnFrom" attr.name="returnFrom" for="edge"/>
+  <key id="assumption" attr.name="assumption" for="edge"/>
+  <key id="tokens" attr.name="tokens" for="edge"/>
+  <key id="control" attr.name="control" for="edge"/>
+  <key id="originfile" attr.name="originfile" for="edge">
+    <default>/liveness_analysis/Velroyen_false-termination.c</default>
+  </key>
+  <key id="sourcecode" attr.name="sourcecode" for="edge"/>
+  <graph edgedefault="directed">
+    <data key="witness-type">violation_witness</data>
+    <data key="sourcecodelang">C</data>
+    <data key="producer">AProVE</data>
+    <data key="creationtime">2026-09-04T04:12:26Z</data>
+    <data key="specification">CHECK( init(main()), LTL(F end) )</data>
+    <data key="programfile">/liveness_analysis/Velroyen_false-termination.c</data>
+    <data key="programhash">ef804c18d00f63eec9ac6688b996219f2bb9d1715db622f1e287a7f4ef3a5de4</data>
+    <data key="architecture">64bit</data>
+    <node id="S105">
+      <data key="entry">true</data>
+    </node>
+    <node id="S108"/>
+    <edge source="S105" target="S108">
+      <data key="startline">12</data>
+      <data key="endline">12</data>
+      <data key="enterFunction">main</data>
+    </edge>
+    <node id="S114"/>
+    <edge source="S108" target="S114">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">int x;</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S130"/>
+    <edge source="S114" target="S130">
+      <data key="sourcecode">while (x!=0) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S143"/>
+    <edge source="S130" target="S143">
+      <data key="sourcecode">if (-5 &lt;= x &amp;&amp; x &lt;= 35) {</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S146"/>
+    <edge source="S143" target="S146">
+      <data key="sourcecode">if (x &lt; 0) {</data>
+      <data key="startline">16</data>
+      <data key="endline">16</data>
+    </edge>
+    <node id="S149"/>
+    <edge source="S146" target="S149">
+      <data key="sourcecode">x = -5;</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+    </edge>
+    <node id="S152"/>
+    <edge source="S149" target="S152">
+      <data key="sourcecode">} else {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+    </edge>
+    <node id="S156"/>
+    <edge source="S152" target="S156">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">25</data>
+      <data key="endline">25</data>
+    </edge>
+    <node id="S183"/>
+    <edge source="S156" target="S183">
+      <data key="sourcecode">while (x!=0) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S194"/>
+    <edge source="S183" target="S194">
+      <data key="sourcecode">if (-5 &lt;= x &amp;&amp; x &lt;= 35) {</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S198"/>
+    <edge source="S194" target="S198">
+      <data key="sourcecode">if (x &lt; 0) {</data>
+      <data key="startline">16</data>
+      <data key="endline">16</data>
+    </edge>
+    <node id="S201"/>
+    <edge source="S198" target="S201">
+      <data key="sourcecode">x = -5;</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+    </edge>
+    <node id="S204"/>
+    <edge source="S201" target="S204">
+      <data key="sourcecode">} else {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+    </edge>
+    <edge source="S204" target="S156">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">25</data>
+      <data key="endline">25</data>
+    </edge>
+  </graph>
+</graphml>

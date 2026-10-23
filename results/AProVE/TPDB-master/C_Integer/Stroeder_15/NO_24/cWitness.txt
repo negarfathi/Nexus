@@ -1,0 +1,23 @@
+**TAIL:**
+
+5: int main() {
+6: int a;
+7: int b;
+8: a = 1;
+9: b = 2;
+11: while (a + b &lt; 5) {
+12: a = a - b;
+13: b = a + b;
+14: a = b - a;
+11: while (a + b &lt; 5) {
+12: a = a - b;
+13: b = a + b;
+14: a = b - a;
+
+**LOOP:**
+
+11: while (a + b &lt; 5) {
+12: a = a - b;
+13: b = a + b;
+14: a = b - a;
+11: while (a + b &lt; 5) {

@@ -1,0 +1,879 @@
+///*** 1_ParseFile ***///
+START: ParseFile_bb0;
+
+FROM: ParseFile_bb0;
+var__temp_vlineno.0 := 0;
+var__temp_vnum_errors.0 := 0;
+var__temp_vc.0 := 0;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_.critedge3;
+vlineno.0 := var__temp_vlineno.0;
+vnum_errors.0 := var__temp_vnum_errors.0;
+vc.0 := var__temp_vc.0;
+vintoken.0 := var__temp_vintoken.0;
+v0 := vc.0 + 1;
+var__temp_vlineno.1 := vlineno.0;
+var__temp_vc.1 := v0;
+TO: ParseFile_.critedge3_end;
+
+FROM: ParseFile_.critedge3_end;
+assume(vc.0 < vFileSize);
+TO: ParseFile_bb1;
+
+FROM: ParseFile_.critedge3_end;
+assume(vc.0 >= vFileSize);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb1;
+vlineno.1 := var__temp_vlineno.1;
+vc.1 := var__temp_vc.1;
+v2 := vc.1 + 1;
+TO: ParseFile_bb1_end;
+
+FROM: ParseFile_bb1_end;
+assume(vc.1 < vFileSize);
+TO: ParseFile_bb2;
+
+FROM: ParseFile_bb1_end;
+assume(vc.1 >= vFileSize);
+TO: ParseFile_.critedge;
+
+FROM: ParseFile_bb2;
+v4 := nondet();
+var__temp_vc.2 := v2;
+TO: ParseFile_bb2_end;
+
+FROM: ParseFile_bb2_end;
+assume(v4 != 0);
+TO: ParseFile_bb3;
+
+FROM: ParseFile_bb2_end;
+assume(v4 == 0);
+TO: ParseFile_.critedge;
+
+FROM: ParseFile_bb3;
+vc.2 := var__temp_vc.2;
+v6 := vc.2 + 1;
+TO: ParseFile_bb3_end;
+
+FROM: ParseFile_bb3_end;
+assume(vc.2 < vFileSize);
+TO: ParseFile_bb4;
+
+FROM: ParseFile_bb3_end;
+assume(vc.2 >= vFileSize);
+TO: ParseFile_.critedge1;
+
+FROM: ParseFile_bb4;
+v8 := nondet();
+var__temp_vc.2 := v6;
+TO: ParseFile_bb4_end;
+
+FROM: ParseFile_bb4_end;
+assume(v8 != 0);
+TO: ParseFile_bb3;
+
+FROM: ParseFile_bb4_end;
+assume(v8 == 0);
+TO: ParseFile_.critedge1;
+
+FROM: ParseFile_.critedge1;
+v10 := nondet();
+v12 := vlineno.1 + 1;
+TO: ParseFile_.critedge1_v.lineno.1;
+FROM: ParseFile_.critedge1_v.lineno.1;
+assume(v10 != 0);
+v.lineno.1 := v12;
+TO: ParseFile_.critedge1_sv.lineno.1;
+
+FROM: ParseFile_.critedge1_v.lineno.1;
+assume(v10 == 0);
+v.lineno.1 := vlineno.1;
+TO: ParseFile_.critedge1_sv.lineno.1;
+
+FROM: ParseFile_.critedge1_sv.lineno.1;
+v13 := v6 + 1;
+var__temp_vlineno.1 := v.lineno.1;
+var__temp_vc.1 := v13;
+TO: ParseFile_bb1;
+
+FROM: ParseFile_.critedge;
+v14 := nondet();
+var__temp_vlineno.3 := vlineno.1;
+var__temp_vnum_errors.2 := vnum_errors.0;
+var__temp_vintoken.2 := vintoken.0;
+TO: ParseFile_.critedge_end;
+
+FROM: ParseFile_.critedge_end;
+assume(v14 != 0);
+TO: ParseFile_bb5;
+
+FROM: ParseFile_.critedge_end;
+assume(v14 == 0);
+TO: ParseFile_bb6;
+
+FROM: ParseFile_bb5;
+v17 := vnum_errors.0 + 1;
+TO: ParseFile_bb5_v.num_errors.0;
+FROM: ParseFile_bb5_v.num_errors.0;
+assume(vintoken.0 != 0);
+v.num_errors.0 := v17;
+TO: ParseFile_bb5_sv.num_errors.0;
+
+FROM: ParseFile_bb5_v.num_errors.0;
+assume(vintoken.0 == 0);
+v.num_errors.0 := vnum_errors.0;
+TO: ParseFile_bb5_sv.num_errors.0;
+
+FROM: ParseFile_bb5_sv.num_errors.0;
+TO: ParseFile_bb5_v.intoken.0;
+FROM: ParseFile_bb5_v.intoken.0;
+assume(vintoken.0 != 0);
+v.intoken.0 := 0;
+TO: ParseFile_bb5_sv.intoken.0;
+
+FROM: ParseFile_bb5_v.intoken.0;
+assume(vintoken.0 == 0);
+v.intoken.0 := vintoken.0;
+TO: ParseFile_bb5_sv.intoken.0;
+
+FROM: ParseFile_bb5_sv.intoken.0;
+v18 := vlineno.1 + 1;
+var__temp_vlineno.3 := v18;
+var__temp_vnum_errors.2 := v.num_errors.0;
+var__temp_vintoken.2 := v.intoken.0;
+TO: ParseFile_bb6;
+
+FROM: ParseFile_bb6;
+vlineno.3 := var__temp_vlineno.3;
+vnum_errors.2 := var__temp_vnum_errors.2;
+vintoken.2 := var__temp_vintoken.2;
+var__temp_vintoken.3 := vintoken.2;
+TO: ParseFile_bb6_end;
+
+FROM: ParseFile_bb6_end;
+assume(vintoken.2 != 0);
+TO: ParseFile_bb7;
+
+FROM: ParseFile_bb6_end;
+assume(vintoken.2 == 0);
+TO: ParseFile_bb9;
+
+FROM: ParseFile_bb7;
+v20 := nondet();
+var__temp_vintoken.3 := vintoken.2;
+TO: ParseFile_bb7_end;
+
+FROM: ParseFile_bb7_end;
+assume(v20 != 0);
+TO: ParseFile_bb8;
+
+FROM: ParseFile_bb7_end;
+assume(v20 == 0);
+TO: ParseFile_bb9;
+
+FROM: ParseFile_bb8;
+v22 := vintoken.2 + 1;
+var__temp_vintoken.3 := v22;
+TO: ParseFile_bb8_end;
+
+FROM: ParseFile_bb8_end;
+assume(v22 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb8_end;
+assume(v22 <= vBUF_SZ);
+TO: ParseFile_bb9;
+
+FROM: ParseFile_bb9;
+vintoken.3 := var__temp_vintoken.3;
+v24 := nondet();
+v28 := 0 + 1;
+TO: ParseFile_bb9_vintoken.4;
+FROM: ParseFile_bb9_vintoken.4;
+assume((v24 == 0) || (vintoken.3 != 0));
+vintoken.4 := vintoken.3;
+TO: ParseFile_bb9_svintoken.4;
+
+FROM: ParseFile_bb9_vintoken.4;
+assume((v24 != 0) && (vintoken.3 == 0));
+vintoken.4 := v28;
+TO: ParseFile_bb9_svintoken.4;
+
+FROM: ParseFile_bb9_svintoken.4;
+v29 := nondet();
+var__temp_vlineno.0 := vlineno.3;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := v2;
+var__temp_vintoken.0 := vintoken.4;
+var__temp_vi.0 := 0;
+TO: ParseFile_bb9_end;
+
+FROM: ParseFile_bb9_end;
+assume((v29 != 0) && (vintoken.4 != 0));
+TO: ParseFile_bb10;
+
+FROM: ParseFile_bb9_end;
+assume((v29 == 0) || (vintoken.4 == 0));
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb10;
+vi.0 := var__temp_vi.0;
+var__temp_vll.0 := 0;
+var__temp_vntokens.0 := 1;
+TO: ParseFile_bb10_end;
+
+FROM: ParseFile_bb10_end;
+assume(vi.0 < 0);
+TO: ParseFile_bb11;
+
+FROM: ParseFile_bb10_end;
+assume(vi.0 >= 0);
+TO: ParseFile_bb12;
+
+FROM: ParseFile_bb11;
+v33 := vi.0 + 1;
+var__temp_vi.0 := v33;
+TO: ParseFile_bb10;
+
+FROM: ParseFile_bb12;
+vll.0 := var__temp_vll.0;
+vntokens.0 := var__temp_vntokens.0;
+var__temp_vlineno.4 := vlineno.3;
+var__temp_vc.3 := v2;
+TO: ParseFile_bb12_end;
+
+FROM: ParseFile_bb12_end;
+assume(vll.0 < 0);
+TO: ParseFile_bb13;
+
+FROM: ParseFile_bb12_end;
+assume(vll.0 >= 0);
+TO: ParseFile_bb14;
+
+FROM: ParseFile_bb13;
+v35 := nondet();
+v37 := vntokens.0 + 1;
+TO: ParseFile_bb13_v.ntokens.0;
+FROM: ParseFile_bb13_v.ntokens.0;
+assume(v35 != 0);
+v.ntokens.0 := v37;
+TO: ParseFile_bb13_sv.ntokens.0;
+
+FROM: ParseFile_bb13_v.ntokens.0;
+assume(v35 == 0);
+v.ntokens.0 := vntokens.0;
+TO: ParseFile_bb13_sv.ntokens.0;
+
+FROM: ParseFile_bb13_sv.ntokens.0;
+v38 := vll.0 + 1;
+var__temp_vll.0 := v38;
+var__temp_vntokens.0 := v.ntokens.0;
+TO: ParseFile_bb12;
+
+FROM: ParseFile_bb14;
+vlineno.4 := var__temp_vlineno.4;
+vc.3 := var__temp_vc.3;
+v39 := vc.3 + 1;
+var__temp_v43 := false;
+TO: ParseFile_bb14_end;
+
+FROM: ParseFile_bb14_end;
+assume(vc.3 < vFileSize);
+TO: ParseFile_bb15;
+
+FROM: ParseFile_bb14_end;
+assume(vc.3 >= vFileSize);
+TO: ParseFile_bb16;
+
+FROM: ParseFile_bb15;
+v41 := nondet();
+var__temp_v43 := v42;
+TO: ParseFile_bb16;
+
+FROM: ParseFile_bb16;
+v44 := nondet();
+TO: ParseFile_bb16_end;
+
+FROM: ParseFile_bb16_end;
+assume(nondet());
+TO: ParseFile_bb17;
+
+FROM: ParseFile_bb16_end;
+assume(nondet());
+TO: ParseFile_bb18;
+
+FROM: ParseFile_bb17;
+v46 := vlineno.4 + 1;
+TO: ParseFile_bb17_v.lineno.4;
+FROM: ParseFile_bb17_v.lineno.4;
+assume(v44 != 0);
+v.lineno.4 := v46;
+TO: ParseFile_bb17_sv.lineno.4;
+
+FROM: ParseFile_bb17_v.lineno.4;
+assume(v44 == 0);
+v.lineno.4 := vlineno.4;
+TO: ParseFile_bb17_sv.lineno.4;
+
+FROM: ParseFile_bb17_sv.lineno.4;
+var__temp_vlineno.4 := v.lineno.4;
+var__temp_vc.3 := v39;
+TO: ParseFile_bb14;
+
+FROM: ParseFile_bb18;
+TO: ParseFile_bb18_end;
+
+FROM: ParseFile_bb18_end;
+assume(v44 != 0);
+TO: ParseFile_bb19;
+
+FROM: ParseFile_bb18_end;
+assume(v44 == 0);
+TO: ParseFile_bb23;
+
+FROM: ParseFile_bb19;
+var__temp_vp.0 := 0;
+var__temp_vlineno.6 := vlineno.4;
+var__temp_vc.4 := v39;
+TO: ParseFile_bb19_end;
+
+FROM: ParseFile_bb19_end;
+assume(vntokens.0 > 1);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb19_end;
+assume(vntokens.0 <= 1);
+TO: ParseFile_bb20;
+
+FROM: ParseFile_bb20;
+vp.0 := var__temp_vp.0;
+vlineno.6 := var__temp_vlineno.6;
+vc.4 := var__temp_vc.4;
+v48 := vc.4 + 1;
+var__temp_vlineno.0 := vlineno.6;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := v48;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_bb20_end;
+
+FROM: ParseFile_bb20_end;
+assume(vc.4 < vFileSize);
+TO: ParseFile_bb21;
+
+FROM: ParseFile_bb20_end;
+assume(vc.4 >= vFileSize);
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb21;
+v50 := nondet();
+var__temp_vlineno.0 := vlineno.6;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := v48;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_bb21_end;
+
+FROM: ParseFile_bb21_end;
+assume(v50 != 0);
+TO: ParseFile_bb22;
+
+FROM: ParseFile_bb21_end;
+assume(v50 == 0);
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb22;
+v52 := nondet();
+v54 := vp.0 + 1;
+TO: ParseFile_bb22_v.p.0;
+FROM: ParseFile_bb22_v.p.0;
+assume(v52 != 0);
+v.p.0 := v54;
+TO: ParseFile_bb22_sv.p.0;
+
+FROM: ParseFile_bb22_v.p.0;
+assume(v52 == 0);
+v.p.0 := vp.0;
+TO: ParseFile_bb22_sv.p.0;
+
+FROM: ParseFile_bb22_sv.p.0;
+v55 := nondet();
+v57 := vlineno.6 + 1;
+TO: ParseFile_bb22_vlineno.7;
+FROM: ParseFile_bb22_vlineno.7;
+assume(v55 != 0);
+vlineno.7 := v57;
+TO: ParseFile_bb22_svlineno.7;
+
+FROM: ParseFile_bb22_vlineno.7;
+assume(v55 == 0);
+vlineno.7 := vlineno.6;
+TO: ParseFile_bb22_svlineno.7;
+
+FROM: ParseFile_bb22_svlineno.7;
+var__temp_vp.0 := v.p.0;
+var__temp_vlineno.6 := vlineno.7;
+var__temp_vc.4 := v48;
+TO: ParseFile_bb22_end;
+
+FROM: ParseFile_bb22_end;
+assume(v.p.0 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb22_end;
+assume(v.p.0 <= vBUF_SZ);
+TO: ParseFile_bb20;
+
+FROM: ParseFile_bb23;
+v59 := nondet();
+var__temp_vc.5 := v39;
+TO: ParseFile_bb23_end;
+
+FROM: ParseFile_bb23_end;
+assume(v59 != 0);
+TO: ParseFile_bb24;
+
+FROM: ParseFile_bb23_end;
+assume(v59 == 0);
+TO: ParseFile_bb26;
+
+FROM: ParseFile_bb24;
+vc.5 := var__temp_vc.5;
+v61 := nondet();
+var__temp_vlineno.0 := vlineno.4;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := vc.5;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_bb24_end;
+
+FROM: ParseFile_bb24_end;
+assume((v61 != 0) && (vc.5 < vFileSize));
+TO: ParseFile_bb25;
+
+FROM: ParseFile_bb24_end;
+assume((v61 == 0) || (vc.5 >= vFileSize));
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb25;
+v64 := vc.5 + 1;
+var__temp_vc.5 := v64;
+TO: ParseFile_bb24;
+
+FROM: ParseFile_bb26;
+v65 := 0 + 1;
+var__temp_v.sink := v39;
+var__temp_vp1.0 := v65;
+TO: ParseFile_bb26_end;
+
+FROM: ParseFile_bb26_end;
+assume(vntokens.0 == 1);
+TO: ParseFile_bb27;
+
+FROM: ParseFile_bb26_end;
+assume(vntokens.0 != 1);
+TO: ParseFile_bb30;
+
+FROM: ParseFile_bb27;
+v.sink := var__temp_v.sink;
+vp1.0 := var__temp_vp1.0;
+v67 := v.sink + 1;
+v68 := nondet();
+TO: ParseFile_bb27_end;
+
+FROM: ParseFile_bb27_end;
+assume((v68 != 0) && (v67 < vFileSize));
+TO: ParseFile_bb28;
+
+FROM: ParseFile_bb27_end;
+assume((v68 == 0) || (v67 >= vFileSize));
+TO: ParseFile_bb29;
+
+FROM: ParseFile_bb28;
+v71 := vp1.0 + 1;
+var__temp_v.sink := v67;
+var__temp_vp1.0 := v71;
+TO: ParseFile_bb28_end;
+
+FROM: ParseFile_bb28_end;
+assume(v71 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb28_end;
+assume(v71 <= vBUF_SZ);
+TO: ParseFile_bb27;
+
+FROM: ParseFile_bb29;
+v73 := nondet();
+v75 := vlineno.4 + 1;
+TO: ParseFile_bb29_v.lineno.45;
+FROM: ParseFile_bb29_v.lineno.45;
+assume(v73 != 0);
+v.lineno.45 := v75;
+TO: ParseFile_bb29_sv.lineno.45;
+
+FROM: ParseFile_bb29_v.lineno.45;
+assume(v73 == 0);
+v.lineno.45 := vlineno.4;
+TO: ParseFile_bb29_sv.lineno.45;
+
+FROM: ParseFile_bb29_sv.lineno.45;
+var__temp_vlineno.0 := v.lineno.45;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := v67;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb30;
+v76 := 0 + 1;
+var__temp_v.sink6 := v39;
+var__temp_vpp.0 := v76;
+var__temp_vncommas.0 := 0;
+TO: ParseFile_bb31;
+
+FROM: ParseFile_bb31;
+v.sink6 := var__temp_v.sink6;
+vpp.0 := var__temp_vpp.0;
+vncommas.0 := var__temp_vncommas.0;
+v77 := v.sink6 + 1;
+v78 := vntokens.0 - 1;
+v81 := nondet();
+TO: ParseFile_bb31_end;
+
+FROM: ParseFile_bb31_end;
+assume((vncommas.0 < v78) && (v77 < vFileSize));
+TO: ParseFile_bb32;
+
+FROM: ParseFile_bb31_end;
+assume((vncommas.0 >= v78) || (v77 >= vFileSize));
+TO: ParseFile_bb35;
+
+FROM: ParseFile_bb32;
+var__temp_vpp.1 := vpp.0;
+TO: ParseFile_bb32_end;
+
+FROM: ParseFile_bb32_end;
+assume(v81 != 0);
+TO: ParseFile_bb33;
+
+FROM: ParseFile_bb32_end;
+assume(v81 == 0);
+TO: ParseFile_bb34;
+
+FROM: ParseFile_bb33;
+v83 := vpp.0 + 1;
+var__temp_vpp.1 := v83;
+TO: ParseFile_bb33_end;
+
+FROM: ParseFile_bb33_end;
+assume(v83 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb33_end;
+assume(v83 <= vBUF_SZ);
+TO: ParseFile_bb34;
+
+FROM: ParseFile_bb34;
+vpp.1 := var__temp_vpp.1;
+v85 := nondet();
+v87 := vncommas.0 + 1;
+TO: ParseFile_bb34_v.ncommas.0;
+FROM: ParseFile_bb34_v.ncommas.0;
+assume(v85 != 0);
+v.ncommas.0 := v87;
+TO: ParseFile_bb34_sv.ncommas.0;
+
+FROM: ParseFile_bb34_v.ncommas.0;
+assume(v85 == 0);
+v.ncommas.0 := vncommas.0;
+TO: ParseFile_bb34_sv.ncommas.0;
+
+FROM: ParseFile_bb34_sv.ncommas.0;
+var__temp_v.sink6 := v77;
+var__temp_vpp.0 := vpp.1;
+var__temp_vncommas.0 := v.ncommas.0;
+TO: ParseFile_bb31;
+
+FROM: ParseFile_bb35;
+var__temp_vlineno.9 := vlineno.4;
+var__temp_vc.8 := v77;
+var__temp_vlineno.11 := vlineno.4;
+var__temp_vc.9 := v77;
+TO: ParseFile_bb35_end;
+
+FROM: ParseFile_bb35_end;
+assume(v81 != 0);
+TO: ParseFile_bb36;
+
+FROM: ParseFile_bb35_end;
+assume(v81 == 0);
+TO: ParseFile_.critedge8;
+
+FROM: ParseFile_bb36;
+vlineno.9 := var__temp_vlineno.9;
+vc.8 := var__temp_vc.8;
+v88 := vc.8 + 1;
+var__temp_vlineno.11 := vlineno.9;
+var__temp_vc.9 := v88;
+TO: ParseFile_bb36_end;
+
+FROM: ParseFile_bb36_end;
+assume(vc.8 < vFileSize);
+TO: ParseFile_bb37;
+
+FROM: ParseFile_bb36_end;
+assume(vc.8 >= vFileSize);
+TO: ParseFile_.critedge8;
+
+FROM: ParseFile_bb37;
+v90 := nondet();
+var__temp_vlineno.11 := vlineno.9;
+var__temp_vc.9 := v88;
+TO: ParseFile_bb37_end;
+
+FROM: ParseFile_bb37_end;
+assume(v90 != 0);
+TO: ParseFile_bb38;
+
+FROM: ParseFile_bb37_end;
+assume(v90 == 0);
+TO: ParseFile_.critedge8;
+
+FROM: ParseFile_bb38;
+v92 := nondet();
+v94 := vlineno.9 + 1;
+TO: ParseFile_bb38_v.lineno.9;
+FROM: ParseFile_bb38_v.lineno.9;
+assume(v92 != 0);
+v.lineno.9 := v94;
+TO: ParseFile_bb38_sv.lineno.9;
+
+FROM: ParseFile_bb38_v.lineno.9;
+assume(v92 == 0);
+v.lineno.9 := vlineno.9;
+TO: ParseFile_bb38_sv.lineno.9;
+
+FROM: ParseFile_bb38_sv.lineno.9;
+var__temp_vlineno.9 := v.lineno.9;
+var__temp_vc.8 := v88;
+TO: ParseFile_bb36;
+
+FROM: ParseFile_.critedge8;
+vlineno.11 := var__temp_vlineno.11;
+vc.9 := var__temp_vc.9;
+v95 := vpp.0 + 1;
+var__temp_vc.9.sink := vc.9;
+var__temp_vpp.2 := v95;
+TO: ParseFile_.critedge8_end;
+
+FROM: ParseFile_.critedge8_end;
+assume(v65 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_.critedge8_end;
+assume(v65 <= vBUF_SZ);
+TO: ParseFile_bb39;
+
+FROM: ParseFile_bb39;
+vc.9.sink := var__temp_vc.9.sink;
+vpp.2 := var__temp_vpp.2;
+v97 := vc.9.sink + 1;
+var__temp_vpv.0 := 0;
+var__temp_vpt.0 := 0;
+var__temp_vi2.0 := 0;
+TO: ParseFile_bb39_end;
+
+FROM: ParseFile_bb39_end;
+assume(v97 < vFileSize);
+TO: ParseFile_bb40;
+
+FROM: ParseFile_bb39_end;
+assume(v97 >= vFileSize);
+TO: ParseFile_.critedge9;
+
+FROM: ParseFile_bb40;
+v99 := nondet();
+var__temp_vpv.0 := 0;
+var__temp_vpt.0 := 0;
+var__temp_vi2.0 := 0;
+TO: ParseFile_bb40_end;
+
+FROM: ParseFile_bb40_end;
+assume(v99 != 0);
+TO: ParseFile_bb41;
+
+FROM: ParseFile_bb40_end;
+assume(v99 == 0);
+TO: ParseFile_.critedge9;
+
+FROM: ParseFile_bb41;
+v101 := vpp.2 + 1;
+var__temp_vc.9.sink := v97;
+var__temp_vpp.2 := v101;
+TO: ParseFile_bb41_end;
+
+FROM: ParseFile_bb41_end;
+assume(v101 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb41_end;
+assume(v101 <= vBUF_SZ);
+TO: ParseFile_bb39;
+
+FROM: ParseFile_.critedge9;
+vpv.0 := var__temp_vpv.0;
+vpt.0 := var__temp_vpt.0;
+vi2.0 := var__temp_vi2.0;
+var__temp_vpt.1 := vpt.0;
+var__temp_vpp.3 := 0;
+var__temp_vpt.2 := vpt.0;
+var__temp_vpp.5 := 0;
+TO: ParseFile_.critedge9_end;
+
+FROM: ParseFile_.critedge9_end;
+assume(vi2.0 < vncommas.0);
+TO: ParseFile_bb42;
+
+FROM: ParseFile_.critedge9_end;
+assume(vi2.0 >= vncommas.0);
+TO: ParseFile_bb47;
+
+FROM: ParseFile_bb42;
+vpt.1 := var__temp_vpt.1;
+vpp.3 := var__temp_vpp.3;
+v104 := nondet();
+var__temp_vpv.1 := vpv.0;
+var__temp_vpp.4 := 0;
+TO: ParseFile_bb42_end;
+
+FROM: ParseFile_bb42_end;
+assume(v104 != 0);
+TO: ParseFile_bb43;
+
+FROM: ParseFile_bb42_end;
+assume(v104 == 0);
+TO: ParseFile_bb44;
+
+FROM: ParseFile_bb43;
+v106 := vpp.3 + 1;
+v107 := vpt.1 + 1;
+var__temp_vpt.1 := v107;
+var__temp_vpp.3 := v106;
+TO: ParseFile_bb43_end;
+
+FROM: ParseFile_bb43_end;
+assume(v106 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb43_end;
+assume(v106 <= vBUF_SZ);
+TO: ParseFile_bb42;
+
+FROM: ParseFile_bb44;
+vpv.1 := var__temp_vpv.1;
+vpp.4 := var__temp_vpp.4;
+v109 := nondet();
+TO: ParseFile_bb44_end;
+
+FROM: ParseFile_bb44_end;
+assume(v109 != 0);
+TO: ParseFile_bb45;
+
+FROM: ParseFile_bb44_end;
+assume(v109 == 0);
+TO: ParseFile_bb46;
+
+FROM: ParseFile_bb45;
+v111 := vpp.4 + 1;
+v112 := vpv.1 + 1;
+var__temp_vpv.1 := v112;
+var__temp_vpp.4 := v111;
+TO: ParseFile_bb45_end;
+
+FROM: ParseFile_bb45_end;
+assume(v111 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb45_end;
+assume(v111 <= vBUF_SZ);
+TO: ParseFile_bb44;
+
+FROM: ParseFile_bb46;
+v114 := vpv.1 + 1;
+v115 := vpt.1 + 1;
+v116 := vi2.0 + 1;
+var__temp_vpv.0 := v114;
+var__temp_vpt.0 := v115;
+var__temp_vi2.0 := v116;
+TO: ParseFile_.critedge9;
+
+FROM: ParseFile_bb47;
+vpt.2 := var__temp_vpt.2;
+vpp.5 := var__temp_vpp.5;
+v117 := nondet();
+var__temp_vpv.2 := vpv.0;
+var__temp_vpp.6 := 0;
+TO: ParseFile_bb47_end;
+
+FROM: ParseFile_bb47_end;
+assume(v117 != 0);
+TO: ParseFile_bb48;
+
+FROM: ParseFile_bb47_end;
+assume(v117 == 0);
+TO: ParseFile_bb49;
+
+FROM: ParseFile_bb48;
+v119 := vpp.5 + 1;
+v120 := vpt.2 + 1;
+var__temp_vpt.2 := v120;
+var__temp_vpp.5 := v119;
+TO: ParseFile_bb48_end;
+
+FROM: ParseFile_bb48_end;
+assume(v119 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb48_end;
+assume(v119 <= vBUF_SZ);
+TO: ParseFile_bb47;
+
+FROM: ParseFile_bb49;
+vpv.2 := var__temp_vpv.2;
+vpp.6 := var__temp_vpp.6;
+v122 := nondet();
+var__temp_vlineno.0 := vlineno.11;
+var__temp_vnum_errors.0 := vnum_errors.2;
+var__temp_vc.0 := v97;
+var__temp_vintoken.0 := 0;
+TO: ParseFile_bb49_end;
+
+FROM: ParseFile_bb49_end;
+assume(v122 != 0);
+TO: ParseFile_bb50;
+
+FROM: ParseFile_bb49_end;
+assume(v122 == 0);
+TO: ParseFile_.critedge3;
+
+FROM: ParseFile_bb50;
+v124 := vpp.6 + 1;
+TO: ParseFile_bb50_end;
+
+FROM: ParseFile_bb50_end;
+assume(v124 > vBUF_SZ);
+TO: ParseFile_bb52;
+
+FROM: ParseFile_bb50_end;
+assume(v124 <= vBUF_SZ);
+TO: ParseFile_bb51;
+
+FROM: ParseFile_bb51;
+v126 := vpv.2 + 1;
+var__temp_vpv.2 := v126;
+var__temp_vpp.6 := v124;
+TO: ParseFile_bb49;
+
+FROM: ParseFile_bb52;
+TO: ParseFile_bb52_ret;
+

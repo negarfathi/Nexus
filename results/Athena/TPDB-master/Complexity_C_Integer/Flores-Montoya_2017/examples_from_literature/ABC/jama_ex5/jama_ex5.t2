@@ -1,0 +1,45 @@
+///*** 1_jama_ex5 ***///
+START: jama_ex5_bb0;
+
+FROM: jama_ex5_bb0;
+var__temp_vi.0 := 0;
+TO: jama_ex5_bb1;
+
+FROM: jama_ex5_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := 0;
+TO: jama_ex5_bb1_end;
+
+FROM: jama_ex5_bb1_end;
+assume(vi.0 <= vn);
+TO: jama_ex5_bb2;
+
+FROM: jama_ex5_bb1_end;
+assume(vi.0 > vn);
+TO: jama_ex5_bb5;
+
+FROM: jama_ex5_bb2;
+vj.0 := var__temp_vj.0;
+TO: jama_ex5_bb2_end;
+
+FROM: jama_ex5_bb2_end;
+assume(vj.0 <= vn);
+TO: jama_ex5_bb3;
+
+FROM: jama_ex5_bb2_end;
+assume(vj.0 > vn);
+TO: jama_ex5_bb4;
+
+FROM: jama_ex5_bb3;
+v2 := vj.0 + 2;
+var__temp_vj.0 := v2;
+TO: jama_ex5_bb2;
+
+FROM: jama_ex5_bb4;
+v3 := vi.0 + 2;
+var__temp_vi.0 := v3;
+TO: jama_ex5_bb1;
+
+FROM: jama_ex5_bb5;
+TO: jama_ex5_bb5_ret;
+

@@ -1,0 +1,303 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.yGxELr
+
+Input File is : cBench_PackBitsEncode.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench	consumer_tiff2bw/src/tif_packbits.c	PackBitsEncode
+
+int random();
+
+//Complexity: O(n)
+void PackBitsEncode(int cc)
+{
+    /*u_char *bp = (u_char *) buf;
+    tidata_t op, ep, lastliteral;*/
+    long n, slop;
+    int b;
+    enum { BASE, LITERAL, RUN, LITERAL_RUN } state;
+    /*(void) s;
+    op = tif->tif_rawcp;
+    ep = tif->tif_rawdata + tif->tif_rawdatasize;*/
+    state = BASE;
+    //lastliteral = 0;
+    while (cc > 0) {
+	//b = *bp++,
+	cc--, n = 1;
+	for (; cc > 0 && random(); cc--)//, bp++)
+	    {n++;}
+      again:/*if (op + 2 >= ep) {
+	    if (state == LITERAL || state == LITERAL_RUN) {
+		slop = op - lastliteral;
+		//tif->tif_rawcc += lastliteral - tif->tif_rawcp;
+		if (!TIFFFlushData1(tif))
+		    return (-1);
+		op = tif->tif_rawcp;
+		while (slop-- > 0)
+		    *op++ = *lastliteral++;
+		lastliteral = tif->tif_rawcp;
+	    } else {
+		tif->tif_rawcc += op - tif->tif_rawcp;
+		if (!TIFFFlushData1(tif))
+		    return (-1);
+		op = tif->tif_rawcp;
+	    }
+	}*/
+	switch (state) {
+	case BASE:
+	    {if (n > 1) {
+		state = RUN;
+		{if (n > 128) {
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;*/
+		    n -= 128;
+		    goto again;
+		}}
+		/*op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else {
+		/*lastliteral = op;
+		*op++ = 0;
+		*op++ = b;*/
+		state = LITERAL;
+	    }}
+	    break;
+	case LITERAL:
+	    {if (n > 1) {
+		state = LITERAL_RUN;
+		{if (n > 128) {
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;
+		    n -= 128;*/
+		    goto again;
+		}}
+		/**op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else {
+		{if (random())
+		    {state = BASE;}}
+		//*op++ = b;
+	    }}
+	    break;
+	case RUN:
+	    {if (n > 1) {
+		{if (n > 128) {
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;*/
+		    n -= 128;
+		    goto again;
+		}}
+		/**op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else {
+		/*lastliteral = op;
+		*op++ = 0;
+		*op++ = b;*/
+		state = LITERAL;
+	    }}
+	    break;
+	case LITERAL_RUN:
+	    /*if (n == 1 && op[-2] == (tidata) - 1 && *lastliteral < 126) {
+		state = (((*lastliteral) += 2) == 127 ? BASE : LITERAL);
+		op[-2] = op[-1];
+	    } else*/
+	    {if(random())
+		{state = BASE;}
+	    else {if(random())
+		{state = LITERAL;}
+	    else
+		{state = RUN;}}}
+
+	    goto again;
+	}
+    }
+    /*tif->tif_rawcc += op - tif->tif_rawcp;
+    tif->tif_rawcp = op;
+    return (1);*/
+}
+
+End Main   
+
+Input File is : cBench_PackBitsEncode_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench	consumer_tiff2bw/src/tif_packbits.c	PackBitsEncode
+
+int random();
+
+//Complexity: O(n)
+void PackBitsEncode(int cc)
+{
+    /*u_char *bp = (u_char *) buf;
+    tidata_t op, ep, lastliteral;*/
+    long n, slop;
+    int b;
+    enum { BASE, LITERAL, RUN, LITERAL_RUN } state;
+    /*(void) s;
+    op = tif->tif_rawcp;
+    ep = tif->tif_rawdata + tif->tif_rawdatasize;*/
+    state = BASE;
+    //lastliteral = 0;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(18, __func__);
+ while (cc > 0) { __VERIFIER_loop_head(18, __func__);
+printf("CBMC Instrumentation @ line18");myBool flag=__VERIFIER_nondet_myBool();static int ob;static int occ;static long on;static long oslop;if(pStored0){__CPROVER_assert(!(ob==b && occ==cc && on==n && oslop==slop),"recurrent state found");} if(flag){ob=b;occ=cc;on=n;oslop=slop;pStored0=myTrue;} 
+	//b = *bp++,
+	cc--, n = 1;
+myBool pStored1 = myFalse; __VERIFIER_reached_control(22, __func__);
+	for (; cc > 0 && random(); cc--)//, bp++)
+	    { __VERIFIER_loop_head(22, __func__);
+printf("CBMC Instrumentation @ line22");myBool flag=__VERIFIER_nondet_myBool();static int ob;static int occ;static long on;static long oslop;if(pStored1){__CPROVER_assert(!(ob==b && occ==cc && on==n && oslop==slop),"recurrent state found");} if(flag){ob=b;occ=cc;on=n;oslop=slop;pStored1=myTrue;} n++;}
+      again:/*if (op + 2 >= ep) {
+	    if (state == LITERAL || state == LITERAL_RUN) {
+		slop = op - lastliteral;
+		//tif->tif_rawcc += lastliteral - tif->tif_rawcp;
+		if (!TIFFFlushData1(tif))
+		    return (-1);
+		op = tif->tif_rawcp;
+		while (slop-- > 0)
+		    *op++ = *lastliteral++;
+		lastliteral = tif->tif_rawcp;
+	    } else {
+		tif->tif_rawcc += op - tif->tif_rawcp;
+		if (!TIFFFlushData1(tif))
+		    return (-1);
+		op = tif->tif_rawcp;
+	    }
+	}*/
+	switch (state) {
+	case BASE:
+	    { __VERIFIER_reached_control(42, __func__);
+if (n > 1) { __VERIFIER_control_true(42, __func__);
+
+		state = RUN;
+		{ __VERIFIER_reached_control(44, __func__);
+if (n > 128) { __VERIFIER_control_true(44, __func__);
+
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;*/
+		    n -= 128;
+		    goto again;
+		}}
+		/*op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else { __VERIFIER_control_false(52, __func__);
+
+		/*lastliteral = op;
+		*op++ = 0;
+		*op++ = b;*/
+		state = LITERAL;
+	    }}
+	    break;
+	case LITERAL:
+	    { __VERIFIER_reached_control(60, __func__);
+if (n > 1) { __VERIFIER_control_true(60, __func__);
+
+		state = LITERAL_RUN;
+		{ __VERIFIER_reached_control(62, __func__);
+if (n > 128) { __VERIFIER_control_true(62, __func__);
+
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;
+		    n -= 128;*/
+		    goto again;
+		}}
+		/**op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else { __VERIFIER_control_false(70, __func__);
+
+		{ __VERIFIER_reached_control(71, __func__);
+if (random())
+		    { __VERIFIER_control_true(72, __func__);
+state = BASE;}}
+		//*op++ = b;
+	    }}
+	    break;
+	case RUN:
+	    { __VERIFIER_reached_control(77, __func__);
+if (n > 1) { __VERIFIER_control_true(77, __func__);
+
+		{ __VERIFIER_reached_control(78, __func__);
+if (n > 128) { __VERIFIER_control_true(78, __func__);
+
+		    /**op++ = (tidata) - 127;
+		    *op++ = b;*/
+		    n -= 128;
+		    goto again;
+		}}
+		/**op++ = (tidataval_t) (-(n - 1));
+		*op++ = b;*/
+	    } else { __VERIFIER_control_false(86, __func__);
+
+		/*lastliteral = op;
+		*op++ = 0;
+		*op++ = b;*/
+		state = LITERAL;
+	    }}
+	    break;
+	case LITERAL_RUN:
+	    /*if (n == 1 && op[-2] == (tidata) - 1 && *lastliteral < 126) {
+		state = (((*lastliteral) += 2) == 127 ? BASE : LITERAL);
+		op[-2] = op[-1];
+	    } else*/
+	    { __VERIFIER_reached_control(98, __func__);
+if(random())
+		{ __VERIFIER_control_true(99, __func__);
+state = BASE;}
+	    else { __VERIFIER_control_false(100, __func__);
+ __VERIFIER_reached_
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+control(100, __func__);
+if(random())
+		{ __VERIFIER_control_true(101, __func__);
+state = LITERAL;}
+	    else
+		{ __VERIFIER_control_false(103, __func__);
+state = RUN;}}}
+
+	    goto again;
+	}
+    }
+    /*tif->tif_rawcc += op - tif->tif_rawcp;
+    tif->tif_rawcp = op;
+    return (1);*/
+}
+
+End Main 
+ cBench_PackBitsEncode_braced_instrumented.c
+NTFILE is cBench_PackBitsEncode_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_PackBitsEncode.c
+FILE=cBench_PackBitsEncode_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 680 milliseconds

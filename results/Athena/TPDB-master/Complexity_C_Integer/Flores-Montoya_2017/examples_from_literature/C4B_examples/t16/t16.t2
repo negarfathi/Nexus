@@ -1,0 +1,56 @@
+///*** 1_t16 ***///
+START: t16_bb0;
+
+FROM: t16_bb0;
+var__temp_v.0 := vx;
+TO: t16_bb0_end;
+
+FROM: t16_bb0_end;
+assume(vy < 0);
+TO: t16_bb5;
+
+FROM: t16_bb0_end;
+assume(vy >= 0);
+TO: t16_bb1;
+
+FROM: t16_bb1;
+v.0 := var__temp_v.0;
+TO: t16_bb1_end;
+
+FROM: t16_bb1_end;
+assume(v.0 > vy);
+TO: t16_bb2;
+
+FROM: t16_bb1_end;
+assume(v.0 <= vy);
+TO: t16_bb5;
+
+FROM: t16_bb2;
+v2 := vy + 1;
+v3 := v.0 - v2;
+v4 := 2 * vy;
+v5 := 100 + v4;
+var__temp_vz.0 := v5;
+TO: t16_bb3;
+
+FROM: t16_bb3;
+vz.0 := var__temp_vz.0;
+var__temp_v.0 := v3;
+TO: t16_bb3_end;
+
+FROM: t16_bb3_end;
+assume(vz.0 > 0);
+TO: t16_bb4;
+
+FROM: t16_bb3_end;
+assume(vz.0 <= 0);
+TO: t16_bb1;
+
+FROM: t16_bb4;
+v7 := vz.0 + -1;
+var__temp_vz.0 := v7;
+TO: t16_bb3;
+
+FROM: t16_bb5;
+TO: t16_bb5_ret;
+

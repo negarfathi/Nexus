@@ -1,0 +1,56 @@
+///*** 1_aaron12 ***///
+START: aaron12_bb0;
+
+FROM: aaron12_bb0;
+var__temp_v.03 := vz;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: aaron12_bb1;
+
+FROM: aaron12_bb1;
+v.03 := var__temp_v.03;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: aaron12_bb1_end;
+
+FROM: aaron12_bb1_end;
+assume(v.0 >= v.01);
+TO: aaron12_bb2;
+
+FROM: aaron12_bb1_end;
+assume(v.0 < v.01);
+TO: aaron12_bb5;
+
+FROM: aaron12_bb2;
+v1 := nondet();
+TO: aaron12_bb2_end;
+
+FROM: aaron12_bb2_end;
+assume(v1 > 0);
+TO: aaron12_bb3;
+
+FROM: aaron12_bb2_end;
+assume(v1 <= 0);
+TO: aaron12_bb4;
+
+FROM: aaron12_bb3;
+v3 := v.0 + 1;
+v4 := v.01 + v3;
+var__temp_v.03 := v.03;
+var__temp_v.01 := v4;
+var__temp_v.0 := v3;
+TO: aaron12_bb1;
+
+FROM: aaron12_bb4;
+v5 := v.0 - v.03;
+v6 := v.03 * v.03;
+v7 := v.01 + v6;
+v8 := v.03 - 1;
+var__temp_v.03 := v8;
+var__temp_v.01 := v7;
+var__temp_v.0 := v5;
+TO: aaron12_bb1;
+
+FROM: aaron12_bb5;
+TO: aaron12_bb5_ret;
+

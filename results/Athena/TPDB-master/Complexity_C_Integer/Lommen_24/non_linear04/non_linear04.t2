@@ -1,0 +1,35 @@
+///*** 1_non_linear04 ***///
+START: non_linear04_bb0;
+
+FROM: non_linear04_bb0;
+var__temp_v.02 := vx3;
+var__temp_v.01 := vx2;
+var__temp_v.0 := vx1;
+TO: non_linear04_bb1;
+
+FROM: non_linear04_bb1;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: non_linear04_bb1_end;
+
+FROM: non_linear04_bb1_end;
+assume(((v.02 < v.0) || (v.02 < v.01)) && (v.02 > 0));
+TO: non_linear04_bb2;
+
+FROM: non_linear04_bb1_end;
+assume(((v.02 >= v.0) && (v.02 >= v.01)) || (v.02 <= 0));
+TO: non_linear04_.critedge;
+
+FROM: non_linear04_bb2;
+v3 := 2 * v.0;
+v4 := 3 * v.01;
+v5 := 4 * v.02;
+var__temp_v.02 := v5;
+var__temp_v.01 := v4;
+var__temp_v.0 := v3;
+TO: non_linear04_bb1;
+
+FROM: non_linear04_.critedge;
+TO: non_linear04_.critedge_ret;
+

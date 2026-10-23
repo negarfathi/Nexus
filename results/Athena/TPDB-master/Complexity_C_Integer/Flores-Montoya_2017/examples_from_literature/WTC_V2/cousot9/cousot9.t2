@@ -1,0 +1,55 @@
+///*** 1_cousot9 ***///
+START: cousot9_bb0;
+
+FROM: cousot9_bb0;
+var__temp_vi.0 := vN;
+var__temp_v.0 := vj;
+TO: cousot9_bb1;
+
+FROM: cousot9_bb1;
+vi.0 := var__temp_vi.0;
+v.0 := var__temp_v.0;
+TO: cousot9_bb1_end;
+
+FROM: cousot9_bb1_end;
+assume(vi.0 > 0);
+TO: cousot9_bb2;
+
+FROM: cousot9_bb1_end;
+assume(vi.0 <= 0);
+TO: cousot9_bb3;
+
+FROM: cousot9_bb2;
+v2 := v.0 + -1;
+v3 := vi.0 + -1;
+TO: cousot9_bb2_vi.1;
+FROM: cousot9_bb2_vi.1;
+assume(v.0 > 0);
+vi.1 := vi.0;
+TO: cousot9_bb2_svi.1;
+
+FROM: cousot9_bb2_vi.1;
+assume(v.0 <= 0);
+vi.1 := v3;
+TO: cousot9_bb2_svi.1;
+
+FROM: cousot9_bb2_svi.1;
+TO: cousot9_bb2_v.1;
+FROM: cousot9_bb2_v.1;
+assume(v.0 > 0);
+v.1 := v2;
+TO: cousot9_bb2_sv.1;
+
+FROM: cousot9_bb2_v.1;
+assume(v.0 <= 0);
+v.1 := vN;
+TO: cousot9_bb2_sv.1;
+
+FROM: cousot9_bb2_sv.1;
+var__temp_vi.0 := vi.1;
+var__temp_v.0 := v.1;
+TO: cousot9_bb1;
+
+FROM: cousot9_bb3;
+TO: cousot9_bb3_ret;
+

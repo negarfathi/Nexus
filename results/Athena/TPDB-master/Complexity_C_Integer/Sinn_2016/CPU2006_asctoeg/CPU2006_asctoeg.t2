@@ -1,0 +1,85 @@
+///*** 1_asctoeg ***///
+START: asctoeg_bb0;
+
+FROM: asctoeg_bb0;
+var__temp_vk.0 := vs;
+TO: asctoeg_bb1;
+
+FROM: asctoeg_bb1;
+vk.0 := var__temp_vk.0;
+var__temp_vsp.0 := 0;
+TO: asctoeg_bb1_end;
+
+FROM: asctoeg_bb1_end;
+assume(vk.0 > 0);
+TO: asctoeg_bb2;
+
+FROM: asctoeg_bb1_end;
+assume(vk.0 <= 0);
+TO: asctoeg_bb6;
+
+FROM: asctoeg_bb2;
+vsp.0 := var__temp_vsp.0;
+var__temp_vsp.0.sink := vsp.0;
+TO: asctoeg_bb2_end;
+
+FROM: asctoeg_bb2_end;
+assume(vsp.0 < vs);
+TO: asctoeg_bb3;
+
+FROM: asctoeg_bb2_end;
+assume(vsp.0 >= vs);
+TO: asctoeg_.critedge;
+
+FROM: asctoeg_bb3;
+v2 := nondet();
+var__temp_vsp.0.sink := vsp.0;
+TO: asctoeg_bb3_end;
+
+FROM: asctoeg_bb3_end;
+assume(v2 != 0);
+TO: asctoeg_bb4;
+
+FROM: asctoeg_bb3_end;
+assume(v2 == 0);
+TO: asctoeg_.critedge;
+
+FROM: asctoeg_bb4;
+v4 := vsp.0 + 1;
+var__temp_vsp.0 := v4;
+TO: asctoeg_bb2;
+
+FROM: asctoeg_.critedge;
+vsp.0.sink := var__temp_vsp.0.sink;
+v5 := vsp.0.sink + -1;
+TO: asctoeg_.critedge_end;
+
+FROM: asctoeg_.critedge_end;
+assume(v5 > 0);
+TO: asctoeg_bb5;
+
+FROM: asctoeg_.critedge_end;
+assume(v5 <= 0);
+TO: asctoeg_.critedge1;
+
+FROM: asctoeg_bb5;
+v7 := nondet();
+var__temp_vsp.0.sink := v5;
+TO: asctoeg_bb5_end;
+
+FROM: asctoeg_bb5_end;
+assume(v7 != 0);
+TO: asctoeg_.critedge;
+
+FROM: asctoeg_bb5_end;
+assume(v7 == 0);
+TO: asctoeg_.critedge1;
+
+FROM: asctoeg_.critedge1;
+v9 := vk.0 + -1;
+var__temp_vk.0 := v9;
+TO: asctoeg_bb1;
+
+FROM: asctoeg_bb6;
+TO: asctoeg_bb6_ret;
+

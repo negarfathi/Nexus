@@ -1,0 +1,1573 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v6 = 39,
+ l2_v3_out = 6,
+ l2_v6_out = 9,
+ l1_v7 = 4,
+ l2_v5_out = 8,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l1_v4 = 2,
+ l1_v2_next = 0,
+ l2_v7_out = 10,
+ l1_v2 = 38,
+ l1_v1 = 1,
+ l1_v5 = 3,
+ l1_v7_next = 4,
+ l1_v4_next = 7,
+ l1_v3_next = 6,
+ l1_v1_next = 1,
+ l2_v2_out = -1,
+ l1_v6_next = 39,
+ l1_v5_next = 3,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v7"
+      ],
+      "op": "+"
+    },
+    "l1_v2"
+  ],
+  "op": "="
+}
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A non-terminating candidate must contain exactly one recurrent-set, with no invariant or ranking-function expressions. Found 0 invariant(s), 0 ranking-function(s), and 2 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v7"
+      ],
+      "op": "+"
+    },
+    "l1_v2"
+  ],
+  "op": "="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "=",
+  "args": [
+    {
+      "op": "+",
+      "args": [
+        "l1_v2",
+        "l1_v7"
+      ]
+    },
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v6 = 0, l1_v2 = 0, l1_v7 = 0]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(A >= B, query!19))),
+             query!19),
+   asserted(Implies(query!19, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v7"
+          ],
+          "op": "+"
+        },
+        "l1_v2"
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v6"
+          ],
+          "op": "<"
+        },
+        {
+          "args": [
+            "l1_v6",
+            0
+          ],
+          "op": ">"
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        {
+          "op": "+",
+          "args": [
+            "l1_v2",
+            "l1_v7"
+          ]
+        },
+        "l1_v2"
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "<",
+          "args": [
+            "l1_v2",
+            "l1_v6"
+          ]
+        },
+        {
+          "op": ">",
+          "args": [
+            "l1_v6",
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        0,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        Not(L <= I),
+                                        Or(L <= 0,
+                                        L <= 1 + B),
+                                        Not(L <= 0)),
+                                     query!11))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                                       Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                       l2_header_to_exit(2,
+                                        0,
+                                        0,
+                                        3,
+                                        0,
+                                        1,
+                                        0,
+                                        2,
+                                        0,
+                                        0,
+                                        3,
+                                        0,
+                                        1,
+                                        0)),
+             query!11),
+   asserted(Implies(query!11, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v6"
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v7",
+            1
+          ],
+          "op": "+"
+        },
+        "l1_v6"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<",
+      "args": [
+        "l1_v2",
+        "l1_v6"
+      ]
+    },
+    {
+      "op": "<",
+      "args": [
+        {
+          "op": "+",
+          "args": [
+            "l1_v7",
+            1
+          ]
+        },
+        "l1_v6"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        Not(L <= I),
+                                        Or(L <= 1 + M,
+                                        L <= 1 + B),
+                                        Not(L <= 1 + M)),
+                                     query!11))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                                       Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                       l2_header_to_exit(3,
+                                        -1,
+                                        0,
+                                        4,
+                                        0,
+                                        0,
+                                        -2,
+                                        3,
+                                        -1,
+                                        0,
+                                        4,
+                                        0,
+                                        0,
+                                        -2)),
+             query!11),
+   asserted(Implies(query!11, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        Not(L <= I),
+                                        L <= 1 + B),
+                                     query!11))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                                       Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                       l2_header_to_exit(2,
+                                        -1,
+                                        0,
+                                        3,
+                                        0,
+                                        0,
+                                        4,
+                                        2,
+                                        -1,
+                                        0,
+                                        3,
+                                        0,
+                                        0,
+                                        4)),
+             query!11),
+   asserted(Implies(query!11, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            "l1_v5",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v5",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v2",
+        "l1_v6"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        Not(L <= I),
+                                        L <= 1 + B),
+                                     query!11))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                                       Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                       l2_header_to_exit(2,
+                                        -1,
+                                        0,
+                                        3,
+                                        0,
+                                        0,
+                                        4,
+                                        2,
+                                        -1,
+                                        0,
+                                        3,
+                                        0,
+                                        0,
+                                        4)),
+             query!11),
+   asserted(Implies(query!11, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        I <= L,
+                                        Not(B <= -1 + L),
+                                        Not(L <= I)),
+                                     query!7))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W],
+                                       Implies(And(l2_header_to_exit(I,
+                                        E,
+                                        L,
+                                        E,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W),
+                                        l3_header_to_exit(I,
+                                        J,
+                                        A,
+                                        J,
+                                        N,
+                                        O,
+                                        P,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H),
+                                        L == 1 + K,
+                                        Not(N <= K),
+                                        A == 1 + K),
+                                        l2_header_to_exit(I,
+                                        J,
+                                        K,
+                                        M,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                                 l2_header_to_exit(7,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0,
+                                        7,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0)),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O],
+                                        Implies(And(l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O),
+                                        Not(H <= D),
+                                        E == 1 + D),
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(D >= G,
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+...
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v6 = 39,
+ l2_v3_out = 6,
+ l2_v6_out = 9,
+ l1_v7 = 4,
+ l2_v5_out = 8,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l1_v4 = 2,
+ l1_v2_next = 0,
+ l2_v7_out = 10,
+ l1_v2 = 38,
+ l1_v1 = 1,
+ l1_v5 = 3,
+ l1_v7_next = 4,
+ l1_v4_next = 7,
+ l1_v3_next = 6,
+ l1_v1_next = 1,
+ l2_v2_out = -1,
+ l1_v6_next = 39,
+ l1_v5_next = 3,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2"
+  ],
+  "op": "neg"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "neg",
+  "args": [
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v6 = 2, l1_v2 = 1]
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v6 = 39,
+ l2_v3_out = 6,
+ l2_v6_out = 9,
+ l1_v7 = 4,
+ l2_v5_out = 8,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l1_v4 = 2,
+ l1_v2_next = 0,
+ l2_v7_out = 10,
+ l1_v2 = 38,
+ l1_v1 = 1,
+ l1_v5 = 3,
+ l1_v7_next = 4,
+ l1_v4_next = 7,
+ l1_v3_next = 6,
+ l1_v1_next = 1,
+ l2_v2_out = -1,
+ l1_v6_next = 39,
+ l1_v5_next = 3,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l1_v2",
+    "l1_v6"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v6",
+    "l1_v2"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M],
+                             Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        0,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        I <= L,
+                                        Not(B <= -1 + L),
+                                        Not(L <= I)),
+                                     query!7))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W],
+                                       Implies(And(l2_header_to_exit(I,
+                                        E,
+                                        L,
+                                        E,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W),
+                                        l3_header_to_exit(I,
+                                        J,
+                                        A,
+                                        J,
+                                        N,
+                                        O,
+                                        P,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H),
+                                        L == 1 + K,
+                                        Not(N <= K),
+                                        A == 1 + K),
+                                        l2_header_to_exit(I,
+                                        J,
+                                        K,
+                                        M,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T,
+                                        U,
+                                        V,
+                                        W)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(C >= E,
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G)))),
+                                 l2_header_to_exit(7,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0,
+                                        7,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        0)),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O],
+                                        Implies(And(l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O),
+                                        Not(H <= D),
+                                        E == 1 + D),
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(D >= G,
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+...
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v6 = 39,
+ l2_v3_out = 6,
+ l2_v6_out = 9,
+ l1_v7 = 4,
+ l2_v5_out = 8,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l1_v4 = 2,
+ l1_v2_next = 0,
+ l2_v7_out = 10,
+ l1_v2 = 38,
+ l1_v1 = 1,
+ l1_v5 = 3,
+ l1_v7_next = 4,
+ l1_v4_next = 7,
+ l1_v3_next = 6,
+ l1_v1_next = 1,
+ l2_v2_out = -1,
+ l1_v6_next = 39,
+ l1_v5_next = 3,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        "l1_v7"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v6",
+        {
+          "args": [
+            "l1_v7",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            "l1_v7",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "="
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        "l1_v7"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v6",
+            "l1_v7",
+            "l1_v6"
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "not"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast.args[1].args[0]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        "l1_v7"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v6",
+        "l1_v7"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l1_v4",
+        "l1_v7"
+      ]
+    },
+    {
+      "op": "<",
+      "args": [
+        "l1_v6",
+        "l1_v7"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: failed - a recurrent-set state can violate the loop guard.
+COUNTEREXAMPLE:
+[l1_v7 = 1, l1_v2 = 0, l1_v4 = 1, l1_v6 = 0]
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: failed - a recurrent-set state can permit normal loop exit.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(Not(D <= C),
+                                        B <= D,
+                                        A >= C),
+                                     query!71))),
+             query!71),
+   asserted(Implies(query!71, False)),
+   False)
+
+RECURRENT_NO_FUNCTION_RETURN: passed
+
+
+RECURRENT_SET_RESULT: "invalid"

@@ -1,0 +1,13 @@
+Nyala-2lex_true-termination.c:16:6: warning: variable 'x' is used uninitialized whenever function 'main' is called [-Wsometimes-uninitialized]
+        int x, y;
+        ~~~~^
+Nyala-2lex_true-termination.c:17:9: note: uninitialized use occurs here
+        while (x >= 0 && y >= 0) {
+               ^
+Nyala-2lex_true-termination.c:16:7: note: initialize the variable 'x' to silence this warning
+        int x, y;
+             ^
+              = 0
+1 warning generated.
+YES
+Runtime: 1048 milliseconds

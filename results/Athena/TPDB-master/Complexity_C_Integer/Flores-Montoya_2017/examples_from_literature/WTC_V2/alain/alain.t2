@@ -1,0 +1,87 @@
+///*** 1_alain ***///
+START: alain_bb0;
+
+FROM: alain_bb0;
+v0 := 2 * vy;
+v2 := vz + vy;
+TO: alain_bb0_end;
+
+FROM: alain_bb0_end;
+assume((vn2 <= v0) || (vn2 <= v2));
+TO: alain_bb7;
+
+FROM: alain_bb0_end;
+assume((vn2 > v0) && (vn2 > v2));
+TO: alain_bb1;
+
+FROM: alain_bb1;
+var__temp_vc1.0 := 0;
+var__temp_v.03 := vn2;
+var__temp_v.02 := vn1;
+var__temp_v.01 := vz;
+TO: alain_bb1_end;
+
+FROM: alain_bb1_end;
+assume(((((vz >= 0) && (vx >= 0)) && (vy >= 0)) && (vn1 >= 0)) && (vn2 >= 0));
+TO: alain_bb2;
+
+FROM: alain_bb1_end;
+assume(((((vz < 0) || (vx < 0)) || (vy < 0)) || (vn1 < 0)) || (vn2 < 0));
+TO: alain_bb7;
+
+FROM: alain_bb2;
+vc1.0 := var__temp_vc1.0;
+v.03 := var__temp_v.03;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v9 := v.02 + -1;
+TO: alain_bb2_end;
+
+FROM: alain_bb2_end;
+assume(v9 >= 0);
+TO: alain_bb3;
+
+FROM: alain_bb2_end;
+assume(v9 < 0);
+TO: alain_bb7;
+
+FROM: alain_bb3;
+v11 := vc1.0 + 1;
+var__temp_vc2.0 := 0;
+var__temp_v.14 := v.03;
+var__temp_v.1 := v.01;
+TO: alain_bb4;
+
+FROM: alain_bb4;
+vc2.0 := var__temp_vc2.0;
+v.14 := var__temp_v.14;
+v.1 := var__temp_v.1;
+TO: alain_bb4_end;
+
+FROM: alain_bb4_end;
+assume(v.14 > 0);
+TO: alain_bb5;
+
+FROM: alain_bb4_end;
+assume(v.14 <= 0);
+TO: alain_bb6;
+
+FROM: alain_bb5;
+v13 := v.14 + -1;
+v14 := vc2.0 + 1;
+var__temp_vc2.0 := v14;
+var__temp_v.14 := v13;
+var__temp_v.1 := vy;
+TO: alain_bb4;
+
+FROM: alain_bb6;
+v15 := v.1 + vy;
+var__temp_vc1.0 := v11;
+var__temp_v.03 := v15;
+var__temp_v.02 := v9;
+var__temp_v.01 := v15;
+TO: alain_bb2;
+
+FROM: alain_bb7;
+TO: alain_bb7_ret;
+

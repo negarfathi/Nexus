@@ -1,0 +1,60 @@
+///*** 1_twn04 ***///
+START: twn04_bb0;
+
+FROM: twn04_bb0;
+var__temp_v.03 := vc;
+TO: twn04_bb0_end;
+
+FROM: twn04_bb0_end;
+assume(vd > 0);
+TO: twn04_bb1;
+
+FROM: twn04_bb0_end;
+assume(vd <= 0);
+TO: twn04_bb5;
+
+FROM: twn04_bb1;
+v.03 := var__temp_v.03;
+var__temp_v.12 := ve;
+var__temp_v.1 := vd;
+TO: twn04_bb1_end;
+
+FROM: twn04_bb1_end;
+assume(v.03 > 0);
+TO: twn04_bb2;
+
+FROM: twn04_bb1_end;
+assume(v.03 <= 0);
+TO: twn04_bb5;
+
+FROM: twn04_bb2;
+v.12 := var__temp_v.12;
+v.1 := var__temp_v.1;
+v2 := v.12 * v.12;
+TO: twn04_bb2_end;
+
+FROM: twn04_bb2_end;
+assume((v.1 < v2) && (v.1 > 0));
+TO: twn04_bb3;
+
+FROM: twn04_bb2_end;
+assume((v.1 >= v2) || (v.1 <= 0));
+TO: twn04_bb4;
+
+FROM: twn04_bb3;
+v5 := 5 * v.1;
+v6 := v.03 * v.03;
+v7 := v5 + v6;
+v8 := 2 * v.12;
+var__temp_v.12 := v8;
+var__temp_v.1 := v7;
+TO: twn04_bb2;
+
+FROM: twn04_bb4;
+v9 := v.03 - 1;
+var__temp_v.03 := v9;
+TO: twn04_bb1;
+
+FROM: twn04_bb5;
+TO: twn04_bb5_ret;
+

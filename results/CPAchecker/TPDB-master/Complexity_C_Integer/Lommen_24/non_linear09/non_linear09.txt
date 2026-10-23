@@ -1,0 +1,1044 @@
+Running CPAchecker with Java heap of size 10000M.
+Running CPAchecker with default stack size (1024k). Specify a larger value with --stack if needed.
+Using the following resource limits: CPU-time limit of 900s (ResourceLimitChecker.fromConfiguration, INFO)
+
+CPAchecker 4.2.2-2585-gb8318c0629a / terminationAnalysis (OpenJDK 64-Bit Server VM 21.0.12) started (CPAchecker.run, INFO)
+
+Parsing CFA from file(s) "non_linear09.c" (CPAchecker.parse, INFO)
+
+Using Restarting Algorithm (CoreComponentsFactory.createAlgorithm, INFO)
+
+The following configuration options were specified but are not used:
+ cpa.arg.lateMerge
+ counterexample.export.exportWitness 
+ (CPAchecker.printConfigurationWarnings, WARNING)
+
+Starting analysis ... (CPAchecker.runAlgorithm, INFO)
+
+Loading analysis 1 from file /cpachecker/config/components/combinations-parallel-termination.properties ... (RestartAlgorithm.run, INFO)
+
+Using the following resource limits: CPU-time limit of 900s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Mismatch of configuration options when loading from '/cpachecker/config/components/termination-composition-terminationToSafety.properties': 'analysis.algorithm.termination' has two values 'true' and 'false'. Using 'false'. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:NestingAlgorithm.checkConfigs, INFO)
+
+Using the following resource limits: CPU-time limit of 900s, Thread CPU-time limit of 300s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Using predicate analysis with MathSAT5 version 5.6.11 (1a1154baf0ab) (Aug  9 2024 08:45:22, gmp 6.2.0, gcc 7.5.0, 64-bit, reentrant). (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:PredicateCPA.<init>, INFO)
+
+Using the following resource limits: CPU-time limit of 900s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Using predicate analysis with MathSAT5 version 5.6.11 (1a1154baf0ab) (Aug  9 2024 08:45:22, gmp 6.2.0, gcc 7.5.0, 64-bit, reentrant) and JFactory 1.21. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:PredicateCPA:PredicateCPA.<init>, INFO)
+
+Using refinement for predicate analysis with PredicateAbstractionRefinementStrategy strategy. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:PredicateCPA:PredicateCPARefiner.<init>, INFO)
+
+Using unsound approximation of ints with unbounded integers and floats with rationals for encoding program semantics. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:FormulaManagerView.<init>, WARNING)
+
+Starting analysis 1 ... (RestartAlgorithm.run, INFO)
+
+Starting termination algorithm. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:TerminationAlgorithm.run0, INFO)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (570)] Forcibly destroying the process (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.warn, INFO)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (570)] Process already dead, possible race condition (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.warn, INFO)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (1666)] Exception during sending of exit command (exit): Broken pipe (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.error, WARNING)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (2312)] Exception during sending of exit command (exit): Broken pipe (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.error, WARNING)
+
+Analysis was terminated (The Thread CPU-time limit of 300s has elapsed.) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:ShutdownNotifier.shutdownIfNecessary, INFO)
+
+/cpachecker/config/components/termination-composition-terminationToSafety.properties finished without usable result. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ParallelAlgorithm.handleFutureResults, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x4 - 5 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 14*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [11*non_linear09::x3 - 3 > 0, 1*non_linear09::x4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x5 > 0, 1*non_linear09::x3 > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x5 > 0, 4*non_linear09::x4 - 3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 8*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [7*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::x5 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 4*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::y > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 2*non_linear09::x3 - 1 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 8*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x4 - 1 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 13*non_linear09::x4
+Supporting invariants [7*non_linear09::x3 - 10 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::x4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 1 >= 0, 1*non_linear09::x4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 3*non_linear09::x4 - 2 > 0, 1*non_linear09::y > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 2*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 2*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 23*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 3*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::y > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::y > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x4 - 5 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 2*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 5 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 25*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 3*non_linear09::x4 - 4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 2*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 8 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 23*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 15*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::y > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 1 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [2*non_linear09::x3 - 3 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::x4 > 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x5 > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::y > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 8*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 9*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0, 1*non_linear09::x4 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 4*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 23*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 3*non_linear09::x3 - 5 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x5 > 0, 3*non_linear09::x4 - 1 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 7*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 4*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 23*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 3*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 2*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 5*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 3*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 23*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 11*non_linear09::x4
+Supporting invariants [9*non_linear09::x4 - 10 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 > 0, 1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 5*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [7*non_linear09::x4 - 6 > 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 > 0, 1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 2*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 11*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x4 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 8*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [3*non_linear09::x4 - 2 > 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|), non_linear09::x4) = 2*(Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) - 1*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ (Integer_*_ (Integer_*_ (Integer_*_ |non_linear09::x3| |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|) |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [3*non_linear09::x3 - 2 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 11*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x3 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 13*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0, 1*non_linear09::x3 > 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x3| |non_linear09::x3|), non_linear09::x4) = 19*(Integer_*_ |non_linear09::x3| |non_linear09::x3|) - 7*non_linear09::x4
+Supporting invariants [1*non_linear09::x4 - 2 >= 0] (Cannot handle term (Integer_*_ |non_linear09::x3| |non_linear09::x3|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f((Integer_*_ |non_linear09::x4| |non_linear09::x4|), non_linear09::x4) = 17*(Integer_*_ |non_linear09::x4| |non_linear09::x4|) - 5*non_linear09::x4
+Supporting invariants [1*non_linear09::x5 > 0, 5*non_linear09::x3 - 6 > 0] (Cannot handle term (Integer_*_ |non_linear09::x4| |non_linear09::x4|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Warning: Could not check (non)-termination of lasso (Loop with heads [N47]
+  incoming: [line 14:	N51 -{while}-> N47]
+  outgoing: [line 14:	N47 -{[!(((x4 * x4) - ((((x3 * x3) * x3) * x3) * x3)) < x5)]}-> N44, line 14:	N48 -{[!(x4 != 0)]}-> N44]
+  nodes:    [N47, N48, N52, N53, N57, N58, N64, N65, N68]
+). (External (MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (5866) with exit command (exit)) Connection to SMT solver broken) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:Executor.convertIOException, WARNING)
+
+Could not synthesize a termination or non-termination argument. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:TerminationAlgorithm.proveLoopTermination, WARNING)
+
+Shutdown requested (The JVM is shutting down, probably because Ctrl+C was pressed.), waiting for termination. (ForceTerminationOnShutdown$1.shutdownRequested, WARNING)
+
+Analysis was terminated (The JVM is shutting down, probably because Ctrl+C was pressed.) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:ShutdownNotifier.shutdownIfNecessary, INFO)
+
+/cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties finished without usable result. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ParallelAlgorithm.handleFutureResults, INFO)
+
+Ignoring restart configuration '/cpachecker/config/components/termination-recursion.properties' because condition if-recursive did not match. (RestartAlgorithm.skipNextAnalysesIfRequired, INFO)
+
+Analysis 2 terminated, but result is unsound. (RestartAlgorithm.run, INFO)
+
+Warning: Analysis interrupted (The JVM is shutting down, probably because Ctrl+C was pressed.) (ShutdownNotifier.shutdownIfNecessary, WARNING)
+
+
+Restart Algorithm statistics
+----------------------------
+Number of algorithms provided:    2
+Number of algorithms used:        2
+Last algorithm used:        /cpachecker/config/components/termination-recursion.properties
+Total time for algorithm 2:   599.188s
+
+Parallel Algorithm statistics
+-----------------------------
+Number of algorithms used:        2
+
+
+Statistics for: /cpachecker/config/components/termination-composition-terminationToSafety.properties
+====================================================================================================
+Time spent in analysis thread /cpachecker/config/components/termination-composition-terminationToSafety.properties:   300.178s
+
+PredicateCPA statistics
+-----------------------
+Cannot dump loop invariants because a non-abstraction state was found for a loop-head location. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:LoopInvariantsWriter.getLoopHeadInvariants, WARNING)
+
+Cannot dump loop invariants because a non-abstraction state was found for a loop-head location. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:LoopInvariantsWriter.getLoopHeadInvariants, WARNING)
+
+Number of abstractions:            0 (0% of all post computations)
+Number of strengthen sat checks:   0
+Number of coverage checks:         51505776
+  BDD entailment checks:           0
+Number of actual SMT sat checks:   4144
+Number of trivial SMT sat checks:  0
+Number of cached SMT sat checks:   0
+
+Max ABE block size:                       0
+Avg ABE block size:                                0.00 (sum: 0, count: 0, min: 0, max: 0)
+Number of predicates discovered:          0
+Number of path formula cache hits:        0 (0%)
+
+Time for post operator:                                1.095s (Max:     0.015s), (Avg:     0.000s), (#intervals = 20732)
+  Time for path formula creation:                      1.076s (Max:     0.015s), (Avg:     0.000s), (#intervals = 20732)
+Time for strengthen operator:                          0.014s (Max:     0.001s), (Avg:     0.000s), (#intervals = 41462)
+Time for prec operator:                                0.022s (Max:     0.001s), (Avg:     0.000s), (#intervals = 20731)
+Time for merge operator:                              63.342s (Max:     2.961s), (Avg:     0.000s), (#intervals = 8584296)
+Time for coverage checks:                              4.448s (Max:     0.001s), (Avg:     0.000s), (#intervals = 51505776)
+Total time for SMT solver (w/o itp):    69.295s
+
+
+Invariant Generation statistics
+-------------------------------
+
+ValueAnalysisCPA statistics
+---------------------------
+Number of variables per state:                     1.00 (sum: 20726, count: 20731, min: 0, max: 1)
+Number of global variables per state:              0.00 (sum: 0, count: 20731, min: 0, max: 0)
+Number of assumptions:                                 8292
+Number of deterministic assumptions:                      2
+Level of Determinism:                              0%
+
+Time for transfer relation:                            0.158s (Max:     0.002s), (Avg:     0.000s), (#intervals = 20732)
+
+ValueAnalysisPrecisionAdjustment statistics
+-------------------------------------------
+Number of abstraction computations:                   20731
+Total time for liveness abstraction:                   0.000s
+Total time for abstraction computation:                0.043s
+Total time for path thresholds:                        0.000s
+
+ConstraintsStrengthenOperator statistics
+----------------------------------------
+Total time for strengthening by ConstraintsCPA:     0.000s
+Replaced symbolic expressions: 0
+
+CPA algorithm statistics
+------------------------
+Number of iterations:            20730
+Max size of waitlist:            3
+Average size of waitlist:        2
+Number of computed successors:   20731
+Max successors for one state:    2
+Number of times merged:          0
+Number of times stopped:         0
+Number of times breaked:         0
+
+Total time for CPA algorithm:       309.472s (Max:   309.472s)
+  Time for choose from waitlist:      0.021s
+  Time for precision adjustment:    155.365s
+  Time for transfer relation:        58.961s
+  Time for merge operator:           81.433s
+  Time for stop operator:            13.444s
+  Time for adding to reached set:     0.062s
+
+
+Statistics for: /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties
+===================================================================================================
+Time spent in analysis thread /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:   128.579s
+
+PredicateCPA statistics
+-----------------------
+Number of abstractions:            39 (5% of all post computations)
+  Times abstraction was reused:    0
+  Because of function entry/exit:  0 (0%)
+  Because of loop head:            30 (77%)
+  Because of join nodes:           0 (0%)
+  Because of threshold:            0 (0%)
+  Because of target state:         9 (23%)
+  Times precision was empty:       28 (72%)
+  Times precision was {false}:     5 (13%)
+  Times result was cached:         0 (0%)
+  Times cartesian abs was used:    0 (0%)
+  Times boolean abs was used:      6 (15%)
+  Times result was 'false':        2 (5%)
+Number of strengthen sat checks:   0
+Number of coverage checks:         106
+  BDD entailment checks:           11
+Number of actual SMT sat checks:   5
+Number of trivial SMT sat checks:  0
+Number of cached SMT sat checks:   0
+
+Max ABE block size:                       22
+Avg ABE block size:                                8.33 (sum: 325, count: 39, min: 0, max: 22)
+Number of predicates discovered:          6
+Number of abstraction locations:          2
+Max number of predicates per location:    3
+Avg number of predicates per location:    2
+Total predicates per abstraction:         21
+Max number of predicates per abstraction: 3
+Avg number of predicates per abstraction: 1.91
+Number of irrelevant predicates:          6 (29%)
+Number of preds handled by boolean abs:   15 (71%)
+  Total number of models for allsat:      7
+  Max number of models for allsat:        2
+  Avg number of models for allsat:        1.17
+Number of path formula cache hits:        162 (19%)
+
+Time for post operator:                                0.105s (Max:     0.015s), (Avg:     0.000s), (#intervals = 741)
+  Time for path formula creation:                      0.102s (Max:     0.015s), (Avg:     0.000s), (#intervals = 741)
+Time for strengthen operator:                          0.020s (Max:     0.008s), (Avg:     0.000s), (#intervals = 1491)
+Time for prec operator:                                0.046s (Max:     0.008s), (Avg:     0.000s), (#intervals = 177)
+  Time for abstraction:                  0.038s (Max:     0.006s, Count: 39)
+    Boolean abstraction:                 0.014s
+    Solving time:                        0.014s (Max:     0.003s)
+    Model enumeration time:              0.004s
+    Time for BDD construction:           0.002s (Max:     0.001s)
+Time for merge operator:                               0.001s (Max:     0.001s), (Avg:     0.000s), (#intervals = 45)
+Time for coverage checks:                              0.000s (Max:     0.000s), (Avg:     0.000s), (#intervals = 106)
+  Time for BDD entailment checks:                      0.000s (Max:     0.000s), (Avg:     0.000s), (#intervals = 11)
+Total time for SMT solver (w/o itp):     0.019s
+
+Number of BDD nodes:                               216
+Size of BDD node table:                            466043
+Size of BDD cache:                                 46619
+Size of BDD node cleanup queue:                    0.34 (sum: 57, count: 169, min: 0, max: 45)
+Time for BDD node cleanup:                             0.001s (Max:     0.001s), (Avg:     0.000s), (#intervals = 169)
+Time for BDD garbage collection:                       0.000s (in 0 runs)
+
+Invariant Generation statistics
+-------------------------------
+
+AutomatonAnalysis (NonTerminationLabelAutomaton) statistics
+-----------------------------------------------------------
+Number of states:                                  1
+Total time for successor computation:                  0.016s
+Automaton transfers with branching:                0
+Automaton transfer successors:                     1.00 (sum: 741, count: 741, min: 1, max: 1) [1 x 741]
+Number of states with assumption transitions:      0
+
+AutomatonAnalysis (TerminatingFunctions) statistics
+---------------------------------------------------
+Number of states:                                  1
+Total time for successor computation:                  0.002s
+Automaton transfers with branching:                0
+Automaton transfer successors:                     1.00 (sum: 741, count: 741, min: 1, max: 1) [1 x 741]
+Number of states with assumption transitions:      0
+
+Termination Algorithm statistics
+--------------------------------
+Total time :                                          598.690s
+Time for recursion analysis:                            0.000s
+
+Number of analysed loops:                               2 (67%)
+Total time for loop analysis:                         598.689s
+  Avg time per loop analysis:                         299.344s
+  Max time per loop analysis:                         598.286s
+
+Number of safety analysis runs:                         5
+  Avg safety analysis run per loop:                     2.50
+  Max safety analysis run per loop:                     3 	 for loops [N47]
+Total time for safety analysis:                         0.412s
+  Avg time per safety analysis run:                     0.082s
+  Max time per safety analysis run:                     0.212s
+
+Number of analysed lassos:                           2561
+  Avg number of lassos per loop:                     1280.50
+  Max number of lassos per loop:                     2560 	 for loops [N47]
+  Avg number of lassos per iteration:                 853.67
+  Max number of lassos per iteration:                2048
+
+Total time for lassos analysis:                       598.229s
+  Avg time per iteration:                             199.409s
+  Max time per iteration:                             366.967s
+  Time for lassos construction:                        22.348s
+    Avg time for lasso construction per iteration:      7.449s
+    Max time for lasso construction per iteration:     20.028s
+      Time for stem and loop construction:                         0.012s
+        Avg time for stem and loop construction per iteration:      0.004s
+        Max time for stem and loop construction per iteration:      0.006s
+      Time for lassos creation:                        22.336s
+        Avg time for lassos creation per iteration:      7.445s
+        Max time for lassos creation per iteration:     20.022s
+  Total time for non-termination analysis:            105.230s
+    Avg time for non-termination analysis per lasso:    0.041s
+    Max time for non-termination analysis per lasso:    0.144s
+  Total time for termination analysis:                470.461s
+    Avg time for termination analysis per lasso:        0.302s
+    Max time for termination analysis per lasso:        1.560s
+
+Total number of termination arguments:               1191
+  Avg termination arguments per loop:                 595.50
+  Max termination arguments per loop:                1190 	 for loops [N47]
+
+  affine:                                            1191
+
+
+Other statistics
+================
+
+CPAchecker general statistics
+-----------------------------
+Number of program locations:                       34
+Number of CFA edges (per node):                          38 (count: 34, min: 0, max: 2, avg: 1.12)
+Number of relevant variables:                      9
+Number of functions:                               1
+Number of loops (and loop nodes):                         3 (sum: 33, min: 3, max: 21, avg: 11.00)
+Size of reached set:             1
+  Number of reached locations:   1 (3%)
+    Avg states per location:     1
+    Max states per location:     1 (at node N1)
+  Number of reached functions:   1 (100%)
+  Number of target states:       0
+  Size of final wait list:       1
+
+Time for analysis setup:          0.492s
+  Time for loading CPAs:          0.008s
+  Time for loading parser:        0.101s
+  Time for CFA construction:      0.350s
+    Time for parsing file(s):     0.139s
+    Time for AST to CFA:          0.097s
+    Time for CFA sanity check:    0.008s
+    Time for post-processing:     0.061s
+    Time for loop structure:      0.004s
+    Time for AST structure:       0.000s
+    Time for CFA export:          0.029s
+      Time for function pointers resolving:            0.001s
+        Function calls via function pointers:             0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Instrumented function pointer calls:              0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Function calls with function pointer arguments:        0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Instrumented function pointer arguments:          0 (count: 1, min: 0, max: 0, avg: 0.00)
+      Time for classifying variables:                  0.037s
+        Time for collecting variables:                 0.014s
+        Time for solving dependencies:                 0.000s
+        Time for building hierarchy:                   0.000s
+        Time for building classification:              0.017s
+        Time for exporting data:                       0.006s
+Time for Analysis:              599.190s
+CPU time for analysis:          686.950s
+Total time for CPAchecker:      599.683s
+Total CPU time for CPAchecker:  688.240s
+Time for statistics:              0.175s
+
+Time for Garbage Collector:       7.253s (in 1053 runs)
+Garbage Collector(s) used:    PS MarkSweep, PS Scavenge
+Used heap memory:               4530MB (  4320 MiB) max;   2953MB (  2816 MiB) avg;   5778MB (  5510 MiB) peak
+Used non-heap memory:             80MB (    76 MiB) max;     77MB (    74 MiB) avg;     83MB (    80 MiB) peak
+Used in PS Old Gen pool:        4342MB (  4141 MiB) max;   2745MB (  2618 MiB) avg;   4344MB (  4142 MiB) peak
+Allocated heap memory:          4560MB (  4349 MiB) max;   3153MB (  3007 MiB) avg
+Allocated non-heap memory:        83MB (    79 MiB) max;     81MB (    77 MiB) avg
+Total process virtual memory:  29554MB ( 28184 MiB) max;  26508MB ( 25280 MiB) avg
+
+Verification result: UNKNOWN, incomplete analysis.
+More details about the verification run can be found in the directory "./output".
+Graphical representation included in the file "./output/Report.html".
+TIMEOUT
+Runtime: 601201 milliseconds

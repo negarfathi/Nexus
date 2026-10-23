@@ -1,0 +1,111 @@
+MAYBE
+proof of wise.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 50 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/wise.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/wise.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "wise" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32, 1 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		store %0, %3
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		store %1, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		%5 = load %3
+		%6 = icmp slt %5 0
+		br %6, %10, %7
+	7:
+		%8 = load %4
+		%9 = icmp slt %8 0
+		br %9, %10, %11
+	10:
+		br %35
+	11:
+		br %12
+	12:
+		%13 = load %3
+		%14 = load %4
+		%15 = sub i32 %13, %14
+		%16 = icmp sgt %15 2
+		br %16, %22, %17
+	17:
+		%18 = load %4
+		%19 = load %3
+		%20 = sub i32 %18, %19
+		%21 = icmp sgt %20 2
+		br %22
+	22:
+		%23 = phi [1, %12], [%21, %17]
+		br %23, %24, %35
+	24:
+		%25 = load %3
+		%26 = load %4
+		%27 = icmp slt %25 %26
+		br %27, %28, %31
+	28:
+		%29 = load %3
+		%30 = add i32 %29, 1
+		store %30, %3
+		br %34
+	31:
+		%32 = load %4
+		%33 = add i32 %32, 1
+		store %33, %4
+		br %34
+	34:
+		br %12
+	35:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788552620Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1086 milliseconds

@@ -1,0 +1,96 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.cFO8Qv
+
+Input File is : rank1.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+int nondet();
+
+void rank1(int m)
+{
+int y= 0;
+int x = m;
+while(x>=0 && y>=0){
+{if(nondet()>0){
+   while(y <= m && nondet()>0)
+   {y++;}
+   x--;
+  }}
+  y--;
+}
+}
+
+
+
+End Main   
+
+Input File is : rank1_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+int nondet();
+
+void rank1(int m)
+{
+int y= 0;
+int x = m;myBool pStored0 = myFalse; __VERIFIER_reached_control(8, __func__);
+
+while(x>=0 && y>=0){ __VERIFIER_loop_head(8, __func__);
+printf("CBMC Instrumentation @ line8");myBool flag=__VERIFIER_nondet_myBool();static int om;static int ox;static int oy;if(pStored0){__CPROVER_assert(!(om==m && ox==x && oy==y),"recurrent state found");} if(flag){om=m;ox=x;oy=y;pStored0=myTrue;} 
+{ __VERIFIER_reached_control(9, __func__);
+if(nondet()>0){ __VERIFIER_control_true(9, __func__);
+
+  myBool pStored1 = myFalse; __VERIFIER_reached_control(11, __func__);
+ while(y <= m && nondet()>0)
+   { __VERIFIER_loop_head(11, __func__);
+printf("CBMC Instrumentation @ line11");myBool flag=__VERIFIER_nondet_myBool();static int om;static int ox;static int oy;if(pStored1){__CPROVER_assert(!(om==m && ox==x && oy==y),"recurrent state found");} if(flag){om=m;ox=x;oy=y;pStored1=myTrue;} y++;}
+   x--;
+  }}
+  y--;
+}
+}
+
+
+
+End Main 
+ rank1_braced_instrumented.c
+NTFILE is rank1_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for rank1.c
+FILE=rank1_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 715 milliseconds

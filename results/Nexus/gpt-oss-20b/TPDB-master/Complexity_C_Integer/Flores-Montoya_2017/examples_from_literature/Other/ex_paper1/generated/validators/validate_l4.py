@@ -1,0 +1,16 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l4')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("\"true\"")
+print()
+print('RANKING_FUNCTION:')
+print("{\n  \"op\": \"-\",\n  \"args\": [\n    \"l4_v3\",\n    \"l4_v4\"\n  ]\n}")
+print()
+print('FEEDBACK:')
+#!/usr/bin/env python3
+
+print("UNSUPPORTED: \"l2: unsupported call: <badref> | l4: unsupported call: <badref>\"")
+print('INVARIANT_RESULT: "unknown"')
+print('RANKING_FUNCTION_RESULT: "unknown"')

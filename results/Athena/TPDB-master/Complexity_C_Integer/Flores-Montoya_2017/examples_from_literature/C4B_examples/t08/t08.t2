@@ -1,0 +1,45 @@
+///*** 1_t08 ***///
+START: t08_bb0;
+
+FROM: t08_bb0;
+var__temp_v.0 := vy;
+TO: t08_bb1;
+
+FROM: t08_bb1;
+v.0 := var__temp_v.0;
+var__temp_v.1 := v.0;
+TO: t08_bb1_end;
+
+FROM: t08_bb1_end;
+assume(vz > v.0);
+TO: t08_bb2;
+
+FROM: t08_bb1_end;
+assume(vz <= v.0);
+TO: t08_bb3;
+
+FROM: t08_bb2;
+v1 := v.0 + 1;
+var__temp_v.0 := v1;
+TO: t08_bb1;
+
+FROM: t08_bb3;
+v.1 := var__temp_v.1;
+TO: t08_bb3_end;
+
+FROM: t08_bb3_end;
+assume(v.1 > 2);
+TO: t08_bb4;
+
+FROM: t08_bb3_end;
+assume(v.1 <= 2);
+TO: t08_bb5;
+
+FROM: t08_bb4;
+v3 := v.1 - 3;
+var__temp_v.1 := v3;
+TO: t08_bb3;
+
+FROM: t08_bb5;
+TO: t08_bb5_ret;
+

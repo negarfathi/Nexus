@@ -1,0 +1,23 @@
+///*** 1_relation1 ***///
+START: relation1_bb0;
+
+FROM: relation1_bb0;
+TO: relation1_bb1;
+
+FROM: relation1_bb1;
+v0 := nondet();
+v1 := v0 - v0;
+v3 := v0 - v0;
+TO: relation1_bb1_end;
+
+FROM: relation1_bb1_end;
+assume((!((v1 > 2) || (v3 < 1))) && (v0 < 10));
+TO: relation1_bb1;
+
+FROM: relation1_bb1_end;
+assume(((v1 > 2) || (v3 < 1)) || (v0 >= 10));
+TO: relation1_bb2;
+
+FROM: relation1_bb2;
+TO: relation1_bb2_ret;
+

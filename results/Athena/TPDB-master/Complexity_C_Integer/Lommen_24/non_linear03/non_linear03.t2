@@ -1,0 +1,37 @@
+///*** 1_non_linear03 ***///
+START: non_linear03_bb0;
+
+FROM: non_linear03_bb0;
+var__temp_v.02 := vx3;
+var__temp_v.01 := vx2;
+var__temp_v.0 := vx1;
+TO: non_linear03_bb1;
+
+FROM: non_linear03_bb1;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v0 := v.02 * v.02;
+v1 := v.0 * v.01;
+TO: non_linear03_bb1_end;
+
+FROM: non_linear03_bb1_end;
+assume((v0 < v1) && (v.02 != 0));
+TO: non_linear03_bb2;
+
+FROM: non_linear03_bb1_end;
+assume((v0 >= v1) || (v.02 == 0));
+TO: non_linear03_bb3;
+
+FROM: non_linear03_bb2;
+v4 := 2 * v.0;
+v5 := 3 * v.01;
+v6 := 4 * v.02;
+var__temp_v.02 := v6;
+var__temp_v.01 := v5;
+var__temp_v.0 := v4;
+TO: non_linear03_bb1;
+
+FROM: non_linear03_bb3;
+TO: non_linear03_bb3_ret;
+

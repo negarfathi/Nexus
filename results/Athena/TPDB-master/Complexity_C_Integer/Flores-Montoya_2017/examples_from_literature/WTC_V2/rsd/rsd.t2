@@ -1,0 +1,73 @@
+///*** 1_rsd ***///
+START: rsd_bb0;
+
+FROM: rsd_bb0;
+TO: rsd_bb0_end;
+
+FROM: rsd_bb0_end;
+assume(vr >= 0);
+TO: rsd_bb1;
+
+FROM: rsd_bb0_end;
+assume(vr < 0);
+TO: rsd_bb4;
+
+FROM: rsd_bb1;
+v1 := 2 * vr;
+v2 := 2 * vr;
+var__temp_vc1.0 := 0;
+var__temp_vdb.0 := v2;
+var__temp_vda.0 := v1;
+TO: rsd_bb2;
+
+FROM: rsd_bb2;
+vc1.0 := var__temp_vc1.0;
+vdb.0 := var__temp_vdb.0;
+vda.0 := var__temp_vda.0;
+TO: rsd_bb2_end;
+
+FROM: rsd_bb2_end;
+assume(vda.0 >= vr);
+TO: rsd_bb3;
+
+FROM: rsd_bb2_end;
+assume(vda.0 < vr);
+TO: rsd_bb4;
+
+FROM: rsd_bb3;
+v4 := nondet();
+v6 := vda.0 + -1;
+v7 := vdb.0 - 1;
+TO: rsd_bb3_vdb.1;
+FROM: rsd_bb3_vdb.1;
+assume(v4 > 0);
+vdb.1 := vdb.0;
+TO: rsd_bb3_svdb.1;
+
+FROM: rsd_bb3_vdb.1;
+assume(v4 <= 0);
+vdb.1 := vda.0;
+TO: rsd_bb3_svdb.1;
+
+FROM: rsd_bb3_svdb.1;
+TO: rsd_bb3_vda.1;
+FROM: rsd_bb3_vda.1;
+assume(v4 > 0);
+vda.1 := v6;
+TO: rsd_bb3_svda.1;
+
+FROM: rsd_bb3_vda.1;
+assume(v4 <= 0);
+vda.1 := v7;
+TO: rsd_bb3_svda.1;
+
+FROM: rsd_bb3_svda.1;
+v8 := vc1.0 + 1;
+var__temp_vc1.0 := v8;
+var__temp_vdb.0 := vdb.1;
+var__temp_vda.0 := vda.1;
+TO: rsd_bb2;
+
+FROM: rsd_bb4;
+TO: rsd_bb4_ret;
+

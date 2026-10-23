@@ -1,0 +1,97 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.gJPmIF
+
+Input File is : AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  extern int __VERIFIER_nondet_int(void);
+
+int foo(int a,int x,int max){
+{if (max > 0) {
+		a = 0;
+		x = 1;
+		while (x <= max) {
+			{if (__VERIFIER_nondet_int() != 0) {
+				a = a + 1;
+			} else {
+				a = a - 1;
+            }}
+			x = x + 1;
+		}
+	}}
+return 0;
+}
+
+
+End Main   
+
+Input File is : AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+extern int __VERIFIER_nondet_int(void);
+
+int foo(int a,int x,int max){
+{ __VERIFIER_reached_control(4, __func__);
+if (max > 0) { __VERIFIER_control_true(4, __func__);
+
+		a = 0;
+		x = 1;
+	myBool pStored0 = myFalse; __VERIFIER_reached_control(7, __func__);
+	while (x <= max) { __VERIFIER_loop_head(7, __func__);
+printf("CBMC Instrumentation @ line7");myBool flag=__VERIFIER_nondet_myBool();static int oa;static int omax;static int ox;if(pStored0){__CPROVER_assert(!(oa==a && omax==max && ox==x),"recurrent state found");} if(flag){oa=a;omax=max;ox=x;pStored0=myTrue;} 
+			{ __VERIFIER_reached_control(8, __func__);
+if (__VERIFIER_nondet_int() != 0) { __VERIFIER_control_true(8, __func__);
+
+				a = a + 1;
+			} else { __VERIFIER_control_false(10, __func__);
+
+				a = a - 1;
+            }}
+			x = x + 1;
+		}
+	}}
+return 0;
+}
+
+
+End Main 
+ AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination_braced_instrumented.c
+NTFILE is AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination.c
+FILE=AliasDarteFeautrierGonnord-SAS2010-random1d_true-termination_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 711 milliseconds

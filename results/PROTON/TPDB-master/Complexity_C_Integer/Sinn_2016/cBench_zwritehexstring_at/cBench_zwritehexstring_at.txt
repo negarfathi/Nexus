@@ -1,0 +1,70 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.NcMIh8
+
+Input File is : cBench_zwritehexstring_at.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+End Main   
+
+Input File is : cBench_zwritehexstring_at.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from office_ghostscript/src/zfileio.c 	zwritehexstring_at	1512
+// /files/sinn/Benchmarks/CAV2015/Loopus/LLVM3.5.1/InputNonRecursive/office_ghostscript_src_zfileio.o.zwritehexstring_at.o
+
+//Complexity: O(n)
+void zwritehexstring_at_extracted(int len) {
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+ while (len > 0) { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int olen;if(pStored0){__CPROVER_assert(!(olen==len),"recurrent state found");} if(flag){olen=len;pStored0=myTrue;} 
+	int len1 = (((len) < (128 / 2)) ? (len) : (128 / 2));
+	int count = len1;
+myBool pStored1 = myFalse; __VERIFIER_reached_control(9, __func__);
+	do { __VERIFIER_loop_head(9, __func__);
+printf("CBMC Instrumentation @ line9");myBool flag=__VERIFIER_nondet_myBool();static int ocount;static int olen;static int olen1;if(pStored1){__CPROVER_assert(!(ocount==count && olen==len && olen1==len1),"recurrent state found");} if(flag){ocount=count;olen=len;olen1=len1;pStored1=myTrue;} 
+	} while (--count > 0);
+	len -= len1;
+    }
+}
+
+
+
+End Main 
+ cBench_zwritehexstring_at_instrumented.c
+NTFILE is cBench_zwritehexstring_at_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_zwritehexstring_at.c
+FILE=cBench_zwritehexstring_at_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 715 milliseconds

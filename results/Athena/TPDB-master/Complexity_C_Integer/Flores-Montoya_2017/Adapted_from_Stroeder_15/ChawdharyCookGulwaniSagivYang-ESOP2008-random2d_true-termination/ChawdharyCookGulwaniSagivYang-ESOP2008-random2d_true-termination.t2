@@ -1,0 +1,134 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.05 := 0;
+var__temp_v.01 := 0;
+var__temp_v.0 := 0;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.05 := var__temp_v.05;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v.05 < 10);
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume(v.05 >= 10);
+TO: foo_bb8;
+
+FROM: foo_bb2;
+v1 := v.05 + 1;
+v2 := nondet();
+var__temp_v.05 := v1;
+var__temp_v.01 := v.01;
+var__temp_v.0 := v.0;
+TO: foo_bb2_end;
+
+FROM: foo_bb2_end;
+assume((v2 >= 0) && (v2 <= 3));
+TO: foo_bb3;
+
+FROM: foo_bb2_end;
+assume((v2 < 0) || (v2 > 3));
+TO: foo_bb1;
+
+FROM: foo_bb3;
+TO: foo_NodeBlock10;
+
+FROM: foo_NodeBlock10;
+TO: foo_NodeBlock10_end;
+
+FROM: foo_NodeBlock10_end;
+assume(v2 < 2);
+TO: foo_NodeBlock;
+
+FROM: foo_NodeBlock10_end;
+assume(v2 >= 2);
+TO: foo_NodeBlock8;
+
+FROM: foo_NodeBlock;
+TO: foo_NodeBlock_end;
+
+FROM: foo_NodeBlock_end;
+assume(v2 < 1);
+TO: foo_LeafBlock;
+
+FROM: foo_NodeBlock_end;
+assume(v2 >= 1);
+TO: foo_bb5;
+
+FROM: foo_LeafBlock;
+TO: foo_LeafBlock_end;
+
+FROM: foo_LeafBlock_end;
+assume(v2 == 0);
+TO: foo_bb4;
+
+FROM: foo_LeafBlock_end;
+assume(v2 != 0);
+TO: foo_NewDefault;
+
+FROM: foo_bb4;
+v5 := v.0 + 1;
+var__temp_v.05 := v1;
+var__temp_v.01 := v.01;
+var__temp_v.0 := v5;
+TO: foo_bb1;
+
+FROM: foo_bb5;
+v6 := v.0 - 1;
+var__temp_v.05 := v1;
+var__temp_v.01 := v.01;
+var__temp_v.0 := v6;
+TO: foo_bb1;
+
+FROM: foo_NodeBlock8;
+TO: foo_NodeBlock8_end;
+
+FROM: foo_NodeBlock8_end;
+assume(v2 < 3);
+TO: foo_bb6;
+
+FROM: foo_NodeBlock8_end;
+assume(v2 >= 3);
+TO: foo_LeafBlock6;
+
+FROM: foo_bb6;
+v7 := v.01 + 1;
+var__temp_v.05 := v1;
+var__temp_v.01 := v7;
+var__temp_v.0 := v.0;
+TO: foo_bb1;
+
+FROM: foo_LeafBlock6;
+TO: foo_LeafBlock6_end;
+
+FROM: foo_LeafBlock6_end;
+assume(v2 == 3);
+TO: foo_bb7;
+
+FROM: foo_LeafBlock6_end;
+assume(v2 != 3);
+TO: foo_NewDefault;
+
+FROM: foo_bb7;
+v8 := v.01 - 1;
+var__temp_v.05 := v1;
+var__temp_v.01 := v8;
+var__temp_v.0 := v.0;
+TO: foo_bb1;
+
+FROM: foo_NewDefault;
+var__temp_v.05 := v1;
+var__temp_v.01 := v.01;
+var__temp_v.0 := v.0;
+TO: foo_bb1;
+
+FROM: foo_bb8;
+TO: foo_bb8_ret;
+

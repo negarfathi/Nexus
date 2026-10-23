@@ -1,0 +1,16 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l2')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("\"true\"")
+print()
+print('RANKING_FUNCTION:')
+print("{\n  \"op\": \"-\",\n  \"args\": [\n    101,\n    \"l2_v3\"\n  ]\n}")
+print()
+print('FEEDBACK:')
+#!/usr/bin/env python3
+
+print("UNSUPPORTED: \"l2: entry_states has no summarized source-to-header path\"")
+print('INVARIANT_RESULT: "unknown"')
+print('RANKING_FUNCTION_RESULT: "unknown"')

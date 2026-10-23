@@ -1,0 +1,272 @@
+YES
+proof of AliasDarteFeautrierGonnord-SAS2010-wise_true-termination.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could be proven:
+
+(0) C Problem
+(1) CToIRSProof [EQUIVALENT, 0 ms]
+(2) IntTRS
+(3) TerminationGraphProcessor [SOUND, 9 ms]
+(4) IntTRS
+(5) IntTRSCompressionProof [EQUIVALENT, 1 ms]
+(6) IntTRS
+(7) CaseAnalysis [EQUIVALENT, 0 ms]
+(8) AND
+    (9) IntTRS
+        (10) TerminationGraphProcessor [EQUIVALENT, 0 ms]
+        (11) IntTRS
+        (12) IntTRSCompressionProof [EQUIVALENT, 0 ms]
+        (13) IntTRS
+        (14) PolynomialOrderProcessor [EQUIVALENT, 2 ms]
+        (15) AND
+            (16) IntTRS
+                (17) TerminationGraphProcessor [EQUIVALENT, 0 ms]
+                (18) YES
+            (19) IntTRS
+                (20) IntTRSCompressionProof [EQUIVALENT, 0 ms]
+                (21) IntTRS
+                (22) PolynomialOrderProcessor [EQUIVALENT, 0 ms]
+                (23) YES
+    (24) IntTRS
+        (25) TerminationGraphProcessor [EQUIVALENT, 0 ms]
+        (26) IntTRS
+        (27) IntTRSCompressionProof [EQUIVALENT, 0 ms]
+        (28) IntTRS
+        (29) PolynomialOrderProcessor [EQUIVALENT, 2 ms]
+        (30) YES
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/AliasDarteFeautrierGonnord-SAS2010-wise_true-termination.c
+----------------------------------------
+
+(1) CToIRSProof (EQUIVALENT)
+Parsed C Integer Program as IRS.
+----------------------------------------
+
+(2)
+Obligation:
+Rules:
+f1(x, y) -> f2(x_1, y) :|: TRUE
+f2(x1, x2) -> f3(x1, x3) :|: TRUE
+f8(x4, x5) -> f11(arith, x5) :|: TRUE && arith = x4 + 1
+f9(x30, x31) -> f12(x30, x32) :|: TRUE && x32 = x31 + 1
+f7(x8, x9) -> f8(x8, x9) :|: x8 < x9
+f7(x10, x11) -> f9(x10, x11) :|: x10 >= x11
+f11(x12, x13) -> f10(x12, x13) :|: TRUE
+f12(x14, x15) -> f10(x14, x15) :|: TRUE
+f4(x16, x17) -> f7(x16, x17) :|: x16 - x17 > 2
+f4(x33, x34) -> f7(x33, x34) :|: x34 - x33 > 2
+f10(x18, x19) -> f4(x18, x19) :|: TRUE
+f4(x20, x21) -> f13(x20, x21) :|: x20 - x21 <= 2 && x21 - x20 <= 2
+f3(x22, x23) -> f4(x22, x23) :|: x22 >= 0 && x23 >= 0
+f3(x24, x25) -> f5(x24, x25) :|: x24 < 0
+f3(x35, x36) -> f5(x35, x36) :|: x36 < 0
+f13(x26, x27) -> f6(x26, x27) :|: TRUE
+f5(x28, x29) -> f6(x28, x29) :|: TRUE
+Start term: f1(x, y)
+
+----------------------------------------
+
+(3) TerminationGraphProcessor (SOUND)
+Constructed the termination graph and obtained one non-trivial SCC.
+
+----------------------------------------
+
+(4)
+Obligation:
+Rules:
+f4(x16, x17) -> f7(x16, x17) :|: x16 - x17 > 2
+f10(x18, x19) -> f4(x18, x19) :|: TRUE
+f11(x12, x13) -> f10(x12, x13) :|: TRUE
+f8(x4, x5) -> f11(arith, x5) :|: TRUE && arith = x4 + 1
+f7(x8, x9) -> f8(x8, x9) :|: x8 < x9
+f4(x33, x34) -> f7(x33, x34) :|: x34 - x33 > 2
+f12(x14, x15) -> f10(x14, x15) :|: TRUE
+f9(x30, x31) -> f12(x30, x32) :|: TRUE && x32 = x31 + 1
+f7(x10, x11) -> f9(x10, x11) :|: x10 >= x11
+
+----------------------------------------
+
+(5) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(6)
+Obligation:
+Rules:
+f10(x18:0, x19:0) -> f7(x18:0, x19:0) :|: x18:0 - x19:0 > 2
+f10(x, x1) -> f7(x, x1) :|: x1 - x > 2
+f7(x10:0, x11:0) -> f10(x10:0, x11:0 + 1) :|: x11:0 <= x10:0
+f7(x8:0, x9:0) -> f10(x8:0 + 1, x9:0) :|: x9:0 > x8:0
+
+----------------------------------------
+
+(7) CaseAnalysis (EQUIVALENT)
+Found the following inductive condition: 
+f10(x, x1): 3 + 3*x - 3*x1>=0
+f7(x2, x3): 3 + 3*x2 - 3*x3>=0
+
+----------------------------------------
+
+(8)
+Complex Obligation (AND)
+
+----------------------------------------
+
+(9)
+Obligation:
+Rules:
+f10(x18:0, x19:0) -> f7(x18:0, x19:0) :|: x18:0 - x19:0 > 2 && 3 + 3 * x18:0 + -3 * x19:0 >= 0
+f10(x, x1) -> f7(x, x1) :|: x1 - x > 2 && 3 + 3 * x + -3 * x1 >= 0
+f7(x10:0, x11:0) -> f10(x10:0, x11:0 + 1) :|: x11:0 <= x10:0 && 3 + 3 * x10:0 + -3 * x11:0 >= 0
+f7(x8:0, x9:0) -> f10(x8:0 + 1, x9:0) :|: x9:0 > x8:0 && 3 + 3 * x8:0 + -3 * x9:0 >= 0
+
+----------------------------------------
+
+(10) TerminationGraphProcessor (EQUIVALENT)
+Constructed the termination graph and obtained one non-trivial SCC.
+
+----------------------------------------
+
+(11)
+Obligation:
+Rules:
+f10(x18:0, x19:0) -> f7(x18:0, x19:0) :|: x18:0 - x19:0 > 2 && 3 + 3 * x18:0 + -3 * x19:0 >= 0
+f7(x10:0, x11:0) -> f10(x10:0, x11:0 + 1) :|: x11:0 <= x10:0 && 3 + 3 * x10:0 + -3 * x11:0 >= 0
+f7(x8:0, x9:0) -> f10(x8:0 + 1, x9:0) :|: x9:0 > x8:0 && 3 + 3 * x8:0 + -3 * x9:0 >= 0
+
+----------------------------------------
+
+(12) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(13)
+Obligation:
+Rules:
+f10(x18:0:0, x19:0:0) -> f10(x18:0:0, x19:0:0 + 1) :|: x18:0:0 - x19:0:0 > 2 && 3 + 3 * x18:0:0 + -3 * x19:0:0 >= 0 && x19:0:0 <= x18:0:0
+f10(x, x1) -> f10(x + 1, x1) :|: x - x1 > 2 && 3 + 3 * x + -3 * x1 >= 0 && x1 > x
+
+----------------------------------------
+
+(14) PolynomialOrderProcessor (EQUIVALENT)
+Found the following polynomial interpretation:
+[f10(x, x1)] = d - x1
+
+The following rules are decreasing:
+f10(x18:0:0, x19:0:0) -> f10(x18:0:0, x19:0:0 + 1) :|: x18:0:0 - x19:0:0 > 2 && 3 + 3 * x18:0:0 + -3 * x19:0:0 >= 0 && x19:0:0 <= x18:0:0
+The following rules are bounded:
+f10(x, x1) -> f10(x + 1, x1) :|: x - x1 > 2 && 3 + 3 * x + -3 * x1 >= 0 && x1 > x
+
+----------------------------------------
+
+(15)
+Complex Obligation (AND)
+
+----------------------------------------
+
+(16)
+Obligation:
+Rules:
+f10(x, x1) -> f10(x + 1, x1) :|: x - x1 > 2 && 3 + 3 * x + -3 * x1 >= 0 && x1 > x
+
+----------------------------------------
+
+(17) TerminationGraphProcessor (EQUIVALENT)
+Constructed the termination graph and obtained no non-trivial SCC(s).
+
+----------------------------------------
+
+(18)
+YES
+
+----------------------------------------
+
+(19)
+Obligation:
+Rules:
+f10(x18:0:0, x19:0:0) -> f10(x18:0:0, x19:0:0 + 1) :|: x18:0:0 - x19:0:0 > 2 && 3 + 3 * x18:0:0 + -3 * x19:0:0 >= 0 && x19:0:0 <= x18:0:0
+
+----------------------------------------
+
+(20) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(21)
+Obligation:
+Rules:
+f10(x18:0:0:0, x19:0:0:0) -> f10(x18:0:0:0, x19:0:0:0 + 1) :|: x18:0:0:0 - x19:0:0:0 > 2 && 3 + 3 * x18:0:0:0 + -3 * x19:0:0:0 >= 0 && x19:0:0:0 <= x18:0:0:0
+
+----------------------------------------
+
+(22) PolynomialOrderProcessor (EQUIVALENT)
+Found the following polynomial interpretation:
+[f10(x, x1)] = x - x1
+
+The following rules are decreasing:
+f10(x18:0:0:0, x19:0:0:0) -> f10(x18:0:0:0, x19:0:0:0 + 1) :|: x18:0:0:0 - x19:0:0:0 > 2 && 3 + 3 * x18:0:0:0 + -3 * x19:0:0:0 >= 0 && x19:0:0:0 <= x18:0:0:0
+The following rules are bounded:
+f10(x18:0:0:0, x19:0:0:0) -> f10(x18:0:0:0, x19:0:0:0 + 1) :|: x18:0:0:0 - x19:0:0:0 > 2 && 3 + 3 * x18:0:0:0 + -3 * x19:0:0:0 >= 0 && x19:0:0:0 <= x18:0:0:0
+
+----------------------------------------
+
+(23)
+YES
+
+----------------------------------------
+
+(24)
+Obligation:
+Rules:
+f10(x18:0, x19:0) -> f7(x18:0, x19:0) :|: x18:0 - x19:0 > 2 && 3 + 3 * x18:0 + -3 * x19:0 < 0
+f10(x, x1) -> f7(x, x1) :|: x1 - x > 2 && 3 + 3 * x + -3 * x1 < 0
+f7(x10:0, x11:0) -> f10(x10:0, x11:0 + 1) :|: x11:0 <= x10:0 && 3 + 3 * x10:0 + -3 * x11:0 < 0
+f7(x8:0, x9:0) -> f10(x8:0 + 1, x9:0) :|: x9:0 > x8:0 && 3 + 3 * x8:0 + -3 * x9:0 < 0
+
+----------------------------------------
+
+(25) TerminationGraphProcessor (EQUIVALENT)
+Constructed the termination graph and obtained one non-trivial SCC.
+
+----------------------------------------
+
+(26)
+Obligation:
+Rules:
+f10(x, x1) -> f7(x, x1) :|: x1 - x > 2 && 3 + 3 * x + -3 * x1 < 0
+f7(x8:0, x9:0) -> f10(x8:0 + 1, x9:0) :|: x9:0 > x8:0 && 3 + 3 * x8:0 + -3 * x9:0 < 0
+
+----------------------------------------
+
+(27) IntTRSCompressionProof (EQUIVALENT)
+Compressed rules.
+----------------------------------------
+
+(28)
+Obligation:
+Rules:
+f10(x:0, x1:0) -> f10(x:0 + 1, x1:0) :|: x1:0 - x:0 > 2 && 3 + 3 * x:0 + -3 * x1:0 < 0 && x:0 < x1:0
+
+----------------------------------------
+
+(29) PolynomialOrderProcessor (EQUIVALENT)
+Found the following polynomial interpretation:
+[f10(x, x1)] = -x + x1
+
+The following rules are decreasing:
+f10(x:0, x1:0) -> f10(x:0 + 1, x1:0) :|: x1:0 - x:0 > 2 && 3 + 3 * x:0 + -3 * x1:0 < 0 && x:0 < x1:0
+The following rules are bounded:
+f10(x:0, x1:0) -> f10(x:0 + 1, x1:0) :|: x1:0 - x:0 > 2 && 3 + 3 * x:0 + -3 * x1:0 < 0 && x:0 < x1:0
+
+----------------------------------------
+
+(30)
+YES
+Runtime: 21328 milliseconds

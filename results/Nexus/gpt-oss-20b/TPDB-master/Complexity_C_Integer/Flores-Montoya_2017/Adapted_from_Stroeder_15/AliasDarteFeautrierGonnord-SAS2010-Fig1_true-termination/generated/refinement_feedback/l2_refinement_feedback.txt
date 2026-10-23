@@ -1,0 +1,72 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v2",
+    {
+      "args": [
+        "l2_v3",
+        1
+      ],
+      "op": "+"
+    }
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v3",
+        "l2_v2"
+      ],
+      "op": "-"
+    },
+    1
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l2_v2",
+    {
+      "op": "+",
+      "args": [
+        "l2_v3",
+        1
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l2_v3",
+        "l2_v2"
+      ]
+    },
+    1
+  ]
+}
+
+FEEDBACK:

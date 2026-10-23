@@ -1,0 +1,60 @@
+///*** 1_cryptRandWriteFile ***///
+START: cryptRandWriteFile_bb0;
+
+FROM: cryptRandWriteFile_bb0;
+var__temp_v.0 := vbytes;
+TO: cryptRandWriteFile_bb1;
+
+FROM: cryptRandWriteFile_bb1;
+v.0 := var__temp_v.0;
+TO: cryptRandWriteFile_bb1_end;
+
+FROM: cryptRandWriteFile_bb1_end;
+assume(v.0 > 0);
+TO: cryptRandWriteFile_bb2;
+
+FROM: cryptRandWriteFile_bb1_end;
+assume(v.0 <= 0);
+TO: cryptRandWriteFile_bb6;
+
+FROM: cryptRandWriteFile_bb2;
+TO: cryptRandWriteFile_bb2_v.0.;
+FROM: cryptRandWriteFile_bb2_v.0.;
+assume(v.0 < 256);
+v.0. := v.0;
+TO: cryptRandWriteFile_bb2_sv.0.;
+
+FROM: cryptRandWriteFile_bb2_v.0.;
+assume(v.0 >= 256);
+v.0. := 256;
+TO: cryptRandWriteFile_bb2_sv.0.;
+
+FROM: cryptRandWriteFile_bb2_sv.0.;
+var__temp_vi.0 := 0;
+TO: cryptRandWriteFile_bb3;
+
+FROM: cryptRandWriteFile_bb3;
+vi.0 := var__temp_vi.0;
+TO: cryptRandWriteFile_bb3_end;
+
+FROM: cryptRandWriteFile_bb3_end;
+assume(vi.0 < v.0.);
+TO: cryptRandWriteFile_bb4;
+
+FROM: cryptRandWriteFile_bb3_end;
+assume(vi.0 >= v.0.);
+TO: cryptRandWriteFile_bb5;
+
+FROM: cryptRandWriteFile_bb4;
+v3 := vi.0 + 1;
+var__temp_vi.0 := v3;
+TO: cryptRandWriteFile_bb3;
+
+FROM: cryptRandWriteFile_bb5;
+v4 := v.0 - v.0.;
+var__temp_v.0 := v4;
+TO: cryptRandWriteFile_bb1;
+
+FROM: cryptRandWriteFile_bb6;
+TO: cryptRandWriteFile_bb6_ret;
+

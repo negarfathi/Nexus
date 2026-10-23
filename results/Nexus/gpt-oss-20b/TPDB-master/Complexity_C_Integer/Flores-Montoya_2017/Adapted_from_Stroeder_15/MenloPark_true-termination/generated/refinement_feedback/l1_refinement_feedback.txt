@@ -1,0 +1,253 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            99
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v2",
+            100
+          ],
+          "op": "="
+        }
+      ],
+      "op": "or"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            -1
+          ],
+          "op": "="
+        }
+      ],
+      "op": "or"
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+"l1_v1"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "or",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            99
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "op": "or",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            -1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v1"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C],
+                             Implies(And(Or(1 == C, -1 == C),
+                                        Or(99 == B,
+                                        100 == B),
+                                        Or(And(Not(C == 1),
+                                        Not(C == -1)),
+                                        And(Not(100 ==
+                                        B + -1*C),
+                                        Not(99 == B + -1*C))),
+                                        0 <= A),
+                                     query!1))),
+             query!1),
+   asserted(Implies(query!1, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            100
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": "="
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            99
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            -1
+          ],
+          "op": "="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "or"
+}
+
+RANKING_FUNCTION:
+"l1_v1"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            100
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            99
+          ]
+        },
+        {
+          "op": "=",
+          "args": [
+            "l1_v3",
+            -1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v1"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

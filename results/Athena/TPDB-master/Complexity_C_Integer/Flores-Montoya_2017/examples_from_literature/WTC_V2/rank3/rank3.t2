@@ -1,0 +1,109 @@
+///*** 1_rank2 ***///
+START: rank2_bb0;
+
+FROM: rank2_bb0;
+var__temp_vx.0 := vm;
+var__temp_vy.0 := vm;
+TO: rank2_bb1;
+
+FROM: rank2_bb1;
+vx.0 := var__temp_vx.0;
+vy.0 := var__temp_vy.0;
+TO: rank2_bb1_end;
+
+FROM: rank2_bb1_end;
+assume(vx.0 >= 2);
+TO: rank2_bb2;
+
+FROM: rank2_bb1_end;
+assume(vx.0 < 2);
+TO: rank2_bb9;
+
+FROM: rank2_bb2;
+v1 := vx.0 + -1;
+v2 := vy.0 + v1;
+var__temp_vx.1 := v1;
+var__temp_vy.1 := v2;
+TO: rank2_bb3;
+
+FROM: rank2_bb3;
+vx.1 := var__temp_vx.1;
+vy.1 := var__temp_vy.1;
+v3 := vx.1 + 1;
+TO: rank2_bb3_end;
+
+FROM: rank2_bb3_end;
+assume(vy.1 >= v3);
+TO: rank2_bb4;
+
+FROM: rank2_bb3_end;
+assume(vy.1 < v3);
+TO: rank2_.critedge;
+
+FROM: rank2_bb4;
+v5 := nondet();
+TO: rank2_bb4_end;
+
+FROM: rank2_bb4_end;
+assume(v5 > 0);
+TO: rank2_bb5;
+
+FROM: rank2_bb4_end;
+assume(v5 <= 0);
+TO: rank2_.critedge;
+
+FROM: rank2_bb5;
+v7 := vy.1 + -1;
+var__temp_vx.2 := vx.1;
+var__temp_vy.2 := v7;
+TO: rank2_bb6;
+
+FROM: rank2_bb6;
+vx.2 := var__temp_vx.2;
+vy.2 := var__temp_vy.2;
+v8 := vx.2 + 3;
+TO: rank2_bb6_end;
+
+FROM: rank2_bb6_end;
+assume(vy.2 >= v8);
+TO: rank2_bb7;
+
+FROM: rank2_bb6_end;
+assume(vy.2 < v8);
+TO: rank2_.critedge1;
+
+FROM: rank2_bb7;
+v10 := nondet();
+TO: rank2_bb7_end;
+
+FROM: rank2_bb7_end;
+assume(v10 > 0);
+TO: rank2_bb8;
+
+FROM: rank2_bb7_end;
+assume(v10 <= 0);
+TO: rank2_.critedge1;
+
+FROM: rank2_bb8;
+v12 := vx.2 + 1;
+v13 := vy.2 - 2;
+var__temp_vx.2 := v12;
+var__temp_vy.2 := v13;
+TO: rank2_bb6;
+
+FROM: rank2_.critedge1;
+v14 := vy.2 + -1;
+var__temp_vx.1 := vx.2;
+var__temp_vy.1 := v14;
+TO: rank2_bb3;
+
+FROM: rank2_.critedge;
+v15 := vx.1 + -1;
+v16 := vy.1 - v15;
+var__temp_vx.0 := v15;
+var__temp_vy.0 := v16;
+TO: rank2_bb1;
+
+FROM: rank2_bb9;
+TO: rank2_bb9_ret;
+

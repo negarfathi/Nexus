@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing cBench_noiseTickSize.c
+Converting
+Type-checking cBench_noiseTickSize
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of noiseTickSize
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 436 milliseconds

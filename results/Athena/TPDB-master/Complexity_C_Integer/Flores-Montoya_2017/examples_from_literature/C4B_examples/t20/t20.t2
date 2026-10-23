@@ -1,0 +1,45 @@
+///*** 1_t20 ***///
+START: t20_bb0;
+
+FROM: t20_bb0;
+var__temp_v.0 := vx;
+TO: t20_bb1;
+
+FROM: t20_bb1;
+v.0 := var__temp_v.0;
+var__temp_v.01 := vy;
+TO: t20_bb1_end;
+
+FROM: t20_bb1_end;
+assume(v.0 < vy);
+TO: t20_bb2;
+
+FROM: t20_bb1_end;
+assume(v.0 >= vy);
+TO: t20_bb3;
+
+FROM: t20_bb2;
+v1 := v.0 + 1;
+var__temp_v.0 := v1;
+TO: t20_bb1;
+
+FROM: t20_bb3;
+v.01 := var__temp_v.01;
+TO: t20_bb3_end;
+
+FROM: t20_bb3_end;
+assume(v.01 < v.0);
+TO: t20_bb4;
+
+FROM: t20_bb3_end;
+assume(v.01 >= v.0);
+TO: t20_bb5;
+
+FROM: t20_bb4;
+v3 := v.01 + 1;
+var__temp_v.01 := v3;
+TO: t20_bb3;
+
+FROM: t20_bb5;
+TO: t20_bb5_ret;
+

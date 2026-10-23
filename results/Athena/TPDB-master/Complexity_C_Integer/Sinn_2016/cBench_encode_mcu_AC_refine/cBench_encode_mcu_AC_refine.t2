@@ -1,0 +1,98 @@
+///*** 1_encode_mcu_AC_refine ***///
+START: encode_mcu_AC_refine_bb0;
+
+FROM: encode_mcu_AC_refine_bb0;
+var__temp_vk.0 := vcinfo_Ss;
+TO: encode_mcu_AC_refine_bb1;
+
+FROM: encode_mcu_AC_refine_bb1;
+vk.0 := var__temp_vk.0;
+var__temp_vk.1 := vcinfo_Ss;
+var__temp_vr.0 := 0;
+TO: encode_mcu_AC_refine_bb1_end;
+
+FROM: encode_mcu_AC_refine_bb1_end;
+assume(vk.0 <= vcinfo_Se);
+TO: encode_mcu_AC_refine_bb2;
+
+FROM: encode_mcu_AC_refine_bb1_end;
+assume(vk.0 > vcinfo_Se);
+TO: encode_mcu_AC_refine_bb3;
+
+FROM: encode_mcu_AC_refine_bb2;
+v1 := vk.0 + 1;
+var__temp_vk.0 := v1;
+TO: encode_mcu_AC_refine_bb1;
+
+FROM: encode_mcu_AC_refine_bb3;
+vk.1 := var__temp_vk.1;
+vr.0 := var__temp_vr.0;
+TO: encode_mcu_AC_refine_bb3_end;
+
+FROM: encode_mcu_AC_refine_bb3_end;
+assume(vk.1 <= vcinfo_Se);
+TO: encode_mcu_AC_refine_bb4;
+
+FROM: encode_mcu_AC_refine_bb3_end;
+assume(vk.1 > vcinfo_Se);
+TO: encode_mcu_AC_refine_bb9;
+
+FROM: encode_mcu_AC_refine_bb4;
+v3 := nondet();
+var__temp_vr.1 := vr.0;
+TO: encode_mcu_AC_refine_bb4_end;
+
+FROM: encode_mcu_AC_refine_bb4_end;
+assume(v3 != 0);
+TO: encode_mcu_AC_refine_bb5;
+
+FROM: encode_mcu_AC_refine_bb4_end;
+assume(v3 == 0);
+TO: encode_mcu_AC_refine_bb6;
+
+FROM: encode_mcu_AC_refine_bb5;
+v5 := vr.0 + 1;
+var__temp_vr.2 := v5;
+TO: encode_mcu_AC_refine_.critedge;
+
+FROM: encode_mcu_AC_refine_bb6;
+vr.1 := var__temp_vr.1;
+var__temp_vr.2 := 0;
+TO: encode_mcu_AC_refine_bb6_end;
+
+FROM: encode_mcu_AC_refine_bb6_end;
+assume(vr.1 > 15);
+TO: encode_mcu_AC_refine_bb7;
+
+FROM: encode_mcu_AC_refine_bb6_end;
+assume(vr.1 <= 15);
+TO: encode_mcu_AC_refine_.critedge;
+
+FROM: encode_mcu_AC_refine_bb7;
+v7 := nondet();
+var__temp_vr.2 := 0;
+TO: encode_mcu_AC_refine_bb7_end;
+
+FROM: encode_mcu_AC_refine_bb7_end;
+assume(v7 != 0);
+TO: encode_mcu_AC_refine_bb8;
+
+FROM: encode_mcu_AC_refine_bb7_end;
+assume(v7 == 0);
+TO: encode_mcu_AC_refine_.critedge;
+
+FROM: encode_mcu_AC_refine_bb8;
+v9 := vr.1 - 16;
+var__temp_vr.1 := v9;
+TO: encode_mcu_AC_refine_bb6;
+
+FROM: encode_mcu_AC_refine_.critedge;
+vr.2 := var__temp_vr.2;
+v10 := vk.1 + 1;
+var__temp_vk.1 := v10;
+var__temp_vr.0 := vr.2;
+TO: encode_mcu_AC_refine_bb3;
+
+FROM: encode_mcu_AC_refine_bb9;
+TO: encode_mcu_AC_refine_bb9_ret;
+

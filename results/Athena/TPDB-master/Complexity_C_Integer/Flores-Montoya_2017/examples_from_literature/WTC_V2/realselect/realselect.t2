@@ -1,0 +1,48 @@
+///*** 1_realselect ***///
+START: realselect_bb0;
+
+FROM: realselect_bb0;
+var__temp_vi.0 := 0;
+TO: realselect_bb1;
+
+FROM: realselect_bb1;
+vi.0 := var__temp_vi.0;
+v0 := varray_size - 1;
+var__temp_vi.0.sink := vi.0;
+TO: realselect_bb1_end;
+
+FROM: realselect_bb1_end;
+assume(vi.0 < v0);
+TO: realselect_bb2;
+
+FROM: realselect_bb1_end;
+assume(vi.0 >= v0);
+TO: realselect_bb5;
+
+FROM: realselect_bb2;
+vi.0.sink := var__temp_vi.0.sink;
+v2 := vi.0.sink + 1;
+TO: realselect_bb2_end;
+
+FROM: realselect_bb2_end;
+assume(v2 < varray_size);
+TO: realselect_bb3;
+
+FROM: realselect_bb2_end;
+assume(v2 >= varray_size);
+TO: realselect_bb4;
+
+FROM: realselect_bb3;
+v4 := nondet();
+v5 := nondet();
+var__temp_vi.0.sink := v2;
+TO: realselect_bb2;
+
+FROM: realselect_bb4;
+v6 := vi.0 + 1;
+var__temp_vi.0 := v6;
+TO: realselect_bb1;
+
+FROM: realselect_bb5;
+TO: realselect_bb5_ret;
+

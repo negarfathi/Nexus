@@ -1,0 +1,9 @@
+non_linear17.c:3:28: warning: unused parameter 'x3' [-Wunused-parameter]
+void f(int x1, int x2, int x3, int x4, int y1, int y2, int f) {
+                           ^
+non_linear17.c:3:36: warning: unused parameter 'x4' [-Wunused-parameter]
+void f(int x1, int x2, int x3, int x4, int y1, int y2, int f) {
+                                   ^
+2 warnings generated.
+TIMEOUT
+Runtime: 600702 milliseconds

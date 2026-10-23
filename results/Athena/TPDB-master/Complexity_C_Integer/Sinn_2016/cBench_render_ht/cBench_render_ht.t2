@@ -1,0 +1,48 @@
+///*** 1_render_ht ***///
+START: render_ht_bb0;
+
+FROM: render_ht_bb0;
+var__temp_v.0 := vold_level;
+TO: render_ht_bb1;
+
+FROM: render_ht_bb1;
+v.0 := var__temp_v.0;
+v0 := vlevel - v.0;
+TO: render_ht_LeafBlock;
+
+FROM: render_ht_LeafBlock;
+v.off := v0 + 7;
+TO: render_ht_LeafBlock_end;
+
+FROM: render_ht_LeafBlock_end;
+assume(v.off <= 14);
+TO: render_ht_bb2;
+
+FROM: render_ht_LeafBlock_end;
+assume(v.off > 14);
+TO: render_ht_NewDefault;
+
+FROM: render_ht_bb2;
+TO: render_ht_bb2_ret;
+
+FROM: render_ht_NewDefault;
+TO: render_ht_bb3;
+
+FROM: render_ht_bb3;
+v2 := v.0 + 4;
+v3 := v.0 - 4;
+TO: render_ht_bb3_v.1;
+FROM: render_ht_bb3_v.1;
+assume(vlevel > v.0);
+v.1 := v2;
+TO: render_ht_bb3_sv.1;
+
+FROM: render_ht_bb3_v.1;
+assume(vlevel <= v.0);
+v.1 := v3;
+TO: render_ht_bb3_sv.1;
+
+FROM: render_ht_bb3_sv.1;
+var__temp_v.0 := v.1;
+TO: render_ht_bb1;
+

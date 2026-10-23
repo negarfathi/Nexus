@@ -1,0 +1,10 @@
+easy1.c:9:9: warning: variable 'z' is uninitialized when used here [-Wuninitialized]
+    if (z==0) { x=x+1; } else { x=x+2; }
+        ^
+easy1.c:5:8: note: initialize the variable 'z' to silence this warning
+  int z;
+       ^
+        = 0
+1 warning generated.
+YES
+Runtime: 777 milliseconds

@@ -1,0 +1,202 @@
+MAYBE
+proof of cBench_PackBitsEncode.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 48 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/cBench_PackBitsEncode.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/cBench_PackBitsEncode.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "random" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "llvm.dbg.label" returnParam: BasicVoidType parameters: (BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "PackBitsEncode" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 5
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i64, align 8
+		%4 = alloca i64, align 8
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i64 %3)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i64 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		store 0, %6
+		br %7
+	7:
+		%8 = load %2
+		%9 = icmp sgt %8 0
+		br %9, %10, %80
+	10:
+		%11 = load %2
+		%12 = add i32 %11, -1
+		store %12, %2
+		store 1, %3
+		br %13
+	13:
+		%14 = load %2
+		%15 = icmp sgt %14 0
+		br %15, %16, %19
+	16:
+		%17 = call i32 (...)* @random()
+		%18 = icmp ne %17 0
+		br %19
+	19:
+		%20 = phi [0, %13], [%18, %16]
+		br %20, %21, %27
+	21:
+		%22 = load %3
+		%23 = add i64 %22, 1
+		store %23, %3
+		br %24
+	24:
+		%25 = load %2
+		%26 = add i32 %25, -1
+		store %26, %2
+		br %13
+	27:
+		br %28
+	28:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.label()
+		%29 = load %6
+		switch %29, %79 [0, %30 1, %42 2, %56 3, %68]
+	30:
+		%31 = load %3
+		%32 = icmp sgt %31 1
+		br %32, %33, %40
+	33:
+		store 2, %6
+		%34 = load %3
+		%35 = icmp sgt %34 128
+		br %35, %36, %39
+	36:
+		%37 = load %3
+		%38 = sub i64 %37, 128
+		store %38, %3
+		br %28
+	39:
+		br %41
+	40:
+		store 1, %6
+		br %41
+	41:
+		br %79
+	42:
+		%43 = load %3
+		%44 = icmp sgt %43 1
+		br %44, %45, %50
+	45:
+		store 3, %6
+		%46 = load %3
+		%47 = icmp sgt %46 128
+		br %47, %48, %49
+	48:
+		br %28
+	49:
+		br %55
+	50:
+		%51 = call i32 (...)* @random()
+		%52 = icmp ne %51 0
+		br %52, %53, %54
+	53:
+		store 0, %6
+		br %54
+	54:
+		br %55
+	55:
+		br %79
+	56:
+		%57 = load %3
+		%58 = icmp sgt %57 1
+		br %58, %59, %66
+	59:
+		%60 = load %3
+		%61 = icmp sgt %60 128
+		br %61, %62, %65
+	62:
+		%63 = load %3
+		%64 = sub i64 %63, 128
+		store %64, %3
+		br %28
+	65:
+		br %67
+	66:
+		store 1, %6
+		br %67
+	67:
+		br %79
+	68:
+		%69 = call i32 (...)* @random()
+		%70 = icmp ne %69 0
+		br %70, %71, %72
+	71:
+		store 0, %6
+		br %78
+	72:
+		%73 = call i32 (...)* @random()
+		%74 = icmp ne %73 0
+		br %74, %75, %76
+	75:
+		store 1, %6
+		br %77
+	76:
+		store 2, %6
+		br %77
+	77:
+		br %78
+	78:
+		br %28
+	79:
+		br %7
+	80:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788581772Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1082 milliseconds

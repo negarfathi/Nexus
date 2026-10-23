@@ -1,0 +1,3 @@
+YES
+/bin/bash: line 3:     6 Segmentation fault      timeout 600 ./main.exe -c ./config/solver/muval_parallel_exc_tbq_ar.json -p ltsterm '/liveness_analysis/ndecr.t2'
+Runtime: 794 milliseconds

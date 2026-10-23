@@ -1,0 +1,27 @@
+///*** 1_speedFails2 ***///
+START: speedFails2_bb0;
+
+FROM: speedFails2_bb0;
+var__temp_vi.0 := vx;
+TO: speedFails2_bb1;
+
+FROM: speedFails2_bb1;
+vi.0 := var__temp_vi.0;
+TO: speedFails2_bb1_end;
+
+FROM: speedFails2_bb1_end;
+assume(vi.0 != vn);
+TO: speedFails2_bb2;
+
+FROM: speedFails2_bb1_end;
+assume(vi.0 == vn);
+TO: speedFails2_bb3;
+
+FROM: speedFails2_bb2;
+v1 := vi.0 + 1;
+var__temp_vi.0 := v1;
+TO: speedFails2_bb1;
+
+FROM: speedFails2_bb3;
+TO: speedFails2_bb3_ret;
+

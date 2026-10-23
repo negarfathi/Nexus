@@ -1,0 +1,105 @@
+///*** 1_non_linear10 ***///
+START: non_linear10_bb0;
+
+FROM: non_linear10_bb0;
+var__temp_v.05 := vx6;
+var__temp_v.0 := vx1;
+TO: non_linear10_bb1;
+
+FROM: non_linear10_bb1;
+v.05 := var__temp_v.05;
+v.0 := var__temp_v.0;
+var__temp_v.16 := v.0;
+TO: non_linear10_bb1_end;
+
+FROM: non_linear10_bb1_end;
+assume(1 <= v.05);
+TO: non_linear10_bb2;
+
+FROM: non_linear10_bb1_end;
+assume(1 > v.05);
+TO: non_linear10_bb5;
+
+FROM: non_linear10_bb2;
+v2 := v.05 - 1;
+v3 := nondet();
+var__temp_v.04 := v.05;
+var__temp_v.03 := v.05;
+var__temp_v.02 := 2;
+var__temp_v.01 := v.05;
+var__temp_v.1 := v.05;
+TO: non_linear10_bb3;
+
+FROM: non_linear10_bb3;
+v.04 := var__temp_v.04;
+v.03 := var__temp_v.03;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.1 := var__temp_v.1;
+v4 := v.02 * v.02;
+v5 := 2 * 2;
+v6 := v5 * 2;
+v7 := v6 * 2;
+v8 := v7 * 2;
+v9 := v4 - v8;
+v10 := 2 * v.03;
+v11 := v10 - v.04;
+var__temp_v.05 := v2;
+var__temp_v.0 := v.1;
+TO: non_linear10_bb3_end;
+
+FROM: non_linear10_bb3_end;
+assume((v9 < v11) && (v.02 != 0));
+TO: non_linear10_bb4;
+
+FROM: non_linear10_bb3_end;
+assume((v9 >= v11) || (v.02 == 0));
+TO: non_linear10_bb1;
+
+FROM: non_linear10_bb4;
+v14 := 3 * v.1;
+v15 := 2 * v.01;
+v16 := v14 + v15;
+v17 := -5 * v.1;
+v18 := 3 * v.01;
+v19 := v17 - v18;
+v20 := -2 * v.02;
+v21 := v.03 * v.03;
+v22 := v.03 + v21;
+v23 := 2 * 2;
+v24 := v22 + v23;
+v25 := -4 * v.03;
+v26 := 2 * v.03;
+v27 := v26 * v.03;
+v28 := v25 + v27;
+v29 := 3 * v.04;
+v30 := v28 + v29;
+v31 := 2 * 2;
+v32 := v30 + v31;
+var__temp_v.04 := v32;
+var__temp_v.03 := v24;
+var__temp_v.02 := v20;
+var__temp_v.01 := v19;
+var__temp_v.1 := v16;
+TO: non_linear10_bb3;
+
+FROM: non_linear10_bb5;
+v.16 := var__temp_v.16;
+TO: non_linear10_bb5_end;
+
+FROM: non_linear10_bb5_end;
+assume(v.16 > 0);
+TO: non_linear10_bb6;
+
+FROM: non_linear10_bb5_end;
+assume(v.16 <= 0);
+TO: non_linear10_bb7;
+
+FROM: non_linear10_bb6;
+v34 := v.16 - 1;
+var__temp_v.16 := v34;
+TO: non_linear10_bb5;
+
+FROM: non_linear10_bb7;
+TO: non_linear10_bb7_ret;
+

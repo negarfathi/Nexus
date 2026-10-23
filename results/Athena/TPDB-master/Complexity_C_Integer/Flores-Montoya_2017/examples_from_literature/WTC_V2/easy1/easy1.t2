@@ -1,0 +1,40 @@
+///*** 1_easy1 ***///
+START: easy1_bb0;
+
+FROM: easy1_bb0;
+var__temp_vx.0 := 0;
+TO: easy1_bb1;
+
+FROM: easy1_bb1;
+vx.0 := var__temp_vx.0;
+TO: easy1_bb1_end;
+
+FROM: easy1_bb1_end;
+assume(vx.0 < 40);
+TO: easy1_bb2;
+
+FROM: easy1_bb1_end;
+assume(vx.0 >= 40);
+TO: easy1_bb3;
+
+FROM: easy1_bb2;
+v3 := vx.0 + 1;
+v4 := vx.0 + 2;
+TO: easy1_bb2_vx.1;
+FROM: easy1_bb2_vx.1;
+assume(v0 == 0);
+vx.1 := v3;
+TO: easy1_bb2_svx.1;
+
+FROM: easy1_bb2_vx.1;
+assume(v0 != 0);
+vx.1 := v4;
+TO: easy1_bb2_svx.1;
+
+FROM: easy1_bb2_svx.1;
+var__temp_vx.0 := vx.1;
+TO: easy1_bb1;
+
+FROM: easy1_bb3;
+TO: easy1_bb3_ret;
+

@@ -1,0 +1,95 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        "l1_v2"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        1,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                "l1_v3"
+              ],
+              "op": "+"
+            },
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "div"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v4",
+        "l1_v2"
+      ]
+    },
+    {
+      "op": "div",
+      "args": [
+        1,
+        {
+          "op": "+",
+          "args": [
+            {
+              "op": "+",
+              "args": [
+                "l1_v2",
+                "l1_v3"
+              ]
+            },
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

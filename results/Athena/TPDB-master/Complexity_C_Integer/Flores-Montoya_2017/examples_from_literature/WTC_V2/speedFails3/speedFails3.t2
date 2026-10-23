@@ -1,0 +1,41 @@
+///*** 1_speedFails3 ***///
+START: speedFails3_bb0;
+
+FROM: speedFails3_bb0;
+v0 := nondet();
+var__temp_v.0 := vx;
+TO: speedFails3_bb1;
+
+FROM: speedFails3_bb1;
+v.0 := var__temp_v.0;
+TO: speedFails3_bb1_end;
+
+FROM: speedFails3_bb1_end;
+assume((v.0 >= 0) && (v.0 <= vn));
+TO: speedFails3_bb2;
+
+FROM: speedFails3_bb1_end;
+assume((v.0 < 0) || (v.0 > vn));
+TO: speedFails3_bb3;
+
+FROM: speedFails3_bb2;
+v4 := v.0 + vt;
+v5 := v.0 - vt;
+TO: speedFails3_bb2_v.1;
+FROM: speedFails3_bb2_v.1;
+assume(v0 > 0);
+v.1 := v4;
+TO: speedFails3_bb2_sv.1;
+
+FROM: speedFails3_bb2_v.1;
+assume(v0 <= 0);
+v.1 := v5;
+TO: speedFails3_bb2_sv.1;
+
+FROM: speedFails3_bb2_sv.1;
+var__temp_v.0 := v.1;
+TO: speedFails3_bb1;
+
+FROM: speedFails3_bb3;
+TO: speedFails3_bb3_ret;
+

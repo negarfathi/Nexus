@@ -1,0 +1,133 @@
+///*** 1_twn15 ***///
+START: twn15_bb0;
+
+FROM: twn15_bb0;
+var__temp_v.0 := va;
+TO: twn15_bb1;
+
+FROM: twn15_bb1;
+v.0 := var__temp_v.0;
+TO: twn15_bb1_end;
+
+FROM: twn15_bb1_end;
+assume(v.0 > 0);
+TO: twn15_bb2;
+
+FROM: twn15_bb1_end;
+assume(v.0 <= 0);
+TO: twn15_bb10;
+
+FROM: twn15_bb2;
+var__temp_v.02 := ve;
+var__temp_v.01 := v.0;
+TO: twn15_bb2_end;
+
+FROM: twn15_bb2_end;
+assume((-5 <= vd) && (vd <= 5));
+TO: twn15_bb3;
+
+FROM: twn15_bb2_end;
+assume((-5 > vd) || (vd > 5));
+TO: twn15_bb6;
+
+FROM: twn15_bb3;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+TO: twn15_bb3_end;
+
+FROM: twn15_bb3_end;
+assume(v.01 != 0);
+TO: twn15_bb4;
+
+FROM: twn15_bb3_end;
+assume(v.01 == 0);
+TO: twn15_.critedge;
+
+FROM: twn15_bb4;
+v4 := v.01 * v.01;
+v5 := vd * vd;
+v6 := v5 * vd;
+v7 := v6 * vd;
+v8 := v7 * vd;
+v9 := v4 + v8;
+TO: twn15_bb4_end;
+
+FROM: twn15_bb4_end;
+assume(v9 < v.02);
+TO: twn15_bb5;
+
+FROM: twn15_bb4_end;
+assume(v9 >= v.02);
+TO: twn15_.critedge;
+
+FROM: twn15_bb5;
+v11 := -2 * v.01;
+v12 := 3 * v.02;
+v13 := vd * vd;
+v14 := v13 * vd;
+v15 := v12 - v14;
+var__temp_v.02 := v15;
+var__temp_v.01 := v11;
+TO: twn15_bb3;
+
+FROM: twn15_bb6;
+var__temp_v.13 := ve;
+var__temp_v.1 := v.0;
+TO: twn15_bb6_end;
+
+FROM: twn15_bb6_end;
+assume(vd > 0);
+TO: twn15_bb7;
+
+FROM: twn15_bb6_end;
+assume(vd <= 0);
+TO: twn15_.critedge;
+
+FROM: twn15_bb7;
+v.13 := var__temp_v.13;
+v.1 := var__temp_v.1;
+TO: twn15_bb7_end;
+
+FROM: twn15_bb7_end;
+assume(v.1 != 0);
+TO: twn15_bb8;
+
+FROM: twn15_bb7_end;
+assume(v.1 == 0);
+TO: twn15_.critedge;
+
+FROM: twn15_bb8;
+v18 := v.1 * v.1;
+v19 := vd * vd;
+v20 := v19 * vd;
+v21 := v20 * vd;
+v22 := v21 * vd;
+v23 := v18 + v22;
+TO: twn15_bb8_end;
+
+FROM: twn15_bb8_end;
+assume(v23 < v.13);
+TO: twn15_bb9;
+
+FROM: twn15_bb8_end;
+assume(v23 >= v.13);
+TO: twn15_.critedge;
+
+FROM: twn15_bb9;
+v25 := -2 * v.1;
+v26 := 3 * v.13;
+v27 := vd * vd;
+v28 := v27 * vd;
+v29 := v26 - v28;
+var__temp_v.13 := v29;
+var__temp_v.1 := v25;
+TO: twn15_bb7;
+
+FROM: twn15_.critedge;
+v30 := v.0 - 1;
+var__temp_v.0 := v30;
+TO: twn15_bb1;
+
+FROM: twn15_bb10;
+TO: twn15_bb10_ret;
+

@@ -1,0 +1,6 @@
+ChenFlurMukhopadhyay-SAS2012-Ex3.08_true-termination.c:7:11: warning: explicitly assigning value of variable of type 'int' to itself [-Wself-assign]
+        z = z;
+        ~ ^ ~
+1 warning generated.
+YES
+Runtime: 797 milliseconds

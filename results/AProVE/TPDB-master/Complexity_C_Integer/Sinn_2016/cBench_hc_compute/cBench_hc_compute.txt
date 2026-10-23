@@ -1,0 +1,147 @@
+MAYBE
+proof of cBench_hc_compute.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 49 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/cBench_hc_compute.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/cBench_hc_compute.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "random" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "hc_compute" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		%7 = load %2
+		store %7, %3
+		br %8
+	8:
+		%9 = load %3
+		%10 = icmp sgt %9 0
+		br %10, %11, %53
+	11:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		%12 = load %3
+		store %12, %4
+		%13 = load %4
+		%14 = add i32 %13, -1
+		store %14, %4
+		br %15
+	15:
+		%16 = load %4
+		%17 = icmp sgt %16 0
+		br %17, %18, %21
+	18:
+		%19 = call i32 (...)* @random()
+		%20 = icmp ne %19 0
+		br %21
+	21:
+		%22 = phi [0, %15], [%20, %18]
+		br %22, %23, %26
+	23:
+		%24 = load %4
+		%25 = add i32 %24, -1
+		store %25, %4
+		br %15
+	26:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		%27 = load %3
+		%28 = load %4
+		%29 = sub i32 %27, %28
+		store %29, %5
+		br %30
+	30:
+		%31 = load %5
+		%32 = icmp sgt %31 0
+		br %32, %33, %51
+	33:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		%34 = load %5
+		store %34, %6
+		br %35
+	35:
+		%36 = load %6
+		%37 = icmp sgt %36 0
+		br %37, %38, %41
+	38:
+		%39 = call i32 (...)* @random()
+		%40 = icmp ne %39 0
+		br %41
+	41:
+		%42 = phi [0, %35], [%40, %38]
+		br %42, %43, %47
+	43:
+		br %44
+	44:
+		%45 = load %6
+		%46 = add i32 %45, -1
+		store %46, %6
+		br %35
+	47:
+		br %48
+	48:
+		%49 = load %5
+		%50 = add i32 %49, -1
+		store %50, %5
+		br %30
+	51:
+		%52 = load %4
+		store %52, %3
+		br %8
+	53:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788580484Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1061 milliseconds

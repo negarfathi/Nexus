@@ -1,0 +1,106 @@
+///*** 1_inflate_stored ***///
+START: inflate_stored_bb0;
+
+FROM: inflate_stored_bb0;
+v0 := vk - vn;
+var__temp_v.01 := v0;
+TO: inflate_stored_bb1;
+
+FROM: inflate_stored_bb1;
+v.01 := var__temp_v.01;
+TO: inflate_stored_bb1_end;
+
+FROM: inflate_stored_bb1_end;
+assume(v.01 < 16);
+TO: inflate_stored_bb2;
+
+FROM: inflate_stored_bb1_end;
+assume(v.01 >= 16);
+TO: inflate_stored_bb3;
+
+FROM: inflate_stored_bb2;
+v2 := v.01 + 8;
+var__temp_v.01 := v2;
+TO: inflate_stored_bb1;
+
+FROM: inflate_stored_bb3;
+v3 := v.01 - 16;
+var__temp_v.1 := v3;
+TO: inflate_stored_bb4;
+
+FROM: inflate_stored_bb4;
+v.1 := var__temp_v.1;
+TO: inflate_stored_bb4_end;
+
+FROM: inflate_stored_bb4_end;
+assume(v.1 < 16);
+TO: inflate_stored_bb5;
+
+FROM: inflate_stored_bb4_end;
+assume(v.1 >= 16);
+TO: inflate_stored_bb6;
+
+FROM: inflate_stored_bb5;
+v5 := v.1 + 8;
+var__temp_v.1 := v5;
+TO: inflate_stored_bb4;
+
+FROM: inflate_stored_bb6;
+v6 := nondet();
+TO: inflate_stored_bb6_end;
+
+FROM: inflate_stored_bb6_end;
+assume(v6 != 0);
+TO: inflate_stored_bb12;
+
+FROM: inflate_stored_bb6_end;
+assume(v6 == 0);
+TO: inflate_stored_bb7;
+
+FROM: inflate_stored_bb7;
+v8 := v.1 - 16;
+var__temp_v.2 := v8;
+var__temp_v.0 := vn;
+TO: inflate_stored_bb8;
+
+FROM: inflate_stored_bb8;
+v.2 := var__temp_v.2;
+v.0 := var__temp_v.0;
+v9 := v.0 + -1;
+var__temp_v.3 := v.2;
+TO: inflate_stored_bb8_end;
+
+FROM: inflate_stored_bb8_end;
+assume(v.0 > 0);
+TO: inflate_stored_bb9;
+
+FROM: inflate_stored_bb8_end;
+assume(v.0 <= 0);
+TO: inflate_stored_bb12;
+
+FROM: inflate_stored_bb9;
+v.3 := var__temp_v.3;
+TO: inflate_stored_bb9_end;
+
+FROM: inflate_stored_bb9_end;
+assume(v.3 < vlimit);
+TO: inflate_stored_bb10;
+
+FROM: inflate_stored_bb9_end;
+assume(v.3 >= vlimit);
+TO: inflate_stored_bb11;
+
+FROM: inflate_stored_bb10;
+v12 := v.3 + 8;
+var__temp_v.3 := v12;
+TO: inflate_stored_bb9;
+
+FROM: inflate_stored_bb11;
+v13 := v.3 - 8;
+var__temp_v.2 := v13;
+var__temp_v.0 := v9;
+TO: inflate_stored_bb8;
+
+FROM: inflate_stored_bb12;
+TO: inflate_stored_bb12_ret;
+

@@ -1,0 +1,59 @@
+///*** 1_local_alloc ***///
+START: local_alloc_bb0;
+
+FROM: local_alloc_bb0;
+var__temp_vb.0 := 0;
+var__temp_vnext_qty.0 := vmax_qty;
+TO: local_alloc_bb1;
+
+FROM: local_alloc_bb1;
+vb.0 := var__temp_vb.0;
+vnext_qty.0 := var__temp_vnext_qty.0;
+TO: local_alloc_bb1_end;
+
+FROM: local_alloc_bb1_end;
+assume(vb.0 < vn_basic_blocks);
+TO: local_alloc_bb2;
+
+FROM: local_alloc_bb1_end;
+assume(vb.0 >= vn_basic_blocks);
+TO: local_alloc_bb6;
+
+FROM: local_alloc_bb2;
+var__temp_vi.0 := 0;
+TO: local_alloc_bb2_end;
+
+FROM: local_alloc_bb2_end;
+assume(vnext_qty.0 < vlimit);
+TO: local_alloc_bb3;
+
+FROM: local_alloc_bb2_end;
+assume(vnext_qty.0 >= vlimit);
+TO: local_alloc_bb5;
+
+FROM: local_alloc_bb3;
+vi.0 := var__temp_vi.0;
+TO: local_alloc_bb3_end;
+
+FROM: local_alloc_bb3_end;
+assume(vi.0 < vnext_qty.0);
+TO: local_alloc_bb4;
+
+FROM: local_alloc_bb3_end;
+assume(vi.0 >= vnext_qty.0);
+TO: local_alloc_bb5;
+
+FROM: local_alloc_bb4;
+v3 := vi.0 + 1;
+var__temp_vi.0 := v3;
+TO: local_alloc_bb3;
+
+FROM: local_alloc_bb5;
+v4 := vb.0 + 1;
+var__temp_vb.0 := v4;
+var__temp_vnext_qty.0 := 0;
+TO: local_alloc_bb1;
+
+FROM: local_alloc_bb6;
+TO: local_alloc_bb6_ret;
+

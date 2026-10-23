@@ -1,0 +1,6 @@
+Even.c:3:19: warning: unused parameter 'b' [-Wunused-parameter]
+int foo(int i,int b){
+                  ^
+1 warning generated.
+NO
+Runtime: 808 milliseconds

@@ -1,0 +1,100 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.xtRXad
+
+Input File is : Loopus2015_ex1.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+
+int nondet();
+
+void Loopus2015_ex1(int n) {
+ int x = n;
+ int r = 0;
+ while(x > 0) {
+  x = x - 1;
+  r = r + 1;
+  {if(nondet()>0) {
+   int p = r;
+   while(p > 0)
+     {p--;}
+   r = 0;
+  }}
+ } 
+}
+
+
+
+End Main   
+
+Input File is : Loopus2015_ex1_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+
+int nondet();
+
+void Loopus2015_ex1(int n) {
+ int x = n;
+ int r = 0;
+myBool pStored0 = myFalse; __VERIFIER_reached_control(8, __func__);
+ while(x > 0) { __VERIFIER_loop_head(8, __func__);
+printf("CBMC Instrumentation @ line8");myBool flag=__VERIFIER_nondet_myBool();static int on;static int or;static int ox;if(pStored0){__CPROVER_assert(!(on==n && or==r && ox==x),"recurrent state found");} if(flag){on=n;or=r;ox=x;pStored0=myTrue;} 
+  x = x - 1;
+  r = r + 1;
+  { __VERIFIER_reached_control(11, __func__);
+if(nondet()>0) { __VERIFIER_control_true(11, __func__);
+
+   int p = r;
+  myBool pStored1 = myFalse; __VERIFIER_reached_control(14, __func__);
+ while(p > 0)
+     { __VERIFIER_loop_head(14, __func__);
+printf("CBMC Instrumentation @ line14");myBool flag=__VERIFIER_nondet_myBool();static int on;static int op;static int or;static int ox;if(pStored1){__CPROVER_assert(!(on==n && op==p && or==r && ox==x),"recurrent state found");} if(flag){on=n;op=p;or=r;ox=x;pStored1=myTrue;} p--;}
+   r = 0;
+  }}
+ } 
+}
+
+
+
+End Main 
+ Loopus2015_ex1_braced_instrumented.c
+NTFILE is Loopus2015_ex1_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for Loopus2015_ex1.c
+FILE=Loopus2015_ex1_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 675 milliseconds

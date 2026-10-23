@@ -1,0 +1,68 @@
+///*** 1_t28 ***///
+START: t28_bb0;
+
+FROM: t28_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: t28_bb1;
+
+FROM: t28_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.12 := v.01;
+TO: t28_bb1_end;
+
+FROM: t28_bb1_end;
+assume(v.0 > v.01);
+TO: t28_bb2;
+
+FROM: t28_bb1_end;
+assume(v.0 <= v.01);
+TO: t28_bb3;
+
+FROM: t28_bb2;
+v1 := v.0 + -1;
+v2 := v1 + 1000;
+v3 := v.01 + 1000;
+var__temp_v.01 := v3;
+var__temp_v.0 := v2;
+TO: t28_bb1;
+
+FROM: t28_bb3;
+v.12 := var__temp_v.12;
+var__temp_v.1 := v.0;
+TO: t28_bb3_end;
+
+FROM: t28_bb3_end;
+assume(v.12 > 0);
+TO: t28_bb4;
+
+FROM: t28_bb3_end;
+assume(v.12 <= 0);
+TO: t28_bb5;
+
+FROM: t28_bb4;
+v5 := v.12 + -1;
+var__temp_v.12 := v5;
+TO: t28_bb3;
+
+FROM: t28_bb5;
+v.1 := var__temp_v.1;
+TO: t28_bb5_end;
+
+FROM: t28_bb5_end;
+assume(v.1 < 0);
+TO: t28_bb6;
+
+FROM: t28_bb5_end;
+assume(v.1 >= 0);
+TO: t28_bb7;
+
+FROM: t28_bb6;
+v7 := v.1 + 1;
+var__temp_v.1 := v7;
+TO: t28_bb5;
+
+FROM: t28_bb7;
+TO: t28_bb7_ret;
+

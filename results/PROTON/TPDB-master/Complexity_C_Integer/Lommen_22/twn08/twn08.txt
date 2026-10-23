@@ -1,0 +1,116 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.x0PJdz
+
+Input File is : twn08.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  extern int __VERIFIER_nondet_int(void);
+
+void f(int x, int y, int f, int a, int b, int c) {
+  int u = __VERIFIER_nondet_int();
+  int v = __VERIFIER_nondet_int();
+
+  x = u;
+  f = v;
+  while (1) {
+    {if (1<=x && x<=3 && f == 0) {
+      x = x+1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else {if (y>1 && f == 1) {
+      y = y-1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else {
+      while(a < b*b && a > 0) {
+        a = 5*a + c*c;
+        b = 2*b;
+      }
+      break;
+    }}}
+  }
+}
+
+End Main   
+
+Input File is : twn08_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+extern int __VERIFIER_nondet_int(void);
+
+void f(int x, int y, int f, int a, int b, int c) {
+  int u = __VERIFIER_nondet_int();
+  int v = __VERIFIER_nondet_int();
+
+  x = u;
+  f = v;
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(9, __func__);
+ while (1) { __VERIFIER_loop_head(9, __func__);
+printf("CBMC Instrumentation @ line9");myBool flag=__VERIFIER_nondet_myBool();static int oa;static int ob;static int oc;static int of;static int ou;static int ov;static int ox;static int oy;if(pStored0){__CPROVER_assert(!(oa==a && ob==b && oc==c && of==f && ou==u && ov==v && ox==x && oy==y),"recurrent state found");} if(flag){oa=a;ob=b;oc=c;of=f;ou=u;ov=v;ox=x;oy=y;pStored0=myTrue;} 
+    { __VERIFIER_reached_control(10, __func__);
+if (1<=x && x<=3 && f == 0) { __VERIFIER_control_true(10, __func__);
+
+      x = x+1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else { __VERIFIER_control_false(14, __func__);
+ __VERIFIER_reached_control(14, __func__);
+if (y>1 && f == 1) { __VERIFIER_control_true(14, __func__);
+
+      y = y-1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else { __VERIFIER_control_false(18, __func__);
+
+     myBool pStored1 = myFalse; __VERIFIER_reached_control(19, __func__);
+ while(a < b*b && a > 0) { __VERIFIER_loop_head(19, __func__);
+printf("CBMC Instrumentation @ line19");myBool flag=__VERIFIER_nondet_myBool();static int oa;static int ob;static int oc;static int of;static int ou;static int ov;static int ox;static int oy;if(pStored1){__CPROVER_assert(!(oa==a && ob==b && oc==c && of==f && ou==u && ov==v && ox==x && oy==y),"recurrent state found");} if(flag){oa=a;ob=b;oc=c;of=f;ou=u;ov=v;ox=x;oy=y;pStored1=myTrue;} 
+        a = 5*a + c*c;
+        b = 2*b;
+      }
+      break;
+    }}}
+  }
+}
+
+End Main 
+ twn08_braced_instrumented.c
+NTFILE is twn08_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for twn08.c
+FILE=twn08_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 697 milliseconds

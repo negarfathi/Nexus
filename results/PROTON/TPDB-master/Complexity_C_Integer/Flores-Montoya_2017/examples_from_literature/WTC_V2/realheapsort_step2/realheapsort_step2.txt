@@ -1,0 +1,148 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.4AVfeW
+
+Input File is : realheapsort_step2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+int nondet();
+
+//realheapsort - destruction only
+//aspic - delay 3 nécessaire, et pas de -nomu dans rank
+// on trouve 
+void realheapsort_step2(int N)
+{
+  //int t[100];
+  int temp;
+  int k,j,m;
+  {if(N > 2){
+  //destruction
+  
+    for (k=0;k<=N-2;k++)
+      {
+        j = 0; m=0;
+        temp =nondet();// t[N-k-1];
+        ;//t[N-k-1]=t[0];
+        ;//t[0]=temp;
+        while(2*j+1<=N-2-k)
+	  {
+	    {if ((2*j+1==N-2-k) || (nondet()<nondet()))
+	      {m=2*j+1;}
+	    else
+	      {m=2*j+2;}}
+            {if (nondet()>nondet())
+	      {//swap j m
+	        temp=nondet();//t[m];
+	        ;//t[m]=t[j];
+            ;//t[j]=temp;
+	        j=m;
+	      }
+            else {j=N;}}
+	  
+	  }
+	
+      }
+  }}
+}
+  
+
+End Main   
+
+Input File is : realheapsort_step2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+int nondet();
+
+//realheapsort - destruction only
+//aspic - delay 3 nécessaire, et pas de -nomu dans rank
+// on trouve 
+void realheapsort_step2(int N)
+{
+  //int t[100];
+  int temp;
+  int k,j,m;
+  { __VERIFIER_reached_control(12, __func__);
+if(N > 2){ __VERIFIER_control_true(12, __func__);
+
+  //destruction
+  
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(16, __func__);
+ for (k=0;k<=N-2;k++)
+      { __VERIFIER_loop_head(16, __func__);
+printf("CBMC Instrumentation @ line16");myBool flag=__VERIFIER_nondet_myBool();static int oN;static int oj;static int ok;static int om;static int otemp;if(pStored0){__CPROVER_assert(!(oN==N && oj==j && ok==k && om==m && otemp==temp),"recurrent state found");} if(flag){oN=N;oj=j;ok=k;om=m;otemp=temp;pStored0=myTrue;} 
+        j = 0; m=0;
+        temp =nondet();// t[N-k-1];
+        ;//t[N-k-1]=t[0];
+        ;//t[0]=temp;
+       myBool pStored1 = myFalse; __VERIFIER_reached_control(22, __func__);
+ while(2*j+1<=N-2-k)
+	  { __VERIFIER_loop_head(22, __func__);
+printf("CBMC Instrumentation @ line22");myBool flag=__VERIFIER_nondet_myBool();static int oN;static int oj;static int ok;static int om;static int otemp;if(pStored1){__CPROVER_assert(!(oN==N && oj==j && ok==k && om==m && otemp==temp),"recurrent state found");} if(flag){oN=N;oj=j;ok=k;om=m;otemp=temp;pStored1=myTrue;} 
+	    { __VERIFIER_reached_control(23, __func__);
+if ((2*j+1==N-2-k) || (nondet()<nondet()))
+	      { __VERIFIER_control_true(24, __func__);
+m=2*j+1;}
+	    else
+	      { __VERIFIER_control_false(26, __func__);
+m=2*j+2;}}
+            { __VERIFIER_reached_control(27, __func__);
+if (nondet()>nondet())
+	      { __VERIFIER_control_true(28, __func__);
+//swap j m
+	        temp=nondet();//t[m];
+	        ;//t[m]=t[j];
+            ;//t[j]=temp;
+	        j=m;
+	      }
+            else { __VERIFIER_control_false(34, __func__);
+j=N;}}
+	  
+	  }
+	
+      }
+  }}
+}
+  
+
+End Main 
+ realheapsort_step2_braced_instrumented.c
+NTFILE is realheapsort_step2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for realheapsort_step2.c
+FILE=realheapsort_step2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 711 milliseconds

@@ -1,0 +1,73 @@
+///*** 1_Loopus2015_ex2 ***///
+START: Loopus2015_ex2_bb0;
+
+FROM: Loopus2015_ex2_bb0;
+TO: Loopus2015_ex2_bb0_end;
+
+FROM: Loopus2015_ex2_bb0_end;
+assume(((vn < 0) || (vm1 < 0)) || (vm2 < 0));
+TO: Loopus2015_ex2_bb6;
+
+FROM: Loopus2015_ex2_bb0_end;
+assume(((vn >= 0) && (vm1 >= 0)) && (vm2 >= 0));
+TO: Loopus2015_ex2_bb1;
+
+FROM: Loopus2015_ex2_bb1;
+v3 := nondet();
+TO: Loopus2015_ex2_bb1_vm1.m2;
+FROM: Loopus2015_ex2_bb1_vm1.m2;
+assume(v3 > 0);
+vm1.m2 := vm1;
+TO: Loopus2015_ex2_bb1_svm1.m2;
+
+FROM: Loopus2015_ex2_bb1_vm1.m2;
+assume(v3 <= 0);
+vm1.m2 := vm2;
+TO: Loopus2015_ex2_bb1_svm1.m2;
+
+FROM: Loopus2015_ex2_bb1_svm1.m2;
+var__temp_vx.1 := vm1.m2;
+var__temp_vy.0 := vn;
+TO: Loopus2015_ex2_bb2;
+
+FROM: Loopus2015_ex2_bb2;
+vx.1 := var__temp_vx.1;
+vy.0 := var__temp_vy.0;
+var__temp_vz.0 := vx.1;
+TO: Loopus2015_ex2_bb2_end;
+
+FROM: Loopus2015_ex2_bb2_end;
+assume(vy.0 > 0);
+TO: Loopus2015_ex2_bb3;
+
+FROM: Loopus2015_ex2_bb2_end;
+assume(vy.0 <= 0);
+TO: Loopus2015_ex2_bb4;
+
+FROM: Loopus2015_ex2_bb3;
+v6 := vy.0 + -1;
+v7 := vx.1 + 2;
+var__temp_vx.1 := v7;
+var__temp_vy.0 := v6;
+TO: Loopus2015_ex2_bb2;
+
+FROM: Loopus2015_ex2_bb4;
+vz.0 := var__temp_vz.0;
+TO: Loopus2015_ex2_bb4_end;
+
+FROM: Loopus2015_ex2_bb4_end;
+assume(vz.0 > 0);
+TO: Loopus2015_ex2_bb5;
+
+FROM: Loopus2015_ex2_bb4_end;
+assume(vz.0 <= 0);
+TO: Loopus2015_ex2_bb6;
+
+FROM: Loopus2015_ex2_bb5;
+v9 := vz.0 + -1;
+var__temp_vz.0 := v9;
+TO: Loopus2015_ex2_bb4;
+
+FROM: Loopus2015_ex2_bb6;
+TO: Loopus2015_ex2_bb6_ret;
+

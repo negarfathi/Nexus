@@ -1,0 +1,193 @@
+MAYBE
+proof of twn11.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 47 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/twn11.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/twn11.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "twn11" linkageType: EXTERNALLY_VISIBLE returnParam: i32 parameters: (0 i32, 1 i32, 2 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		store %1, %5
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		store %2, %6
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		br %7
+	7:
+		%8 = load %5
+		%9 = mul i32 4, %8
+		%10 = load %5
+		%11 = mul i32 %9, %10
+		%12 = load %4
+		%13 = add i32 %11, %12
+		%14 = load %5
+		%15 = add i32 %13, %14
+		%16 = load %6
+		%17 = add i32 %15, %16
+		%18 = icmp sgt %17 0
+		br %18, %19, %123
+	19:
+		%20 = load %4
+		%21 = load %4
+		%22 = mul i32 8, %21
+		%23 = load %5
+		%24 = mul i32 %22, %23
+		%25 = load %5
+		%26 = mul i32 %24, %25
+		%27 = add i32 %20, %26
+		%28 = load %5
+		%29 = mul i32 16, %28
+		%30 = load %5
+		%31 = mul i32 %29, %30
+		%32 = load %5
+		%33 = mul i32 %31, %32
+		%34 = add i32 %27, %33
+		%35 = load %5
+		%36 = mul i32 16, %35
+		%37 = load %5
+		%38 = mul i32 %36, %37
+		%39 = load %6
+		%40 = mul i32 %38, %39
+		%41 = add i32 %34, %40
+		store %41, %4
+		%42 = load %5
+		%43 = load %4
+		%44 = load %4
+		%45 = mul i32 %43, %44
+		%46 = sub i32 %42, %45
+		%47 = load %4
+		%48 = mul i32 4, %47
+		%49 = load %5
+		%50 = mul i32 %48, %49
+		%51 = sub i32 %46, %50
+		%52 = load %4
+		%53 = mul i32 4, %52
+		%54 = load %6
+		%55 = mul i32 %53, %54
+		%56 = sub i32 %51, %55
+		%57 = load %5
+		%58 = mul i32 4, %57
+		%59 = load %5
+		%60 = mul i32 %58, %59
+		%61 = sub i32 %56, %60
+		%62 = load %5
+		%63 = mul i32 8, %62
+		%64 = load %6
+		%65 = mul i32 %63, %64
+		%66 = sub i32 %61, %65
+		%67 = load %6
+		%68 = mul i32 4, %67
+		%69 = load %6
+		%70 = mul i32 %68, %69
+		%71 = sub i32 %66, %70
+		store %71, %5
+		%72 = load %6
+		%73 = load %4
+		%74 = mul i32 4, %73
+		%75 = load %5
+		%76 = mul i32 %74, %75
+		%77 = load %5
+		%78 = mul i32 %76, %77
+		%79 = sub i32 %72, %78
+		%80 = load %5
+		%81 = mul i32 8, %80
+		%82 = load %5
+		%83 = mul i32 %81, %82
+		%84 = load %5
+		%85 = mul i32 %83, %84
+		%86 = sub i32 %79, %85
+		%87 = load %5
+		%88 = mul i32 8, %87
+		%89 = load %5
+		%90 = mul i32 %88, %89
+		%91 = load %6
+		%92 = mul i32 %90, %91
+		%93 = sub i32 %86, %92
+		%94 = load %4
+		%95 = load %4
+		%96 = mul i32 %94, %95
+		%97 = add i32 %93, %96
+		%98 = load %4
+		%99 = mul i32 4, %98
+		%100 = load %5
+		%101 = mul i32 %99, %100
+		%102 = add i32 %97, %101
+		%103 = load %4
+		%104 = mul i32 4, %103
+		%105 = load %6
+		%106 = mul i32 %104, %105
+		%107 = add i32 %102, %106
+		%108 = load %5
+		%109 = mul i32 4, %108
+		%110 = load %5
+		%111 = mul i32 %109, %110
+		%112 = add i32 %107, %111
+		%113 = load %5
+		%114 = mul i32 8, %113
+		%115 = load %6
+		%116 = mul i32 %114, %115
+		%117 = add i32 %112, %116
+		%118 = load %6
+		%119 = mul i32 4, %118
+		%120 = load %6
+		%121 = mul i32 %119, %120
+		%122 = add i32 %117, %121
+		store %122, %6
+		br %7
+	123:
+		ret 0
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788558480Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1075 milliseconds

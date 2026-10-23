@@ -1,0 +1,140 @@
+///*** 1_bin_search_StepSize2 ***///
+START: bin_search_StepSize2_bb0;
+
+FROM: bin_search_StepSize2_bb0;
+bin_search_StepSize2.c := 4;
+var__temp_vd.0 := 0;
+var__temp_vf.0 := 0;
+var__temp_v.0 := vs;
+TO: bin_search_StepSize2_bb1;
+
+FROM: bin_search_StepSize2_bb1;
+vd.0 := var__temp_vd.0;
+vf.0 := var__temp_vf.0;
+v.0 := var__temp_v.0;
+v0 := nondet();
+v1 := bin_search_StepSize2.c;
+TO: bin_search_StepSize2_bb1_end;
+
+FROM: bin_search_StepSize2_bb1_end;
+assume(v1 == 1);
+TO: bin_search_StepSize2_bb12;
+
+FROM: bin_search_StepSize2_bb1_end;
+assume(v1 != 1);
+TO: bin_search_StepSize2_bb2;
+
+FROM: bin_search_StepSize2_bb2;
+TO: bin_search_StepSize2_bb2_end;
+
+FROM: bin_search_StepSize2_bb2_end;
+assume(vf.0 != 0);
+TO: bin_search_StepSize2_bb3;
+
+FROM: bin_search_StepSize2_bb2_end;
+assume(vf.0 == 0);
+TO: bin_search_StepSize2_bb4;
+
+FROM: bin_search_StepSize2_bb3;
+v4 := bin_search_StepSize2.c;
+v5 := v4 / 2;
+bin_search_StepSize2.c := v5;
+TO: bin_search_StepSize2_bb4;
+
+FROM: bin_search_StepSize2_bb4;
+TO: bin_search_StepSize2_bb4_end;
+
+FROM: bin_search_StepSize2_bb4_end;
+assume(v0 > vr);
+TO: bin_search_StepSize2_bb5;
+
+FROM: bin_search_StepSize2_bb4_end;
+assume(v0 <= vr);
+TO: bin_search_StepSize2_bb8;
+
+FROM: bin_search_StepSize2_bb5;
+var__temp_vf.1 := vf.0;
+TO: bin_search_StepSize2_bb5_end;
+
+FROM: bin_search_StepSize2_bb5_end;
+assume((vd.0 != 1) || (vf.0 != 0));
+TO: bin_search_StepSize2_bb7;
+
+FROM: bin_search_StepSize2_bb5_end;
+assume((vd.0 == 1) && (vf.0 == 0));
+TO: bin_search_StepSize2_bb6;
+
+FROM: bin_search_StepSize2_bb6;
+v9 := bin_search_StepSize2.c;
+v10 := v9 / 2;
+bin_search_StepSize2.c := v10;
+var__temp_vf.1 := 1;
+TO: bin_search_StepSize2_bb7;
+
+FROM: bin_search_StepSize2_bb7;
+vf.1 := var__temp_vf.1;
+v11 := bin_search_StepSize2.c;
+v12 := v.0 + v11;
+var__temp_vd.0 := 2;
+var__temp_vf.0 := vf.1;
+var__temp_v.0 := v12;
+TO: bin_search_StepSize2_bb7_end;
+
+FROM: bin_search_StepSize2_bb7_end;
+assume(v12 > 255);
+TO: bin_search_StepSize2_bb12;
+
+FROM: bin_search_StepSize2_bb7_end;
+assume(v12 <= 255);
+TO: bin_search_StepSize2_bb1;
+
+FROM: bin_search_StepSize2_bb8;
+TO: bin_search_StepSize2_bb8_end;
+
+FROM: bin_search_StepSize2_bb8_end;
+assume(v0 < vr);
+TO: bin_search_StepSize2_bb9;
+
+FROM: bin_search_StepSize2_bb8_end;
+assume(v0 >= vr);
+TO: bin_search_StepSize2_bb12;
+
+FROM: bin_search_StepSize2_bb9;
+var__temp_vf.2 := vf.0;
+TO: bin_search_StepSize2_bb9_end;
+
+FROM: bin_search_StepSize2_bb9_end;
+assume((vd.0 != 2) || (vf.0 != 0));
+TO: bin_search_StepSize2_bb11;
+
+FROM: bin_search_StepSize2_bb9_end;
+assume((vd.0 == 2) && (vf.0 == 0));
+TO: bin_search_StepSize2_bb10;
+
+FROM: bin_search_StepSize2_bb10;
+v17 := bin_search_StepSize2.c;
+v18 := v17 / 2;
+bin_search_StepSize2.c := v18;
+var__temp_vf.2 := 1;
+TO: bin_search_StepSize2_bb11;
+
+FROM: bin_search_StepSize2_bb11;
+vf.2 := var__temp_vf.2;
+v19 := bin_search_StepSize2.c;
+v20 := v.0 - v19;
+var__temp_vd.0 := 1;
+var__temp_vf.0 := vf.2;
+var__temp_v.0 := v20;
+TO: bin_search_StepSize2_bb11_end;
+
+FROM: bin_search_StepSize2_bb11_end;
+assume(v20 < 0);
+TO: bin_search_StepSize2_bb12;
+
+FROM: bin_search_StepSize2_bb11_end;
+assume(v20 >= 0);
+TO: bin_search_StepSize2_bb1;
+
+FROM: bin_search_StepSize2_bb12;
+TO: bin_search_StepSize2_bb12_ret;
+

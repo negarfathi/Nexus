@@ -1,0 +1,10 @@
+speedFails4.c:7:6: warning: variable 'b' is uninitialized when used here [-Wuninitialized]
+  if(b>=1) t=1; else  t=-1;
+     ^
+speedFails4.c:6:8: note: initialize the variable 'b' to silence this warning
+  int b;
+       ^
+        = 0
+1 warning generated.
+YES
+Runtime: 1259 milliseconds

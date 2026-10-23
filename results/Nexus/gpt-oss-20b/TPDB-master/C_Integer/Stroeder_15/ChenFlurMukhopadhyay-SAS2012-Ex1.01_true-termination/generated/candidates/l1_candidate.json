@@ -1,0 +1,92 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": "true"
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "ite",
+        "args": [
+          {
+            "op": "<=",
+            "args": [
+              "l1_v2",
+              0
+            ]
+          },
+          0,
+          {
+            "op": "ite",
+            "args": [
+              {
+                "op": "=",
+                "args": [
+                  "l1_v2",
+                  5
+                ]
+              },
+              1,
+              {
+                "op": "ite",
+                "args": [
+                  {
+                    "op": "=",
+                    "args": [
+                      "l1_v2",
+                      4
+                    ]
+                  },
+                  5,
+                  {
+                    "op": "ite",
+                    "args": [
+                      {
+                        "op": "=",
+                        "args": [
+                          "l1_v2",
+                          3
+                        ]
+                      },
+                      6,
+                      {
+                        "op": "ite",
+                        "args": [
+                          {
+                            "op": "=",
+                            "args": [
+                              "l1_v2",
+                              2
+                            ]
+                          },
+                          3,
+                          {
+                            "op": "ite",
+                            "args": [
+                              {
+                                "op": "=",
+                                "args": [
+                                  "l1_v2",
+                                  1
+                                ]
+                              },
+                              2,
+                              1
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

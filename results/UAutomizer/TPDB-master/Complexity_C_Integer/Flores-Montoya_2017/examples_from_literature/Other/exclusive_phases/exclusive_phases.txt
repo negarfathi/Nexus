@@ -1,0 +1,11 @@
+Checking for termination
+Using default analysis
+Version 839c364b
+Calling Ultimate with: /usr/bin/java -Dosgi.configuration.area=/opt/uautomizer/UAutomizer-linux/data/config -Xmx15G -Xms4m -jar /opt/uautomizer/UAutomizer-linux/plugins/org.eclipse.equinox.launcher_1.5.800.v20200727-1323.jar -data @noDefault -ultimatedata /opt/uautomizer/UAutomizer-linux/data -tc /opt/uautomizer/UAutomizer-linux/config/AutomizerTermination.xml -i /FILES_DIR/exclusive_phases.c -s /opt/uautomizer/UAutomizer-linux/config/svcomp-Termination-64bit-Automizer_Default.epf --cacsl2boogietranslator.entry.function main --witnessprinter.witness.directory /opt/uautomizer/UAutomizer-linux --witnessprinter.witness.filename witness.graphml --witnessprinter.write.witness.besides.input.file false --witnessprinter.graph.data.specification CHECK( init(main()), LTL(F end) ) --witnessprinter.graph.data.producer Automizer --witnessprinter.graph.data.architecture 64bit --witnessprinter.graph.data.programhash 649623623f9d3189ccfe75e1c8f87f716b71e2e11a6eb28a75bf85f59ad6f232
+...............................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................--- End real Ultimate output ---
+
+Execution finished normally
+Writing output log to file Ultimate.log
+Result:
+TRUE
+Runtime: 3982 milliseconds

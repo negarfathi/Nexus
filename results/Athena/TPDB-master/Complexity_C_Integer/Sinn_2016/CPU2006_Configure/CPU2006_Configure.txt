@@ -1,0 +1,6 @@
+CPU2006_Configure.c:9:18: warning: unused variable 'ContentLen' [-Wunused-variable]
+    int CLcount, ContentLen, NumberParams;
+                 ^
+1 warning generated.
+YES
+Runtime: 4836 milliseconds

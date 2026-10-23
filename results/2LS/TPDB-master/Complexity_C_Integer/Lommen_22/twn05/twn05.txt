@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing twn05.c
+Converting
+Type-checking twn05
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of twn05
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 310 milliseconds

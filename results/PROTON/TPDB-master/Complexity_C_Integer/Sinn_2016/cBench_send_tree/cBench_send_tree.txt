@@ -1,0 +1,120 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.9kwUey
+
+Input File is : cBench_send_tree.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench security_pgp_d/src/ztrees.c	send_tree
+
+int random();
+
+//Complexity: O(n)
+void send_tree(int max_code, int max_count, int min_count)
+{
+    int n;
+    int count = 0;
+    for (n = 0; n <= max_code; n++) {
+	{if (++count < max_count && random()) {
+	    //continue;
+	} else {
+	  {if (count < min_count) {
+	    do {
+	    } while (--count > 0); //original code: --count != 0
+	  } else {if (random()) {
+	    {if (random()) {
+		count--;
+	    }};
+	  }}}
+	  count = 0;
+    }}
+  }
+}
+
+
+End Main   
+
+Input File is : cBench_send_tree_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench security_pgp_d/src/ztrees.c	send_tree
+
+int random();
+
+//Complexity: O(n)
+void send_tree(int max_code, int max_count, int min_count)
+{
+    int n;
+    int count = 0;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(10, __func__);
+ for (n = 0; n <= max_code; n++) { __VERIFIER_loop_head(10, __func__);
+printf("CBMC Instrumentation @ line10");myBool flag=__VERIFIER_nondet_myBool();static int ocount;static int omax_code;static int omax_count;static int omin_count;static int on;if(pStored0){__CPROVER_assert(!(ocount==count && omax_code==max_code && omax_count==max_count && omin_count==min_count && on==n),"recurrent state found");} if(flag){ocount=count;omax_code=max_code;omax_count=max_count;omin_count=min_count;on=n;pStored0=myTrue;} 
+	{ __VERIFIER_reached_control(11, __func__);
+if (++count < max_count && random()) { __VERIFIER_control_true(11, __func__);
+
+	    //continue;
+	} else { __VERIFIER_control_false(13, __func__);
+
+	  { __VERIFIER_reached_control(14, __func__);
+if (count < min_count) { __VERIFIER_control_true(14, __func__);
+
+	   myBool pStored1 = myFalse; __VERIFIER_reached_control(15, __func__);
+ do { __VERIFIER_loop_head(15, __func__);
+printf("CBMC Instrumentation @ line15");myBool flag=__VERIFIER_nondet_myBool();static int ocount;static int omax_code;static int omax_count;static int omin_count;static int on;if(pStored1){__CPROVER_assert(!(ocount==count && omax_code==max_code && omax_count==max_count && omin_count==min_count && on==n),"recurrent state found");} if(flag){ocount=count;omax_code=max_code;omax_count=max_count;omin_count=min_count;on=n;pStored1=myTrue;} 
+	    } while (--count > 0); //original code: --count != 0
+	  } else { __VERIFIER_control_false(17, __func__);
+ __VERIFIER_reached_control(17, __func__);
+if (random()) { __VERIFIER_control_true(17, __func__);
+
+	    { __VERIFIER_reached_control(18, __func__);
+if (random()) { __VERIFIER_control_true(18, __func__);
+
+		count--;
+	    }};
+	  }}}
+	  count = 0;
+    }}
+  }
+}
+
+
+End Main 
+ cBench_send_tree_braced_instrumented.c
+NTFILE is cBench_send_tree_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_send_tree.c
+FILE=cBench_send_tree_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 710 milliseconds

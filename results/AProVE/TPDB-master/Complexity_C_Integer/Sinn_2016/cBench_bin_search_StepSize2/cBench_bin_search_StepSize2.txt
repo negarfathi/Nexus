@@ -1,0 +1,169 @@
+MAYBE
+proof of cBench_bin_search_StepSize2.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 46 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/cBench_bin_search_StepSize2.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/cBench_bin_search_StepSize2.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Name: bin_search_StepSize2.c initVal: 4 type: i32 addrSpace: null alignment: 4 threadLocal: false constant: false linkageType: INTERNAL section: null
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "nondet" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "bin_search_StepSize2" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32, 1 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 2
+	0:
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		%7 = alloca i32, align 4
+		store %0, %3
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		store %1, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		store 0, %6
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %7)
+		store 0, %7
+		br %8
+	8:
+		%9 = call i32 (...)* @nondet()
+		store %9, %5
+		%10 = load @bin_search_StepSize2.c
+		%11 = icmp eq %10 1
+		br %11, %12, %13
+	12:
+		br %65
+	13:
+		%14 = load %6
+		%15 = icmp ne %14 0
+		br %15, %16, %19
+	16:
+		%17 = load @bin_search_StepSize2.c
+		%18 = sdiv i32 %17, 2
+		store %18, @bin_search_StepSize2.c
+		br %19
+	19:
+		%20 = load %5
+		%21 = load %3
+		%22 = icmp sgt %20 %21
+		br %22, %23, %40
+	23:
+		%24 = load %7
+		%25 = icmp eq %24 1
+		br %25, %26, %32
+	26:
+		%27 = load %6
+		%28 = icmp ne %27 0
+		br %28, %32, %29
+	29:
+		store 1, %6
+		%30 = load @bin_search_StepSize2.c
+		%31 = sdiv i32 %30, 2
+		store %31, @bin_search_StepSize2.c
+		br %32
+	32:
+		store 2, %7
+		%33 = load @bin_search_StepSize2.c
+		%34 = load %4
+		%35 = add i32 %34, %33
+		store %35, %4
+		%36 = load %4
+		%37 = icmp sgt %36 255
+		br %37, %38, %39
+	38:
+		br %65
+	39:
+		br %63
+	40:
+		%41 = load %5
+		%42 = load %3
+		%43 = icmp slt %41 %42
+		br %43, %44, %61
+	44:
+		%45 = load %7
+		%46 = icmp eq %45 2
+		br %46, %47, %53
+	47:
+		%48 = load %6
+		%49 = icmp ne %48 0
+		br %49, %53, %50
+	50:
+		store 1, %6
+		%51 = load @bin_search_StepSize2.c
+		%52 = sdiv i32 %51, 2
+		store %52, @bin_search_StepSize2.c
+		br %53
+	53:
+		store 1, %7
+		%54 = load @bin_search_StepSize2.c
+		%55 = load %4
+		%56 = sub i32 %55, %54
+		store %56, %4
+		%57 = load %4
+		%58 = icmp slt %57 0
+		br %58, %59, %60
+	59:
+		br %65
+	60:
+		br %62
+	61:
+		br %65
+	62:
+		br %63
+	63:
+		br %64
+	64:
+		br 1, %8, %65
+	65:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788577899Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1054 milliseconds

@@ -1,0 +1,64 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.tnN3V8
+
+Input File is : size01.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+End Main   
+
+Input File is : size01.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int size01(int a, int b, int c, int d) {
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(2, __func__);
+ while(a > 0) { __VERIFIER_loop_head(2, __func__);
+printf("CBMC Instrumentation @ line2");myBool flag=__VERIFIER_nondet_myBool();static int oa;static int ob;static int oc;static int od;if(pStored0){__CPROVER_assert(!(oa==a && ob==b && oc==c && od==d),"recurrent state found");} if(flag){oa=a;ob=b;oc=c;od=d;pStored0=myTrue;} 
+    a = a - 1;
+    int b_ = b;
+    int c_ = c;
+    b = 3*b_ + 2*c_;
+    c = -5*b_ -3*c_;
+    d = a*a + d;
+  }
+  return 0;
+}
+
+End Main 
+ size01_instrumented.c
+NTFILE is size01_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for size01.c
+FILE=size01_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 713 milliseconds

@@ -1,0 +1,45 @@
+///*** 1_wcet2 ***///
+START: wcet2_bb0;
+
+FROM: wcet2_bb0;
+var__temp_v.0 := vi;
+TO: wcet2_bb1;
+
+FROM: wcet2_bb1;
+v.0 := var__temp_v.0;
+var__temp_vj.0 := 0;
+TO: wcet2_bb1_end;
+
+FROM: wcet2_bb1_end;
+assume(v.0 < 5);
+TO: wcet2_bb2;
+
+FROM: wcet2_bb1_end;
+assume(v.0 >= 5);
+TO: wcet2_bb5;
+
+FROM: wcet2_bb2;
+vj.0 := var__temp_vj.0;
+TO: wcet2_bb2_end;
+
+FROM: wcet2_bb2_end;
+assume((v.0 > 2) && (vj.0 <= 9));
+TO: wcet2_bb3;
+
+FROM: wcet2_bb2_end;
+assume((v.0 <= 2) || (vj.0 > 9));
+TO: wcet2_bb4;
+
+FROM: wcet2_bb3;
+v3 := vj.0 + 1;
+var__temp_vj.0 := v3;
+TO: wcet2_bb2;
+
+FROM: wcet2_bb4;
+v4 := v.0 + 1;
+var__temp_v.0 := v4;
+TO: wcet2_bb1;
+
+FROM: wcet2_bb5;
+TO: wcet2_bb5_ret;
+

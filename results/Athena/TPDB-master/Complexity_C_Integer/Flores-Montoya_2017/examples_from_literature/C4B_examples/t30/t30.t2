@@ -1,0 +1,30 @@
+///*** 1_t30 ***///
+START: t30_bb0;
+
+FROM: t30_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: t30_bb1;
+
+FROM: t30_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: t30_bb1_end;
+
+FROM: t30_bb1_end;
+assume(v.0 > 0);
+TO: t30_bb2;
+
+FROM: t30_bb1_end;
+assume(v.0 <= 0);
+TO: t30_bb3;
+
+FROM: t30_bb2;
+v1 := v.0 + -1;
+var__temp_v.01 := v1;
+var__temp_v.0 := v.01;
+TO: t30_bb1;
+
+FROM: t30_bb3;
+TO: t30_bb3_ret;
+

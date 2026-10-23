@@ -1,0 +1,28 @@
+///*** 1_ndecr ***///
+START: ndecr_bb0;
+
+FROM: ndecr_bb0;
+v0 := vn - 1;
+var__temp_vi.0 := v0;
+TO: ndecr_bb1;
+
+FROM: ndecr_bb1;
+vi.0 := var__temp_vi.0;
+TO: ndecr_bb1_end;
+
+FROM: ndecr_bb1_end;
+assume(vi.0 > 1);
+TO: ndecr_bb2;
+
+FROM: ndecr_bb1_end;
+assume(vi.0 <= 1);
+TO: ndecr_bb3;
+
+FROM: ndecr_bb2;
+v2 := vi.0 + -1;
+var__temp_vi.0 := v2;
+TO: ndecr_bb1;
+
+FROM: ndecr_bb3;
+TO: ndecr_bb3_ret;
+

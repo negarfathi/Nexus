@@ -1,0 +1,6 @@
+PastaC7.c:3:31: warning: unused parameter 't' [-Wunused-parameter]
+int foo(int i,int j,int k,int t){
+                              ^
+1 warning generated.
+YES
+Runtime: 798 milliseconds

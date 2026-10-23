@@ -1,0 +1,10 @@
+DivWithoutMinus.c:15:38: warning: '&&' within '||' [-Wlogical-op-parentheses]
+    while (z > 0 && (y == 0 || y > 0 && x > 0)) {
+                            ~~ ~~~~~~^~~~~~~~
+DivWithoutMinus.c:15:38: note: place parentheses around the '&&' expression to silence this warning
+    while (z > 0 && (y == 0 || y > 0 && x > 0)) {
+                                     ^
+                               (             )
+1 warning generated.
+NO
+Runtime: 961 milliseconds

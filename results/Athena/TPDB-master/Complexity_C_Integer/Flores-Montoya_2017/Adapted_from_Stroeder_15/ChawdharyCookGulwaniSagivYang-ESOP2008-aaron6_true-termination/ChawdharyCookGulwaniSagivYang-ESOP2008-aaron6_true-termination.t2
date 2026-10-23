@@ -1,0 +1,77 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+v0 := vx + vy;
+var__temp_v.05 := vty;
+var__temp_v.03 := vy;
+var__temp_v.01 := vtx;
+var__temp_v.0 := vx;
+TO: foo_bb0_end;
+
+FROM: foo_bb0_end;
+assume(v0 >= 0);
+TO: foo_bb1;
+
+FROM: foo_bb0_end;
+assume(v0 < 0);
+TO: foo_.critedge;
+
+FROM: foo_bb1;
+v.05 := var__temp_v.05;
+v.03 := var__temp_v.03;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v.0 <= vn);
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume(v.0 > vn);
+TO: foo_.critedge;
+
+FROM: foo_bb2;
+v3 := 2 * v.01;
+v4 := v3 + v.03;
+v6 := v.05 + 1;
+v8 := v.01 + 1;
+TO: foo_bb2_end;
+
+FROM: foo_bb2_end;
+assume(((v.0 >= v4) && (v.03 >= v6)) && (v.0 >= v8));
+TO: foo_bb3;
+
+FROM: foo_bb2_end;
+assume(((v.0 < v4) || (v.03 < v6)) || (v.0 < v8));
+TO: foo_.critedge;
+
+FROM: foo_bb3;
+v10 := nondet();
+v12 := nondet();
+var__temp_v.05 := v.05;
+var__temp_v.03 := v.03;
+var__temp_v.01 := v.0;
+var__temp_v.0 := v12;
+TO: foo_bb3_end;
+
+FROM: foo_bb3_end;
+assume(v10 != 0);
+TO: foo_bb4;
+
+FROM: foo_bb3_end;
+assume(v10 == 0);
+TO: foo_bb1;
+
+FROM: foo_bb4;
+v13 := nondet();
+var__temp_v.05 := v.03;
+var__temp_v.03 := v13;
+var__temp_v.01 := v.0;
+var__temp_v.0 := v12;
+TO: foo_bb1;
+
+FROM: foo_.critedge;
+TO: foo_.critedge_ret;
+

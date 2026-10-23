@@ -1,0 +1,55 @@
+///*** 1_speed_popl10_fig2_2 ***///
+START: speed_popl10_fig2_2_bb0;
+
+FROM: speed_popl10_fig2_2_bb0;
+var__temp_v.01 := vz;
+var__temp_v.0 := vx;
+TO: speed_popl10_fig2_2_bb1;
+
+FROM: speed_popl10_fig2_2_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: speed_popl10_fig2_2_bb1_end;
+
+FROM: speed_popl10_fig2_2_bb1_end;
+assume(v.0 < vn);
+TO: speed_popl10_fig2_2_bb2;
+
+FROM: speed_popl10_fig2_2_bb1_end;
+assume(v.0 >= vn);
+TO: speed_popl10_fig2_2_bb3;
+
+FROM: speed_popl10_fig2_2_bb2;
+v2 := v.0 + 1;
+v3 := v.01 + 1;
+TO: speed_popl10_fig2_2_bb2_v.12;
+FROM: speed_popl10_fig2_2_bb2_v.12;
+assume(v.01 > v.0);
+v.12 := v.01;
+TO: speed_popl10_fig2_2_bb2_sv.12;
+
+FROM: speed_popl10_fig2_2_bb2_v.12;
+assume(v.01 <= v.0);
+v.12 := v3;
+TO: speed_popl10_fig2_2_bb2_sv.12;
+
+FROM: speed_popl10_fig2_2_bb2_sv.12;
+TO: speed_popl10_fig2_2_bb2_v.1;
+FROM: speed_popl10_fig2_2_bb2_v.1;
+assume(v.01 > v.0);
+v.1 := v2;
+TO: speed_popl10_fig2_2_bb2_sv.1;
+
+FROM: speed_popl10_fig2_2_bb2_v.1;
+assume(v.01 <= v.0);
+v.1 := v.0;
+TO: speed_popl10_fig2_2_bb2_sv.1;
+
+FROM: speed_popl10_fig2_2_bb2_sv.1;
+var__temp_v.01 := v.12;
+var__temp_v.0 := v.1;
+TO: speed_popl10_fig2_2_bb1;
+
+FROM: speed_popl10_fig2_2_bb3;
+TO: speed_popl10_fig2_2_bb3_ret;
+

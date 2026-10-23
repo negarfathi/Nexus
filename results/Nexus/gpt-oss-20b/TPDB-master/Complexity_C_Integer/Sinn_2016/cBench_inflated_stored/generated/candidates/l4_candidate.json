@@ -1,0 +1,26 @@
+{
+  "loop_id": "l4",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": {
+        "op": "<=",
+        "args": [
+          "l4_v2",
+          "l4_v3"
+        ]
+      }
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "-",
+        "args": [
+          "l4_v3",
+          "l4_v2"
+        ]
+      }
+    }
+  ]
+}

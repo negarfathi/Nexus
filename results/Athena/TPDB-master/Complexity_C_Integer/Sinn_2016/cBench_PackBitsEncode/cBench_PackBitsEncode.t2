@@ -1,0 +1,267 @@
+///*** 1_PackBitsEncode ***///
+START: PackBitsEncode_bb0;
+
+FROM: PackBitsEncode_bb0;
+var__temp_vstate.0 := 0;
+var__temp_v.0 := vcc;
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb1;
+vstate.0 := var__temp_vstate.0;
+v.0 := var__temp_v.0;
+var__temp_v.0.sink := v.0;
+var__temp_vn.0 := 1;
+TO: PackBitsEncode_bb1_end;
+
+FROM: PackBitsEncode_bb1_end;
+assume(v.0 > 0);
+TO: PackBitsEncode_bb2;
+
+FROM: PackBitsEncode_bb1_end;
+assume(v.0 <= 0);
+TO: PackBitsEncode_bb16;
+
+FROM: PackBitsEncode_bb2;
+v.0.sink := var__temp_v.0.sink;
+vn.0 := var__temp_vn.0;
+v1 := v.0.sink + -1;
+var__temp_vstate.1 := vstate.0;
+var__temp_vn.1 := vn.0;
+TO: PackBitsEncode_bb2_end;
+
+FROM: PackBitsEncode_bb2_end;
+assume(v1 > 0);
+TO: PackBitsEncode_bb3;
+
+FROM: PackBitsEncode_bb2_end;
+assume(v1 <= 0);
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_bb3;
+v3 := nondet();
+var__temp_vstate.1 := vstate.0;
+var__temp_vn.1 := vn.0;
+TO: PackBitsEncode_bb3_end;
+
+FROM: PackBitsEncode_bb3_end;
+assume(v3 != 0);
+TO: PackBitsEncode_bb4;
+
+FROM: PackBitsEncode_bb3_end;
+assume(v3 == 0);
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_bb4;
+v5 := vn.0 + 1;
+var__temp_v.0.sink := v1;
+var__temp_vn.0 := v5;
+TO: PackBitsEncode_bb2;
+
+FROM: PackBitsEncode_.critedge;
+vstate.1 := var__temp_vstate.1;
+vn.1 := var__temp_vn.1;
+TO: PackBitsEncode_NodeBlock5;
+
+FROM: PackBitsEncode_NodeBlock5;
+TO: PackBitsEncode_NodeBlock5_end;
+
+FROM: PackBitsEncode_NodeBlock5_end;
+assume(vstate.1 < 2);
+TO: PackBitsEncode_NodeBlock;
+
+FROM: PackBitsEncode_NodeBlock5_end;
+assume(vstate.1 >= 2);
+TO: PackBitsEncode_NodeBlock3;
+
+FROM: PackBitsEncode_NodeBlock;
+TO: PackBitsEncode_NodeBlock_end;
+
+FROM: PackBitsEncode_NodeBlock_end;
+assume(vstate.1 < 1);
+TO: PackBitsEncode_LeafBlock;
+
+FROM: PackBitsEncode_NodeBlock_end;
+assume(vstate.1 >= 1);
+TO: PackBitsEncode_bb8;
+
+FROM: PackBitsEncode_LeafBlock;
+TO: PackBitsEncode_LeafBlock_end;
+
+FROM: PackBitsEncode_LeafBlock_end;
+assume(vstate.1 == 0);
+TO: PackBitsEncode_bb5;
+
+FROM: PackBitsEncode_LeafBlock_end;
+assume(vstate.1 != 0);
+TO: PackBitsEncode_NewDefault;
+
+FROM: PackBitsEncode_bb5;
+var__temp_vstate.0 := 1;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb5_end;
+
+FROM: PackBitsEncode_bb5_end;
+assume(vn.1 > 1);
+TO: PackBitsEncode_bb6;
+
+FROM: PackBitsEncode_bb5_end;
+assume(vn.1 <= 1);
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb6;
+var__temp_vstate.0 := 2;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb6_end;
+
+FROM: PackBitsEncode_bb6_end;
+assume(vn.1 > 128);
+TO: PackBitsEncode_bb7;
+
+FROM: PackBitsEncode_bb6_end;
+assume(vn.1 <= 128);
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb7;
+v8 := vn.1 - 128;
+var__temp_vstate.1 := 2;
+var__temp_vn.1 := v8;
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_bb8;
+TO: PackBitsEncode_bb8_end;
+
+FROM: PackBitsEncode_bb8_end;
+assume(vn.1 > 1);
+TO: PackBitsEncode_bb9;
+
+FROM: PackBitsEncode_bb8_end;
+assume(vn.1 <= 1);
+TO: PackBitsEncode_bb10;
+
+FROM: PackBitsEncode_bb9;
+var__temp_vstate.0 := 3;
+var__temp_v.0 := v1;
+var__temp_vstate.1 := 3;
+var__temp_vn.1 := vn.1;
+TO: PackBitsEncode_bb9_end;
+
+FROM: PackBitsEncode_bb9_end;
+assume(vn.1 > 128);
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_bb9_end;
+assume(vn.1 <= 128);
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb10;
+v11 := nondet();
+TO: PackBitsEncode_bb10_v.state.1;
+FROM: PackBitsEncode_bb10_v.state.1;
+assume(v11 != 0);
+v.state.1 := 0;
+TO: PackBitsEncode_bb10_sv.state.1;
+
+FROM: PackBitsEncode_bb10_v.state.1;
+assume(v11 == 0);
+v.state.1 := vstate.1;
+TO: PackBitsEncode_bb10_sv.state.1;
+
+FROM: PackBitsEncode_bb10_sv.state.1;
+var__temp_vstate.0 := v.state.1;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_NodeBlock3;
+TO: PackBitsEncode_NodeBlock3_end;
+
+FROM: PackBitsEncode_NodeBlock3_end;
+assume(vstate.1 < 3);
+TO: PackBitsEncode_bb11;
+
+FROM: PackBitsEncode_NodeBlock3_end;
+assume(vstate.1 >= 3);
+TO: PackBitsEncode_LeafBlock1;
+
+FROM: PackBitsEncode_bb11;
+var__temp_vstate.0 := 1;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb11_end;
+
+FROM: PackBitsEncode_bb11_end;
+assume(vn.1 > 1);
+TO: PackBitsEncode_bb12;
+
+FROM: PackBitsEncode_bb11_end;
+assume(vn.1 <= 1);
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb12;
+var__temp_vstate.0 := vstate.1;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb12_end;
+
+FROM: PackBitsEncode_bb12_end;
+assume(vn.1 > 128);
+TO: PackBitsEncode_bb13;
+
+FROM: PackBitsEncode_bb12_end;
+assume(vn.1 <= 128);
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb13;
+v15 := vn.1 - 128;
+var__temp_vstate.1 := vstate.1;
+var__temp_vn.1 := v15;
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_LeafBlock1;
+TO: PackBitsEncode_LeafBlock1_end;
+
+FROM: PackBitsEncode_LeafBlock1_end;
+assume(vstate.1 == 3);
+TO: PackBitsEncode_bb14;
+
+FROM: PackBitsEncode_LeafBlock1_end;
+assume(vstate.1 != 3);
+TO: PackBitsEncode_NewDefault;
+
+FROM: PackBitsEncode_bb14;
+v16 := nondet();
+var__temp_vstate.1 := 0;
+var__temp_vn.1 := vn.1;
+TO: PackBitsEncode_bb14_end;
+
+FROM: PackBitsEncode_bb14_end;
+assume(v16 != 0);
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_bb14_end;
+assume(v16 == 0);
+TO: PackBitsEncode_bb15;
+
+FROM: PackBitsEncode_bb15;
+v18 := nondet();
+TO: PackBitsEncode_bb15_v.;
+FROM: PackBitsEncode_bb15_v.;
+assume(v18 != 0);
+v. := 1;
+TO: PackBitsEncode_bb15_sv.;
+
+FROM: PackBitsEncode_bb15_v.;
+assume(v18 == 0);
+v. := 2;
+TO: PackBitsEncode_bb15_sv.;
+
+FROM: PackBitsEncode_bb15_sv.;
+var__temp_vstate.1 := v.;
+var__temp_vn.1 := vn.1;
+TO: PackBitsEncode_.critedge;
+
+FROM: PackBitsEncode_NewDefault;
+var__temp_vstate.0 := vstate.1;
+var__temp_v.0 := v1;
+TO: PackBitsEncode_bb1;
+
+FROM: PackBitsEncode_bb16;
+TO: PackBitsEncode_bb16_ret;
+

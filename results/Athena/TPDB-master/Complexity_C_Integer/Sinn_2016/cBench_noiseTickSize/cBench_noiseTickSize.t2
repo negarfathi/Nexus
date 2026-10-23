@@ -1,0 +1,53 @@
+///*** 1_noiseTickSize ***///
+START: noiseTickSize_bb0;
+
+FROM: noiseTickSize_bb0;
+var__temp_vj.0 := 0;
+var__temp_vi.0 := 0;
+TO: noiseTickSize_bb1;
+
+FROM: noiseTickSize_bb1;
+vj.0 := var__temp_vj.0;
+vi.0 := var__temp_vi.0;
+v0 := nondet();
+v2 := vi.0 + 1;
+TO: noiseTickSize_bb1_v.j.0;
+FROM: noiseTickSize_bb1_v.j.0;
+assume(v0 != 0);
+v.j.0 := 0;
+TO: noiseTickSize_bb1_sv.j.0;
+
+FROM: noiseTickSize_bb1_v.j.0;
+assume(v0 == 0);
+v.j.0 := vj.0;
+TO: noiseTickSize_bb1_sv.j.0;
+
+FROM: noiseTickSize_bb1_sv.j.0;
+TO: noiseTickSize_bb1_v.i.0;
+FROM: noiseTickSize_bb1_v.i.0;
+assume(v0 != 0);
+v.i.0 := v2;
+TO: noiseTickSize_bb1_sv.i.0;
+
+FROM: noiseTickSize_bb1_v.i.0;
+assume(v0 == 0);
+v.i.0 := vi.0;
+TO: noiseTickSize_bb1_sv.i.0;
+
+FROM: noiseTickSize_bb1_sv.i.0;
+v3 := v.j.0 + 1;
+var__temp_vj.0 := v3;
+var__temp_vi.0 := v.i.0;
+TO: noiseTickSize_bb1_end;
+
+FROM: noiseTickSize_bb1_end;
+assume((v.j.0 <= 10000) && (v.i.0 < vDELTAS));
+TO: noiseTickSize_bb1;
+
+FROM: noiseTickSize_bb1_end;
+assume((v.j.0 > 10000) || (v.i.0 >= vDELTAS));
+TO: noiseTickSize_bb2;
+
+FROM: noiseTickSize_bb2;
+TO: noiseTickSize_bb2_ret;
+

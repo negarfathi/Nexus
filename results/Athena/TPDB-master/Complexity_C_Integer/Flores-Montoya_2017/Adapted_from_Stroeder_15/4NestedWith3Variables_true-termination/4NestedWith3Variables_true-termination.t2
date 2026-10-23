@@ -1,0 +1,40 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.02 := vq;
+var__temp_v.01 := vb;
+var__temp_v.0 := va;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v.02 > 0);
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume(v.02 <= 0);
+TO: foo_bb3;
+
+FROM: foo_bb2;
+v1 := v.02 + v.0;
+v2 := v1 - 1;
+v3 := 3 * v.0;
+v4 := 4 * v.01;
+v5 := v3 - v4;
+v6 := 4 * v.0;
+v7 := 3 * v.01;
+v8 := v6 + v7;
+var__temp_v.02 := v2;
+var__temp_v.01 := v8;
+var__temp_v.0 := v5;
+TO: foo_bb1;
+
+FROM: foo_bb3;
+TO: foo_bb3_ret;
+

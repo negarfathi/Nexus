@@ -1,0 +1,94 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.0oDd6n
+
+Input File is : cBench_set_color_ht.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from office_ghostscript/src/gxcht.c 	set_color_ht	1703,1695,1674,1668
+
+//Complexity: O(n^2)
+void set_color_ht_extracted(int h, int w) {
+    for (int y = h; ;) {
+	--y;
+	for (int x = w; x > 0;) {
+		int nx = (((x) < (8)) ? (x) : (8));
+		x -= nx;
+		for (int i = nx; --i >= 0; ){;} 
+	}
+	{if (y <= 0)
+	    {break;}}
+    }
+}
+
+
+./proton: line 26:    21 Aborted                 bracer -in $FILE_NAME -c
+
+Input File is : cBench_set_color_ht_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from office_ghostscript/src/gxcht.c 	set_color_ht	1703,1695,1674,1668
+
+//Complexity: O(n^2)
+void set_color_ht_extracted(int h, int w) {
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(5, __func__);
+ for (int y = h; ;) { __VERIFIER_loop_head(5, __func__);
+printf("CBMC Instrumentation @ line5");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int ow;static int oy;if(pStored0){__CPROVER_assert(!(oh==h && ow==w && oy==y),"recurrent state found");} if(flag){oh=h;ow=w;oy=y;pStored0=myTrue;} 
+	--y;
+myBool pStored1 = myFalse; __VERIFIER_reached_control(7, __func__);
+	for (int x = w; x > 0;) { __VERIFIER_loop_head(7, __func__);
+printf("CBMC Instrumentation @ line7");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int ow;static int ox;static int oy;if(pStored1){__CPROVER_assert(!(oh==h && ow==w && ox==x && oy==y),"recurrent state found");} if(flag){oh=h;ow=w;ox=x;oy=y;pStored1=myTrue;} 
+		int nx = (((x) < (8)) ? (x) : (8));
+		x -= nx;
+	myBool pStored2 = myFalse; __VERIFIER_reached_control(10, __func__);
+	for (int i = nx; --i >= 0; ){ __VERIFIER_loop_head(10, __func__);
+printf("CBMC Instrumentation @ line10");myBool flag=__VERIFIER_nondet_myBool();static int oh;static int oi;static int onx;static int ow;static int ox;static int oy;if(pStored2){__CPROVER_assert(!(oh==h && oi==i && onx==nx && ow==w && ox==x && oy==y),"recurrent state found");} if(flag){oh=h;oi=i;onx=nx;ow=w;ox=x;oy=y;pStored2=myTrue;} ;} 
+	}
+	{ __VERIFIER_reached_control(12, __func__);
+if (y <= 0)
+	    { __VERIFIER_control_true(13, __func__);
+break;}}
+    }
+}
+
+
+./proton: line 26:    23 Aborted                 instrumenter -in *braced.c -c
+cBench_set_color_ht_braced_instrumented.c
+NTFILE is cBench_set_color_ht_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_set_color_ht.c
+FILE=cBench_set_color_ht_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 691 milliseconds

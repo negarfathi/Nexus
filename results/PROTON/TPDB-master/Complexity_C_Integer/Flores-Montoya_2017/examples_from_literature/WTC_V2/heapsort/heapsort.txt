@@ -1,0 +1,143 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.fzxzUn
+
+Input File is : heapsort.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+int heapsort(int size) {
+  int i=1;
+  int l,r,max;
+  while (size>0 && i >= 1){ 
+    l=2*i;
+    r=2*i+1;
+
+    {if (l<=size)  
+    {
+      {if (l<1 || l>size)  {return 0;}}    // assume (1<=l<=size)
+      {if (nondet()>0) {max=l;} else {max=i;}}
+    }
+    else {max=i;}}
+
+    {if (r<=size)  
+    {
+      {if (r<1 || r>size)  {return 0;}}
+      {if (nondet()>0)  {max=r;}}
+    }};
+
+    {if (i!=max)  
+    { 
+      {if (i<1 || i>size)  {return 0;}}
+      {if (max<1 || max>size)  {return 0;}}
+      i=max;
+    }
+    /*else fin=1;*/ 
+    else {return 0;}}
+  }
+  return 0;
+}
+
+End Main   
+
+Input File is : heapsort_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+int heapsort(int size) {
+  int i=1;
+  int l,r,max;
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+ while (size>0 && i >= 1){ __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int oi;static int ol;static int omax;static int or;static int osize;if(pStored0){__CPROVER_assert(!(oi==i && ol==l && omax==max && or==r && osize==size),"recurrent state found");} if(flag){oi=i;ol=l;omax=max;or=r;osize=size;pStored0=myTrue;}  
+    l=2*i;
+    r=2*i+1;
+
+    { __VERIFIER_reached_control(10, __func__);
+if (l<=size)  
+    { __VERIFIER_control_true(11, __func__);
+
+      { __VERIFIER_reached_control(12, __func__);
+if (l<1 || l>size)  { __VERIFIER_control_true(12, __func__);
+return 0;}}    // assume (1<=l<=size)
+      { __VERIFIER_reached_control(13, __func__);
+if (nondet()>0) { __VERIFIER_control_true(13, __func__);
+max=l;} else { __VERIFIER_control_false(13, __func__);
+max=i;}}
+    }
+    else { __VERIFIER_control_false(15, __func__);
+max=i;}}
+
+    { __VERIFIER_reached_control(17, __func__);
+if (r<=size)  
+    { __VERIFIER_control_true(18, __func__);
+
+      { __VERIFIER_reached_control(19, __func__);
+if (r<1 || r>size)  { __VERIFIER_control_true(19, __func__);
+return 0;}}
+      { __VERIFIER_reached_control(20, __func__);
+if (nondet()>0)  { __VERIFIER_control_true(20, __func__);
+max=r;}}
+    }};
+
+    { __VERIFIER_reached_control(23, __func__);
+if (i!=max)  
+    { __VERIFIER_control_true(24, __func__);
+ 
+      { __VERIFIER_reached_control(25, __func__);
+if (i<1 || i>size)  { __VERIFIER_control_true(25, __func__);
+return 0;}}
+      { __VERIFIER_reached_control(26, __func__);
+if (max<1 || max>size)  { __VERIFIER_control_true(26, __func__);
+return 0;}}
+      i=max;
+    }
+    /*else fin=1;*/ 
+    else { __VERIFIER_control_false(30, __func__);
+return 0;}}
+  }
+  return 0;
+}
+
+End Main 
+ heapsort_braced_instrumented.c
+NTFILE is heapsort_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for heapsort.c
+FILE=heapsort_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 675 milliseconds

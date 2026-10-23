@@ -1,0 +1,76 @@
+///*** 1_Loopus2015_original ***///
+START: Loopus2015_original_bb0;
+
+FROM: Loopus2015_original_bb0;
+var__temp_vi.0 := 0;
+var__temp_vend.0 := 0;
+var__temp_vbeg.0 := 0;
+TO: Loopus2015_original_bb1;
+
+FROM: Loopus2015_original_bb1;
+vi.0 := var__temp_vi.0;
+vend.0 := var__temp_vend.0;
+vbeg.0 := var__temp_vbeg.0;
+TO: Loopus2015_original_bb1_end;
+
+FROM: Loopus2015_original_bb1_end;
+assume(vi.0 < vlen);
+TO: Loopus2015_original_bb2;
+
+FROM: Loopus2015_original_bb1_end;
+assume(vi.0 >= vlen);
+TO: Loopus2015_original_bb5;
+
+FROM: Loopus2015_original_bb2;
+v1 := vi.0 + 1;
+v2 := nondet();
+TO: Loopus2015_original_bb2_v.end.0;
+FROM: Loopus2015_original_bb2_v.end.0;
+assume(v2 > 0);
+v.end.0 := v1;
+TO: Loopus2015_original_bb2_sv.end.0;
+
+FROM: Loopus2015_original_bb2_v.end.0;
+assume(v2 <= 0);
+v.end.0 := vend.0;
+TO: Loopus2015_original_bb2_sv.end.0;
+
+FROM: Loopus2015_original_bb2_sv.end.0;
+v4 := nondet();
+var__temp_vi.0 := v1;
+var__temp_vend.0 := v.end.0;
+var__temp_vbeg.0 := vbeg.0;
+var__temp_vk.0 := vbeg.0;
+TO: Loopus2015_original_bb2_end;
+
+FROM: Loopus2015_original_bb2_end;
+assume(v4 > 0);
+TO: Loopus2015_original_bb3;
+
+FROM: Loopus2015_original_bb2_end;
+assume(v4 <= 0);
+TO: Loopus2015_original_bb1;
+
+FROM: Loopus2015_original_bb3;
+vk.0 := var__temp_vk.0;
+var__temp_vi.0 := v1;
+var__temp_vend.0 := v1;
+var__temp_vbeg.0 := v1;
+TO: Loopus2015_original_bb3_end;
+
+FROM: Loopus2015_original_bb3_end;
+assume(vk.0 < v.end.0);
+TO: Loopus2015_original_bb4;
+
+FROM: Loopus2015_original_bb3_end;
+assume(vk.0 >= v.end.0);
+TO: Loopus2015_original_bb1;
+
+FROM: Loopus2015_original_bb4;
+v7 := vk.0 + 1;
+var__temp_vk.0 := v7;
+TO: Loopus2015_original_bb3;
+
+FROM: Loopus2015_original_bb5;
+TO: Loopus2015_original_bb5_ret;
+

@@ -1,0 +1,27 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.01 := 17;
+var__temp_v.0 := 13;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v0 := v.0 + v.01;
+var__temp_v.01 := v.0;
+var__temp_v.0 := v.01;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v0 < 100);
+TO: foo_bb1;
+
+FROM: foo_bb1_end;
+assume(v0 >= 100);
+TO: foo_bb2;
+
+FROM: foo_bb2;
+TO: foo_bb2_ret;
+

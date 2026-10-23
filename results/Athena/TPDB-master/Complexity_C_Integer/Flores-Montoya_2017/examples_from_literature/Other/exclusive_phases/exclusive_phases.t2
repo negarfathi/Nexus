@@ -1,0 +1,40 @@
+///*** 1_ex_paper1 ***///
+START: ex_paper1_bb0;
+
+FROM: ex_paper1_bb0;
+var__temp_v.0 := vi;
+TO: ex_paper1_bb1;
+
+FROM: ex_paper1_bb1;
+v.0 := var__temp_v.0;
+TO: ex_paper1_bb1_end;
+
+FROM: ex_paper1_bb1_end;
+assume((0 < v.0) && (v.0 < vn));
+TO: ex_paper1_bb2;
+
+FROM: ex_paper1_bb1_end;
+assume((0 >= v.0) || (v.0 >= vn));
+TO: ex_paper1_bb3;
+
+FROM: ex_paper1_bb2;
+v3 := v.0 + 1;
+v4 := v.0 + -1;
+TO: ex_paper1_bb2_v.1;
+FROM: ex_paper1_bb2_v.1;
+assume(vfwd > 0);
+v.1 := v3;
+TO: ex_paper1_bb2_sv.1;
+
+FROM: ex_paper1_bb2_v.1;
+assume(vfwd <= 0);
+v.1 := v4;
+TO: ex_paper1_bb2_sv.1;
+
+FROM: ex_paper1_bb2_sv.1;
+var__temp_v.0 := v.1;
+TO: ex_paper1_bb1;
+
+FROM: ex_paper1_bb3;
+TO: ex_paper1_bb3_ret;
+

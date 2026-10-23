@@ -1,0 +1,67 @@
+///*** 1_t07 ***///
+START: t07_bb0;
+
+FROM: t07_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: t07_bb1;
+
+FROM: t07_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.1 := v.01;
+TO: t07_bb1_end;
+
+FROM: t07_bb1_end;
+assume(v.0 > 0);
+TO: t07_bb2;
+
+FROM: t07_bb1_end;
+assume(v.0 <= 0);
+TO: t07_bb3;
+
+FROM: t07_bb2;
+v1 := v.0 - 1;
+v2 := v.01 + 2;
+var__temp_v.01 := v2;
+var__temp_v.0 := v1;
+TO: t07_bb1;
+
+FROM: t07_bb3;
+v.1 := var__temp_v.1;
+var__temp_v.2 := v.1;
+TO: t07_bb3_end;
+
+FROM: t07_bb3_end;
+assume(v.1 > 0);
+TO: t07_bb4;
+
+FROM: t07_bb3_end;
+assume(v.1 <= 0);
+TO: t07_bb5;
+
+FROM: t07_bb4;
+v4 := v.1 - 1;
+var__temp_v.1 := v4;
+TO: t07_bb3;
+
+FROM: t07_bb5;
+v.2 := var__temp_v.2;
+TO: t07_bb5_end;
+
+FROM: t07_bb5_end;
+assume(v.2 > 0);
+TO: t07_bb6;
+
+FROM: t07_bb5_end;
+assume(v.2 <= 0);
+TO: t07_bb7;
+
+FROM: t07_bb6;
+v6 := v.2 - 1;
+var__temp_v.2 := v6;
+TO: t07_bb5;
+
+FROM: t07_bb7;
+TO: t07_bb7_ret;
+

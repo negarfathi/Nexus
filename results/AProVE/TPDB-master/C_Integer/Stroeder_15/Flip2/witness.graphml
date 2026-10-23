@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="programfile" attr.name="programfile" for="graph"/>
+  <key id="programhash" attr.name="programhash" for="graph"/>
+  <key id="sourcecodelang" attr.name="sourcecodelang" for="graph"/>
+  <key id="producer" attr.name="producer" for="graph"/>
+  <key id="specification" attr.name="specification" for="graph"/>
+  <key id="creationtime" attr.name="creationtime" for="graph"/>
+  <key id="witness-type" attr.name="witness-type" for="graph"/>
+  <key id="architecture" attr.name="architecture" for="graph"/>
+  <key id="entry" attr.name="entry" for="node">
+    <default>false</default>
+  </key>
+  <key id="nodetype" attr.name="nodetype" for="node">
+    <default>path</default>
+  </key>
+  <key id="violation" attr.name="violation" for="node">
+    <default>false</default>
+  </key>
+  <key id="cyclehead" attr.name="cyclehead" for="node">
+    <default>false</default>
+  </key>
+  <key id="invariant" attr.name="invariant" for="node">
+    <default>true</default>
+  </key>
+  <key id="sink" attr.name="sink" for="node">
+    <default>false</default>
+  </key>
+  <key id="endline" attr.name="endline" for="edge"/>
+  <key id="enterLoopHead" attr.name="enterLoopHead" for="edge">
+    <default>false</default>
+  </key>
+  <key id="enterFunction" attr.name="enterFunction" for="edge"/>
+  <key id="startline" attr.name="startline" for="edge"/>
+  <key id="returnFrom" attr.name="returnFrom" for="edge"/>
+  <key id="assumption" attr.name="assumption" for="edge"/>
+  <key id="tokens" attr.name="tokens" for="edge"/>
+  <key id="control" attr.name="control" for="edge"/>
+  <key id="originfile" attr.name="originfile" for="edge">
+    <default>/liveness_analysis/Flip2.c</default>
+  </key>
+  <key id="sourcecode" attr.name="sourcecode" for="edge"/>
+  <graph edgedefault="directed">
+    <data key="witness-type">violation_witness</data>
+    <data key="sourcecodelang">C</data>
+    <data key="producer">AProVE</data>
+    <data key="creationtime">2026-09-03T16:33:38Z</data>
+    <data key="specification">CHECK( init(main()), LTL(F end) )</data>
+    <data key="programfile">/liveness_analysis/Flip2.c</data>
+    <data key="programhash">743a1142650cc90419737e0fcd83ae36167644025e705a99270cea90986dadac</data>
+    <data key="architecture">64bit</data>
+    <node id="S145">
+      <data key="entry">true</data>
+    </node>
+    <node id="S150"/>
+    <edge source="S145" target="S150">
+      <data key="startline">5</data>
+      <data key="endline">5</data>
+      <data key="enterFunction">main</data>
+    </edge>
+    <node id="S151"/>
+    <edge source="S150" target="S151">
+      <data key="sourcecode">int i;</data>
+      <data key="startline">6</data>
+      <data key="endline">6</data>
+    </edge>
+    <node id="S152"/>
+    <edge source="S151" target="S152">
+      <data key="sourcecode">int j;</data>
+      <data key="startline">7</data>
+      <data key="endline">7</data>
+    </edge>
+    <node id="S154"/>
+    <edge source="S152" target="S154">
+      <data key="sourcecode">int t;</data>
+      <data key="startline">8</data>
+      <data key="endline">8</data>
+    </edge>
+    <node id="S156"/>
+    <edge source="S154" target="S156">
+      <data key="sourcecode">i = __VERIFIER_nondet_int();</data>
+      <data key="startline">9</data>
+      <data key="endline">9</data>
+    </edge>
+    <node id="S157"/>
+    <edge source="S156" target="S157">
+      <data key="sourcecode">j = __VERIFIER_nondet_int();</data>
+      <data key="startline">10</data>
+      <data key="endline">10</data>
+    </edge>
+    <node id="S169"/>
+    <edge source="S157" target="S169">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">t = 0;</data>
+      <data key="startline">11</data>
+      <data key="endline">11</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S182"/>
+    <edge source="S169" target="S182">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S193"/>
+    <edge source="S182" target="S193">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S199"/>
+    <edge source="S193" target="S199">
+      <data key="sourcecode">if (i &gt; j) {</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <node id="S202"/>
+    <edge source="S199" target="S202">
+      <data key="sourcecode">j = i;</data>
+      <data key="startline">20</data>
+      <data key="endline">20</data>
+    </edge>
+    <node id="S224"/>
+    <edge source="S202" target="S224">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">21</data>
+      <data key="endline">21</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S245"/>
+    <edge source="S224" target="S245">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S257"/>
+    <edge source="S245" target="S257">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S266"/>
+    <edge source="S257" target="S266">
+      <data key="sourcecode">if (i &gt; j) {</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <node id="S290"/>
+    <edge source="S266" target="S290">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">i = i-1;</data>
+      <data key="startline">22</data>
+      <data key="endline">22</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S308"/>
+    <edge source="S290" target="S308">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S314"/>
+    <edge source="S308" target="S314">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+    </edge>
+    <node id="S320"/>
+    <edge source="S314" target="S320">
+      <data key="sourcecode">t = i;</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+    </edge>
+    <node id="S326"/>
+    <edge source="S320" target="S326">
+      <data key="sourcecode">i = j;</data>
+      <data key="startline">16</data>
+      <data key="endline">16</data>
+    </edge>
+    <node id="S329"/>
+    <edge source="S326" target="S329">
+      <data key="sourcecode">j = t;</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+    </edge>
+    <node id="S386"/>
+    <edge source="S329" target="S386">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+    </edge>
+    <node id="S409"/>
+    <edge source="S386" target="S409">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S417"/>
+    <edge source="S409" target="S417">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S421"/>
+    <edge source="S417" target="S421">
+      <data key="sourcecode">if (i &gt; j) {</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <node id="S423"/>
+    <edge source="S421" target="S423">
+      <data key="sourcecode">j = i;</data>
+      <data key="startline">20</data>
+      <data key="endline">20</data>
+    </edge>
+    <node id="S437"/>
+    <edge source="S423" target="S437">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">21</data>
+      <data key="endline">21</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S443"/>
+    <edge source="S437" target="S443">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S447"/>
+    <edge source="S443" target="S447">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S450"/>
+    <edge source="S447" target="S450">
+      <data key="sourcecode">if (i &gt; j) {</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <node id="S459"/>
+    <edge source="S450" target="S459">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">i = i-1;</data>
+      <data key="startline">22</data>
+      <data key="endline">22</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S465"/>
+    <edge source="S459" target="S465">
+      <data key="sourcecode">while (i &gt; 0 &amp;&amp; j &gt; 0) {</data>
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S467"/>
+    <edge source="S465" target="S467">
+      <data key="sourcecode">if (i &lt; j) {</data>
+      <data key="startline">14</data>
+      <data key="endline">14</data>
+    </edge>
+    <node id="S469"/>
+    <edge source="S467" target="S469">
+      <data key="sourcecode">t = i;</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+    </edge>
+    <node id="S471"/>
+    <edge source="S469" target="S471">
+      <data key="sourcecode">i = j;</data>
+      <data key="startline">16</data>
+      <data key="endline">16</data>
+    </edge>
+    <node id="S472"/>
+    <edge source="S471" target="S472">
+      <data key="sourcecode">j = t;</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+    </edge>
+    <edge source="S472" target="S386">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">} else {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+    </edge>
+  </graph>
+</graphml>

@@ -1,0 +1,214 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.6jbIZq
+
+Input File is : CPU2006_analyse_other.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from SPEC CPU2006	gromacs/src/index.c 	analyse_other
+
+int random();
+
+//O(n^3)
+void analyse_other(int atoms_nres, int atoms_nr, int bASK)
+{
+  int restp=0;
+  int  i,j,k,l,resnr,naid,naaid,natp,nrestp=0;
+
+  //O(n)  
+  for(i=0; (i<atoms_nres); i++)
+    {{if (random())
+      {break;}}}
+  {if (i < atoms_nres) {
+    //O(n^2)
+    for(k=0; (k<atoms_nr); k++) {
+      {if (random()) {
+	for(l=0; (l<nrestp); l++)
+	  {{if (random())
+	    {break;}}}
+	{if (l==nrestp) {
+	  ++nrestp;
+	}}
+      }}
+    }
+    //O(n^3)
+    for(i=0; (i<nrestp); i++) {
+      naid=0;
+      for(j=0; (j<atoms_nr); j++) {
+	{if (random()) 
+	  {naid++;}}
+      }
+      {if (bASK) {
+	{if (random()) {
+	  natp=0;
+	  for(k=0; (k<naid); k++) {
+	    for(l=0; (l<natp); l++)
+	      {{if (random())
+		{break;}}}
+	    {if (l == natp) {
+	      ++natp;
+	    }}
+	  }
+	  {if (natp > 1) {
+	    for(l=0; (l<natp); l++) {
+	      naaid=0;
+	      for(k=0; (k<naid); k++) {
+		{if (random()) 
+		  {naaid++;}}
+	      }
+	    }
+	  }}
+	}}
+      }}
+    }
+  }}
+}
+
+
+End Main   
+
+Input File is : CPU2006_analyse_other_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from SPEC CPU2006	gromacs/src/index.c 	analyse_other
+
+int random();
+
+//O(n^3)
+void analyse_other(int atoms_nres, int atoms_nr, int bASK)
+{
+  int restp=0;
+  int  i,j,k,l,resnr,naid,naaid,natp,nrestp=0;
+
+  //O(n)  
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(13, __func__);
+ for(i=0; (i<atoms_nres); i++)
+    { __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored0){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored0=myTrue;} { __VERIFIER_reached_control(13, __func__);
+if (random())
+      { __VERIFIER_control_true(14, __func__);
+break;}}}
+  { __VERIFIER_reached_control(15, __func__);
+if (i < atoms_nres) { __VERIFIER_control_true(15, __func__);
+
+    //O(n^2)
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(17, __func__);
+ for(k=0; (k<atoms_nr); k++) { __VERIFIER_loop_head(17, __func__);
+printf("CBMC Instrumentation @ line17");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored1){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored1=myTrue;} 
+      { __VERIFIER_reached_control(18, __func__);
+if (random()) { __VERIFIER_control_true(18, __func__);
+
+myBool pStored2 = myFalse; __VERIFIER_reached_control(20, __func__);
+	for(l=0; (l<nrestp); l++)
+	  { __VERIFIER_loop_head(20, __func__);
+printf("CBMC Instrumentation @ line20");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored2){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored2=myTrue;} { __VERIFIER_reached_control(20, __func__);
+if (random())
+	    { __VERIFIER_control_true(21, __func__);
+break;}}}
+	{ __VERIFIER_reached_control(22, __func__);
+if (l==nrestp) { __VERIFIER_control_true(22, __func__);
+
+	  ++nrestp;
+	}}
+      }}
+    }
+    //O(n^3)
+   myBool pStored3 = myFalse; __VERIFIER_reached_control(28, __func__);
+ for(i=0; (i<nrestp); i++) { __VERIFIER_loop_head(28, __func__);
+printf("CBMC Instrumentation @ line28");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored3){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored3=myTrue;} 
+      naid=0;
+     myBool pStored4 = myFalse; __VERIFIER_reached_control(30, __func__);
+ for(j=0; (j<atoms_nr); j++) { __VERIFIER_loop_head(30, __func__);
+printf("CBMC Instrumentation @ line30");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored4){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored4=myTrue;} 
+	{ __VERIFIER_reached_control(31, __func__);
+if (random()) 
+	  { __VERIFIER_control_true(32, __func__);
+naid++;}}
+      }
+      { __VERIFIER_reached_control(34, __func__);
+if (bASK) { __VERIFIER_control_true(34, __func__);
+
+	{ __VERIFIER_reached_control(35, __func__);
+if (random()) { __VERIFIER_control_true(35, __func__);
+
+	  natp=0;
+	 myBool pStored5 = myFalse; __VERIFIER_reached_control(37, __func__);
+ for(k=0; (k<naid); k++) { __VERIFIER_loop_head(37, __func__);
+printf("CBMC Instrumentation @ line37");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored5){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored5=myTrue;} 
+	   myBool pStored6 = myFalse; __VERIFIER_reached_control(39, __func__);
+ for(l=0; (l<natp); l++)
+	      { __VERIFIER_loop_head(39, __func__);
+printf("CBMC Instrumentation @ line39");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored6){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored6=myTrue;} { __VERIFIER_reached_control(39, __func__);
+if (random())
+		{ __VERIFIER_control_true(40, __func__);
+break;}}}
+	    { __VERIFIER_reached_control(41, __func__);
+if (l == natp) { __VERIFIER_control_true(41, __func__);
+
+	      ++natp;
+	    }}
+	  }
+	  { __VERIFIER_reached_control(45, __func__);
+if (natp > 1) { __VERIFIER_control_true(45, __func__);
+
+	   myBool pStored7 = myFalse; __VERIFIER_reached_control(46, __func__);
+ for(l=0; (l<natp); l++) { __VERIFIER_loop_head(46, __func__);
+printf("CBMC Instrumentation @ line46");myBool flag=__VERIFIER_nondet_myBool();static int oato
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+ms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored7){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored7=myTrue;} 
+	      naaid=0;
+	     myBool pStored8 = myFalse; __VERIFIER_reached_control(48, __func__);
+ for(k=0; (k<naid); k++) { __VERIFIER_loop_head(48, __func__);
+printf("CBMC Instrumentation @ line48");myBool flag=__VERIFIER_nondet_myBool();static int oatoms_nr;static int oatoms_nres;static int obASK;static int oi;static int oj;static int ok;static int ol;static int onaaid;static int onaid;static int onatp;static int onrestp;static int oresnr;static int orestp;if(pStored8){__CPROVER_assert(!(oatoms_nr==atoms_nr && oatoms_nres==atoms_nres && obASK==bASK && oi==i && oj==j && ok==k && ol==l && onaaid==naaid && onaid==naid && onatp==natp && onrestp==nrestp && oresnr==resnr && orestp==restp),"recurrent state found");} if(flag){oatoms_nr=atoms_nr;oatoms_nres=atoms_nres;obASK=bASK;oi=i;oj=j;ok=k;ol=l;onaaid=naaid;onaid=naid;onatp=natp;onrestp=nrestp;oresnr=resnr;orestp=restp;pStored8=myTrue;} 
+		{ __VERIFIER_reached_control(49, __func__);
+if (random()) 
+		  { __VERIFIER_control_true(50, __func__);
+naaid++;}}
+	      }
+	    }
+	  }}
+	}}
+      }}
+    }
+  }}
+}
+
+
+End Main 
+ CPU2006_analyse_other_braced_instrumented.c
+NTFILE is CPU2006_analyse_other_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for CPU2006_analyse_other.c
+FILE=CPU2006_analyse_other_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 696 milliseconds

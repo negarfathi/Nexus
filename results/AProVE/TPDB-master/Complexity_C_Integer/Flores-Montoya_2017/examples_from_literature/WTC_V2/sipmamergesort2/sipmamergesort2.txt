@@ -1,0 +1,416 @@
+MAYBE
+proof of sipmamergesort2.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 51 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/sipmamergesort2.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/sipmamergesort2.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "nondet" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "sipmamergesort2" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		%7 = alloca i32, align 4
+		%8 = alloca i32, align 4
+		%9 = alloca i32, align 4
+		%10 = alloca i32, align 4
+		%11 = alloca i32, align 4
+		%12 = alloca i32, align 4
+		%13 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %7)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %8)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %9)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %10)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %11)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %12)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %13)
+		store 1, %13
+		store 1, %10
+		br %14
+	14:
+		store 1, %8
+		%15 = load %2
+		store %15, %9
+		store 1, %5
+		%16 = load %2
+		store %16, %6
+		%17 = load %2
+		%18 = add i32 %17, 1
+		store %18, %3
+		%19 = load %2
+		%20 = mul i32 2, %19
+		store %20, %4
+		br %21
+	21:
+		%22 = load %9
+		%23 = load %10
+		%24 = icmp sge %22 %23
+		br %24, %25, %27
+	25:
+		%26 = load %10
+		store %26, %11
+		br %29
+	27:
+		%28 = load %9
+		store %28, %11
+		br %29
+	29:
+		%30 = load %9
+		%31 = load %11
+		%32 = sub i32 %30, %31
+		store %32, %9
+		%33 = load %9
+		%34 = load %10
+		%35 = icmp sge %33 %34
+		br %35, %36, %38
+	36:
+		%37 = load %10
+		store %37, %12
+		br %40
+	38:
+		%39 = load %9
+		store %39, %12
+		br %40
+	40:
+		%41 = load %9
+		%42 = load %12
+		%43 = sub i32 %41, %42
+		store %43, %9
+		br %44
+	44:
+		%45 = load %11
+		%46 = icmp sgt %45 0
+		br %46, %47, %50
+	47:
+		%48 = load %12
+		%49 = icmp sgt %48 0
+		br %50
+	50:
+		%51 = phi [0, %44], [%49, %47]
+		br %51, %52, %72
+	52:
+		%53 = call i32 (...)* @nondet()
+		%54 = icmp sgt %53 0
+		br %54, %55, %63
+	55:
+		%56 = load %5
+		%57 = load %8
+		%58 = add i32 %56, %57
+		store %58, %5
+		%59 = load %3
+		%60 = add i32 %59, 1
+		store %60, %3
+		%61 = load %11
+		%62 = sub i32 %61, 1
+		store %62, %11
+		br %71
+	63:
+		%64 = load %5
+		%65 = load %8
+		%66 = add i32 %64, %65
+		store %66, %5
+		%67 = load %4
+		%68 = sub i32 %67, 1
+		store %68, %4
+		%69 = load %12
+		%70 = sub i32 %69, 1
+		store %70, %12
+		br %71
+	71:
+		br %44
+	72:
+		br %73
+	73:
+		%74 = load %12
+		%75 = icmp sgt %74 0
+		br %75, %76, %84
+	76:
+		%77 = load %5
+		%78 = load %8
+		%79 = add i32 %77, %78
+		store %79, %5
+		%80 = load %4
+		%81 = sub i32 %80, 1
+		store %81, %4
+		%82 = load %12
+		%83 = sub i32 %82, 1
+		store %83, %12
+		br %73
+	84:
+		br %85
+	85:
+		%86 = load %11
+		%87 = icmp sgt %86 0
+		br %87, %88, %96
+	88:
+		%89 = load %5
+		%90 = load %8
+		%91 = add i32 %89, %90
+		store %91, %5
+		%92 = load %3
+		%93 = add i32 %92, 1
+		store %93, %3
+		%94 = load %11
+		%95 = sub i32 %94, 1
+		store %95, %11
+		br %85
+	96:
+		%97 = load %8
+		%98 = sub i32 0, %97
+		store %98, %8
+		%99 = load %5
+		store %99, %7
+		%100 = load %6
+		store %100, %5
+		%101 = load %7
+		store %101, %6
+		br %102
+	102:
+		%103 = load %9
+		%104 = icmp sgt %103 0
+		br %104, %21, %105
+	105:
+		store 0, %13
+		%106 = load %10
+		%107 = mul i32 2, %106
+		store %107, %10
+		%108 = load %10
+		%109 = load %2
+		%110 = icmp sge %108 %109
+		br %110, %111, %112
+	111:
+		br %210
+	112:
+		store 1, %8
+		%113 = load %2
+		store %113, %9
+		store 1, %3
+		%114 = load %2
+		store %114, %4
+		%115 = load %2
+		%116 = add i32 %115, 1
+		store %116, %5
+		%117 = load %2
+		%118 = mul i32 2, %117
+		store %118, %6
+		br %119
+	119:
+		%120 = load %9
+		%121 = load %10
+		%122 = icmp sge %120 %121
+		br %122, %123, %125
+	123:
+		%124 = load %10
+		store %124, %11
+		br %127
+	125:
+		%126 = load %9
+		store %126, %11
+		br %127
+	127:
+		%128 = load %9
+		%129 = load %11
+		%130 = sub i32 %128, %129
+		store %130, %9
+		%131 = load %9
+		%132 = load %10
+		%133 = icmp sge %131 %132
+		br %133, %134, %136
+	134:
+		%135 = load %10
+		store %135, %12
+		br %138
+	136:
+		%137 = load %9
+		store %137, %12
+		br %138
+	138:
+		%139 = load %9
+		%140 = load %12
+		%141 = sub i32 %139, %140
+		store %141, %9
+		br %142
+	142:
+		%143 = load %11
+		%144 = icmp sgt %143 0
+		br %144, %145, %148
+	145:
+		%146 = load %12
+		%147 = icmp sgt %146 0
+		br %148
+	148:
+		%149 = phi [0, %142], [%147, %145]
+		br %149, %150, %170
+	150:
+		%151 = call i32 (...)* @nondet()
+		%152 = icmp sgt %151 0
+		br %152, %153, %161
+	153:
+		%154 = load %5
+		%155 = load %8
+		%156 = add i32 %154, %155
+		store %156, %5
+		%157 = load %3
+		%158 = add i32 %157, 1
+		store %158, %3
+		%159 = load %11
+		%160 = sub i32 %159, 1
+		store %160, %11
+		br %169
+	161:
+		%162 = load %5
+		%163 = load %8
+		%164 = add i32 %162, %163
+		store %164, %5
+		%165 = load %4
+		%166 = sub i32 %165, 1
+		store %166, %4
+		%167 = load %12
+		%168 = sub i32 %167, 1
+		store %168, %12
+		br %169
+	169:
+		br %142
+	170:
+		br %171
+	171:
+		%172 = load %12
+		%173 = icmp sgt %172 0
+		br %173, %174, %182
+	174:
+		%175 = load %5
+		%176 = load %8
+		%177 = add i32 %175, %176
+		store %177, %5
+		%178 = load %4
+		%179 = sub i32 %178, 1
+		store %179, %4
+		%180 = load %12
+		%181 = sub i32 %180, 1
+		store %181, %12
+		br %171
+	182:
+		br %183
+	183:
+		%184 = load %11
+		%185 = icmp sgt %184 0
+		br %185, %186, %194
+	186:
+		%187 = load %5
+		%188 = load %8
+		%189 = add i32 %187, %188
+		store %189, %5
+		%190 = load %3
+		%191 = add i32 %190, 1
+		store %191, %3
+		%192 = load %11
+		%193 = sub i32 %192, 1
+		store %193, %11
+		br %183
+	194:
+		%195 = load %8
+		%196 = sub i32 0, %195
+		store %196, %8
+		%197 = load %5
+		store %197, %7
+		%198 = load %6
+		store %198, %5
+		%199 = load %7
+		store %199, %6
+		br %200
+	200:
+		%201 = load %9
+		%202 = icmp sgt %201 0
+		br %202, %119, %203
+	203:
+		store 1, %13
+		%204 = load %10
+		%205 = mul i32 2, %204
+		store %205, %10
+		br %206
+	206:
+		%207 = load %10
+		%208 = load %2
+		%209 = icmp slt %207 %208
+		br %209, %14, %210
+	210:
+		%211 = load %13
+		%212 = icmp eq %211 0
+		br %212, %213, %222
+	213:
+		store 1, %3
+		br %214
+	214:
+		%215 = load %3
+		%216 = load %2
+		%217 = icmp sle %215 %216
+		br %217, %218, %221
+	218:
+		%219 = load %3
+		%220 = add i32 %219, 1
+		store %220, %3
+		br %214
+	221:
+		br %222
+	222:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788548387Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1131 milliseconds

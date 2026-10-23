@@ -1,0 +1,145 @@
+MAYBE
+proof of sipma91.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 54 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/sipma91.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/sipma91.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "sipma91" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		%6 = load %2
+		store %6, %3
+		store 1, %4
+		%7 = load %3
+		%8 = icmp sgt %7 100
+		br %8, %9, %12
+	9:
+		%10 = load %3
+		%11 = sub i32 %10, 10
+		store %11, %5
+		br %53
+	12:
+		br %13
+	13:
+		%14 = load %3
+		%15 = icmp sle %14 100
+		br %15, %16, %21
+	16:
+		%17 = load %3
+		%18 = add i32 %17, 11
+		store %18, %3
+		%19 = load %4
+		%20 = add i32 %19, 1
+		store %20, %4
+		br %13
+	21:
+		br %22
+	22:
+		%23 = load %4
+		%24 = icmp sgt %23 1
+		br %24, %25, %52
+	25:
+		%26 = load %3
+		%27 = sub i32 %26, 10
+		store %27, %3
+		%28 = load %4
+		%29 = sub i32 %28, 1
+		store %29, %4
+		%30 = load %3
+		%31 = icmp sgt %30 100
+		br %31, %32, %38
+	32:
+		%33 = load %4
+		%34 = icmp eq %33 1
+		br %34, %35, %38
+	35:
+		%36 = load %3
+		%37 = sub i32 %36, 10
+		store %37, %5
+		br %51
+	38:
+		%39 = load %3
+		%40 = icmp sgt %39 100
+		br %40, %41, %46
+	41:
+		%42 = load %3
+		%43 = sub i32 %42, 10
+		store %43, %3
+		%44 = load %4
+		%45 = sub i32 %44, 1
+		store %45, %4
+		br %46
+	46:
+		%47 = load %3
+		%48 = add i32 %47, 11
+		store %48, %3
+		%49 = load %4
+		%50 = add i32 %49, 1
+		store %50, %4
+		br %51
+	51:
+		br %22
+	52:
+		br %53
+	53:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788547170Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1066 milliseconds

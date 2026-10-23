@@ -1,0 +1,100 @@
+///*** 1_serpent ***///
+START: serpent_bb0;
+
+FROM: serpent_bb0;
+var__temp_vy.0 := vn;
+var__temp_vx.0 := vn;
+TO: serpent_bb0_end;
+
+FROM: serpent_bb0_end;
+assume(vn <= 0);
+TO: serpent_bb7;
+
+FROM: serpent_bb0_end;
+assume(vn > 0);
+TO: serpent_.critedge1;
+
+FROM: serpent_.critedge1;
+vy.0 := var__temp_vy.0;
+vx.0 := var__temp_vx.0;
+var__temp_vy.1 := vy.0;
+TO: serpent_.critedge1_end;
+
+FROM: serpent_.critedge1_end;
+assume(vx.0 >= 0);
+TO: serpent_bb1;
+
+FROM: serpent_.critedge1_end;
+assume(vx.0 < 0);
+TO: serpent_bb7;
+
+FROM: serpent_bb1;
+vy.1 := var__temp_vy.1;
+TO: serpent_bb1_end;
+
+FROM: serpent_bb1_end;
+assume(vy.1 >= 0);
+TO: serpent_bb2;
+
+FROM: serpent_bb1_end;
+assume(vy.1 < 0);
+TO: serpent_.critedge;
+
+FROM: serpent_bb2;
+v3 := nondet();
+TO: serpent_bb2_end;
+
+FROM: serpent_bb2_end;
+assume(v3 > 0);
+TO: serpent_bb3;
+
+FROM: serpent_bb2_end;
+assume(v3 <= 0);
+TO: serpent_.critedge;
+
+FROM: serpent_bb3;
+v5 := vy.1 + -1;
+var__temp_vy.1 := v5;
+TO: serpent_bb1;
+
+FROM: serpent_.critedge;
+v6 := vx.0 + -1;
+var__temp_vy.2 := vy.1;
+TO: serpent_bb4;
+
+FROM: serpent_bb4;
+vy.2 := var__temp_vy.2;
+var__temp_vy.0 := vy.2;
+var__temp_vx.0 := v6;
+TO: serpent_bb4_end;
+
+FROM: serpent_bb4_end;
+assume(vy.2 <= vn);
+TO: serpent_bb5;
+
+FROM: serpent_bb4_end;
+assume(vy.2 > vn);
+TO: serpent_.critedge1;
+
+FROM: serpent_bb5;
+v8 := nondet();
+var__temp_vy.0 := vy.2;
+var__temp_vx.0 := v6;
+TO: serpent_bb5_end;
+
+FROM: serpent_bb5_end;
+assume(v8 > 0);
+TO: serpent_bb6;
+
+FROM: serpent_bb5_end;
+assume(v8 <= 0);
+TO: serpent_.critedge1;
+
+FROM: serpent_bb6;
+v10 := vy.2 + 1;
+var__temp_vy.2 := v10;
+TO: serpent_bb4;
+
+FROM: serpent_bb7;
+TO: serpent_bb7_ret;
+

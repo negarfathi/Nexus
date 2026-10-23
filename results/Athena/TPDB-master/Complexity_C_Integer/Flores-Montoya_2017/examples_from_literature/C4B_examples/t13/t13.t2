@@ -1,0 +1,63 @@
+///*** 1_t13 ***///
+START: t13_bb0;
+
+FROM: t13_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: t13_bb1;
+
+FROM: t13_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: t13_bb1_end;
+
+FROM: t13_bb1_end;
+assume(v.0 > 0);
+TO: t13_bb2;
+
+FROM: t13_bb1_end;
+assume(v.0 <= 0);
+TO: t13_bb6;
+
+FROM: t13_bb2;
+v1 := v.0 - 1;
+v2 := nondet();
+var__temp_v.1 := v.01;
+TO: t13_bb2_end;
+
+FROM: t13_bb2_end;
+assume(v2 > 0);
+TO: t13_bb3;
+
+FROM: t13_bb2_end;
+assume(v2 <= 0);
+TO: t13_bb4;
+
+FROM: t13_bb3;
+v4 := v.01 + 1;
+var__temp_v.01 := v4;
+var__temp_v.0 := v1;
+TO: t13_bb1;
+
+FROM: t13_bb4;
+v.1 := var__temp_v.1;
+var__temp_v.01 := v.1;
+var__temp_v.0 := v1;
+TO: t13_bb4_end;
+
+FROM: t13_bb4_end;
+assume(v.1 > 0);
+TO: t13_bb5;
+
+FROM: t13_bb4_end;
+assume(v.1 <= 0);
+TO: t13_bb1;
+
+FROM: t13_bb5;
+v6 := v.1 - 1;
+var__temp_v.1 := v6;
+TO: t13_bb4;
+
+FROM: t13_bb6;
+TO: t13_bb6_ret;
+

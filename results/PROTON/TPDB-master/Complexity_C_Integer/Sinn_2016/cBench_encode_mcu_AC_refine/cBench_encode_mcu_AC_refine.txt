@@ -1,0 +1,226 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.LozVKI
+
+Input File is : cBench_encode_mcu_AC_refine.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench consumer_jpeg_c/src/jcphuff.c	encode_mcu_AC_refine	
+//similar pattern appears in consumer_jpeg_c/src/jcphuff.c       encode_mcu_AC_first
+//and in cBench     consumer_jpeg_c/src/jchuff.c    encode_one_block
+//same pattern appears in cBench        consumer_jpeg_c/src/jchuff.c    htest_one_block
+
+int random();
+
+//Complexity: O(n)
+void encode_mcu_AC_refine(int cinfo_Ss, int cinfo_Se)
+{
+    /*phuff_entropy_ptr entropy = (phuff_entropy_ptr) cinfo->entropy;
+    register int temp;*/
+    register int r, k;
+    /*int EOB;
+    char *BR_buffer;
+    unsigned int BR;*/
+    int Se = cinfo_Se;
+    //int Al = cinfo->Al;
+    //JBLOCKROW block;
+    //int absvalues[64];
+    /*entropy->next_output_byte = cinfo->dest->next_output_byte;
+    entropy->free_in_buffer = cinfo->dest->free_in_buffer;*/
+    /*if (cinfo->restart_interval)
+	if (entropy->restarts_to_go == 0)
+	    emit_restart(entropy, entropy->next_restart_num);
+    block = MCU_data[0];
+    EOB = 0;*/
+    for (k = cinfo_Ss; k <= Se; k++) {
+	/*temp = (*block)[jpeg_natural_order[k]];
+	if (temp < 0)
+	    temp = -temp;
+	temp >>= Al;
+	absvalues[k] = temp;
+	if (temp == 1)
+	    EOB = k;*/
+    }
+    r = 0;
+    //BR = 0;
+    //BR_buffer = entropy->bit_buffer + entropy->BE;
+    for (k = cinfo_Ss; k <= Se; k++) {
+	{if (random()) { //(temp = absvalues[k]) == 0)
+	    r++;
+	    continue;
+	}}
+	while (r > 15 && random()) { //k <= EOB
+	    /*emit_eobrun(entropy);
+	    emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);*/
+	    r -= 16;
+	    /*emit_buffered_bits(entropy, BR_buffer, BR);
+	    BR_buffer = entropy->bit_buffer;
+	    BR = 0;*/
+	}
+	/*if (temp > 1) {
+	    BR_buffer[BR++] = (char) (temp & 1);
+	    continue;
+	}
+	emit_eobrun(entropy);
+	emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + 1);
+	temp = ((*block)[jpeg_natural_order[k]] < 0) ? 0 : 1;
+	emit_bits(entropy, (unsigned int) temp, 1);
+	emit_buffered_bits(entropy, BR_buffer, BR);
+	BR_buffer = entropy->bit_buffer;
+	BR = 0;*/
+	r = 0;
+    } /*if (r > 0 || BR > 0) {
+	entropy->EOBRUN++;
+	entropy->BE += BR;
+	if (entropy->EOBRUN == 0x7FFF || entropy->BE > (1000 - 64 + 1))
+	    emit_eobrun(entropy);
+    }
+    cinfo->dest->next_output_byte = entropy->next_output_byte;
+    cinfo->dest->free_in_buffer = entropy->free_in_buffer;
+    if (cinfo->restart_interval) {
+	if (entropy->restarts_to_go == 0) {
+	    entropy->restarts_to_go = cinfo->restart_interval;
+	    entropy->next_restart_num++;
+	    entropy->next_restart_num &= 7;
+	}
+	entropy->restarts_to_go--;
+    }
+    return 1;*/
+}
+
+End Main   
+
+Input File is : cBench_encode_mcu_AC_refine_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench consumer_jpeg_c/src/jcphuff.c	encode_mcu_AC_refine	
+//similar pattern appears in consumer_jpeg_c/src/jcphuff.c       encode_mcu_AC_first
+//and in cBench     consumer_jpeg_c/src/jchuff.c    encode_one_block
+//same pattern appears in cBench        consumer_jpeg_c/src/jchuff.c    htest_one_block
+
+int random();
+
+//Complexity: O(n)
+void encode_mcu_AC_refine(int cinfo_Ss, int cinfo_Se)
+{
+    /*phuff_entropy_ptr entropy = (phuff_entropy_ptr) cinfo->entropy;
+    register int temp;*/
+    register int r, k;
+    /*int EOB;
+    char *BR_buffer;
+    unsigned int BR;*/
+    int Se = cinfo_Se;
+    //int Al = cinfo->Al;
+    //JBLOCKROW block;
+    //int absvalues[64];
+    /*entropy->next_output_byte = cinfo->dest->next_output_byte;
+    entropy->free_in_buffer = cinfo->dest->free_in_buffer;*/
+    /*if (cinfo->restart_interval)
+	if (entropy->restarts_to_go == 0)
+	    emit_restart(entropy, entropy->next_restart_num);
+    block = MCU_data[0];
+    EOB = 0;*/
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(28, __func__);
+ for (k = cinfo_Ss; k <= Se; k++) { __VERIFIER_loop_head(28, __func__);
+printf("CBMC Instrumentation @ line28");myBool flag=__VERIFIER_nondet_myBool();static int oSe;static int ocinfo_Se;static int ocinfo_Ss;static int ok;static int or;if(pStored0){__CPROVER_assert(!(oSe==Se && ocinfo_Se==cinfo_Se && ocinfo_Ss==cinfo_Ss && ok==k && or==r),"recurrent state found");} if(flag){oSe=Se;ocinfo_Se=cinfo_Se;ocinfo_Ss=cinfo_Ss;ok=k;or=r;pStored0=myTrue;} 
+	/*temp = (*block)[jpeg_natural_order[k]];
+	if (temp < 0)
+	    temp = -temp;
+	temp >>= Al;
+	absvalues[k] = temp;
+	if (temp == 1)
+	    EOB = k;*/
+    }
+    r = 0;
+    //BR = 0;
+    //BR_buffer = entropy->bit_buffer + entropy->BE;
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(40, __func__);
+ for (k = cinfo_Ss; k <= Se; k++) { __VERIFIER_loop_head(40, __func__);
+printf("CBMC Instrumentation @ line40");myBool flag=__VERIFIER_nondet_myBool();static int oSe;static int ocinfo_Se;static int ocinfo_Ss;static int ok;static int or;if(pStored1){__CPROVER_assert(!(oSe==Se && ocinfo_Se==cinfo_Se && ocinfo_Ss==cinfo_Ss && ok==k && or==r),"recurrent state found");} if(flag){oSe=Se;ocinfo_Se=cinfo_Se;ocinfo_Ss=cinfo_Ss;ok=k;or=r;pStored1=myTrue;} 
+	{ __VERIFIER_reached_control(41, __func__);
+if (random()) { __VERIFIER_control_true(41, __func__);
+ //(temp = absvalues[k]) == 0)
+	    r++;
+	    continue;
+	}}
+myBool pStored2 = myFalse; __VERIFIER_reached_control(45, __func__);
+	while (r > 15 && random()) { __VERIFIER_loop_head(45, __func__);
+printf("CBMC Instrumentation @ line45");myBool flag=__VERIFIER_nondet_myBool();static int oSe;static int ocinfo_Se;static int ocinfo_Ss;static int ok;static int or;if(pStored2){__CPROVER_assert(!(oSe==Se && ocinfo_Se==cinfo_Se && ocinfo_Ss==cinfo_Ss && ok==k && or==r),"recurrent state found");} if(flag){oSe=Se;ocinfo_Se=cinfo_Se;ocinfo_Ss=cinfo_Ss;ok=k;or=r;pStored2=myTrue;}  //k <= EOB
+	    /*emit_eobrun(entropy);
+	    emit_symbol(entropy, entropy->ac_tbl_no, 0xF0);*/
+	    r -= 16;
+	    /*emit_buffered_bits(entropy, BR_buffer, BR);
+	    BR_buffer = entropy->bit_buffer;
+	    BR = 0;*/
+	}
+	/*if (temp > 1) {
+	    BR_buffer[BR++] = (char) (temp & 1);
+	    continue;
+	}
+	emit_eobrun(entropy);
+	emit_symbol(entropy, entropy->ac_tbl_no, (r << 4) + 1);
+	temp = ((*block)[jpeg_natural_order[k]] < 0) ? 0 : 1;
+	emit_bits(entropy, (unsigned int) temp, 1);
+	emit_buffered_bits(entropy, BR_buffer, BR);
+	BR_buffer = entropy->bit_buffer;
+	BR = 0;*/
+	r = 0;
+    } /*if (r > 0 || BR > 0) {
+	entropy->EOBRUN++;
+	entropy->BE += BR;
+	if (entropy->EOBRUN == 0x7FFF || entropy->BE > (1000 - 64 + 1))
+	    emit_eobrun(entropy);
+    }
+    cinfo->dest->next_output_byte = entropy->next_output_byte;
+    cinfo->dest->free_in_buffer = entropy->free_in_buffer;
+    if (ci
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+nfo->restart_interval) {
+	if (entropy->restarts_to_go == 0) {
+	    entropy->restarts_to_go = cinfo->restart_interval;
+	    entropy->next_restart_num++;
+	    entropy->next_restart_num &= 7;
+	}
+	entropy->restarts_to_go--;
+    }
+    return 1;*/
+}
+
+End Main 
+ cBench_encode_mcu_AC_refine_braced_instrumented.c
+NTFILE is cBench_encode_mcu_AC_refine_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_encode_mcu_AC_refine.c
+FILE=cBench_encode_mcu_AC_refine_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 928 milliseconds

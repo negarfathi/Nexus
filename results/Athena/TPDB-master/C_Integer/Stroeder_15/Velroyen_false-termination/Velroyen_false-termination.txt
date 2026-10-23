@@ -1,0 +1,13 @@
+Velroyen_false-termination.c:13:6: warning: variable 'x' is used uninitialized whenever function 'main' is called [-Wsometimes-uninitialized]
+        int x;
+        ~~~~^
+Velroyen_false-termination.c:14:9: note: uninitialized use occurs here
+        while (x!=0) {
+               ^
+Velroyen_false-termination.c:13:7: note: initialize the variable 'x' to silence this warning
+        int x;
+             ^
+              = 0
+1 warning generated.
+NO
+Runtime: 822 milliseconds

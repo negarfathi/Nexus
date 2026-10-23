@@ -1,0 +1,35 @@
+///*** 1_easy2 ***///
+START: easy2_bb0;
+
+FROM: easy2_bb0;
+var__temp_vy.0 := 0;
+var__temp_vx.0 := 12;
+var__temp_v.0 := vz;
+TO: easy2_bb1;
+
+FROM: easy2_bb1;
+vy.0 := var__temp_vy.0;
+vx.0 := var__temp_vx.0;
+v.0 := var__temp_v.0;
+TO: easy2_bb1_end;
+
+FROM: easy2_bb1_end;
+assume(v.0 > 0);
+TO: easy2_bb2;
+
+FROM: easy2_bb1_end;
+assume(v.0 <= 0);
+TO: easy2_bb3;
+
+FROM: easy2_bb2;
+v1 := vx.0 + 1;
+v2 := vy.0 - 1;
+v3 := v.0 - 1;
+var__temp_vy.0 := v2;
+var__temp_vx.0 := v1;
+var__temp_v.0 := v3;
+TO: easy2_bb1;
+
+FROM: easy2_bb3;
+TO: easy2_bb3_ret;
+

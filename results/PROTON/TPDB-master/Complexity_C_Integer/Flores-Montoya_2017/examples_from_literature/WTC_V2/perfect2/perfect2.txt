@@ -1,0 +1,104 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.PxUEFl
+
+Input File is : perfect2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int perfect2(int x){
+  int y1, y2, y3;
+
+  {if(x <= 0) {return 0;}}
+
+  y1=x;
+  y2=x;
+  y3=x;
+
+  for(;;){
+    y1 = y1-1;
+    {if(y1 == 0) {break;}}
+    while(y2 >= y1) {y2 = y2 - y1;}
+    {if(y2 == 0)
+      {y3 = y3 - y1;}}
+    y2 = x;
+  }
+
+  return (y3 == 0);
+}
+
+End Main   
+
+Input File is : perfect2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int perfect2(int x){
+  int y1, y2, y3;
+
+  { __VERIFIER_reached_control(4, __func__);
+if(x <= 0) { __VERIFIER_control_true(4, __func__);
+return 0;}}
+
+  y1=x;
+  y2=x;
+  y3=x;
+
+ myBool pStored0 = myFalse; __VERIFIER_reached_control(10, __func__);
+ for(;;){ __VERIFIER_loop_head(10, __func__);
+printf("CBMC Instrumentation @ line10");myBool flag=__VERIFIER_nondet_myBool();static int ox;static int oy1;static int oy2;static int oy3;if(pStored0){__CPROVER_assert(!(ox==x && oy1==y1 && oy2==y2 && oy3==y3),"recurrent state found");} if(flag){ox=x;oy1=y1;oy2=y2;oy3=y3;pStored0=myTrue;} 
+    y1 = y1-1;
+    { __VERIFIER_reached_control(12, __func__);
+if(y1 == 0) { __VERIFIER_control_true(12, __func__);
+break;}}
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(13, __func__);
+ while(y2 >= y1) { __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int ox;static int oy1;static int oy2;static int oy3;if(pStored1){__CPROVER_assert(!(ox==x && oy1==y1 && oy2==y2 && oy3==y3),"recurrent state found");} if(flag){ox=x;oy1=y1;oy2=y2;oy3=y3;pStored1=myTrue;} y2 = y2 - y1;}
+    { __VERIFIER_reached_control(14, __func__);
+if(y2 == 0)
+      { __VERIFIER_control_true(15, __func__);
+y3 = y3 - y1;}}
+    y2 = x;
+  }
+
+  return (y3 == 0);
+}
+
+End Main 
+ perfect2_braced_instrumented.c
+NTFILE is perfect2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for perfect2.c
+FILE=perfect2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 930 milliseconds

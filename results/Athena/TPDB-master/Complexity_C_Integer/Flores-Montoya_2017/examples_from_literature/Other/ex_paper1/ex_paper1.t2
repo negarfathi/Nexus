@@ -1,0 +1,94 @@
+///*** 1_ex_paper1 ***///
+START: ex_paper1_bb0;
+
+FROM: ex_paper1_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: ex_paper1_bb0_end;
+
+FROM: ex_paper1_bb0_end;
+assume((vx <= 0) || (vy <= 0));
+TO: ex_paper1_bb9;
+
+FROM: ex_paper1_bb0_end;
+assume((vx > 0) && (vy > 0));
+TO: ex_paper1_bb1;
+
+FROM: ex_paper1_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.2 := v.01;
+TO: ex_paper1_bb1_end;
+
+FROM: ex_paper1_bb1_end;
+assume(v.0 > 0);
+TO: ex_paper1_bb2;
+
+FROM: ex_paper1_bb1_end;
+assume(v.0 <= 0);
+TO: ex_paper1_bb5;
+
+FROM: ex_paper1_bb2;
+v3 := v.0 + -1;
+v4 := v.01 + 1;
+var__temp_v.1 := v4;
+TO: ex_paper1_bb3;
+
+FROM: ex_paper1_bb3;
+v.1 := var__temp_v.1;
+v5 := nondet();
+var__temp_v.01 := v.1;
+var__temp_v.0 := v3;
+TO: ex_paper1_bb3_end;
+
+FROM: ex_paper1_bb3_end;
+assume((v5 != 0) && (v.1 > 0));
+TO: ex_paper1_bb4;
+
+FROM: ex_paper1_bb3_end;
+assume((v5 == 0) || (v.1 <= 0));
+TO: ex_paper1_bb1;
+
+FROM: ex_paper1_bb4;
+v8 := v.1 + -1;
+var__temp_v.1 := v8;
+TO: ex_paper1_bb3;
+
+FROM: ex_paper1_bb5;
+v.2 := var__temp_v.2;
+TO: ex_paper1_bb5_end;
+
+FROM: ex_paper1_bb5_end;
+assume(v.2 > 0);
+TO: ex_paper1_bb6;
+
+FROM: ex_paper1_bb5_end;
+assume(v.2 <= 0);
+TO: ex_paper1_bb9;
+
+FROM: ex_paper1_bb6;
+v10 := v.2 + -1;
+var__temp_vi.0 := 0;
+TO: ex_paper1_bb7;
+
+FROM: ex_paper1_bb7;
+vi.0 := var__temp_vi.0;
+var__temp_v.2 := v10;
+TO: ex_paper1_bb7_end;
+
+FROM: ex_paper1_bb7_end;
+assume(vi.0 < vz);
+TO: ex_paper1_bb8;
+
+FROM: ex_paper1_bb7_end;
+assume(vi.0 >= vz);
+TO: ex_paper1_bb5;
+
+FROM: ex_paper1_bb8;
+v12 := vi.0 + 1;
+var__temp_vi.0 := v12;
+TO: ex_paper1_bb7;
+
+FROM: ex_paper1_bb9;
+TO: ex_paper1_bb9_ret;
+

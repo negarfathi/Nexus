@@ -1,0 +1,226 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.9232zo
+
+Input File is : cBench_cf_decode_eol.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from cBench	office_ghostscript/src/scfd.c	cf_decode_eol	
+
+//Complexity: O(n)
+void cf_decode_eol(int ss_bits, int ss_bits_left, int ss_K, int pr_ptr, int pr_limit)
+{
+    /*register const byte *p;
+    const byte *rlimit;
+    uint bits;*/
+    int bits_left;
+    int zeros;
+    int look_ahead;
+    int p; //modelling register const byte *p;
+    int rlimit; //modelling const byte *rlimit;
+    p = pr_ptr, rlimit = pr_limit, bits_left = ss_bits_left;
+    for (zeros = 0; zeros < 12 - 1; zeros++) {
+	{if (bits_left < 1) {
+	    {if (rlimit - p < 3) {
+		//int c;
+		{if (p < rlimit)
+		    {++p;}
+		    //c = *++p;
+		else
+		    {goto out;}}
+		/*if (ss->FirstBitLowOrder)
+		    c = byte_reverse_bits[c];
+		bits = (bits << 8) + c, bits_left += 8;*/
+		bits_left += 8;
+	    } else {
+		/*if (ss->FirstBitLowOrder)
+		    bits = (bits << 24) + ((uint) byte_reverse_bits[p[1]] << 16) + ((uint) byte_reverse_bits[p[2]] << 8) + byte_reverse_bits[p[3]];
+		else
+		    bits = (bits << 24) + ((uint) p[1] << 16) + ((uint) p[2] << 8) + p[3];*/
+		bits_left += 24, p += 3;
+	    }}
+	}};
+	/*if (((bits >> (bits_left - (1))) & ((1 << (1)) - 1)))
+	    return -(zeros + 1);
+	(bits_left -= (1));*/
+	(bits_left -= (1));
+    }
+    look_ahead = (ss_K > 0 ? 2 : 1);
+    for (;;) {
+	{if (bits_left < look_ahead) {
+	    {if (rlimit - p < 3) {
+		//int c;
+		{if (p < rlimit)
+		    {++p;}
+		    //c = *++p;
+		else
+		    {goto back;}}
+		/*if (ss->FirstBitLowOrder)
+		    c = byte_reverse_bits[c];
+		bits = (bits << 8) + c, bits_left += 8;*/
+		bits_left += 8;
+	    } else {
+		/*if (ss->FirstBitLowOrder)
+		    bits = (bits << 24) + ((uint) byte_reverse_bits[p[1]] << 16) + ((uint) byte_reverse_bits[p[2]] << 8) + byte_reverse_bits[p[3]];
+		else
+		    bits = (bits << 24) + ((uint) p[1] << 16) + ((uint) p[2] << 8) + p[3];*/
+		bits_left += 24, p += 3;
+	    }}
+	}};
+	/*if (((bits >> (bits_left - (1))) & ((1 << (1)) - 1)))
+	    break;*/
+	(bits_left -= (1));
+    }
+    /*(bits_left -= (1));
+    pr->ptr = p -= (bits_left >> 3), ss->bits = bits >>= (bits_left & ~7), ss->bits_left = bits_left &= 7;
+    return 1;*/
+    return;
+  back:/*bits &= (1 << bits_left) - 1;
+    bits_left += 12 - 1;
+    pr->ptr = p -= (bits_left >> 3), ss->bits = bits >>= (bits_left & ~7), ss->bits_left = bits_left &= 7;*/
+  out:return; // 0
+}
+
+
+End Main   
+
+Input File is : cBench_cf_decode_eol_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from cBench	office_ghostscript/src/scfd.c	cf_decode_eol	
+
+//Complexity: O(n)
+void cf_decode_eol(int ss_bits, int ss_bits_left, int ss_K, int pr_ptr, int pr_limit)
+{
+    /*register const byte *p;
+    const byte *rlimit;
+    uint bits;*/
+    int bits_left;
+    int zeros;
+    int look_ahead;
+    int p; //modelling register const byte *p;
+    int rlimit; //modelling const byte *rlimit;
+    p = pr_ptr, rlimit = pr_limit, bits_left = ss_bits_left;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(15, __func__);
+ for (zeros = 0; zeros < 12 - 1; zeros++) { __VERIFIER_loop_head(15, __func__);
+printf("CBMC Instrumentation @ line15");myBool flag=__VERIFIER_nondet_myBool();static int obits_left;static int olook_ahead;static int op;static int opr_limit;static int opr_ptr;static int orlimit;static int oss_K;static int oss_bits;static int oss_bits_left;static int ozeros;if(pStored0){__CPROVER_assert(!(obits_left==bits_left && olook_ahead==look_ahead && op==p && opr_limit==pr_limit && opr_ptr==pr_ptr && orlimit==rlimit && oss_K==ss_K && oss_bits==ss_bits && oss_bits_left==ss_bits_left && ozeros==zeros),"recurrent state found");} if(flag){obits_left=bits_left;olook_ahead=look_ahead;op=p;opr_limit=pr_limit;opr_ptr=pr_ptr;orlimit=rlimit;oss_K=ss_K;oss_bits=ss_bits;oss_bits_left=ss_bits_left;ozeros=zeros;pStored0=myTrue;} 
+	{ __VERIFIER_reached_control(16, __func__);
+if (bits_left < 1) { __VERIFIER_control_true(16, __func__);
+
+	    { __VERIFIER_reached_control(17, __func__);
+if (rlimit - p < 3) { __VERIFIER_control_true(17, __func__);
+
+		//int c;
+		{ __VERIFIER_reached_control(19, __func__);
+if (p < rlimit)
+		    { __VERIFIER_control_true(20, __func__);
+++p;}
+		    //c = *++p;
+		else
+		    { __VERIFIER_control_false(23, __func__);
+goto out;}}
+		/*if (ss->FirstBitLowOrder)
+		    c = byte_reverse_bits[c];
+		bits = (bits << 8) + c, bits_left += 8;*/
+		bits_left += 8;
+	    } else { __VERIFIER_control_false(28, __func__);
+
+		/*if (ss->FirstBitLowOrder)
+		    bits = (bits << 24) + ((uint) byte_reverse_bits[p[1]] << 16) + ((uint) byte_reverse_bits[p[2]] << 8) + byte_reverse_bits[p[3]];
+		else
+		    bits = (bits << 24) + ((uint) p[1] << 16) + ((uint) p[2] << 8) + p[3];*/
+		bits_left += 24, p += 3;
+	    }}
+	}};
+	/*if (((bits >> (bits_left - (1))) & ((1 << (1)) - 1)))
+	    return -(zeros + 1);
+	(bits_left -= (1));*/
+	(bits_left -= (1));
+    }
+    look_ahead = (ss_K > 0 ? 2 : 1);
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(42, __func__);
+ for (;;) { __VERIFIER_loop_head(42, __func__);
+printf("CBMC Instrumentation @ line42");myBool flag=__VERIFIER_nondet_myBool();static int obits_left;static int olook_ahead;static int op;static int opr_limit;static int opr_ptr;static int orlimit;static int oss_K;static int oss_bits;static int oss_bits_left;static int ozeros;if(pStored1){__CPROVER_assert(!(obits_left==bits_left && olook_ahead==look_ahead && op==p && opr_limit==pr_limit && opr_ptr==pr_ptr && orlimit==rlimit && oss_K==ss_K && oss_bits==ss_bits && oss_bits_left==ss_bits_left && ozeros==zeros),"recurrent state found");} if(flag){obits_left=bits_left;olook_ahead=look_ahead;op=p;opr_limit=pr_limit;opr_ptr=pr_ptr;orlimit=rlimit;oss_K=ss_K;oss_bits=ss_bits;oss_bits_left=ss_bits_left;ozeros=zeros;pStored1=myTrue;} 
+	{ __VERIFIER_reached_control(43, __func__);
+if (bits_left < look_ahead) { __VERIFIER_control_true(43, __func__);
+
+	    { __VERIFIER_reached_control(44, __func__);
+if (rlimit - p < 3) { __VERIFIER_control_true(44, __func__);
+
+		//int c;
+		{ __VERIFIER_reached_control(46, __func__);
+if (p < rlimit)
+		    { __VERIFIER_control_true(47, __func__);
+++p;}
+		    //c = *++p;
+		else
+		    { __VERIFIER_control_false(50, __func__);
+goto back;}}
+		/*if (ss->FirstBitLowOrder)
+		    c = byte_reverse_bits[c];
+		bits = (bits << 8) + c, bits_l
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+eft += 8;*/
+		bits_left += 8;
+	    } else { __VERIFIER_control_false(55, __func__);
+
+		/*if (ss->FirstBitLowOrder)
+		    bits = (bits << 24) + ((uint) byte_reverse_bits[p[1]] << 16) + ((uint) byte_reverse_bits[p[2]] << 8) + byte_reverse_bits[p[3]];
+		else
+		    bits = (bits << 24) + ((uint) p[1] << 16) + ((uint) p[2] << 8) + p[3];*/
+		bits_left += 24, p += 3;
+	    }}
+	}};
+	/*if (((bits >> (bits_left - (1))) & ((1 << (1)) - 1)))
+	    break;*/
+	(bits_left -= (1));
+    }
+    /*(bits_left -= (1));
+    pr->ptr = p -= (bits_left >> 3), ss->bits = bits >>= (bits_left & ~7), ss->bits_left = bits_left &= 7;
+    return 1;*/
+    return;
+  back:/*bits &= (1 << bits_left) - 1;
+    bits_left += 12 - 1;
+    pr->ptr = p -= (bits_left >> 3), ss->bits = bits >>= (bits_left & ~7), ss->bits_left = bits_left &= 7;*/
+  out:return; // 0
+}
+
+
+End Main 
+ cBench_cf_decode_eol_braced_instrumented.c
+NTFILE is cBench_cf_decode_eol_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for cBench_cf_decode_eol.c
+FILE=cBench_cf_decode_eol_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 1017 milliseconds

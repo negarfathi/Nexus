@@ -1,0 +1,52 @@
+///*** 1_speedFails4 ***///
+START: speedFails4_bb0;
+
+FROM: speedFails4_bb0;
+TO: speedFails4_bb0_v.;
+FROM: speedFails4_bb0_v.;
+assume(v0 >= 1);
+v. := 1;
+TO: speedFails4_bb0_sv.;
+
+FROM: speedFails4_bb0_v.;
+assume(v0 < 1);
+v. := -1;
+TO: speedFails4_bb0_sv.;
+
+FROM: speedFails4_bb0_sv.;
+var__temp_v.0 := vx;
+TO: speedFails4_bb1;
+
+FROM: speedFails4_bb1;
+v.0 := var__temp_v.0;
+TO: speedFails4_bb1_end;
+
+FROM: speedFails4_bb1_end;
+assume(v.0 <= vn);
+TO: speedFails4_bb2;
+
+FROM: speedFails4_bb1_end;
+assume(v.0 > vn);
+TO: speedFails4_bb3;
+
+FROM: speedFails4_bb2;
+v4 := v.0 + v.;
+v5 := v.0 - v.;
+TO: speedFails4_bb2_v.1;
+FROM: speedFails4_bb2_v.1;
+assume(v0 >= 1);
+v.1 := v4;
+TO: speedFails4_bb2_sv.1;
+
+FROM: speedFails4_bb2_v.1;
+assume(v0 < 1);
+v.1 := v5;
+TO: speedFails4_bb2_sv.1;
+
+FROM: speedFails4_bb2_sv.1;
+var__temp_v.0 := v.1;
+TO: speedFails4_bb1;
+
+FROM: speedFails4_bb3;
+TO: speedFails4_bb3_ret;
+

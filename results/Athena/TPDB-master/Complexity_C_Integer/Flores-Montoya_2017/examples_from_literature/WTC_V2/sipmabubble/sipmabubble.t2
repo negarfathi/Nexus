@@ -1,0 +1,48 @@
+///*** 1_sipmabubble ***///
+START: sipmabubble_bb0;
+
+FROM: sipmabubble_bb0;
+var__temp_vi.0 := vn;
+TO: sipmabubble_bb1;
+
+FROM: sipmabubble_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := 0;
+TO: sipmabubble_bb1_end;
+
+FROM: sipmabubble_bb1_end;
+assume(vi.0 >= 0);
+TO: sipmabubble_bb2;
+
+FROM: sipmabubble_bb1_end;
+assume(vi.0 < 0);
+TO: sipmabubble_bb5;
+
+FROM: sipmabubble_bb2;
+vj.0 := var__temp_vj.0;
+v1 := vi.0 - 1;
+TO: sipmabubble_bb2_end;
+
+FROM: sipmabubble_bb2_end;
+assume(vj.0 <= v1);
+TO: sipmabubble_bb3;
+
+FROM: sipmabubble_bb2_end;
+assume(vj.0 > v1);
+TO: sipmabubble_bb4;
+
+FROM: sipmabubble_bb3;
+v3 := nondet();
+v4 := nondet();
+v5 := vj.0 + 1;
+var__temp_vj.0 := v5;
+TO: sipmabubble_bb2;
+
+FROM: sipmabubble_bb4;
+v6 := vi.0 + -1;
+var__temp_vi.0 := v6;
+TO: sipmabubble_bb1;
+
+FROM: sipmabubble_bb5;
+TO: sipmabubble_bb5_ret;
+

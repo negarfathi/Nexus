@@ -1,0 +1,31 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume(v.0 >= 0);
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume(v.0 < 0);
+TO: foo_bb3;
+
+FROM: foo_bb2;
+v1 := v.0 + v.01;
+v2 := v.01 + 1;
+var__temp_v.01 := v2;
+var__temp_v.0 := v1;
+TO: foo_bb1;
+
+FROM: foo_bb3;
+TO: foo_bb3_ret;
+

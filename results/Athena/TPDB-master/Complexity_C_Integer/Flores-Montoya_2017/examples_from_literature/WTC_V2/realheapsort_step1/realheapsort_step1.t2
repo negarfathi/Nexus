@@ -1,0 +1,70 @@
+///*** 1_realheapsort_step1 ***///
+START: realheapsort_step1_bb0;
+
+FROM: realheapsort_step1_bb0;
+var__temp_vk.0 := 1;
+TO: realheapsort_step1_bb0_end;
+
+FROM: realheapsort_step1_bb0_end;
+assume(vN > 2);
+TO: realheapsort_step1_bb1;
+
+FROM: realheapsort_step1_bb0_end;
+assume(vN <= 2);
+TO: realheapsort_step1_bb5;
+
+FROM: realheapsort_step1_bb1;
+vk.0 := var__temp_vk.0;
+v1 := vN - 1;
+var__temp_vj.0 := vk.0;
+TO: realheapsort_step1_bb1_end;
+
+FROM: realheapsort_step1_bb1_end;
+assume(vk.0 <= v1);
+TO: realheapsort_step1_bb2;
+
+FROM: realheapsort_step1_bb1_end;
+assume(vk.0 > v1);
+TO: realheapsort_step1_bb5;
+
+FROM: realheapsort_step1_bb2;
+vj.0 := var__temp_vj.0;
+TO: realheapsort_step1_bb2_end;
+
+FROM: realheapsort_step1_bb2_end;
+assume(vj.0 > 0);
+TO: realheapsort_step1_bb3;
+
+FROM: realheapsort_step1_bb2_end;
+assume(vj.0 <= 0);
+TO: realheapsort_step1_.critedge;
+
+FROM: realheapsort_step1_bb3;
+v4 := nondet();
+v5 := nondet();
+TO: realheapsort_step1_bb3_end;
+
+FROM: realheapsort_step1_bb3_end;
+assume(v4 > v5);
+TO: realheapsort_step1_bb4;
+
+FROM: realheapsort_step1_bb3_end;
+assume(v4 <= v5);
+TO: realheapsort_step1_.critedge;
+
+FROM: realheapsort_step1_bb4;
+v7 := nondet();
+v8 := vj.0 + 1;
+v9 := v8 / 2;
+v10 := v9 - 1;
+var__temp_vj.0 := v10;
+TO: realheapsort_step1_bb2;
+
+FROM: realheapsort_step1_.critedge;
+v11 := vk.0 + 1;
+var__temp_vk.0 := v11;
+TO: realheapsort_step1_bb1;
+
+FROM: realheapsort_step1_bb5;
+TO: realheapsort_step1_bb5_ret;
+

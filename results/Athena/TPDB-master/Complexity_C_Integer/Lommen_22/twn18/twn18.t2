@@ -1,0 +1,60 @@
+///*** 1_twn18 ***///
+START: twn18_bb0;
+
+FROM: twn18_bb0;
+var__temp_v.04 := ve;
+var__temp_v.03 := vd;
+var__temp_v.02 := vc;
+var__temp_v.01 := vb;
+TO: twn18_bb1;
+
+FROM: twn18_bb1;
+v.04 := var__temp_v.04;
+v.03 := var__temp_v.03;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v0 := v.01 * v.01;
+TO: twn18_bb1_end;
+
+FROM: twn18_bb1_end;
+assume(v0 > 1);
+TO: twn18_bb2;
+
+FROM: twn18_bb1_end;
+assume(v0 <= 1);
+TO: twn18_.critedge;
+
+FROM: twn18_bb2;
+v2 := va * v.02;
+v3 := 2 * va;
+v4 := v2 + v3;
+TO: twn18_bb2_end;
+
+FROM: twn18_bb2_end;
+assume(v4 > 0);
+TO: twn18_bb3;
+
+FROM: twn18_bb2_end;
+assume(v4 <= 0);
+TO: twn18_.critedge;
+
+FROM: twn18_bb3;
+v6 := 3 * v.01;
+v7 := 4 * v.02;
+v8 := v6 - v7;
+v9 := 4 * v.01;
+v10 := 3 * v.02;
+v11 := v9 - v10;
+v12 := 5 * v.03;
+v13 := 5 * v.04;
+v14 := va * va;
+v15 := v13 - v14;
+var__temp_v.04 := v15;
+var__temp_v.03 := v12;
+var__temp_v.02 := v11;
+var__temp_v.01 := v8;
+TO: twn18_bb1;
+
+FROM: twn18_.critedge;
+TO: twn18_.critedge_ret;
+

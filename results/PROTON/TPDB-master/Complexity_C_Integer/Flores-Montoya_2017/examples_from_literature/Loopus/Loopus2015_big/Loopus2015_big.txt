@@ -1,0 +1,109 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.1219oq
+
+Input File is : Loopus2015_big.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+
+void Loopus2015_big(int len) {
+int beg=0,end=0,i = 0;
+ while(i < len) {
+	i++;
+	{if (nondet())
+		{end = i;}}
+	{if (nondet()) {
+		int k = beg;
+		while (k < end){
+			k++;
+        }
+		end = i;
+		beg = end;
+	} else {if(nondet()) {
+		end = i;
+		beg = end;
+	}}}
+ }
+}
+
+End Main   
+
+Input File is : Loopus2015_big_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+
+void Loopus2015_big(int len) {
+int beg=0,end=0,i = 0;
+myBool pStored0 = myFalse; __VERIFIER_reached_control(6, __func__);
+ while(i < len) { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int obeg;static int oend;static int oi;static int olen;if(pStored0){__CPROVER_assert(!(obeg==beg && oend==end && oi==i && olen==len),"recurrent state found");} if(flag){obeg=beg;oend=end;oi=i;olen=len;pStored0=myTrue;} 
+	i++;
+	{ __VERIFIER_reached_control(8, __func__);
+if (nondet())
+		{ __VERIFIER_control_true(9, __func__);
+end = i;}}
+	{ __VERIFIER_reached_control(10, __func__);
+if (nondet()) { __VERIFIER_control_true(10, __func__);
+
+		int k = beg;
+	myBool pStored1 = myFalse; __VERIFIER_reached_control(12, __func__);
+	while (k < end){ __VERIFIER_loop_head(12, __func__);
+printf("CBMC Instrumentation @ line12");myBool flag=__VERIFIER_nondet_myBool();static int obeg;static int oend;static int oi;static int ok;static int olen;if(pStored1){__CPROVER_assert(!(obeg==beg && oend==end && oi==i && ok==k && olen==len),"recurrent state found");} if(flag){obeg=beg;oend=end;oi=i;ok=k;olen=len;pStored1=myTrue;} 
+			k++;
+        }
+		end = i;
+		beg = end;
+	} else { __VERIFIER_control_false(17, __func__);
+ __VERIFIER_reached_control(17, __func__);
+if(nondet()) { __VERIFIER_control_true(17, __func__);
+
+		end = i;
+		beg = end;
+	}}}
+ }
+}
+
+End Main 
+ Loopus2015_big_braced_instrumented.c
+NTFILE is Loopus2015_big_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for Loopus2015_big.c
+FILE=Loopus2015_big_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 728 milliseconds

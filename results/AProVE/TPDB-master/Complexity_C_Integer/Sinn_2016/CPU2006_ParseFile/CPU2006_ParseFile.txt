@@ -1,0 +1,678 @@
+MAYBE
+proof of CPU2006_ParseFile.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 103 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/CPU2006_ParseFile.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/CPU2006_ParseFile.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "random" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "ParseFile" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32, 1 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		%7 = alloca i32, align 4
+		%8 = alloca i32, align 4
+		%9 = alloca i32, align 4
+		%10 = alloca i32, align 4
+		%11 = alloca i32, align 4
+		%12 = alloca i32, align 4
+		%13 = alloca i32, align 4
+		%14 = alloca i32, align 4
+		%15 = alloca i32, align 4
+		%16 = alloca i32, align 4
+		%17 = alloca i32, align 4
+		%18 = alloca i32, align 4
+		%19 = alloca i32, align 4
+		store %0, %3
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		store %1, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %7)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %8)
+		store 0, %8
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %9)
+		store 0, %9
+		store 0, %6
+		store 0, %7
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %10)
+		store 0, %10
+		br %20
+	20:
+		%21 = load %8
+		%22 = add i32 %21, 1
+		store %22, %8
+		%23 = load %3
+		%24 = icmp slt %21 %23
+		br %24, %25, %393
+	25:
+		br %26
+	26:
+		%27 = load %8
+		%28 = add i32 %27, 1
+		store %28, %8
+		%29 = load %3
+		%30 = icmp slt %27 %29
+		br %30, %31, %34
+	31:
+		%32 = call i32 (...)* @random()
+		%33 = icmp ne %32 0
+		br %34
+	34:
+		%35 = phi [0, %26], [%33, %31]
+		br %35, %36, %57
+	36:
+		br %37
+	37:
+		%38 = load %8
+		%39 = add i32 %38, 1
+		store %39, %8
+		%40 = load %3
+		%41 = icmp slt %38 %40
+		br %41, %42, %45
+	42:
+		%43 = call i32 (...)* @random()
+		%44 = icmp ne %43 0
+		br %45
+	45:
+		%46 = phi [0, %37], [%44, %42]
+		br %46, %47, %48
+	47:
+		br %37
+	48:
+		%49 = call i32 (...)* @random()
+		%50 = icmp ne %49 0
+		br %50, %51, %54
+	51:
+		%52 = load %10
+		%53 = add i32 %52, 1
+		store %53, %10
+		br %54
+	54:
+		%55 = load %8
+		%56 = add i32 %55, 1
+		store %56, %8
+		br %26
+	57:
+		%58 = call i32 (...)* @random()
+		%59 = icmp ne %58 0
+		br %59, %60, %69
+	60:
+		%61 = load %6
+		%62 = icmp ne %61 0
+		br %62, %63, %66
+	63:
+		%64 = load %9
+		%65 = add i32 %64, 1
+		store %65, %9
+		store 0, %6
+		br %66
+	66:
+		%67 = load %10
+		%68 = add i32 %67, 1
+		store %68, %10
+		br %69
+	69:
+		%70 = load %6
+		%71 = icmp ne %70 0
+		br %71, %72, %83
+	72:
+		%73 = call i32 (...)* @random()
+		%74 = icmp ne %73 0
+		br %74, %75, %83
+	75:
+		%76 = load %6
+		%77 = add i32 %76, 1
+		store %77, %6
+		%78 = load %6
+		%79 = load %4
+		%80 = icmp sgt %78 %79
+		br %80, %81, %82
+	81:
+		br %393
+	82:
+		br %83
+	83:
+		%84 = call i32 (...)* @random()
+		%85 = icmp ne %84 0
+		br %85, %86, %95
+	86:
+		%87 = load %7
+		%88 = icmp ne %87 0
+		br %88, %95, %89
+	89:
+		%90 = load %6
+		%91 = icmp ne %90 0
+		br %91, %95, %92
+	92:
+		store 0, %6
+		%93 = load %6
+		%94 = add i32 %93, 1
+		store %94, %6
+		br %95
+	95:
+		%96 = call i32 (...)* @random()
+		%97 = icmp ne %96 0
+		br %97, %98, %392
+	98:
+		%99 = load %6
+		%100 = icmp ne %99 0
+		br %100, %101, %391
+	101:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %11)
+		store 0, %6
+		store 0, %7
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %12)
+		store 0, %12
+		br %102
+	102:
+		%103 = load %12
+		%104 = load %6
+		%105 = icmp slt %103 %104
+		br %105, %106, %110
+	106:
+		br %107
+	107:
+		%108 = load %12
+		%109 = add i32 %108, 1
+		store %109, %12
+		br %102
+	110:
+		store 1, %5
+		store 0, %11
+		br %111
+	111:
+		%112 = load %11
+		%113 = load %6
+		%114 = icmp ult %112 %113
+		br %114, %115, %125
+	115:
+		%116 = call i32 (...)* @random()
+		%117 = icmp ne %116 0
+		br %117, %118, %121
+	118:
+		%119 = load %5
+		%120 = add i32 %119, 1
+		store %120, %5
+		br %121
+	121:
+		br %122
+	122:
+		%123 = load %11
+		%124 = add i32 %123, 1
+		store %124, %11
+		br %111
+	125:
+		br %126
+	126:
+		%127 = load %8
+		%128 = add i32 %127, 1
+		store %128, %8
+		%129 = load %3
+		%130 = icmp slt %127 %129
+		br %130, %131, %134
+	131:
+		%132 = call i32 (...)* @random()
+		%133 = icmp ne %132 0
+		br %134
+	134:
+		%135 = phi [0, %126], [%133, %131]
+		br %135, %136, %143
+	136:
+		%137 = call i32 (...)* @random()
+		%138 = icmp ne %137 0
+		br %138, %139, %142
+	139:
+		%140 = load %10
+		%141 = add i32 %140, 1
+		store %141, %10
+		br %142
+	142:
+		br %126
+	143:
+		%144 = call i32 (...)* @random()
+		%145 = icmp ne %144 0
+		br %145, %146, %180
+	146:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %13)
+		store 0, %13
+		%147 = load %5
+		%148 = icmp sgt %147 1
+		br %148, %149, %150
+	149:
+		br %393
+	150:
+		br %151
+	151:
+		%152 = load %8
+		%153 = add i32 %152, 1
+		store %153, %8
+		%154 = load %3
+		%155 = icmp slt %152 %154
+		br %155, %156, %159
+	156:
+		%157 = call i32 (...)* @random()
+		%158 = icmp ne %157 0
+		br %159
+	159:
+		%160 = phi [0, %151], [%158, %156]
+		br %160, %161, %179
+	161:
+		%162 = call i32 (...)* @random()
+		%163 = icmp ne %162 0
+		br %163, %164, %167
+	164:
+		%165 = load %13
+		%166 = add i32 %165, 1
+		store %166, %13
+		br %167
+	167:
+		%168 = call i32 (...)* @random()
+		%169 = icmp ne %168 0
+		br %169, %170, %173
+	170:
+		%171 = load %10
+		%172 = add i32 %171, 1
+		store %172, %10
+		br %173
+	173:
+		%174 = load %13
+		%175 = load %4
+		%176 = icmp sgt %174 %175
+		br %176, %177, %178
+	177:
+		br %393
+	178:
+		br %151
+	179:
+		br %390
+	180:
+		%181 = call i32 (...)* @random()
+		%182 = icmp ne %181 0
+		br %182, %183, %197
+	183:
+		br %184
+	184:
+		%185 = call i32 (...)* @random()
+		%186 = icmp ne %185 0
+		br %186, %187, %191
+	187:
+		%188 = load %8
+		%189 = load %3
+		%190 = icmp slt %188 %189
+		br %191
+	191:
+		%192 = phi [0, %184], [%190, %187]
+		br %192, %193, %196
+	193:
+		%194 = load %8
+		%195 = add i32 %194, 1
+		store %195, %8
+		br %184
+	196:
+		br %389
+	197:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %14)
+		store 0, %14
+		%198 = load %14
+		%199 = add i32 %198, 1
+		store %199, %14
+		%200 = load %5
+		%201 = icmp eq %200 1
+		br %201, %202, %231
+	202:
+		%203 = load %8
+		%204 = add i32 %203, 1
+		store %204, %8
+		br %205
+	205:
+		%206 = call i32 (...)* @random()
+		%207 = icmp ne %206 0
+		br %207, %208, %212
+	208:
+		%209 = load %8
+		%210 = load %3
+		%211 = icmp slt %209 %210
+		br %212
+	212:
+		%213 = phi [0, %205], [%211, %208]
+		br %213, %214, %224
+	214:
+		%215 = load %14
+		%216 = add i32 %215, 1
+		store %216, %14
+		%217 = load %14
+		%218 = load %4
+		%219 = icmp sgt %217 %218
+		br %219, %220, %221
+	220:
+		br %393
+	221:
+		%222 = load %8
+		%223 = add i32 %222, 1
+		store %223, %8
+		br %205
+	224:
+		%225 = call i32 (...)* @random()
+		%226 = icmp ne %225 0
+		br %226, %227, %230
+	227:
+		%228 = load %10
+		%229 = add i32 %228, 1
+		store %229, %10
+		br %230
+	230:
+		br %388
+	231:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %15)
+		store 0, %15
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %16)
+		store 0, %16
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %17)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %18)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %19)
+		%232 = load %16
+		%233 = add i32 %232, 1
+		store %233, %16
+		%234 = load %8
+		%235 = add i32 %234, 1
+		store %235, %8
+		br %236
+	236:
+		%237 = load %15
+		%238 = load %5
+		%239 = sub i32 %238, 1
+		%240 = icmp slt %237 %239
+		br %240, %241, %245
+	241:
+		%242 = load %8
+		%243 = load %3
+		%244 = icmp slt %242 %243
+		br %245
+	245:
+		%246 = phi [0, %236], [%244, %241]
+		br %246, %247, %267
+	247:
+		%248 = call i32 (...)* @random()
+		%249 = icmp ne %248 0
+		br %249, %250, %258
+	250:
+		%251 = load %16
+		%252 = add i32 %251, 1
+		store %252, %16
+		%253 = load %16
+		%254 = load %4
+		%255 = icmp sgt %253 %254
+		br %255, %256, %257
+	256:
+		br %393
+	257:
+		br %258
+	258:
+		%259 = call i32 (...)* @random()
+		%260 = icmp ne %259 0
+		br %260, %261, %264
+	261:
+		%262 = load %15
+		%263 = add i32 %262, 1
+		store %263, %15
+		br %264
+	264:
+		%265 = load %8
+		%266 = add i32 %265, 1
+		store %266, %8
+		br %236
+	267:
+		%268 = call i32 (...)* @random()
+		%269 = icmp ne %268 0
+		br %269, %270, %289
+	270:
+		br %271
+	271:
+		%272 = load %8
+		%273 = add i32 %272, 1
+		store %273, %8
+		%274 = load %3
+		%275 = icmp slt %272 %274
+		br %275, %276, %279
+	276:
+		%277 = call i32 (...)* @random()
+		%278 = icmp ne %277 0
+		br %279
+	279:
+		%280 = phi [0, %271], [%278, %276]
+		br %280, %281, %288
+	281:
+		%282 = call i32 (...)* @random()
+		%283 = icmp ne %282 0
+		br %283, %284, %287
+	284:
+		%285 = load %10
+		%286 = add i32 %285, 1
+		store %286, %10
+		br %287
+	287:
+		br %271
+	288:
+		br %289
+	289:
+		%290 = load %16
+		%291 = add i32 %290, 1
+		store %291, %16
+		%292 = load %14
+		%293 = load %4
+		%294 = icmp sgt %292 %293
+		br %294, %295, %296
+	295:
+		br %393
+	296:
+		%297 = load %8
+		%298 = add i32 %297, 1
+		store %298, %8
+		br %299
+	299:
+		%300 = load %8
+		%301 = load %3
+		%302 = icmp slt %300 %301
+		br %302, %303, %306
+	303:
+		%304 = call i32 (...)* @random()
+		%305 = icmp ne %304 0
+		br %306
+	306:
+		%307 = phi [0, %299], [%305, %303]
+		br %307, %308, %318
+	308:
+		%309 = load %16
+		%310 = add i32 %309, 1
+		store %310, %16
+		%311 = load %16
+		%312 = load %4
+		%313 = icmp sgt %311 %312
+		br %313, %314, %315
+	314:
+		br %393
+	315:
+		%316 = load %8
+		%317 = add i32 %316, 1
+		store %317, %8
+		br %299
+	318:
+		store 0, %18
+		store 0, %19
+		store 0, %17
+		br %319
+	319:
+		%320 = load %17
+		%321 = load %15
+		%322 = icmp slt %320 %321
+		br %322, %323, %359
+	323:
+		store 0, %16
+		br %324
+	324:
+		%325 = call i32 (...)* @random()
+		%326 = icmp ne %325 0
+		br %326, %327, %337
+	327:
+		%328 = load %16
+		%329 = add i32 %328, 1
+		store %329, %16
+		%330 = load %18
+		%331 = add i32 %330, 1
+		store %331, %18
+		%332 = load %16
+		%333 = load %4
+		%334 = icmp sgt %332 %333
+		br %334, %335, %336
+	335:
+		br %393
+	336:
+		br %324
+	337:
+		store 0, %16
+		br %338
+	338:
+		%339 = call i32 (...)* @random()
+		%340 = icmp ne %339 0
+		br %340, %341, %351
+	341:
+		%342 = load %16
+		%343 = add i32 %342, 1
+		store %343, %16
+		%344 = load %19
+		%345 = add i32 %344, 1
+		store %345, %19
+		%346 = load %16
+		%347 = load %4
+		%348 = icmp sgt %346 %347
+		br %348, %349, %350
+	349:
+		br %393
+	350:
+		br %338
+	351:
+		%352 = load %19
+		%353 = add i32 %352, 1
+		store %353, %19
+		%354 = load %18
+		%355 = add i32 %354, 1
+		store %355, %18
+		br %356
+	356:
+		%357 = load %17
+		%358 = add i32 %357, 1
+		store %358, %17
+		br %319
+	359:
+		store 0, %16
+		br %360
+	360:
+		%361 = call i32 (...)* @random()
+		%362 = icmp ne %361 0
+		br %362, %363, %373
+	363:
+		%364 = load %16
+		%365 = add i32 %364, 1
+		store %365, %16
+		%366 = load %18
+		%367 = add i32 %366, 1
+		store %367, %18
+		%368 = load %16
+		%369 = load %4
+		%370 = icmp sgt %368 %369
+		br %370, %371, %372
+	371:
+		br %393
+	372:
+		br %360
+	373:
+		store 0, %16
+		br %374
+	374:
+		%375 = call i32 (...)* @random()
+		%376 = icmp ne %375 0
+		br %376, %377, %387
+	377:
+		%378 = load %16
+		%379 = add i32 %378, 1
+		store %379, %16
+		%380 = load %16
+		%381 = load %4
+		%382 = icmp sgt %380 %381
+		br %382, %383, %384
+	383:
+		br %393
+	384:
+		%385 = load %19
+		%386 = add i32 %385, 1
+		store %386, %19
+		br %374
+	387:
+		br %388
+	388:
+		br %389
+	389:
+		br %390
+	390:
+		br %391
+	391:
+		br %392
+	392:
+		br %20
+	393:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788588669Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1929 milliseconds

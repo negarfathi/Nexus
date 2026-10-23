@@ -1,0 +1,137 @@
+; ModuleID = 'nested_loop.bc'
+target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
+target triple = "x86_64-unknown-linux-gnu"
+
+; Function Attrs: nounwind uwtable
+define void @nested_loop(i32 %n, i32 %m, i32 %N) #0 {
+nested_loop_bb0:
+  call void @llvm.dbg.value(metadata !{i32 %n}, i64 0, metadata !12), !dbg !13
+  call void @llvm.dbg.value(metadata !{i32 %m}, i64 0, metadata !14), !dbg !15
+  call void @llvm.dbg.value(metadata !{i32 %N}, i64 0, metadata !16), !dbg !17
+  %"0" = icmp sle i32 0, %n, !dbg !18
+  %"1" = icmp sle i32 0, %m, !dbg !20
+  %or.cond = and i1 %"0", %"1", !dbg !18
+  %"2" = icmp sle i32 0, %N, !dbg !22
+  %or.cond1 = and i1 %or.cond, %"2", !dbg !18
+  br i1 %or.cond1, label %nested_loop_bb1, label %nested_loop_.critedge, !dbg !18
+
+nested_loop_bb1:                                  ; preds = %nested_loop_bb0, %nested_loop_.critedge2
+  %i.0 = phi i32 [ %"14", %nested_loop_.critedge2 ], [ 0, %nested_loop_bb0 ]
+  %"3" = icmp slt i32 %i.0, %n, !dbg !24
+  br i1 %"3", label %nested_loop_bb2, label %nested_loop_.critedge, !dbg !24
+
+nested_loop_bb2:                                  ; preds = %nested_loop_bb1
+  %"4" = call i32 (...)* @nondet(), !dbg !27
+  %"5" = icmp sgt i32 %"4", 0, !dbg !27
+  br i1 %"5", label %nested_loop_.critedge3, label %nested_loop_.critedge, !dbg !29
+
+nested_loop_.critedge3:                           ; preds = %nested_loop_bb6, %nested_loop_bb5, %nested_loop_bb2
+  %j.0 = phi i32 [ 0, %nested_loop_bb2 ], [ %"9", %nested_loop_bb5 ], [ %"9", %nested_loop_bb6 ]
+  %i.1 = phi i32 [ %i.0, %nested_loop_bb2 ], [ %k.0, %nested_loop_bb5 ], [ %k.0, %nested_loop_bb6 ]
+  %"6" = icmp slt i32 %j.0, %m, !dbg !31
+  br i1 %"6", label %nested_loop_bb3, label %nested_loop_.critedge2, !dbg !31
+
+nested_loop_bb3:                                  ; preds = %nested_loop_.critedge3
+  %"7" = call i32 (...)* @nondet(), !dbg !34
+  %"8" = icmp sgt i32 %"7", 0, !dbg !34
+  br i1 %"8", label %nested_loop_bb4, label %nested_loop_.critedge2, !dbg !36
+
+nested_loop_bb4:                                  ; preds = %nested_loop_bb3
+  %"9" = add nsw i32 %j.0, 1, !dbg !38
+  br label %nested_loop_bb5, !dbg !40
+
+nested_loop_bb5:                                  ; preds = %nested_loop_bb7, %nested_loop_bb4
+  %k.0 = phi i32 [ %i.1, %nested_loop_bb4 ], [ %"13", %nested_loop_bb7 ]
+  %"10" = icmp slt i32 %k.0, %N, !dbg !41
+  br i1 %"10", label %nested_loop_bb6, label %nested_loop_.critedge3, !dbg !41
+
+nested_loop_bb6:                                  ; preds = %nested_loop_bb5
+  %"11" = call i32 (...)* @nondet(), !dbg !43
+  %"12" = icmp sgt i32 %"11", 0, !dbg !43
+  br i1 %"12", label %nested_loop_bb7, label %nested_loop_.critedge3, !dbg !45
+
+nested_loop_bb7:                                  ; preds = %nested_loop_bb6
+  %"13" = add nsw i32 %k.0, 1, !dbg !47
+  br label %nested_loop_bb5, !dbg !47
+
+nested_loop_.critedge2:                           ; preds = %nested_loop_.critedge3, %nested_loop_bb3
+  %"14" = add nsw i32 %i.1, 1, !dbg !48
+  call void @llvm.dbg.value(metadata !{i32 %"14"}, i64 0, metadata !49), !dbg !50
+  br label %nested_loop_bb1, !dbg !51
+
+nested_loop_.critedge:                            ; preds = %nested_loop_bb2, %nested_loop_bb1, %nested_loop_bb0
+  ret void, !dbg !52
+}
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.declare(metadata, metadata) #1
+
+declare i32 @nondet(...) #2
+
+declare i32 @__kittel_nondef.0()
+
+; Function Attrs: nounwind readnone
+declare void @llvm.dbg.value(metadata, i64, metadata) #1
+
+attributes #0 = { nounwind uwtable "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+attributes #1 = { nounwind readnone }
+attributes #2 = { "less-precise-fpmad"="false" "no-frame-pointer-elim"="true" "no-frame-pointer-elim-non-leaf" "no-infs-fp-math"="false" "no-nans-fp-math"="false" "stack-protector-buffer-size"="8" "unsafe-fp-math"="false" "use-soft-float"="false" }
+
+!llvm.dbg.cu = !{!0}
+!llvm.module.flags = !{!9, !10}
+!llvm.ident = !{!11}
+
+!0 = metadata !{i32 786449, metadata !1, i32 12, metadata !"clang version 3.5.2 (http://llvm.org/git/clang.git 395a76d5372abd34fa791f6c10ebcdf43d74c8bd) (http://llvm.org/git/llvm.git a4cf325e41fca33c7ce7deef39a7bcf25fb38266)", i1 false, metadata !"", i32 0, metadata !2, metadata !2, metadata !3, metadata !2, metadata !2, metadata !"", i32 1} ; [ DW_TAG_compile_unit ] [/liveness_analysis/nested_loop.c] [DW_LANG_C99]
+!1 = metadata !{metadata !"nested_loop.c", metadata !"/liveness_analysis"}
+!2 = metadata !{}
+!3 = metadata !{metadata !4}
+!4 = metadata !{i32 786478, metadata !1, metadata !5, metadata !"nested_loop", metadata !"nested_loop", metadata !"", i32 3, metadata !6, i1 false, i1 true, i32 0, i32 0, null, i32 256, i1 false, void (i32, i32, i32)* @nested_loop, null, null, metadata !2, i32 3} ; [ DW_TAG_subprogram ] [line 3] [def] [nested_loop]
+!5 = metadata !{i32 786473, metadata !1}          ; [ DW_TAG_file_type ] [/liveness_analysis/nested_loop.c]
+!6 = metadata !{i32 786453, i32 0, null, metadata !"", i32 0, i64 0, i64 0, i64 0, i32 0, null, metadata !7, i32 0, null, null, null} ; [ DW_TAG_subroutine_type ] [line 0, size 0, align 0, offset 0] [from ]
+!7 = metadata !{null, metadata !8, metadata !8, metadata !8}
+!8 = metadata !{i32 786468, null, null, metadata !"int", i32 0, i64 32, i64 32, i64 0, i32 0, i32 5} ; [ DW_TAG_base_type ] [int] [line 0, size 32, align 32, offset 0, enc DW_ATE_signed]
+!9 = metadata !{i32 2, metadata !"Dwarf Version", i32 4}
+!10 = metadata !{i32 2, metadata !"Debug Info Version", i32 1}
+!11 = metadata !{metadata !"clang version 3.5.2 (http://llvm.org/git/clang.git 395a76d5372abd34fa791f6c10ebcdf43d74c8bd) (http://llvm.org/git/llvm.git a4cf325e41fca33c7ce7deef39a7bcf25fb38266)"}
+!12 = metadata !{i32 786689, metadata !4, metadata !"n", metadata !5, i32 16777219, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [n] [line 3]
+!13 = metadata !{i32 3, i32 22, metadata !4, null}
+!14 = metadata !{i32 786689, metadata !4, metadata !"m", metadata !5, i32 33554435, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [m] [line 3]
+!15 = metadata !{i32 3, i32 29, metadata !4, null}
+!16 = metadata !{i32 786689, metadata !4, metadata !"N", metadata !5, i32 50331651, metadata !8, i32 0, i32 0} ; [ DW_TAG_arg_variable ] [N] [line 3]
+!17 = metadata !{i32 3, i32 36, metadata !4, null}
+!18 = metadata !{i32 5, i32 6, metadata !19, null}
+!19 = metadata !{i32 786443, metadata !1, metadata !4, i32 5, i32 6, i32 0, i32 0} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!20 = metadata !{i32 5, i32 6, metadata !21, null}
+!21 = metadata !{i32 786443, metadata !1, metadata !19, i32 5, i32 6, i32 1, i32 4} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!22 = metadata !{i32 5, i32 6, metadata !23, null}
+!23 = metadata !{i32 786443, metadata !1, metadata !19, i32 5, i32 6, i32 2, i32 5} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!24 = metadata !{i32 7, i32 5, metadata !25, null}
+!25 = metadata !{i32 786443, metadata !1, metadata !26, i32 7, i32 5, i32 1, i32 6} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!26 = metadata !{i32 786443, metadata !1, metadata !19, i32 5, i32 27, i32 0, i32 1} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!27 = metadata !{i32 7, i32 18, metadata !28, null}
+!28 = metadata !{i32 786443, metadata !1, metadata !26, i32 7, i32 18, i32 2, i32 7} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!29 = metadata !{i32 7, i32 18, metadata !30, null}
+!30 = metadata !{i32 786443, metadata !1, metadata !26, i32 7, i32 18, i32 3, i32 8} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!31 = metadata !{i32 9, i32 7, metadata !32, null}
+!32 = metadata !{i32 786443, metadata !1, metadata !33, i32 9, i32 7, i32 1, i32 9} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!33 = metadata !{i32 786443, metadata !1, metadata !26, i32 7, i32 29, i32 0, i32 2} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!34 = metadata !{i32 9, i32 20, metadata !35, null}
+!35 = metadata !{i32 786443, metadata !1, metadata !33, i32 9, i32 20, i32 2, i32 10} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!36 = metadata !{i32 9, i32 20, metadata !37, null}
+!37 = metadata !{i32 786443, metadata !1, metadata !33, i32 9, i32 20, i32 3, i32 11} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!38 = metadata !{i32 10, i32 9, metadata !39, null}
+!39 = metadata !{i32 786443, metadata !1, metadata !33, i32 9, i32 31, i32 0, i32 3} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!40 = metadata !{i32 12, i32 9, metadata !39, null}
+!41 = metadata !{i32 12, i32 9, metadata !42, null}
+!42 = metadata !{i32 786443, metadata !1, metadata !39, i32 12, i32 9, i32 1, i32 12} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!43 = metadata !{i32 12, i32 22, metadata !44, null}
+!44 = metadata !{i32 786443, metadata !1, metadata !39, i32 12, i32 22, i32 2, i32 13} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!45 = metadata !{i32 12, i32 22, metadata !46, null}
+!46 = metadata !{i32 786443, metadata !1, metadata !39, i32 12, i32 22, i32 3, i32 14} ; [ DW_TAG_lexical_block ] [/liveness_analysis/nested_loop.c]
+!47 = metadata !{i32 13, i32 11, metadata !39, null}
+!48 = metadata !{i32 16, i32 7, metadata !33, null}
+!49 = metadata !{i32 786688, metadata !4, metadata !"i", metadata !5, i32 4, metadata !8, i32 0, i32 0} ; [ DW_TAG_auto_variable ] [i] [line 4]
+!50 = metadata !{i32 4, i32 7, metadata !4, null}
+!51 = metadata !{i32 17, i32 5, metadata !33, null}
+!52 = metadata !{i32 19, i32 1, metadata !4, null}
+

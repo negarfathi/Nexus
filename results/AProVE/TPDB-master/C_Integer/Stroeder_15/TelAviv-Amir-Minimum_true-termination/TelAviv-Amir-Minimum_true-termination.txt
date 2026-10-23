@@ -1,0 +1,8 @@
+/aprove/AProVE.sh: line 24:     9 Killed                  KOAT2_PATH="$APROVE_HOME/bin" LOAT_PATH="$APROVE_HOME/bin" C_INCLUDE_PATH="$APROVE_HOME/fake_include" LD_LIBRARY_PATH="$APROVE_HOME/lib:$LD_LIBRARY_PATH" PATH="$APROVE_HOME/bin:$PATH" java -Duser.home="$HOME" -Djava.io.tmpdir="$TMPDIR" -Xmx14g -ea -jar "$APROVE_HOME/aprove.jar" "$@" -m wst -p plain -W "witness.graphml" -s "$APROVE_HOME/newstrategy.strategy" 2> "$TMPDIR/errfile"
+Graph finished, checking  consistency
+Graph finished, checked consistency, took 0.003s
+Running LoAT finished with non-zero exit code 134 when running command: 
+[/aprove/bin/loat, --plain, --nonterm, --proof-level, 3, /tmp/aprove.InputModules.Programs.loat6786603226487512139.koat]
+the error message is: 
+[loat: /home/ffrohn/repos/LoAT/src/accelerate/backward.cpp:115: Rule BackwardAcceleration::buildAcceleratedLoop(const UpdateMap&, const Expression&, const GuardList&, const ExprSymbol&, unsigned int) const: Assertion `validityBound <= 1' failed.]
+Runtime: 58052 milliseconds

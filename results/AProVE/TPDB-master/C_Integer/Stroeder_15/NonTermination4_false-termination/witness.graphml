@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="programfile" attr.name="programfile" for="graph"/>
+  <key id="programhash" attr.name="programhash" for="graph"/>
+  <key id="sourcecodelang" attr.name="sourcecodelang" for="graph"/>
+  <key id="producer" attr.name="producer" for="graph"/>
+  <key id="specification" attr.name="specification" for="graph"/>
+  <key id="creationtime" attr.name="creationtime" for="graph"/>
+  <key id="witness-type" attr.name="witness-type" for="graph"/>
+  <key id="architecture" attr.name="architecture" for="graph"/>
+  <key id="entry" attr.name="entry" for="node">
+    <default>false</default>
+  </key>
+  <key id="nodetype" attr.name="nodetype" for="node">
+    <default>path</default>
+  </key>
+  <key id="violation" attr.name="violation" for="node">
+    <default>false</default>
+  </key>
+  <key id="cyclehead" attr.name="cyclehead" for="node">
+    <default>false</default>
+  </key>
+  <key id="invariant" attr.name="invariant" for="node">
+    <default>true</default>
+  </key>
+  <key id="sink" attr.name="sink" for="node">
+    <default>false</default>
+  </key>
+  <key id="endline" attr.name="endline" for="edge"/>
+  <key id="enterLoopHead" attr.name="enterLoopHead" for="edge">
+    <default>false</default>
+  </key>
+  <key id="enterFunction" attr.name="enterFunction" for="edge"/>
+  <key id="startline" attr.name="startline" for="edge"/>
+  <key id="returnFrom" attr.name="returnFrom" for="edge"/>
+  <key id="assumption" attr.name="assumption" for="edge"/>
+  <key id="tokens" attr.name="tokens" for="edge"/>
+  <key id="control" attr.name="control" for="edge"/>
+  <key id="originfile" attr.name="originfile" for="edge">
+    <default>/liveness_analysis/NonTermination4_false-termination.c</default>
+  </key>
+  <key id="sourcecode" attr.name="sourcecode" for="edge"/>
+  <graph edgedefault="directed">
+    <data key="witness-type">violation_witness</data>
+    <data key="sourcecodelang">C</data>
+    <data key="producer">AProVE</data>
+    <data key="creationtime">2026-09-03T21:33:19Z</data>
+    <data key="specification">CHECK( init(main()), LTL(F end) )</data>
+    <data key="programfile">/liveness_analysis/NonTermination4_false-termination.c</data>
+    <data key="programhash">737f9e8de77d32d8f03e01ab5f98ec0cb28ec6478e68b10a65bdf5d745ac7455</data>
+    <data key="architecture">64bit</data>
+    <node id="S63">
+      <data key="entry">true</data>
+    </node>
+    <node id="S68"/>
+    <edge source="S63" target="S68">
+      <data key="startline">13</data>
+      <data key="endline">13</data>
+      <data key="enterFunction">main</data>
+    </edge>
+    <node id="S69"/>
+    <edge source="S68" target="S69">
+      <data key="sourcecode">int x, y;</data>
+      <data key="startline">15</data>
+      <data key="endline">15</data>
+    </edge>
+    <node id="S70"/>
+    <edge source="S69" target="S70">
+      <data key="sourcecode">x = 1;</data>
+      <data key="startline">16</data>
+      <data key="endline">16</data>
+    </edge>
+    <node id="S74"/>
+    <edge source="S70" target="S74">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">y = 1;</data>
+      <data key="startline">17</data>
+      <data key="endline">17</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S77"/>
+    <edge source="S74" target="S77">
+      <data key="sourcecode">while (x &gt;= 0) {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+    </edge>
+    <node id="S80"/>
+    <edge source="S77" target="S80">
+      <data key="sourcecode">x = 2*x;</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <node id="S126"/>
+    <edge source="S80" target="S126">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">y = 3*y;</data>
+      <data key="startline">20</data>
+      <data key="endline">20</data>
+    </edge>
+    <node id="S131"/>
+    <edge source="S126" target="S131">
+      <data key="sourcecode">while (x &gt;= 0) {</data>
+      <data key="startline">18</data>
+      <data key="endline">18</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S134"/>
+    <edge source="S131" target="S134">
+      <data key="sourcecode">x = 2*x;</data>
+      <data key="startline">19</data>
+      <data key="endline">19</data>
+    </edge>
+    <edge source="S134" target="S126">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">y = 3*y;</data>
+      <data key="startline">20</data>
+      <data key="endline">20</data>
+    </edge>
+  </graph>
+</graphml>

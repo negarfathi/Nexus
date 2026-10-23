@@ -1,0 +1,78 @@
+///*** 1_textbook_ex3 ***///
+START: textbook_ex3_bb0;
+
+FROM: textbook_ex3_bb0;
+var__temp_vi.0 := 1;
+TO: textbook_ex3_bb1;
+
+FROM: textbook_ex3_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := 1;
+TO: textbook_ex3_bb1_end;
+
+FROM: textbook_ex3_bb1_end;
+assume(vi.0 <= vm);
+TO: textbook_ex3_bb2;
+
+FROM: textbook_ex3_bb1_end;
+assume(vi.0 > vm);
+TO: textbook_ex3_bb8;
+
+FROM: textbook_ex3_bb2;
+vj.0 := var__temp_vj.0;
+var__temp_vi.0.sink := vi.0;
+TO: textbook_ex3_bb2_end;
+
+FROM: textbook_ex3_bb2_end;
+assume(vj.0 <= vi.0);
+TO: textbook_ex3_bb3;
+
+FROM: textbook_ex3_bb2_end;
+assume(vj.0 > vi.0);
+TO: textbook_ex3_bb7;
+
+FROM: textbook_ex3_bb3;
+vi.0.sink := var__temp_vi.0.sink;
+v2 := vi.0.sink + 1;
+var__temp_vl.0 := 1;
+TO: textbook_ex3_bb3_end;
+
+FROM: textbook_ex3_bb3_end;
+assume(v2 <= vm);
+TO: textbook_ex3_bb4;
+
+FROM: textbook_ex3_bb3_end;
+assume(v2 > vm);
+TO: textbook_ex3_bb6;
+
+FROM: textbook_ex3_bb4;
+vl.0 := var__temp_vl.0;
+var__temp_vi.0.sink := v2;
+TO: textbook_ex3_bb4_end;
+
+FROM: textbook_ex3_bb4_end;
+assume(vl.0 <= v2);
+TO: textbook_ex3_bb5;
+
+FROM: textbook_ex3_bb4_end;
+assume(vl.0 > v2);
+TO: textbook_ex3_bb3;
+
+FROM: textbook_ex3_bb5;
+v5 := vl.0 + 1;
+var__temp_vl.0 := v5;
+TO: textbook_ex3_bb4;
+
+FROM: textbook_ex3_bb6;
+v6 := vj.0 + 1;
+var__temp_vj.0 := v6;
+TO: textbook_ex3_bb2;
+
+FROM: textbook_ex3_bb7;
+v7 := vi.0 + 1;
+var__temp_vi.0 := v7;
+TO: textbook_ex3_bb1;
+
+FROM: textbook_ex3_bb8;
+TO: textbook_ex3_bb8_ret;
+

@@ -1,0 +1,991 @@
+Running CPAchecker with Java heap of size 10000M.
+Running CPAchecker with default stack size (1024k). Specify a larger value with --stack if needed.
+Using the following resource limits: CPU-time limit of 900s (ResourceLimitChecker.fromConfiguration, INFO)
+
+CPAchecker 4.2.2-2585-gb8318c0629a / terminationAnalysis (OpenJDK 64-Bit Server VM 21.0.12) started (CPAchecker.run, INFO)
+
+Parsing CFA from file(s) "svcomp_fermat.c" (CPAchecker.parse, INFO)
+
+Using Restarting Algorithm (CoreComponentsFactory.createAlgorithm, INFO)
+
+The following configuration options were specified but are not used:
+ cpa.arg.lateMerge
+ counterexample.export.exportWitness 
+ (CPAchecker.printConfigurationWarnings, WARNING)
+
+Starting analysis ... (CPAchecker.runAlgorithm, INFO)
+
+Loading analysis 1 from file /cpachecker/config/components/combinations-parallel-termination.properties ... (RestartAlgorithm.run, INFO)
+
+Using the following resource limits: CPU-time limit of 900s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Mismatch of configuration options when loading from '/cpachecker/config/components/termination-composition-terminationToSafety.properties': 'analysis.algorithm.termination' has two values 'true' and 'false'. Using 'false'. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:NestingAlgorithm.checkConfigs, INFO)
+
+Using the following resource limits: CPU-time limit of 900s, Thread CPU-time limit of 300s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Using predicate analysis with MathSAT5 version 5.6.11 (1a1154baf0ab) (Aug  9 2024 08:45:22, gmp 6.2.0, gcc 7.5.0, 64-bit, reentrant). (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:PredicateCPA.<init>, INFO)
+
+Using the following resource limits: CPU-time limit of 900s (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:ResourceLimitChecker.fromConfiguration, INFO)
+
+Using predicate analysis with MathSAT5 version 5.6.11 (1a1154baf0ab) (Aug  9 2024 08:45:22, gmp 6.2.0, gcc 7.5.0, 64-bit, reentrant) and JFactory 1.21. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:PredicateCPA:PredicateCPA.<init>, INFO)
+
+Using refinement for predicate analysis with PredicateAbstractionRefinementStrategy strategy. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:PredicateCPA:PredicateCPARefiner.<init>, INFO)
+
+Using unsound approximation of ints with unbounded integers and floats with rationals for encoding program semantics. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:FormulaManagerView.<init>, WARNING)
+
+Starting analysis 1 ... (RestartAlgorithm.run, INFO)
+
+Starting termination algorithm. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:TerminationAlgorithm.run0, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|) + 1
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|) + 2
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4000*main::a + 4001*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 1201*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::b, main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = 4*main::b - 2*main::a - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -11*main::a + 15*main::c - 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 4*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 4*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 10*main::c - 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1001*main::a + 1002*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -9001*main::a + 9002*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (6397)] Forcibly destroying the process (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.warn, INFO)
+
+[MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (6397)] Process already dead, possible race condition (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:MonitoredProcess:LassoRankerLogger.warn, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -503*main::a + 1004*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -9999*main::a + 10000*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Analysis was terminated (The Thread CPU-time limit of 300s has elapsed.) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:ShutdownNotifier.shutdownIfNecessary, INFO)
+
+/cpachecker/config/components/termination-composition-terminationToSafety.properties finished without usable result. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ParallelAlgorithm.handleFutureResults, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::MAX > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 6*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 335*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 335*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1003*main::a + 1004*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4006*main::a + 4007*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::b, main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = 1007*main::b - 1005*main::a - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 6*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3001*main::a + 3002*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::b, main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = 5*main::b - 3*main::a - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, main::c, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 4*main::c - 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -5*main::a + 6*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::b, main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = 2*main::b - 2*main::a + 1*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -6999*main::a + 7000*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::c > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -4*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -7*main::a + 8*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -1*main::a + 2*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 5*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::c > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::a > 0, 1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -3*main::a + 4*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::c > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::MAX > 0, 1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Could not create ranking relation from Termination argument consisting of:
+Ranking function f(main::a, (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) = -2*main::a + 3*(Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)
+Supporting invariants [1*main::b > 0] (Cannot handle term (Integer_*_ (Integer_*_ |main::a| |main::a|) |main::a|)) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:RankingRelationBuilder.getVariable, INFO)
+
+Warning: Could not check (non)-termination of lasso (Loop with heads [N47]
+  incoming: [line 12:	N46 -{while}-> N47]
+  outgoing: [line 12:	N47 -{[!(((a * a) * a) != (((b * b) * b) + ((c * c) * c)))]}-> N50, line 12:	N49 -{[!(c <= MAX)]}-> N50]
+  nodes:    [N47, N48, N49, N51, N52, N53, N54, N55, N56, N57, N58, N59]
+). (External (MP /cpachecker/lib/native/x86_64-linux/z3 -smt2 -in SMTLIB2_COMPLIANT=true (10437) with exit command (exit)) Connection to SMT solver broken) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:Executor.convertIOException, WARNING)
+
+Shutdown requested (The JVM is shutting down, probably because Ctrl+C was pressed.), waiting for termination. (ForceTerminationOnShutdown$1.shutdownRequested, WARNING)
+
+Could not synthesize a termination or non-termination argument. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:TerminationAlgorithm.proveLoopTermination, WARNING)
+
+Analysis was terminated (The JVM is shutting down, probably because Ctrl+C was pressed.) (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:ShutdownNotifier.shutdownIfNecessary, INFO)
+
+/cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties finished without usable result. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:ParallelAlgorithm.handleFutureResults, INFO)
+
+Ignoring restart configuration '/cpachecker/config/components/termination-recursion.properties' because condition if-recursive did not match. (RestartAlgorithm.skipNextAnalysesIfRequired, INFO)
+
+Analysis 2 terminated, but result is unsound. (RestartAlgorithm.run, INFO)
+
+Warning: Analysis interrupted (The JVM is shutting down, probably because Ctrl+C was pressed.) (ShutdownNotifier.shutdownIfNecessary, WARNING)
+
+
+Restart Algorithm statistics
+----------------------------
+Number of algorithms provided:    2
+Number of algorithms used:        2
+Last algorithm used:        /cpachecker/config/components/termination-recursion.properties
+Total time for algorithm 2:   599.021s
+
+Parallel Algorithm statistics
+-----------------------------
+Number of algorithms used:        2
+
+
+Statistics for: /cpachecker/config/components/termination-composition-terminationToSafety.properties
+====================================================================================================
+Time spent in analysis thread /cpachecker/config/components/termination-composition-terminationToSafety.properties:   300.190s
+
+PredicateCPA statistics
+-----------------------
+Cannot dump loop invariants because a non-abstraction state was found for a loop-head location. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:LoopInvariantsWriter.getLoopHeadInvariants, WARNING)
+
+Cannot dump loop invariants because a non-abstraction state was found for a loop-head location. (Analysis /cpachecker/config/components/combinations-parallel-termination.properties:Parallel analysis /cpachecker/config/components/termination-composition-terminationToSafety.properties:PredicateCPA:LoopInvariantsWriter.getLoopHeadInvariants, WARNING)
+
+Number of abstractions:            0 (0% of all post computations)
+Number of strengthen sat checks:   0
+Number of coverage checks:         48060036
+  BDD entailment checks:           0
+Number of actual SMT sat checks:   4002
+Number of trivial SMT sat checks:  0
+Number of cached SMT sat checks:   0
+
+Max ABE block size:                       0
+Avg ABE block size:                                0.00 (sum: 0, count: 0, min: 0, max: 0)
+Number of predicates discovered:          0
+Number of path formula cache hits:        0 (0%)
+
+Time for post operator:                                1.453s (Max:     0.013s), (Avg:     0.000s), (#intervals = 40057)
+  Time for path formula creation:                      1.437s (Max:     0.013s), (Avg:     0.000s), (#intervals = 40057)
+Time for strengthen operator:                          0.021s (Max:     0.001s), (Avg:     0.000s), (#intervals = 48090)
+Time for prec operator:                                0.023s (Max:     0.002s), (Avg:     0.000s), (#intervals = 24044)
+Time for merge operator:                               0.000s
+Time for coverage checks:                              4.313s (Max:     0.001s), (Avg:     0.000s), (#intervals = 48060036)
+Total time for SMT solver (w/o itp):    70.799s
+
+
+Invariant Generation statistics
+-------------------------------
+
+ValueAnalysisCPA statistics
+---------------------------
+Number of variables per state:                     4.00 (sum: 96130, count: 24045, min: 0, max: 4)
+Number of global variables per state:              0.00 (sum: 0, count: 24045, min: 0, max: 0)
+Number of assumptions:                                32024
+Number of deterministic assumptions:                  32024
+Level of Determinism:                              100%
+
+Time for transfer relation:                            0.224s (Max:     0.004s), (Avg:     0.000s), (#intervals = 40057)
+
+ValueAnalysisPrecisionAdjustment statistics
+-------------------------------------------
+Number of abstraction computations:                   24044
+Total time for liveness abstraction:                   0.000s
+Total time for abstraction computation:                0.031s
+Total time for path thresholds:                        0.000s
+
+ConstraintsStrengthenOperator statistics
+----------------------------------------
+Total time for strengthening by ConstraintsCPA:     0.000s
+Replaced symbolic expressions: 0
+
+CPA algorithm statistics
+------------------------
+Number of iterations:            24045
+Max size of waitlist:            1
+Average size of waitlist:        1
+Number of computed successors:   24045
+Max successors for one state:    1
+Number of times merged:          0
+Number of times stopped:         0
+Number of times breaked:         0
+
+Total time for CPA algorithm:       305.724s (Max:   305.724s)
+  Time for choose from waitlist:      0.026s
+  Time for precision adjustment:    173.441s
+  Time for transfer relation:       110.841s
+  Time for merge operator:            6.806s
+  Time for stop operator:            14.350s
+  Time for adding to reached set:     0.071s
+
+
+Statistics for: /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties
+===================================================================================================
+Time spent in analysis thread /cpachecker/config/components/termination-composition-lassoBasedAnalysis.properties:   124.781s
+
+PredicateCPA statistics
+-----------------------
+Number of abstractions:            3 (3% of all post computations)
+  Times abstraction was reused:    0
+  Because of function entry/exit:  0 (0%)
+  Because of loop head:            2 (67%)
+  Because of join nodes:           0 (0%)
+  Because of threshold:            0 (0%)
+  Because of target state:         1 (33%)
+  Times precision was empty:       3 (100%)
+  Times precision was {false}:     0 (0%)
+  Times result was cached:         0 (0%)
+  Times cartesian abs was used:    0 (0%)
+  Times boolean abs was used:      0 (0%)
+  Times result was 'false':        0 (0%)
+Number of strengthen sat checks:   0
+Number of coverage checks:         18
+  BDD entailment checks:           0
+Number of actual SMT sat checks:   0
+Number of trivial SMT sat checks:  0
+Number of cached SMT sat checks:   0
+
+Max ABE block size:                       17
+Avg ABE block size:                                9.67 (sum: 29, count: 3, min: 0, max: 17)
+Number of predicates discovered:          0
+Number of path formula cache hits:        14 (11%)
+
+Time for post operator:                                0.033s (Max:     0.010s), (Avg:     0.000s), (#intervals = 99)
+  Time for path formula creation:                      0.033s (Max:     0.010s), (Avg:     0.000s), (#intervals = 99)
+Time for strengthen operator:                          0.001s (Max:     0.001s), (Avg:     0.000s), (#intervals = 199)
+Time for prec operator:                                0.001s (Max:     0.001s), (Avg:     0.000s), (#intervals = 35)
+  Time for abstraction:                  0.000s (Max:     0.000s, Count: 3)
+    Solving time:                        0.000s (Max:     0.000s)
+    Model enumeration time:              0.000s
+    Time for BDD construction:           0.000s (Max:     0.000s)
+Time for merge operator:                               0.003s (Max:     0.002s), (Avg:     0.000s), (#intervals = 9)
+Time for coverage checks:                              0.000s (Max:     0.000s), (Avg:     0.000s), (#intervals = 18)
+Total time for SMT solver (w/o itp):     0.000s
+
+Number of BDD nodes:                               202
+Size of BDD node table:                            466043
+Size of BDD cache:                                 46619
+Size of BDD node cleanup queue:                    0.00 (sum: 0, count: 19, min: 0, max: 0)
+Time for BDD node cleanup:                             0.000s (Max:     0.000s), (Avg:     0.000s), (#intervals = 19)
+Time for BDD garbage collection:                       0.000s (in 0 runs)
+
+Invariant Generation statistics
+-------------------------------
+
+AutomatonAnalysis (NonTerminationLabelAutomaton) statistics
+-----------------------------------------------------------
+Number of states:                                  1
+Total time for successor computation:                  0.004s
+Automaton transfers with branching:                0
+Automaton transfer successors:                     1.00 (sum: 99, count: 99, min: 1, max: 1) [1 x 99]
+Number of states with assumption transitions:      0
+
+AutomatonAnalysis (TerminatingFunctions) statistics
+---------------------------------------------------
+Number of states:                                  1
+Total time for successor computation:                  0.002s
+Automaton transfers with branching:                0
+Automaton transfer successors:                     1.00 (sum: 99, count: 99, min: 1, max: 1) [1 x 99]
+Number of states with assumption transitions:      0
+
+Termination Algorithm statistics
+--------------------------------
+Total time :                                          598.495s
+Time for recursion analysis:                            0.000s
+
+Number of analysed loops:                               1 (100%)
+Total time for loop analysis:                         598.494s
+  Avg time per loop analysis:                         598.494s
+  Max time per loop analysis:                         598.494s
+
+Number of safety analysis runs:                         2
+  Avg safety analysis run per loop:                     2.00
+  Max safety analysis run per loop:                     2 	 for loops [N47]
+Total time for safety analysis:                         0.089s
+  Avg time per safety analysis run:                     0.044s
+  Max time per safety analysis run:                     0.087s
+
+Number of analysed lassos:                           4476
+  Avg number of lassos per loop:                     4476.00
+  Max number of lassos per loop:                     4476 	 for loops [N47]
+  Avg number of lassos per iteration:                4476.00
+  Max number of lassos per iteration:                4476
+
+Total time for lassos analysis:                       598.399s
+  Avg time per iteration:                             598.399s
+  Max time per iteration:                             598.399s
+  Time for lassos construction:                        21.582s
+    Avg time for lasso construction per iteration:     21.582s
+    Max time for lasso construction per iteration:     21.582s
+      Time for stem and loop construction:                         0.005s
+        Avg time for stem and loop construction per iteration:      0.005s
+        Max time for stem and loop construction per iteration:      0.005s
+      Time for lassos creation:                        21.576s
+        Avg time for lassos creation per iteration:     21.576s
+        Max time for lassos creation per iteration:     21.576s
+  Total time for non-termination analysis:            125.239s
+    Avg time for non-termination analysis per lasso:    0.027s
+    Max time for non-termination analysis per lasso:    0.094s
+  Total time for termination analysis:                450.634s
+    Avg time for termination analysis per lasso:        0.151s
+    Max time for termination analysis per lasso:        0.467s
+
+Total number of termination arguments:               2816
+  Avg termination arguments per loop:                2816.00
+  Max termination arguments per loop:                2816 	 for loops [N47]
+
+  affine:                                            2816
+
+
+Other statistics
+================
+
+CPAchecker general statistics
+-----------------------------
+Number of program locations:                       29
+Number of CFA edges (per node):                          32 (count: 29, min: 0, max: 2, avg: 1.10)
+Number of relevant variables:                      4
+Number of functions:                               1
+Number of loops (and loop nodes):                         1 (sum: 12, min: 12, max: 12, avg: 12.00)
+Size of reached set:             1
+  Number of reached locations:   1 (3%)
+    Avg states per location:     1
+    Max states per location:     1 (at node N1)
+  Number of reached functions:   1 (100%)
+  Number of target states:       0
+  Size of final wait list:       1
+
+Time for analysis setup:          0.516s
+  Time for loading CPAs:          0.004s
+  Time for loading parser:        0.118s
+  Time for CFA construction:      0.357s
+    Time for parsing file(s):     0.147s
+    Time for AST to CFA:          0.086s
+    Time for CFA sanity check:    0.006s
+    Time for post-processing:     0.064s
+    Time for loop structure:      0.003s
+    Time for AST structure:       0.000s
+    Time for CFA export:          0.029s
+      Time for function pointers resolving:            0.002s
+        Function calls via function pointers:             0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Instrumented function pointer calls:              0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Function calls with function pointer arguments:        0 (count: 1, min: 0, max: 0, avg: 0.00)
+        Instrumented function pointer arguments:          0 (count: 1, min: 0, max: 0, avg: 0.00)
+      Time for classifying variables:                  0.040s
+        Time for collecting variables:                 0.013s
+        Time for solving dependencies:                 0.000s
+        Time for building hierarchy:                   0.000s
+        Time for building classification:              0.018s
+        Time for exporting data:                       0.009s
+Time for Analysis:              599.022s
+CPU time for analysis:          675.480s
+Total time for CPAchecker:      599.539s
+Total CPU time for CPAchecker:  676.690s
+Time for statistics:              0.132s
+
+Time for Garbage Collector:       7.851s (in 2228 runs)
+Garbage Collector(s) used:    PS MarkSweep, PS Scavenge
+Used heap memory:               1619MB (  1544 MiB) max;    953MB (   909 MiB) avg;   2021MB (  1927 MiB) peak
+Used non-heap memory:             81MB (    77 MiB) max;     77MB (    74 MiB) avg;     85MB (    81 MiB) peak
+Used in PS Old Gen pool:        1530MB (  1459 MiB) max;    868MB (   828 MiB) avg;   1530MB (  1459 MiB) peak
+Allocated heap memory:          1624MB (  1549 MiB) max;   1050MB (  1002 MiB) avg
+Allocated non-heap memory:        85MB (    81 MiB) max;     81MB (    77 MiB) avg
+Total process virtual memory:  27835MB ( 26546 MiB) max;  24180MB ( 23060 MiB) avg
+
+Verification result: UNKNOWN, incomplete analysis.
+More details about the verification run can be found in the directory "./output".
+Graphical representation included in the file "./output/Report.html".
+TIMEOUT
+Runtime: 600835 milliseconds

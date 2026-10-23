@@ -1,0 +1,12 @@
+/aprove/AProVE.sh: line 24:     9 Killed                  KOAT2_PATH="$APROVE_HOME/bin" LOAT_PATH="$APROVE_HOME/bin" C_INCLUDE_PATH="$APROVE_HOME/fake_include" LD_LIBRARY_PATH="$APROVE_HOME/lib:$LD_LIBRARY_PATH" PATH="$APROVE_HOME/bin:$PATH" java -Duser.home="$HOME" -Djava.io.tmpdir="$TMPDIR" -Xmx14g -ea -jar "$APROVE_HOME/aprove.jar" "$@" -m wst -p plain -W "witness.graphml" -s "$APROVE_HOME/newstrategy.strategy" 2> "$TMPDIR/errfile"
+Graph finished, checking  consistency
+Graph finished, checked consistency, took 0.002s
+Running Thread.stop() against 1788481395Exec. 109, RankingReductionPairProcessor[GenerateFollowingInequalities=False]
+Stack trace:
+    app//immutables.Immutable.DefaultImmutableSet.iterator(Unknown Source)
+    app//aprove.Framework.Algebra.Polynomials.IndefinitePart.times(IndefinitePart.java:206)
+    app//aprove.Framework.Algebra.Polynomials.SimplePolynomial.times(SimplePolynomial.java:481)
+    app//aprove.Framework.Algebra.Polynomials.VarPolynomial.times(VarPolynomial.java:606)
+    app//aprove.Framework.Algebra.Polynomials.VarPolynomial.times(VarPolynomial.java:586)
+    app//aprove.Framework.IntTRS.Ranking.PCS.eliminateVariable(PCS.java:147)
+Runtime: 22722 milliseconds

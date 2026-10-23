@@ -1,0 +1,45 @@
+///*** 1_while2 ***///
+START: while2_bb0;
+
+FROM: while2_bb0;
+var__temp_vi.0 := vN;
+TO: while2_bb1;
+
+FROM: while2_bb1;
+vi.0 := var__temp_vi.0;
+var__temp_vj.0 := vN;
+TO: while2_bb1_end;
+
+FROM: while2_bb1_end;
+assume(vi.0 > 0);
+TO: while2_bb2;
+
+FROM: while2_bb1_end;
+assume(vi.0 <= 0);
+TO: while2_bb5;
+
+FROM: while2_bb2;
+vj.0 := var__temp_vj.0;
+TO: while2_bb2_end;
+
+FROM: while2_bb2_end;
+assume(vj.0 > 0);
+TO: while2_bb3;
+
+FROM: while2_bb2_end;
+assume(vj.0 <= 0);
+TO: while2_bb4;
+
+FROM: while2_bb3;
+v2 := vj.0 + -1;
+var__temp_vj.0 := v2;
+TO: while2_bb2;
+
+FROM: while2_bb4;
+v3 := vi.0 + -1;
+var__temp_vi.0 := v3;
+TO: while2_bb1;
+
+FROM: while2_bb5;
+TO: while2_bb5_ret;
+

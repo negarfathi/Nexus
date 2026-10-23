@@ -1,0 +1,3 @@
+YES
+/bin/bash: line 3:     7 Segmentation fault      timeout 600 ./main.exe -c ./config/solver/muval_parallel_exc_tbq_ar.json -p ltsterm '/liveness_analysis/AliasDarteFeautrierGonnord-SAS2010-speedpldi2_true-termination.t2'
+Runtime: 1126 milliseconds

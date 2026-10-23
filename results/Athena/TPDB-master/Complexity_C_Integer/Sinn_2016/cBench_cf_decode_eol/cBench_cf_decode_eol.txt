@@ -1,0 +1,6 @@
+cBench_cf_decode_eol.c:4:24: warning: unused parameter 'ss_bits' [-Wunused-parameter]
+void cf_decode_eol(int ss_bits, int ss_bits_left, int ss_K, int pr_ptr, int pr_limit)
+                       ^
+1 warning generated.
+YES
+Runtime: 4681 milliseconds

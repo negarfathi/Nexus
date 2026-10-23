@@ -1,0 +1,55 @@
+**TAIL:**
+
+(main, 0, 0): %1 = alloca i32, align 4
+(main, 0, 1): %2 = alloca i32, align 4
+(main, 0, 2): %3 = alloca i32, align 4
+(main, 0, 3): %4 = alloca i32, align 4
+(main, 0, 4): store 0, %1
+(main, 0, 5): Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+(main, 0, 6): Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+(main, 0, 7): Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+(main, 0, 8): %5 = call i32 @__VERIFIER_nondet_int()
+(main, 0, 9): store %5, %2
+(main, 0, 10): %6 = call i32 @__VERIFIER_nondet_int()
+(main, 0, 11): store %6, %3
+(main, 0, 12): br %7
+(main, 7, 0): %8 = load %2
+(main, 7, 1): %9 = load %3
+(main, 7, 2): %10 = sub i32 %8, %9
+(main, 7, 3): %11 = icmp sge %10 1
+(main, 7, 4): br %11, %12, %21
+(main, 12, 0): %13 = load %2
+(main, 12, 1): %14 = call i32 @__VERIFIER_nondet_int()
+(main, 12, 2): %15 = sub i32 %13, %14
+(main, 12, 3): store %15, %2
+(main, 12, 4): %16 = call i32 @__VERIFIER_nondet_int()
+(main, 12, 5): %17 = add i32 %16, 1
+(main, 12, 6): store %17, %4
+(main, 12, 7): %18 = load %3
+(main, 12, 8): %19 = load %4
+(main, 12, 9): %20 = add i32 %18, %19
+(main, 12, 10): store %20, %3
+(main, 12, 11): br %7
+(main, 7, 0): %8 = load %2
+(main, 7, 1): %9 = load %3
+(main, 7, 2): %10 = sub i32 %8, %9
+
+**LOOP:**
+
+(main, 7, 3): %11 = icmp sge %10 1
+(main, 7, 4): br %11, %12, %21
+(main, 12, 0): %13 = load %2
+(main, 12, 1): %14 = call i32 @__VERIFIER_nondet_int()
+(main, 12, 2): %15 = sub i32 %13, %14
+(main, 12, 3): store %15, %2
+(main, 12, 4): %16 = call i32 @__VERIFIER_nondet_int()
+(main, 12, 5): %17 = add i32 %16, 1
+(main, 12, 6): store %17, %4
+(main, 12, 7): %18 = load %3
+(main, 12, 8): %19 = load %4
+(main, 12, 9): %20 = add i32 %18, %19
+(main, 12, 10): store %20, %3
+(main, 12, 11): br %7
+(main, 7, 0): %8 = load %2
+(main, 7, 1): %9 = load %3
+(main, 7, 2): %10 = sub i32 %8, %9

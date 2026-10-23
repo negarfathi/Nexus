@@ -1,0 +1,104 @@
+///*** 1_xnu ***///
+START: xnu_bb0;
+
+FROM: xnu_bb0;
+var__temp_vi.0 := 0;
+var__temp_vend.0 := 0;
+var__temp_vbeg.0 := 0;
+TO: xnu_bb1;
+
+FROM: xnu_bb1;
+vi.0 := var__temp_vi.0;
+vend.0 := var__temp_vend.0;
+vbeg.0 := var__temp_vbeg.0;
+TO: xnu_bb1_end;
+
+FROM: xnu_bb1_end;
+assume(vi.0 < vlen);
+TO: xnu_bb2;
+
+FROM: xnu_bb1_end;
+assume(vi.0 >= vlen);
+TO: xnu_bb6;
+
+FROM: xnu_bb2;
+v1 := vi.0 + 1;
+v2 := nondet();
+TO: xnu_bb2_v.end.0;
+FROM: xnu_bb2_v.end.0;
+assume(v2 != 0);
+v.end.0 := v1;
+TO: xnu_bb2_sv.end.0;
+
+FROM: xnu_bb2_v.end.0;
+assume(v2 == 0);
+v.end.0 := vend.0;
+TO: xnu_bb2_sv.end.0;
+
+FROM: xnu_bb2_sv.end.0;
+v4 := nondet();
+var__temp_vk.0 := vbeg.0;
+TO: xnu_bb2_end;
+
+FROM: xnu_bb2_end;
+assume(v4 != 0);
+TO: xnu_bb3;
+
+FROM: xnu_bb2_end;
+assume(v4 == 0);
+TO: xnu_bb5;
+
+FROM: xnu_bb3;
+vk.0 := var__temp_vk.0;
+var__temp_vi.0 := v1;
+var__temp_vend.0 := v1;
+var__temp_vbeg.0 := v1;
+TO: xnu_bb3_end;
+
+FROM: xnu_bb3_end;
+assume(vk.0 < v.end.0);
+TO: xnu_bb4;
+
+FROM: xnu_bb3_end;
+assume(vk.0 >= v.end.0);
+TO: xnu_bb1;
+
+FROM: xnu_bb4;
+v7 := vk.0 + 1;
+var__temp_vk.0 := v7;
+TO: xnu_bb3;
+
+FROM: xnu_bb5;
+v8 := nondet();
+TO: xnu_bb5_v..end.0;
+FROM: xnu_bb5_v..end.0;
+assume(v8 != 0);
+v..end.0 := v1;
+TO: xnu_bb5_sv..end.0;
+
+FROM: xnu_bb5_v..end.0;
+assume(v8 == 0);
+v..end.0 := v.end.0;
+TO: xnu_bb5_sv..end.0;
+
+FROM: xnu_bb5_sv..end.0;
+TO: xnu_bb5_v.beg.0;
+FROM: xnu_bb5_v.beg.0;
+assume(v8 != 0);
+v.beg.0 := v1;
+TO: xnu_bb5_sv.beg.0;
+
+FROM: xnu_bb5_v.beg.0;
+assume(v8 == 0);
+v.beg.0 := vbeg.0;
+TO: xnu_bb5_sv.beg.0;
+
+FROM: xnu_bb5_sv.beg.0;
+var__temp_vi.0 := v1;
+var__temp_vend.0 := v..end.0;
+var__temp_vbeg.0 := v.beg.0;
+TO: xnu_bb1;
+
+FROM: xnu_bb6;
+TO: xnu_bb6_ret;
+

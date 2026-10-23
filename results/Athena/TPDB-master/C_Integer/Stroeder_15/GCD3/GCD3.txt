@@ -1,0 +1,6 @@
+GCD3.c:18:15: warning: explicitly assigning value of variable of type 'int' to itself [-Wself-assign]
+            y = y;
+            ~ ^ ~
+1 warning generated.
+YES
+Runtime: 2529 milliseconds

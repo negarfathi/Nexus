@@ -1,0 +1,92 @@
+///*** 1_counterex1b ***///
+START: counterex1b_bb0;
+
+FROM: counterex1b_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: counterex1b_.critedge2;
+
+FROM: counterex1b_.critedge2;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.1 := v.01;
+TO: counterex1b_.critedge2_end;
+
+FROM: counterex1b_.critedge2_end;
+assume(v.0 >= 0);
+TO: counterex1b_bb1;
+
+FROM: counterex1b_.critedge2_end;
+assume(v.0 < 0);
+TO: counterex1b_bb7;
+
+FROM: counterex1b_bb1;
+v.1 := var__temp_v.1;
+TO: counterex1b_bb1_end;
+
+FROM: counterex1b_bb1_end;
+assume(v.1 >= 0);
+TO: counterex1b_bb2;
+
+FROM: counterex1b_bb1_end;
+assume(v.1 < 0);
+TO: counterex1b_.critedge;
+
+FROM: counterex1b_bb2;
+v2 := nondet();
+TO: counterex1b_bb2_end;
+
+FROM: counterex1b_bb2_end;
+assume(v2 > 0);
+TO: counterex1b_bb3;
+
+FROM: counterex1b_bb2_end;
+assume(v2 <= 0);
+TO: counterex1b_.critedge;
+
+FROM: counterex1b_bb3;
+v4 := v.1 + -1;
+var__temp_v.1 := v4;
+TO: counterex1b_bb1;
+
+FROM: counterex1b_.critedge;
+v5 := v.0 + -1;
+var__temp_v.2 := v.1;
+TO: counterex1b_bb4;
+
+FROM: counterex1b_bb4;
+v.2 := var__temp_v.2;
+var__temp_v.01 := v.2;
+var__temp_v.0 := v5;
+TO: counterex1b_bb4_end;
+
+FROM: counterex1b_bb4_end;
+assume(v.2 <= vn);
+TO: counterex1b_bb5;
+
+FROM: counterex1b_bb4_end;
+assume(v.2 > vn);
+TO: counterex1b_.critedge2;
+
+FROM: counterex1b_bb5;
+v7 := nondet();
+var__temp_v.01 := v.2;
+var__temp_v.0 := v5;
+TO: counterex1b_bb5_end;
+
+FROM: counterex1b_bb5_end;
+assume(v7 > 0);
+TO: counterex1b_bb6;
+
+FROM: counterex1b_bb5_end;
+assume(v7 <= 0);
+TO: counterex1b_.critedge2;
+
+FROM: counterex1b_bb6;
+v9 := v.2 + 1;
+var__temp_v.2 := v9;
+TO: counterex1b_bb4;
+
+FROM: counterex1b_bb7;
+TO: counterex1b_bb7_ret;
+

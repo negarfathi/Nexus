@@ -1,0 +1,68 @@
+///*** 1_foo ***///
+START: foo_bb0;
+
+FROM: foo_bb0;
+var__temp_v.01 := vy;
+var__temp_v.0 := vx;
+TO: foo_bb1;
+
+FROM: foo_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+TO: foo_bb1_end;
+
+FROM: foo_bb1_end;
+assume((v.0 > 0) && (v.01 > 0));
+TO: foo_bb2;
+
+FROM: foo_bb1_end;
+assume((v.0 <= 0) || (v.01 <= 0));
+TO: foo_bb3;
+
+FROM: foo_bb2;
+v2 := nondet();
+TO: foo_bb2_v.0.sink;
+FROM: foo_bb2_v.0.sink;
+assume(v.0 < v.01);
+v.0.sink := v.0;
+TO: foo_bb2_sv.0.sink;
+
+FROM: foo_bb2_v.0.sink;
+assume(v.0 >= v.01);
+v.0.sink := v.01;
+TO: foo_bb2_sv.0.sink;
+
+FROM: foo_bb2_sv.0.sink;
+v5 := v.0.sink - 1;
+v6 := nondet();
+TO: foo_bb2_v.5;
+FROM: foo_bb2_v.5;
+assume(v2 != 0);
+v.5 := v5;
+TO: foo_bb2_sv.5;
+
+FROM: foo_bb2_v.5;
+assume(v2 == 0);
+v.5 := v6;
+TO: foo_bb2_sv.5;
+
+FROM: foo_bb2_sv.5;
+TO: foo_bb2_v.6;
+FROM: foo_bb2_v.6;
+assume(v2 != 0);
+v.6 := v6;
+TO: foo_bb2_sv.6;
+
+FROM: foo_bb2_v.6;
+assume(v2 == 0);
+v.6 := v5;
+TO: foo_bb2_sv.6;
+
+FROM: foo_bb2_sv.6;
+var__temp_v.01 := v.5;
+var__temp_v.0 := v.6;
+TO: foo_bb1;
+
+FROM: foo_bb3;
+TO: foo_bb3_ret;
+

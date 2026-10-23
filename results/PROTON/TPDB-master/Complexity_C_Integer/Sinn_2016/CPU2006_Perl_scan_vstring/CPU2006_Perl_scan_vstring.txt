@@ -1,0 +1,143 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.jcwPDw
+
+Input File is : CPU2006_Perl_scan_vstring.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  //taken from SPEC CPU2006	perlbench/src/toke.c 	Perl_scan_vstring
+
+int nondet();
+
+//O(n)
+void
+Perl_scan_vstring(int s, int PL_bufend)
+{
+    int pos = s;
+    int start = s;
+    {if (nondet()) {pos++;}}  /* get past 'v' */
+    while (pos < PL_bufend && nondet())
+	{pos++;}
+
+    {if (nondet()) {
+
+	{if (nondet()) {s++;}}  /* get past 'v' */
+
+	for (;;) {
+	    {
+		int end = pos;
+		while (--end >= s) {
+		}
+	    }
+	    {if (pos + 1 < PL_bufend && nondet())
+		 {s = ++pos;}
+	    else {
+		 s = pos;
+		 break;
+	    }}
+	    while (pos < PL_bufend && nondet())
+		 {pos++;}
+	}
+    }}
+}
+
+
+End Main   
+
+Input File is : CPU2006_Perl_scan_vstring_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+//taken from SPEC CPU2006	perlbench/src/toke.c 	Perl_scan_vstring
+
+int nondet();
+
+//O(n)
+void
+Perl_scan_vstring(int s, int PL_bufend)
+{
+    int pos = s;
+    int start = s;
+    { __VERIFIER_reached_control(11, __func__);
+if (nondet()) { __VERIFIER_control_true(11, __func__);
+pos++;}}  /* get past 'v' */
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(13, __func__);
+ while (pos < PL_bufend && nondet())
+	{ __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int oPL_bufend;static int opos;static int os;static int ostart;if(pStored0){__CPROVER_assert(!(oPL_bufend==PL_bufend && opos==pos && os==s && ostart==start),"recurrent state found");} if(flag){oPL_bufend=PL_bufend;opos=pos;os=s;ostart=start;pStored0=myTrue;} pos++;}
+
+    { __VERIFIER_reached_control(15, __func__);
+if (nondet()) { __VERIFIER_control_true(15, __func__);
+
+
+	{ __VERIFIER_reached_control(17, __func__);
+if (nondet()) { __VERIFIER_control_true(17, __func__);
+s++;}}  /* get past 'v' */
+
+myBool pStored1 = myFalse; __VERIFIER_reached_control(19, __func__);
+	for (;;) { __VERIFIER_loop_head(19, __func__);
+printf("CBMC Instrumentation @ line19");myBool flag=__VERIFIER_nondet_myBool();static int oPL_bufend;static int opos;static int os;static int ostart;if(pStored1){__CPROVER_assert(!(oPL_bufend==PL_bufend && opos==pos && os==s && ostart==start),"recurrent state found");} if(flag){oPL_bufend=PL_bufend;opos=pos;os=s;ostart=start;pStored1=myTrue;} 
+	    {
+		int end = pos;
+	myBool pStored2 = myFalse; __VERIFIER_reached_control(22, __func__);
+	while (--end >= s) { __VERIFIER_loop_head(22, __func__);
+printf("CBMC Instrumentation @ line22");myBool flag=__VERIFIER_nondet_myBool();static int oPL_bufend;static int oend;static int opos;static int os;static int ostart;if(pStored2){__CPROVER_assert(!(oPL_bufend==PL_bufend && oend==end && opos==pos && os==s && ostart==start),"recurrent state found");} if(flag){oPL_bufend=PL_bufend;oend=end;opos=pos;os=s;ostart=start;pStored2=myTrue;} 
+		}
+	    }
+	    { __VERIFIER_reached_control(25, __func__);
+if (pos + 1 < PL_bufend && nondet())
+		 { __VERIFIER_control_true(26, __func__);
+s = ++pos;}
+	    else { __VERIFIER_control_false(27, __func__);
+
+		 s = pos;
+		 break;
+	    }}
+	   myBool pStored3 = myFalse; __VERIFIER_reached_control(32, __func__);
+ while (pos < PL_bufend && nondet())
+		 { __VERIFIER_loop_head(32, __func__);
+printf("CBMC Instrumentation @ line32");myBool flag=__VERIFIER_nondet_myBool();static int oPL_bufend;static int opos;static int os;static int ostart;if(pStored3){__CPROVER_assert(!(oPL_bufend==PL_bufend && opos==pos && os==s && ostart==start),"recurrent state found");} if(flag){oPL_bufend=PL_bufend;opos=pos;os=s;ostart=start;pStored3=myTrue;} pos++;}
+	}
+    }}
+}
+
+
+End Main 
+ CPU2006_Perl_scan_vstring_braced_instrumented.c
+NTFILE is CPU2006_Perl_scan_vstring_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for CPU2006_Perl_scan_vstring.c
+FILE=CPU2006_Perl_scan_vstring_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 704 milliseconds

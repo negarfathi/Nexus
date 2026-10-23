@@ -1,0 +1,36 @@
+///*** 1_twn10 ***///
+START: twn10_bb0;
+
+FROM: twn10_bb0;
+var__temp_v.02 := vd;
+var__temp_v.01 := vc;
+var__temp_v.0 := vb;
+TO: twn10_bb1;
+
+FROM: twn10_bb1;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v0 := v.01 + v.02;
+TO: twn10_bb1_end;
+
+FROM: twn10_bb1_end;
+assume(v0 > 0);
+TO: twn10_bb2;
+
+FROM: twn10_bb1_end;
+assume(v0 <= 0);
+TO: twn10_bb3;
+
+FROM: twn10_bb2;
+v2 := v.0 + 1;
+v3 := -2 * v.01;
+v4 := v3 - 2;
+var__temp_v.02 := v2;
+var__temp_v.01 := v4;
+var__temp_v.0 := v2;
+TO: twn10_bb1;
+
+FROM: twn10_bb3;
+TO: twn10_bb3_ret;
+

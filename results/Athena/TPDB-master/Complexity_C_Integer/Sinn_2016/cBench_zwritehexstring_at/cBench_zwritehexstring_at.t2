@@ -1,0 +1,57 @@
+///*** 1_zwritehexstring_at_extracted ***///
+START: zwritehexstring_at_extracted_bb0;
+
+FROM: zwritehexstring_at_extracted_bb0;
+var__temp_v.0 := vlen;
+TO: zwritehexstring_at_extracted_bb1;
+
+FROM: zwritehexstring_at_extracted_bb1;
+v.0 := var__temp_v.0;
+TO: zwritehexstring_at_extracted_bb1_end;
+
+FROM: zwritehexstring_at_extracted_bb1_end;
+assume(v.0 > 0);
+TO: zwritehexstring_at_extracted_bb2;
+
+FROM: zwritehexstring_at_extracted_bb1_end;
+assume(v.0 <= 0);
+TO: zwritehexstring_at_extracted_bb5;
+
+FROM: zwritehexstring_at_extracted_bb2;
+TO: zwritehexstring_at_extracted_bb2_v.0.;
+FROM: zwritehexstring_at_extracted_bb2_v.0.;
+assume(v.0 < 64);
+v.0. := v.0;
+TO: zwritehexstring_at_extracted_bb2_sv.0.;
+
+FROM: zwritehexstring_at_extracted_bb2_v.0.;
+assume(v.0 >= 64);
+v.0. := 64;
+TO: zwritehexstring_at_extracted_bb2_sv.0.;
+
+FROM: zwritehexstring_at_extracted_bb2_sv.0.;
+var__temp_vcount.0 := v.0.;
+TO: zwritehexstring_at_extracted_bb3;
+
+FROM: zwritehexstring_at_extracted_bb3;
+vcount.0 := var__temp_vcount.0;
+v2 := vcount.0 + -1;
+var__temp_vcount.0 := v2;
+TO: zwritehexstring_at_extracted_bb3_end;
+
+FROM: zwritehexstring_at_extracted_bb3_end;
+assume(v2 > 0);
+TO: zwritehexstring_at_extracted_bb3;
+
+FROM: zwritehexstring_at_extracted_bb3_end;
+assume(v2 <= 0);
+TO: zwritehexstring_at_extracted_bb4;
+
+FROM: zwritehexstring_at_extracted_bb4;
+v4 := v.0 - v.0.;
+var__temp_v.0 := v4;
+TO: zwritehexstring_at_extracted_bb1;
+
+FROM: zwritehexstring_at_extracted_bb5;
+TO: zwritehexstring_at_extracted_bb5_ret;
+

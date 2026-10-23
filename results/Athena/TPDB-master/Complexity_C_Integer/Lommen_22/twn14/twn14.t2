@@ -1,0 +1,80 @@
+///*** 1_twn14 ***///
+START: twn14_bb0;
+
+FROM: twn14_bb0;
+var__temp_v.0 := va;
+TO: twn14_bb1;
+
+FROM: twn14_bb1;
+v.0 := var__temp_v.0;
+TO: twn14_bb1_end;
+
+FROM: twn14_bb1_end;
+assume(v.0 > 0);
+TO: twn14_bb2;
+
+FROM: twn14_bb1_end;
+assume(v.0 <= 0);
+TO: twn14_bb6;
+
+FROM: twn14_bb2;
+var__temp_v.02 := ve;
+var__temp_v.01 := v.0;
+TO: twn14_bb2_end;
+
+FROM: twn14_bb2_end;
+assume(vd > 0);
+TO: twn14_bb3;
+
+FROM: twn14_bb2_end;
+assume(vd <= 0);
+TO: twn14_.critedge;
+
+FROM: twn14_bb3;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+TO: twn14_bb3_end;
+
+FROM: twn14_bb3_end;
+assume(v.01 != 0);
+TO: twn14_bb4;
+
+FROM: twn14_bb3_end;
+assume(v.01 == 0);
+TO: twn14_.critedge;
+
+FROM: twn14_bb4;
+v3 := v.01 * v.01;
+v4 := vd * vd;
+v5 := v4 * vd;
+v6 := v5 * vd;
+v7 := v6 * vd;
+v8 := v3 + v7;
+TO: twn14_bb4_end;
+
+FROM: twn14_bb4_end;
+assume(v8 < v.02);
+TO: twn14_bb5;
+
+FROM: twn14_bb4_end;
+assume(v8 >= v.02);
+TO: twn14_.critedge;
+
+FROM: twn14_bb5;
+v10 := -2 * v.01;
+v11 := 3 * v.02;
+v12 := vd * vd;
+v13 := v12 * vd;
+v14 := v11 - v13;
+var__temp_v.02 := v14;
+var__temp_v.01 := v10;
+TO: twn14_bb3;
+
+FROM: twn14_.critedge;
+v15 := v.0 - 1;
+var__temp_v.0 := v15;
+TO: twn14_bb1;
+
+FROM: twn14_bb6;
+TO: twn14_bb6_ret;
+

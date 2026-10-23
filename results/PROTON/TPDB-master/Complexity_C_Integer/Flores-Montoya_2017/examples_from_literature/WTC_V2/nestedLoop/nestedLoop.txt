@@ -1,0 +1,100 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.SF9D51
+
+Input File is : nestedLoop.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  int nondet();
+
+void nestedLoop(int n, int m, int N){
+  int i, j, k;
+  {if(0<=n && 0<=m && 0<=N){
+    i = 0;
+    while(nondet()>0 && i<n){
+      j = 0;
+      while(nondet()>0 && j<m ){
+        j += 1;
+        k = i;
+        while(nondet()>0 && k<N)
+          {k += 1;}
+        i = k;
+      }
+      ++i;
+    }
+  }}
+}
+
+End Main   
+
+Input File is : nestedLoop_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+int nondet();
+
+void nestedLoop(int n, int m, int N){
+  int i, j, k;
+  { __VERIFIER_reached_control(5, __func__);
+if(0<=n && 0<=m && 0<=N){ __VERIFIER_control_true(5, __func__);
+
+    i = 0;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(7, __func__);
+ while(nondet()>0 && i<n){ __VERIFIER_loop_head(7, __func__);
+printf("CBMC Instrumentation @ line7");myBool flag=__VERIFIER_nondet_myBool();static int oN;static int oi;static int oj;static int ok;static int om;static int on;if(pStored0){__CPROVER_assert(!(oN==N && oi==i && oj==j && ok==k && om==m && on==n),"recurrent state found");} if(flag){oN=N;oi=i;oj=j;ok=k;om=m;on=n;pStored0=myTrue;} 
+      j = 0;
+     myBool pStored1 = myFalse; __VERIFIER_reached_control(9, __func__);
+ while(nondet()>0 && j<m ){ __VERIFIER_loop_head(9, __func__);
+printf("CBMC Instrumentation @ line9");myBool flag=__VERIFIER_nondet_myBool();static int oN;static int oi;static int oj;static int ok;static int om;static int on;if(pStored1){__CPROVER_assert(!(oN==N && oi==i && oj==j && ok==k && om==m && on==n),"recurrent state found");} if(flag){oN=N;oi=i;oj=j;ok=k;om=m;on=n;pStored1=myTrue;} 
+        j += 1;
+        k = i;
+       myBool pStored2 = myFalse; __VERIFIER_reached_control(13, __func__);
+ while(nondet()>0 && k<N)
+          { __VERIFIER_loop_head(13, __func__);
+printf("CBMC Instrumentation @ line13");myBool flag=__VERIFIER_nondet_myBool();static int oN;static int oi;static int oj;static int ok;static int om;static int on;if(pStored2){__CPROVER_assert(!(oN==N && oi==i && oj==j && ok==k && om==m && on==n),"recurrent state found");} if(flag){oN=N;oi=i;oj=j;ok=k;om=m;on=n;pStored2=myTrue;} k += 1;}
+        i = k;
+      }
+      ++i;
+    }
+  }}
+}
+
+End Main 
+ nestedLoop_braced_instrumented.c
+NTFILE is nestedLoop_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for nestedLoop.c
+FILE=nestedLoop_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 712 milliseconds

@@ -1,0 +1,9 @@
+(smt.diff_logic: non-diff logic expression (let ((a!1 (+ (+ (- 3) x6__separator__2i)
+              (* (- 1)
+                 (ite (>= x6__separator__2i 0) (+ (- 3) x6__separator__2i) 4)))))
+  (<= a!1 0)))
+(smt.diff_logic: non-diff logic expression (<= (+ (ite (>= x6__separator__2i 0) 1 (+ 1 x6__separator__2i))
+       (* (- 1) (+ 1 x6__separator__2i)))
+    0))
+TIMEOUT
+Runtime: 600789 milliseconds

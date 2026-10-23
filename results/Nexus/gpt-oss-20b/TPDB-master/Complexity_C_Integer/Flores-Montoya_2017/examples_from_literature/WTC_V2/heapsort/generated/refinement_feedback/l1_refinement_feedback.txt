@@ -1,0 +1,1209 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                     query!86))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 1, 0, 0, 0)),
+             query!86),
+   asserted(Implies(query!86, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        1
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v2",
+        1
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E],
+                             Implies(And(l1_return_steps(A,
+                                        1,
+                                        B,
+                                        C,
+                                        D,
+                                        E),
+                                        1 <= B),
+                                     query!86))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 1, 0, 0, 0)),
+             query!86),
+   asserted(Implies(query!86, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        1
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v2",
+        1
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E],
+                             Implies(And(l1_return_steps(A,
+                                        1,
+                                        B,
+                                        C,
+                                        D,
+                                        E),
+                                        1 <= B),
+                                     query!86))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 1, 0, 0, 0)),
+             query!86),
+   asserted(Implies(query!86, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v2",
+        "l1_v2",
+        "l1_v3"
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                     query!86))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 1, 0, 0, 0)),
+             query!86),
+   asserted(Implies(query!86, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v2",
+        "l1_v3"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": ">="
+        },
+        {
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ],
+          "op": "<"
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": ">=",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        },
+        {
+          "op": "<",
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                     query!92))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 2, 0, 0, 0)),
+             query!92),
+   asserted(Implies(query!92, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": ">="
+        }
+      ],
+      "op": "abs"
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    "l1_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'abs' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast.args[1]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    "l1_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v2",
+    "l1_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(query!0), query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v2 = 1, l1_v3 = 2]
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": ">"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": ">",
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(B <= 0),
+                                        Not(C <= B)),
+                                     query!92))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 2, 0, 0, 0)),
+             query!92),
+   asserted(Implies(query!92, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            {
+              "args": [
+                3,
+                "l1_v3"
+              ],
+              "op": "*"
+            },
+            2
+          ],
+          "op": "+"
+        }
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        1
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v2",
+        {
+          "op": "+",
+          "args": [
+            {
+              "op": "*",
+              "args": [
+                3,
+                "l1_v3"
+              ]
+            },
+            2
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: failed - a completed loop iteration can leave the recurrent set.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        G,
+                                        I,
+                                        K,
+                                        B,
+                                        D,
+                                        F,
+                                        H,
+                                        J,
+                                        L),
+                                        1 <= E,
+                                        Or(Not(1 <= F),
+                                        Not(D >= 2 + 3*F)),
+                                        C >= 2 + 3*E),
+                                     query!29))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N],
+                                       Implies(And(H ==
+                                        1 + 2*C,
+                                        J == 1 + 2*C,
+                                        D == 1 + 2*C,
+                                        Or(And(Not(B <= 0),
+                                        C <= B,
+                                        Not(K <= 0),
+                                        Not(L <= 0),
+                                        2*C <= B,
+                                        2*C <= -1 + B,
+                                        1 <= C,
+                                        C >= 0,
+                                        C >= 1,
+                                        Not(C == -1)),
+                                        And(Not(B <= 0),
+                                        C <= B,
+                                        Not(M <= 0),
+                                        2*C <= B,
+                                        2*C <= -1 + B,
+                                        1 <= C,
+                                        C >= 0,
+                                        C >= 1,
+                                        0 >= K,
+                                        Not(C == -1)),
+                                        And(Not(N <= 0),
+                                        Not(B <= 0),
+                                        C <= B,
+                                        Not(2*C <= B),
+                                        2*C <= -1 + B,
+                                        1 <= C,
+                                        C >= 0,
+                                        Not(C == -1))),
+                                        F == 2*C),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        C,
+                                        E,
+                                        G,
+                                        I,
+                                        A,
+                                        B,
+                                        D,
+                                        F,
+                                        H,
+                                        J)))),
+                       l1_iteration_steps(6,
+                                        5,
+                                        1,
+                                        0,
+                                        0,
+                                        0,
+                                        6,
+                                        5,
+                                        3,
+                                        2,
+                                        3,
+                                        3)),
+             query!29),
+   asserted(Implies(query!29, False)),
+   False)
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        1 <= C,
+                                        B >= 2 + 3*C),
+                                     query!83))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H],
+                                       Implies(And(0 >= H,
+                                        C >= 1,
+                                        C >= 0,
+                                        1 <= C,
+                                        2*C <= -1 + B,
+                                        2*C <= B,
+                                        Not(B <= 0),
+                                        0 >= G),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 5, 1, 0, 0, 0)),
+             query!83),
+   asserted(Implies(query!83, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            2,
+            "l1_v3"
+          ],
+          "op": "*"
+        }
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            0
+          ],
+          "op": ">"
+        },
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": ">="
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            2,
+            "l1_v3"
+          ],
+          "op": "*"
+        }
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": ">",
+          "args": [
+            "l1_v2",
+            0
+          ]
+        },
+        {
+          "op": ">=",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "op": "<",
+      "args": [
+        "l1_v2",
+        {
+          "op": "*",
+          "args": [
+            2,
+            "l1_v3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_GUARD_CONTAINMENT: passed
+
+RECURRENT_CLOSURE: passed
+
+RECURRENT_NO_NORMAL_EXIT: passed
+
+RECURRENT_NO_FUNCTION_RETURN: failed - a recurrent-set state can permit function return.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                     query!84))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                                       Implies(And(Not(2*C <=
+                                        -1 + B),
+                                        Not(2*C <= B),
+                                        Not(B <= 0),
+                                        1 <= C),
+                                        l1_return_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                       l1_return_steps(0, 1, 1, 0, 0, 0)),
+             query!84),
+   asserted(Implies(query!84, False)),
+   False)
+
+
+RECURRENT_SET_RESULT: "invalid"

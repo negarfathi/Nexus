@@ -1,0 +1,6 @@
+AliasDarteFeautrierGonnord-SAS2010-speedFails4_true-termination.c:3:13: warning: unused parameter 'i' [-Wunused-parameter]
+int foo(int i,int x,int n,int b,int t){
+            ^
+1 warning generated.
+YES
+Runtime: 1103 milliseconds

@@ -1,0 +1,7 @@
+sipmabubble.c:6:7: warning: unused variable 'tmp' [-Wunused-variable]
+  int tmp;
+      ^
+1 warning generated.
+YES
+/bin/bash: line 3:     7 Segmentation fault      timeout 600 ./main.exe -c ./config/solver/muval_parallel_exc_tbq_ar.json -p ltsterm '/liveness_analysis/sipmabubble.t2'
+Runtime: 923 milliseconds

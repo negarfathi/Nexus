@@ -1,0 +1,27 @@
+///*** 1_textbook_ex1 ***///
+START: textbook_ex1_bb0;
+
+FROM: textbook_ex1_bb0;
+var__temp_vi.0 := va;
+TO: textbook_ex1_bb1;
+
+FROM: textbook_ex1_bb1;
+vi.0 := var__temp_vi.0;
+TO: textbook_ex1_bb1_end;
+
+FROM: textbook_ex1_bb1_end;
+assume(vi.0 <= vb);
+TO: textbook_ex1_bb2;
+
+FROM: textbook_ex1_bb1_end;
+assume(vi.0 > vb);
+TO: textbook_ex1_bb3;
+
+FROM: textbook_ex1_bb2;
+v1 := vi.0 + 1;
+var__temp_vi.0 := v1;
+TO: textbook_ex1_bb1;
+
+FROM: textbook_ex1_bb3;
+TO: textbook_ex1_bb3_ret;
+

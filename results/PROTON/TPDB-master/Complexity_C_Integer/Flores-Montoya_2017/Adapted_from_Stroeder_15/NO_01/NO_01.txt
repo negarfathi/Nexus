@@ -1,0 +1,136 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.aRcxdH
+
+Input File is : NO_01.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  extern int __VERIFIER_nondet_int(void);
+
+int foo(int c,int i){
+c = (24*6)*6;
+{if (c <= 10) {
+        i = 0;
+        while (i < 100) {
+            i = i+1;
+        }
+    }
+    else {
+        {if (c <= 50) {
+            i = 0;
+            while (i < 101) {
+                i = i+1;
+            }
+        }}
+        {if (c <= 100) {
+            i = 0;
+            while (i < 102) {
+                i = i+1;
+            }
+        }
+        else {
+            i = 0;
+            while (i < 103) {
+                i = i+0;
+            }
+        }}
+    }}
+return 0;
+}
+
+
+End Main   
+
+Input File is : NO_01_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+extern int __VERIFIER_nondet_int(void);
+
+int foo(int c,int i){
+c = (24*6)*6;
+{ __VERIFIER_reached_control(5, __func__);
+if (c <= 10) { __VERIFIER_control_true(5, __func__);
+
+        i = 0;
+       myBool pStored0 = myFalse; __VERIFIER_reached_control(7, __func__);
+ while (i < 100) { __VERIFIER_loop_head(7, __func__);
+printf("CBMC Instrumentation @ line7");myBool flag=__VERIFIER_nondet_myBool();static int oc;static int oi;if(pStored0){__CPROVER_assert(!(oc==c && oi==i),"recurrent state found");} if(flag){oc=c;oi=i;pStored0=myTrue;} 
+            i = i+1;
+        }
+    }
+    else { __VERIFIER_control_false(11, __func__);
+
+        { __VERIFIER_reached_control(12, __func__);
+if (c <= 50) { __VERIFIER_control_true(12, __func__);
+
+            i = 0;
+           myBool pStored1 = myFalse; __VERIFIER_reached_control(14, __func__);
+ while (i < 101) { __VERIFIER_loop_head(14, __func__);
+printf("CBMC Instrumentation @ line14");myBool flag=__VERIFIER_nondet_myBool();static int oc;static int oi;if(pStored1){__CPROVER_assert(!(oc==c && oi==i),"recurrent state found");} if(flag){oc=c;oi=i;pStored1=myTrue;} 
+                i = i+1;
+            }
+        }}
+        { __VERIFIER_reached_control(18, __func__);
+if (c <= 100) { __VERIFIER_control_true(18, __func__);
+
+            i = 0;
+           myBool pStored2 = myFalse; __VERIFIER_reached_control(20, __func__);
+ while (i < 102) { __VERIFIER_loop_head(20, __func__);
+printf("CBMC Instrumentation @ line20");myBool flag=__VERIFIER_nondet_myBool();static int oc;static int oi;if(pStored2){__CPROVER_assert(!(oc==c && oi==i),"recurrent state found");} if(flag){oc=c;oi=i;pStored2=myTrue;} 
+                i = i+1;
+            }
+        }
+        else { __VERIFIER_control_false(24, __func__);
+
+            i = 0;
+           myBool pStored3 = myFalse; __VERIFIER_reached_control(26, __func__);
+ while (i < 103) { __VERIFIER_loop_head(26, __func__);
+printf("CBMC Instrumentation @ line26");myBool flag=__VERIFIER_nondet_myBool();static int oc;static int oi;if(pStored3){__CPROVER_assert(!(oc==c && oi==i),"recurrent state found");} if(flag){oc=c;oi=i;pStored3=myTrue;} 
+                i = i+0;
+            }
+        }}
+    }}
+return 0;
+}
+
+
+End Main 
+ NO_01_braced_instrumented.c
+NTFILE is NO_01_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for NO_01.c
+FILE=NO_01_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 717 milliseconds

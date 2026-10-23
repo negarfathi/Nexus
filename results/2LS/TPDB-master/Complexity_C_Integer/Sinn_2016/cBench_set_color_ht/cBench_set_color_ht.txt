@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing cBench_set_color_ht.c
+Converting
+Type-checking cBench_set_color_ht
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of set_color_ht_extracted
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 315 milliseconds

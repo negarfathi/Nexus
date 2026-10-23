@@ -1,0 +1,114 @@
+///*** 1_amir13 ***///
+START: amir13_bb0;
+
+FROM: amir13_bb0;
+var__temp_vx5.0 := 0;
+var__temp_vx2.0 := 0;
+var__temp_vx1.0 := 0;
+var__temp_v.01 := vx7;
+var__temp_v.0 := vx3;
+TO: amir13_bb1;
+
+FROM: amir13_bb1;
+vx5.0 := var__temp_vx5.0;
+vx2.0 := var__temp_vx2.0;
+vx1.0 := var__temp_vx1.0;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v0 := v.01 + -1;
+var__temp_vx5.1 := vx5.0;
+var__temp_vx2.1 := vx2.0;
+var__temp_vx1.1 := vx1.0;
+var__temp_vi.0 := 0;
+var__temp_v.1 := v.0;
+var__temp_v.2 := v.0;
+TO: amir13_bb1_end;
+
+FROM: amir13_bb1_end;
+assume(v.01 > 0);
+TO: amir13_bb2;
+
+FROM: amir13_bb1_end;
+assume(v.01 <= 0);
+TO: amir13_bb7;
+
+FROM: amir13_bb2;
+vx5.1 := var__temp_vx5.1;
+vx2.1 := var__temp_vx2.1;
+vx1.1 := var__temp_vx1.1;
+vi.0 := var__temp_vi.0;
+v.1 := var__temp_v.1;
+var__temp_vx2.2 := vx2.1;
+var__temp_vx1.2 := vx1.1;
+var__temp_vi.1 := 0;
+TO: amir13_bb2_end;
+
+FROM: amir13_bb2_end;
+assume(vi.0 < v0);
+TO: amir13_bb3;
+
+FROM: amir13_bb2_end;
+assume(vi.0 >= v0);
+TO: amir13_bb6;
+
+FROM: amir13_bb3;
+vx2.2 := var__temp_vx2.2;
+vx1.2 := var__temp_vx1.2;
+vi.1 := var__temp_vi.1;
+TO: amir13_bb3_end;
+
+FROM: amir13_bb3_end;
+assume(vi.1 < v.1);
+TO: amir13_bb4;
+
+FROM: amir13_bb3_end;
+assume(vi.1 >= v.1);
+TO: amir13_bb5;
+
+FROM: amir13_bb4;
+v4 := vx2.2 + 1;
+v5 := vi.1 + 1;
+var__temp_vx2.2 := vx1.2;
+var__temp_vx1.2 := v4;
+var__temp_vi.1 := v5;
+TO: amir13_bb3;
+
+FROM: amir13_bb5;
+v6 := vx5.1 + vx1.2;
+v7 := vi.1 + 1;
+var__temp_vx5.1 := v6;
+var__temp_vx2.1 := vx2.2;
+var__temp_vx1.1 := vx1.2;
+var__temp_vi.0 := v7;
+var__temp_v.1 := vx1.2;
+TO: amir13_bb2;
+
+FROM: amir13_bb6;
+v8 := v.1 + vx5.1;
+var__temp_vx5.0 := vx5.1;
+var__temp_vx2.0 := vx2.1;
+var__temp_vx1.0 := vx1.1;
+var__temp_v.01 := v0;
+var__temp_v.0 := v8;
+TO: amir13_bb1;
+
+FROM: amir13_bb7;
+v.2 := var__temp_v.2;
+TO: amir13_bb7_end;
+
+FROM: amir13_bb7_end;
+assume(v.2 > 0);
+TO: amir13_bb8;
+
+FROM: amir13_bb7_end;
+assume(v.2 <= 0);
+TO: amir13_bb9;
+
+FROM: amir13_bb8;
+v10 := v.2 + -1;
+var__temp_v.2 := v10;
+TO: amir13_bb7;
+
+FROM: amir13_bb9;
+TO: amir13_bb9_ret;
+

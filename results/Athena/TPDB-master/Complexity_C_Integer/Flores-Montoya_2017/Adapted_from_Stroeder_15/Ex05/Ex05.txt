@@ -1,0 +1,6 @@
+Ex05.c:3:13: warning: unused parameter 'i' [-Wunused-parameter]
+int foo(int i){
+            ^
+1 warning generated.
+NO
+Runtime: 799 milliseconds

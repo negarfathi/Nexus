@@ -1,0 +1,101 @@
+///*** 1_terminatorbubble ***///
+START: terminatorbubble_bb0;
+
+FROM: terminatorbubble_bb0;
+var__temp_vb.0 := vsize;
+TO: terminatorbubble_bb0_end;
+
+FROM: terminatorbubble_bb0_end;
+assume(vsize > 0);
+TO: terminatorbubble_bb1;
+
+FROM: terminatorbubble_bb0_end;
+assume(vsize <= 0);
+TO: terminatorbubble_bb7;
+
+FROM: terminatorbubble_bb1;
+vb.0 := var__temp_vb.0;
+var__temp_vj.0 := 1;
+var__temp_vt.0 := 0;
+TO: terminatorbubble_bb1_end;
+
+FROM: terminatorbubble_bb1_end;
+assume((vb.0 < 1) || (vsize <= 0));
+TO: terminatorbubble_bb7;
+
+FROM: terminatorbubble_bb1_end;
+assume((vb.0 >= 1) && (vsize > 0));
+TO: terminatorbubble_bb2;
+
+FROM: terminatorbubble_bb2;
+vj.0 := var__temp_vj.0;
+vt.0 := var__temp_vt.0;
+v3 := vb.0 - 1;
+TO: terminatorbubble_bb2_end;
+
+FROM: terminatorbubble_bb2_end;
+assume(vj.0 <= v3);
+TO: terminatorbubble_bb3;
+
+FROM: terminatorbubble_bb2_end;
+assume(vj.0 > v3);
+TO: terminatorbubble_bb6;
+
+FROM: terminatorbubble_bb3;
+TO: terminatorbubble_bb3_end;
+
+FROM: terminatorbubble_bb3_end;
+assume((vj.0 < 1) || (vj.0 > vsize));
+TO: terminatorbubble_bb7;
+
+FROM: terminatorbubble_bb3_end;
+assume((vj.0 >= 1) && (vj.0 <= vsize));
+TO: terminatorbubble_bb4;
+
+FROM: terminatorbubble_bb4;
+v7 := vj.0 + 1;
+v9 := vj.0 + 1;
+TO: terminatorbubble_bb4_end;
+
+FROM: terminatorbubble_bb4_end;
+assume((v7 < 1) || (v9 > vsize));
+TO: terminatorbubble_bb7;
+
+FROM: terminatorbubble_bb4_end;
+assume((v7 >= 1) && (v9 <= vsize));
+TO: terminatorbubble_bb5;
+
+FROM: terminatorbubble_bb5;
+v11 := nondet();
+TO: terminatorbubble_bb5_vj.0.t.0;
+FROM: terminatorbubble_bb5_vj.0.t.0;
+assume(v11 > 0);
+vj.0.t.0 := vj.0;
+TO: terminatorbubble_bb5_svj.0.t.0;
+
+FROM: terminatorbubble_bb5_vj.0.t.0;
+assume(v11 <= 0);
+vj.0.t.0 := vt.0;
+TO: terminatorbubble_bb5_svj.0.t.0;
+
+FROM: terminatorbubble_bb5_svj.0.t.0;
+v13 := vj.0 + 1;
+var__temp_vj.0 := v13;
+var__temp_vt.0 := vj.0.t.0;
+TO: terminatorbubble_bb2;
+
+FROM: terminatorbubble_bb6;
+var__temp_vb.0 := vt.0;
+TO: terminatorbubble_bb6_end;
+
+FROM: terminatorbubble_bb6_end;
+assume((1 > vt.0) || (vt.0 >= vb.0));
+TO: terminatorbubble_bb7;
+
+FROM: terminatorbubble_bb6_end;
+assume((1 <= vt.0) && (vt.0 < vb.0));
+TO: terminatorbubble_bb1;
+
+FROM: terminatorbubble_bb7;
+TO: terminatorbubble_bb7_ret;
+

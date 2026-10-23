@@ -1,0 +1,47 @@
+///*** 1_ax ***///
+START: ax_bb0;
+
+FROM: ax_bb0;
+var__temp_v.0 := 0;
+TO: ax_bb1;
+
+FROM: ax_bb1;
+v.0 := var__temp_v.0;
+var__temp_v.01 := 0;
+TO: ax_bb2;
+
+FROM: ax_bb2;
+v.01 := var__temp_v.01;
+v0 := vn - 1;
+TO: ax_bb2_end;
+
+FROM: ax_bb2_end;
+assume(v.01 < v0);
+TO: ax_bb3;
+
+FROM: ax_bb2_end;
+assume(v.01 >= v0);
+TO: ax_bb4;
+
+FROM: ax_bb3;
+v2 := v.01 + 1;
+var__temp_v.01 := v2;
+TO: ax_bb2;
+
+FROM: ax_bb4;
+v3 := v.0 + 1;
+v4 := vn - 1;
+var__temp_v.0 := v3;
+TO: ax_bb4_end;
+
+FROM: ax_bb4_end;
+assume((v.01 >= v4) && (v3 < v4));
+TO: ax_bb1;
+
+FROM: ax_bb4_end;
+assume((v.01 < v4) || (v3 >= v4));
+TO: ax_bb5;
+
+FROM: ax_bb5;
+TO: ax_bb5_ret;
+

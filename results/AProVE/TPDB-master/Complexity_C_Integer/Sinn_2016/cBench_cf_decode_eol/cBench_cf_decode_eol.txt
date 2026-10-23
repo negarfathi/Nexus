@@ -1,0 +1,201 @@
+MAYBE
+proof of cBench_cf_decode_eol.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 19 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/cBench_cf_decode_eol.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/cBench_cf_decode_eol.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "llvm.dbg.label" returnParam: BasicVoidType parameters: (BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "cf_decode_eol" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32, 1 i32, 2 i32, 3 i32, 4 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%6 = alloca i32, align 4
+		%7 = alloca i32, align 4
+		%8 = alloca i32, align 4
+		%9 = alloca i32, align 4
+		%10 = alloca i32, align 4
+		%11 = alloca i32, align 4
+		%12 = alloca i32, align 4
+		%13 = alloca i32, align 4
+		%14 = alloca i32, align 4
+		%15 = alloca i32, align 4
+		store %0, %6
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		store %1, %7
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %7)
+		store %2, %8
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %8)
+		store %3, %9
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %9)
+		store %4, %10
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %10)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %11)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %12)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %13)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %14)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %15)
+		%16 = load %9
+		store %16, %14
+		%17 = load %10
+		store %17, %15
+		%18 = load %7
+		store %18, %11
+		store 0, %12
+		br %19
+	19:
+		%20 = load %12
+		%21 = icmp slt %20 11
+		br %21, %22, %53
+	22:
+		%23 = load %11
+		%24 = icmp slt %23 1
+		br %24, %25, %47
+	25:
+		%26 = load %15
+		%27 = load %14
+		%28 = sub i32 %26, %27
+		%29 = icmp slt %28 3
+		br %29, %30, %41
+	30:
+		%31 = load %14
+		%32 = load %15
+		%33 = icmp slt %31 %32
+		br %33, %34, %37
+	34:
+		%35 = load %14
+		%36 = add i32 %35, 1
+		store %36, %14
+		br %38
+	37:
+		br %88
+	38:
+		%39 = load %11
+		%40 = add i32 %39, 8
+		store %40, %11
+		br %46
+	41:
+		%42 = load %11
+		%43 = add i32 %42, 24
+		store %43, %11
+		%44 = load %14
+		%45 = add i32 %44, 3
+		store %45, %14
+		br %46
+	46:
+		br %47
+	47:
+		%48 = load %11
+		%49 = sub i32 %48, 1
+		store %49, %11
+		br %50
+	50:
+		%51 = load %12
+		%52 = add i32 %51, 1
+		store %52, %12
+		br %19
+	53:
+		%54 = load %8
+		%55 = icmp sgt %54 0
+		%56 = zext i1 %55 to i64
+		%57 = select %55, 2, 1
+		store %57, %13
+		br %58
+	58:
+		%59 = load %11
+		%60 = load %13
+		%61 = icmp slt %59 %60
+		br %61, %62, %84
+	62:
+		%63 = load %15
+		%64 = load %14
+		%65 = sub i32 %63, %64
+		%66 = icmp slt %65 3
+		br %66, %67, %78
+	67:
+		%68 = load %14
+		%69 = load %15
+		%70 = icmp slt %68 %69
+		br %70, %71, %74
+	71:
+		%72 = load %14
+		%73 = add i32 %72, 1
+		store %73, %14
+		br %75
+	74:
+		br %87
+	75:
+		%76 = load %11
+		%77 = add i32 %76, 8
+		store %77, %11
+		br %83
+	78:
+		%79 = load %11
+		%80 = add i32 %79, 24
+		store %80, %11
+		%81 = load %14
+		%82 = add i32 %81, 3
+		store %82, %14
+		br %83
+	83:
+		br %84
+	84:
+		%85 = load %11
+		%86 = sub i32 %85, 1
+		store %86, %11
+		br %58
+	87:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.label()
+		br %88
+	88:
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.label()
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788578220Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1239 milliseconds

@@ -1,0 +1,325 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v3",
+        "l2_v5"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v2",
+        "l2_v7"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v4",
+        "l2_v7"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "ite"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v3",
+        "l2_v5"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v2",
+        "l2_v7"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v4",
+        "l2_v7"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "ite"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator 'ite' does not derive from BoolExpr.",
+    "path": "$.candidate_expressions[0].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l2_v3",
+            "l2_v5"
+          ],
+          "op": "<="
+        },
+        {
+          "args": [
+            "l2_v2",
+            "l2_v7"
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        "l2_v4",
+        "l2_v7"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "<=",
+          "args": [
+            "l2_v3",
+            "l2_v5"
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            "l2_v2",
+            "l2_v7"
+          ]
+        }
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l2_v4",
+        "l2_v7"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                             Implies(And(l1_reachable_header_states(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        Or(Not(D <= G),
+                                        Not(B <= G),
+                                        Not(0 <= E)),
+                                        Not(F <= B)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C, D, E],
+                                       Implies(And(0 <= C,
+                                        0 <= E,
+                                        0 <= D),
+                                        l1_reachable_header_states(0,
+                                        0,
+                                        A,
+                                        B,
+                                        D,
+                                        C,
+                                        E)))),
+                       l1_reachable_header_states(0,
+                                        0,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+                                        0)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v5",
+        0
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        "l2_v3",
+        "l2_v5"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "or"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": "<",
+      "args": [
+        "l2_v5",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l2_v3",
+        "l2_v5"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v5",
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

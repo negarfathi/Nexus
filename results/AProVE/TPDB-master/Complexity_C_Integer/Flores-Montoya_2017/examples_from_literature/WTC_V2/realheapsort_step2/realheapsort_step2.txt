@@ -1,0 +1,155 @@
+MAYBE
+proof of realheapsort_step2.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 56 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/realheapsort_step2.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/realheapsort_step2.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "nondet" returnParam: i32 parameters: () variableLength: true visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "realheapsort_step2" linkageType: EXTERNALLY_VISIBLE returnParam: BasicVoidType parameters: (0 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%2 = alloca i32, align 4
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		%5 = alloca i32, align 4
+		%6 = alloca i32, align 4
+		store %0, %2
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %2)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %5)
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %6)
+		%7 = load %2
+		%8 = icmp sgt %7 2
+		br %8, %9, %62
+	9:
+		store 0, %4
+		br %10
+	10:
+		%11 = load %4
+		%12 = load %2
+		%13 = sub i32 %12, 2
+		%14 = icmp sle %11 %13
+		br %14, %15, %61
+	15:
+		store 0, %5
+		store 0, %6
+		%16 = call i32 (...)* @nondet()
+		store %16, %3
+		br %17
+	17:
+		%18 = load %5
+		%19 = mul i32 2, %18
+		%20 = add i32 %19, 1
+		%21 = load %2
+		%22 = sub i32 %21, 2
+		%23 = load %4
+		%24 = sub i32 %22, %23
+		%25 = icmp sle %20 %24
+		br %25, %26, %57
+	26:
+		%27 = load %5
+		%28 = mul i32 2, %27
+		%29 = add i32 %28, 1
+		%30 = load %2
+		%31 = sub i32 %30, 2
+		%32 = load %4
+		%33 = sub i32 %31, %32
+		%34 = icmp eq %29 %33
+		br %34, %39, %35
+	35:
+		%36 = call i32 (...)* @nondet()
+		%37 = call i32 (...)* @nondet()
+		%38 = icmp slt %36 %37
+		br %38, %39, %43
+	39:
+		%40 = load %5
+		%41 = mul i32 2, %40
+		%42 = add i32 %41, 1
+		store %42, %6
+		br %47
+	43:
+		%44 = load %5
+		%45 = mul i32 2, %44
+		%46 = add i32 %45, 2
+		store %46, %6
+		br %47
+	47:
+		%48 = call i32 (...)* @nondet()
+		%49 = call i32 (...)* @nondet()
+		%50 = icmp sgt %48 %49
+		br %50, %51, %54
+	51:
+		%52 = call i32 (...)* @nondet()
+		store %52, %3
+		%53 = load %6
+		store %53, %5
+		br %56
+	54:
+		%55 = load %2
+		store %55, %5
+		br %56
+	56:
+		br %17
+	57:
+		br %58
+	58:
+		%59 = load %4
+		%60 = add i32 %59, 1
+		store %60, %4
+		br %10
+	61:
+		br %62
+	62:
+		ret void
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788545598Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1072 milliseconds

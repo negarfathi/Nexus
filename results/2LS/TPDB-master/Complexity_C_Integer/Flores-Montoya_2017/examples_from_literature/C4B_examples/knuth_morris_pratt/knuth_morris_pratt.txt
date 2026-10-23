@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing knuth_morris_pratt.c
+Converting
+Type-checking knuth_morris_pratt
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of knuth_morris_pratt
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 304 milliseconds

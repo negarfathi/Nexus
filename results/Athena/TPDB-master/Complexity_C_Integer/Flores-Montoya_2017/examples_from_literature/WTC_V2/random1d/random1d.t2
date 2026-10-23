@@ -1,0 +1,53 @@
+///*** 1_random1d ***///
+START: random1d_bb0;
+
+FROM: random1d_bb0;
+var__temp_vx.0 := 1;
+var__temp_va.0 := 0;
+TO: random1d_bb0_end;
+
+FROM: random1d_bb0_end;
+assume(vmax > 0);
+TO: random1d_bb1;
+
+FROM: random1d_bb0_end;
+assume(vmax <= 0);
+TO: random1d_bb3;
+
+FROM: random1d_bb1;
+vx.0 := var__temp_vx.0;
+va.0 := var__temp_va.0;
+TO: random1d_bb1_end;
+
+FROM: random1d_bb1_end;
+assume(vx.0 <= vmax);
+TO: random1d_bb2;
+
+FROM: random1d_bb1_end;
+assume(vx.0 > vmax);
+TO: random1d_bb3;
+
+FROM: random1d_bb2;
+v2 := nondet();
+v4 := va.0 + 1;
+v5 := va.0 - 1;
+TO: random1d_bb2_va.1;
+FROM: random1d_bb2_va.1;
+assume(v2 > 0);
+va.1 := v4;
+TO: random1d_bb2_sva.1;
+
+FROM: random1d_bb2_va.1;
+assume(v2 <= 0);
+va.1 := v5;
+TO: random1d_bb2_sva.1;
+
+FROM: random1d_bb2_sva.1;
+v6 := vx.0 + 1;
+var__temp_vx.0 := v6;
+var__temp_va.0 := va.1;
+TO: random1d_bb1;
+
+FROM: random1d_bb3;
+TO: random1d_bb3_ret;
+

@@ -1,0 +1,275 @@
+///*** 1_sipmamergesort_init ***///
+START: sipmamergesort_init_bb0;
+
+FROM: sipmamergesort_init_bb0;
+var__temp_vup.0 := 1;
+var__temp_vp.0 := 1;
+TO: sipmamergesort_init_bb1;
+
+FROM: sipmamergesort_init_bb1;
+vup.0 := var__temp_vup.0;
+vp.0 := var__temp_vp.0;
+v1 := vn + 1;
+v2 := 2 * vn;
+TO: sipmamergesort_init_bb1_v.n;
+FROM: sipmamergesort_init_bb1_v.n;
+assume(vup.0 != 0);
+v.n := v2;
+TO: sipmamergesort_init_bb1_sv.n;
+
+FROM: sipmamergesort_init_bb1_v.n;
+assume(vup.0 == 0);
+v.n := vn;
+TO: sipmamergesort_init_bb1_sv.n;
+
+FROM: sipmamergesort_init_bb1_sv.n;
+TO: sipmamergesort_init_bb1_v.;
+FROM: sipmamergesort_init_bb1_v.;
+assume(vup.0 != 0);
+v. := v1;
+TO: sipmamergesort_init_bb1_sv.;
+
+FROM: sipmamergesort_init_bb1_v.;
+assume(vup.0 == 0);
+v. := 1;
+TO: sipmamergesort_init_bb1_sv.;
+
+FROM: sipmamergesort_init_bb1_sv.;
+TO: sipmamergesort_init_bb1_vn.;
+FROM: sipmamergesort_init_bb1_vn.;
+assume(vup.0 != 0);
+vn. := vn;
+TO: sipmamergesort_init_bb1_svn.;
+
+FROM: sipmamergesort_init_bb1_vn.;
+assume(vup.0 == 0);
+vn. := v2;
+TO: sipmamergesort_init_bb1_svn.;
+
+FROM: sipmamergesort_init_bb1_svn.;
+TO: sipmamergesort_init_bb1_v.1;
+FROM: sipmamergesort_init_bb1_v.1;
+assume(vup.0 != 0);
+v.1 := 1;
+TO: sipmamergesort_init_bb1_sv.1;
+
+FROM: sipmamergesort_init_bb1_v.1;
+assume(vup.0 == 0);
+v.1 := v1;
+TO: sipmamergesort_init_bb1_sv.1;
+
+FROM: sipmamergesort_init_bb1_sv.1;
+var__temp_vm.0 := vn;
+var__temp_vh.0 := 1;
+var__temp_vl.1 := v.n;
+var__temp_vk.1 := v.;
+var__temp_vj.1 := vn.;
+var__temp_vi.1 := v.1;
+TO: sipmamergesort_init_bb2;
+
+FROM: sipmamergesort_init_bb2;
+vm.0 := var__temp_vm.0;
+vh.0 := var__temp_vh.0;
+vl.1 := var__temp_vl.1;
+vk.1 := var__temp_vk.1;
+vj.1 := var__temp_vj.1;
+vi.1 := var__temp_vi.1;
+TO: sipmamergesort_init_bb2_vp.0.m.0;
+FROM: sipmamergesort_init_bb2_vp.0.m.0;
+assume(vm.0 >= vp.0);
+vp.0.m.0 := vp.0;
+TO: sipmamergesort_init_bb2_svp.0.m.0;
+
+FROM: sipmamergesort_init_bb2_vp.0.m.0;
+assume(vm.0 < vp.0);
+vp.0.m.0 := vm.0;
+TO: sipmamergesort_init_bb2_svp.0.m.0;
+
+FROM: sipmamergesort_init_bb2_svp.0.m.0;
+v4 := vm.0 - vp.0.m.0;
+TO: sipmamergesort_init_bb2_vr.0;
+FROM: sipmamergesort_init_bb2_vr.0;
+assume(v4 >= vp.0);
+vr.0 := vp.0;
+TO: sipmamergesort_init_bb2_svr.0;
+
+FROM: sipmamergesort_init_bb2_vr.0;
+assume(v4 < vp.0);
+vr.0 := v4;
+TO: sipmamergesort_init_bb2_svr.0;
+
+FROM: sipmamergesort_init_bb2_svr.0;
+v6 := v4 - vr.0;
+var__temp_vr.1 := vr.0;
+var__temp_vq.1 := vp.0.m.0;
+var__temp_vk.2 := vk.1;
+var__temp_vj.2 := vj.1;
+var__temp_vi.2 := vi.1;
+TO: sipmamergesort_init_bb3;
+
+FROM: sipmamergesort_init_bb3;
+vr.1 := var__temp_vr.1;
+vq.1 := var__temp_vq.1;
+vk.2 := var__temp_vk.2;
+vj.2 := var__temp_vj.2;
+vi.2 := var__temp_vi.2;
+var__temp_vr.3 := vr.1;
+var__temp_vk.4 := vk.2;
+var__temp_vj.4 := vj.2;
+TO: sipmamergesort_init_bb3_end;
+
+FROM: sipmamergesort_init_bb3_end;
+assume((vq.1 > 0) && (vr.1 > 0));
+TO: sipmamergesort_init_bb4;
+
+FROM: sipmamergesort_init_bb3_end;
+assume((vq.1 <= 0) || (vr.1 <= 0));
+TO: sipmamergesort_init_bb7;
+
+FROM: sipmamergesort_init_bb4;
+v9 := nondet();
+v11 := vk.2 + vh.0;
+TO: sipmamergesort_init_bb4_end;
+
+FROM: sipmamergesort_init_bb4_end;
+assume(v9 != 0);
+TO: sipmamergesort_init_bb5;
+
+FROM: sipmamergesort_init_bb4_end;
+assume(v9 == 0);
+TO: sipmamergesort_init_bb6;
+
+FROM: sipmamergesort_init_bb5;
+v12 := vi.2 + 1;
+v13 := vq.1 - 1;
+var__temp_vr.1 := vr.1;
+var__temp_vq.1 := v13;
+var__temp_vk.2 := v11;
+var__temp_vj.2 := vj.2;
+var__temp_vi.2 := v12;
+TO: sipmamergesort_init_bb3;
+
+FROM: sipmamergesort_init_bb6;
+v14 := vj.2 - 1;
+v15 := vr.1 - 1;
+var__temp_vr.1 := v15;
+var__temp_vq.1 := vq.1;
+var__temp_vk.2 := v11;
+var__temp_vj.2 := v14;
+var__temp_vi.2 := vi.2;
+TO: sipmamergesort_init_bb3;
+
+FROM: sipmamergesort_init_bb7;
+vr.3 := var__temp_vr.3;
+vk.4 := var__temp_vk.4;
+vj.4 := var__temp_vj.4;
+var__temp_vq.3 := vq.1;
+var__temp_vk.5 := vk.4;
+var__temp_vi.4 := vi.2;
+TO: sipmamergesort_init_bb7_end;
+
+FROM: sipmamergesort_init_bb7_end;
+assume(vr.3 > 0);
+TO: sipmamergesort_init_bb8;
+
+FROM: sipmamergesort_init_bb7_end;
+assume(vr.3 <= 0);
+TO: sipmamergesort_init_bb9;
+
+FROM: sipmamergesort_init_bb8;
+v17 := vk.4 + vh.0;
+v18 := vj.4 - 1;
+v19 := vr.3 - 1;
+var__temp_vr.3 := v19;
+var__temp_vk.4 := v17;
+var__temp_vj.4 := v18;
+TO: sipmamergesort_init_bb7;
+
+FROM: sipmamergesort_init_bb9;
+vq.3 := var__temp_vq.3;
+vk.5 := var__temp_vk.5;
+vi.4 := var__temp_vi.4;
+TO: sipmamergesort_init_bb9_end;
+
+FROM: sipmamergesort_init_bb9_end;
+assume(vq.3 > 0);
+TO: sipmamergesort_init_bb10;
+
+FROM: sipmamergesort_init_bb9_end;
+assume(vq.3 <= 0);
+TO: sipmamergesort_init_bb11;
+
+FROM: sipmamergesort_init_bb10;
+v21 := vk.5 + vh.0;
+v22 := vi.4 + 1;
+v23 := vq.3 - 1;
+var__temp_vq.3 := v23;
+var__temp_vk.5 := v21;
+var__temp_vi.4 := v22;
+TO: sipmamergesort_init_bb9;
+
+FROM: sipmamergesort_init_bb11;
+v24 := 0 - vh.0;
+var__temp_vm.0 := v6;
+var__temp_vh.0 := v24;
+var__temp_vl.1 := vk.5;
+var__temp_vk.1 := vl.1;
+var__temp_vj.1 := vj.4;
+var__temp_vi.1 := vi.4;
+TO: sipmamergesort_init_bb11_end;
+
+FROM: sipmamergesort_init_bb11_end;
+assume(v6 > 0);
+TO: sipmamergesort_init_bb2;
+
+FROM: sipmamergesort_init_bb11_end;
+assume(v6 <= 0);
+TO: sipmamergesort_init_bb12;
+
+FROM: sipmamergesort_init_bb12;
+v26 := 1 - vup.0;
+v27 := 2 * vp.0;
+var__temp_vup.0 := v26;
+var__temp_vp.0 := v27;
+TO: sipmamergesort_init_bb12_end;
+
+FROM: sipmamergesort_init_bb12_end;
+assume(v27 < vn);
+TO: sipmamergesort_init_bb1;
+
+FROM: sipmamergesort_init_bb12_end;
+assume(v27 >= vn);
+TO: sipmamergesort_init_bb13;
+
+FROM: sipmamergesort_init_bb13;
+var__temp_vi.5 := 1;
+TO: sipmamergesort_init_bb13_end;
+
+FROM: sipmamergesort_init_bb13_end;
+assume(v26 == 0);
+TO: sipmamergesort_init_bb14;
+
+FROM: sipmamergesort_init_bb13_end;
+assume(v26 != 0);
+TO: sipmamergesort_init_bb16;
+
+FROM: sipmamergesort_init_bb14;
+vi.5 := var__temp_vi.5;
+TO: sipmamergesort_init_bb14_end;
+
+FROM: sipmamergesort_init_bb14_end;
+assume(vi.5 <= vn);
+TO: sipmamergesort_init_bb15;
+
+FROM: sipmamergesort_init_bb14_end;
+assume(vi.5 > vn);
+TO: sipmamergesort_init_bb16;
+
+FROM: sipmamergesort_init_bb15;
+v31 := vi.5 + 1;
+var__temp_vi.5 := v31;
+TO: sipmamergesort_init_bb14;
+
+FROM: sipmamergesort_init_bb16;
+TO: sipmamergesort_init_bb16_ret;
+

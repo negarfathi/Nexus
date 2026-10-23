@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing speed_pldi10_ex4.c
+Converting
+Type-checking speed_pldi10_ex4
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of speed_pldi10_ex4
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 303 milliseconds

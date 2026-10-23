@@ -1,0 +1,712 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    0,
+    "l1_v2"
+  ],
+  "op": "<"
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<",
+  "args": [
+    0,
+    "l1_v2"
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        D <= 0,
+                                        Not(C <= 0),
+                                        Not(0 == C)),
+                                     query!4))),
+             hyper-res(asserted(ForAll([A, B, C, D, E],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        D == -1 + C,
+                                        C <= E,
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        E)))),
+                       l1_iteration_steps(0, 1, 1, 1, 0, 1)),
+             query!4),
+   asserted(Implies(query!4, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    0,
+    "l1_v2"
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    0,
+    "l1_v2"
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll(A,
+                             Implies(And(Not(A <= 0),
+                                        Not(0 >= A)),
+                                     query!0))),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v2 = -1]
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        Not(0 <= D),
+                                        0 <= C,
+                                        Not(0 == C)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        Not(C <= D),
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        D,
+                                        B,
+                                        D,
+                                        D)))),
+                       l1_iteration_steps(-1,
+                                        1,
+                                        -1,
+                                        0,
+                                        -1,
+                                        -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    0,
+    "l1_v2"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    0,
+    "l1_v2"
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        Not(0 <= D),
+                                        0 <= C,
+                                        Not(0 == C)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        Not(C <= D),
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        D,
+                                        B,
+                                        D,
+                                        D)))),
+                       l1_iteration_steps(-1,
+                                        1,
+                                        -1,
+                                        0,
+                                        -1,
+                                        -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    0,
+    "l1_v2"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    0,
+    "l1_v2"
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        Not(0 <= D),
+                                        0 <= C,
+                                        Not(0 == C)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        Not(C <= D),
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        D,
+                                        B,
+                                        D,
+                                        D)))),
+                       l1_iteration_steps(-1,
+                                        1,
+                                        -1,
+                                        0,
+                                        -1,
+                                        -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        0,
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 1 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        0,
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        0,
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll(A,
+                             Implies(And(Or(Not(0 <= A),
+                                        Not(0 == A)),
+                                        Not(A <= 0)),
+                                     query!0))),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        Not(0 <= D),
+                                        0 <= C,
+                                        Not(0 == C)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        Not(C <= D),
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        D,
+                                        B,
+                                        D,
+                                        D)))),
+                       l1_iteration_steps(-1,
+                                        1,
+                                        -1,
+                                        0,
+                                        -1,
+                                        -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        B,
+                                        D,
+                                        F),
+                                        Not(0 <= D),
+                                        0 <= C,
+                                        Not(0 == C)),
+                                     query!9))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(B ==
+                                        1 + A,
+                                        Not(C <= D),
+                                        Not(0 == C)),
+                                        l1_iteration_steps(A,
+                                        C,
+                                        D,
+                                        B,
+                                        D,
+                                        D)))),
+                       l1_iteration_steps(-1,
+                                        1,
+                                        -1,
+                                        0,
+                                        -1,
+                                        -1)),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l1_v3",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v3",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

@@ -1,0 +1,1287 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": "<="
+    },
+    0,
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            5
+          ],
+          "op": "="
+        },
+        1,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                4
+              ],
+              "op": "="
+            },
+            3,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    3
+                  ],
+                  "op": "="
+                },
+                4,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        2
+                      ],
+                      "op": "="
+                    },
+                    2,
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            "l1_v2",
+                            1
+                          ],
+                          "op": "="
+                        },
+                        2,
+                        0
+                      ],
+                      "op": "ite"
+                    }
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    0,
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            5
+          ]
+        },
+        1,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                4
+              ]
+            },
+            3,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    3
+                  ]
+                },
+                4,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "=",
+                      "args": [
+                        "l1_v2",
+                        2
+                      ]
+                    },
+                    2,
+                    {
+                      "op": "ite",
+                      "args": [
+                        {
+                          "op": "=",
+                          "args": [
+                            "l1_v2",
+                            1
+                          ]
+                        },
+                        2,
+                        0
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1_next = 0, l1_v1 = 0, l1_v2_next = -2, l1_v2 = 6]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": "<="
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator '<=' does not derive from RankingExpr.",
+    "path": "$.candidate_expressions[1].expression_ast"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v2 = 1, l1_v2_next = 8, l1_v1 = 0, l1_v1_next = 0]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": "<="
+    },
+    0,
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            5
+          ],
+          "op": ">"
+        },
+        1,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                4
+              ],
+              "op": "="
+            },
+            3,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    3
+                  ],
+                  "op": "="
+                },
+                4,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        2
+                      ],
+                      "op": "="
+                    },
+                    2,
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            "l1_v2",
+                            1
+                          ],
+                          "op": "="
+                        },
+                        2,
+                        0
+                      ],
+                      "op": "ite"
+                    }
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    0,
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": ">",
+          "args": [
+            "l1_v2",
+            5
+          ]
+        },
+        1,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                4
+              ]
+            },
+            3,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    3
+                  ]
+                },
+                4,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "=",
+                      "args": [
+                        "l1_v2",
+                        2
+                      ]
+                    },
+                    2,
+                    {
+                      "op": "ite",
+                      "args": [
+                        {
+                          "op": "=",
+                          "args": [
+                            "l1_v2",
+                            1
+                          ]
+                        },
+                        2,
+                        0
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1_next = 0, l1_v1 = 0, l1_v2_next = 0, l1_v2 = 5]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            5
+          ],
+          "op": "<"
+        },
+        1,
+        0
+      ],
+      "op": "ite"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            3
+          ],
+          "op": "="
+        },
+        3,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                4
+              ],
+              "op": "="
+            },
+            2,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    2
+                  ],
+                  "op": "="
+                },
+                1,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        0
+                      ],
+                      "op": "<="
+                    },
+                    0,
+                    1
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "<",
+          "args": [
+            "l1_v2",
+            5
+          ]
+        },
+        1,
+        0
+      ]
+    },
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            3
+          ]
+        },
+        3,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                4
+              ]
+            },
+            2,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    2
+                  ]
+                },
+                1,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "<=",
+                      "args": [
+                        "l1_v2",
+                        0
+                      ]
+                    },
+                    0,
+                    1
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1 = 0, l1_v2_next = 0, l1_v2 = 5, l1_v1_next = 0]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        5
+      ],
+      "op": "="
+    },
+    5,
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            4
+          ],
+          "op": "="
+        },
+        3,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                3
+              ],
+              "op": "="
+            },
+            4,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    2
+                  ],
+                  "op": "="
+                },
+                2,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        1
+                      ],
+                      "op": "="
+                    },
+                    1,
+                    0
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v2",
+        5
+      ]
+    },
+    5,
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            4
+          ]
+        },
+        3,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                3
+              ]
+            },
+            4,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    2
+                  ]
+                },
+                2,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "=",
+                      "args": [
+                        "l1_v2",
+                        1
+                      ]
+                    },
+                    1,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1_next = 0, l1_v1 = 0, l1_v2_next = -2, l1_v2 = 6]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        8
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            8
+          ],
+          "op": "="
+        },
+        3,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                7
+              ],
+              "op": "="
+            },
+            1,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    6
+                  ],
+                  "op": "="
+                },
+                4,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        5
+                      ],
+                      "op": "="
+                    },
+                    9,
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            "l1_v2",
+                            4
+                          ],
+                          "op": "="
+                        },
+                        6,
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                "l1_v2",
+                                3
+                              ],
+                              "op": "="
+                            },
+                            7,
+                            {
+                              "args": [
+                                {
+                                  "args": [
+                                    "l1_v2",
+                                    2
+                                  ],
+                                  "op": "="
+                                },
+                                5,
+                                {
+                                  "args": [
+                                    {
+                                      "args": [
+                                        "l1_v2",
+                                        1
+                                      ],
+                                      "op": "="
+                                    },
+                                    8,
+                                    0
+                                  ],
+                                  "op": "ite"
+                                }
+                              ],
+                              "op": "ite"
+                            }
+                          ],
+                          "op": "ite"
+                        }
+                      ],
+                      "op": "ite"
+                    }
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "grammar-and-types",
+    "message": "Operator '>' does not derive from ArithExpr.",
+    "path": "$.candidate_expressions[1].expression_ast.args[0]"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        1
+      ],
+      "op": "="
+    },
+    4,
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            2
+          ],
+          "op": "="
+        },
+        1,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                3
+              ],
+              "op": "="
+            },
+            3,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    4
+                  ],
+                  "op": "="
+                },
+                2,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        5
+                      ],
+                      "op": "="
+                    },
+                    5,
+                    0
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v2",
+        1
+      ]
+    },
+    4,
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            2
+          ]
+        },
+        1,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                3
+              ]
+            },
+            3,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    4
+                  ]
+                },
+                2,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "=",
+                      "args": [
+                        "l1_v2",
+                        5
+                      ]
+                    },
+                    5,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1_next = 0, l1_v1 = 0, l1_v2_next = -2, l1_v2 = 6]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": "<="
+    },
+    0,
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            5
+          ],
+          "op": "="
+        },
+        1,
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                4
+              ],
+              "op": "="
+            },
+            5,
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v2",
+                    3
+                  ],
+                  "op": "="
+                },
+                6,
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v2",
+                        2
+                      ],
+                      "op": "="
+                    },
+                    3,
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            "l1_v2",
+                            1
+                          ],
+                          "op": "="
+                        },
+                        2,
+                        1
+                      ],
+                      "op": "ite"
+                    }
+                  ],
+                  "op": "ite"
+                }
+              ],
+              "op": "ite"
+            }
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "ite"
+    }
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "ite",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    0,
+    {
+      "op": "ite",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            5
+          ]
+        },
+        1,
+        {
+          "op": "ite",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l1_v2",
+                4
+              ]
+            },
+            5,
+            {
+              "op": "ite",
+              "args": [
+                {
+                  "op": "=",
+                  "args": [
+                    "l1_v2",
+                    3
+                  ]
+                },
+                6,
+                {
+                  "op": "ite",
+                  "args": [
+                    {
+                      "op": "=",
+                      "args": [
+                        "l1_v2",
+                        2
+                      ]
+                    },
+                    3,
+                    {
+                      "op": "ite",
+                      "args": [
+                        {
+                          "op": "=",
+                          "args": [
+                            "l1_v2",
+                            1
+                          ]
+                        },
+                        2,
+                        1
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"

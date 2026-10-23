@@ -1,0 +1,70 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.1yASWB
+
+Input File is : ex_paper2.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  
+
+void ex_paper2(int n){
+for(int x= 1;x<=n;x++)
+  {for(int y=x;y<=n;y++)
+    {;}}
+}
+./proton: line 26:    22 Aborted                 bracer -in $FILE_NAME -c
+
+Input File is : ex_paper2_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+
+
+void ex_paper2(int n){myBool pStored0 = myFalse; __VERIFIER_reached_control(5, __func__);
+
+for(int x= 1;x<=n;x++)
+  { __VERIFIER_loop_head(5, __func__);
+printf("CBMC Instrumentation @ line5");myBool flag=__VERIFIER_nondet_myBool();static int on;static int ox;if(pStored0){__CPROVER_assert(!(on==n && ox==x),"recurrent state found");} if(flag){on=n;ox=x;pStored0=myTrue;} myBool pStored1 = myFalse; __VERIFIER_reached_control(6, __func__);
+for(int y=x;y<=n;y++)
+    { __VERIFIER_loop_head(6, __func__);
+printf("CBMC Instrumentation @ line6");myBool flag=__VERIFIER_nondet_myBool();static int on;static int ox;static int oy;if(pStored1){__CPROVER_assert(!(on==n && ox==x && oy==y),"recurrent state found");} if(flag){on=n;ox=x;oy=y;pStored1=myTrue;} ;}}
+}
+./proton: line 26:    24 Aborted                 instrumenter -in *braced.c -c
+ex_paper2_braced_instrumented.c
+NTFILE is ex_paper2_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for ex_paper2.c
+FILE=ex_paper2_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 722 milliseconds

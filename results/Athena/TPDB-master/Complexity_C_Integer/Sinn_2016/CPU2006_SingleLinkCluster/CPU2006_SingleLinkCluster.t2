@@ -1,0 +1,113 @@
+///*** 1_SingleLinkCluster ***///
+START: SingleLinkCluster_bb0;
+
+FROM: SingleLinkCluster_bb0;
+var__temp_vb.0 := 0;
+var__temp_va.0 := vn;
+TO: SingleLinkCluster_bb1;
+
+FROM: SingleLinkCluster_bb1;
+vb.0 := var__temp_vb.0;
+va.0 := var__temp_va.0;
+TO: SingleLinkCluster_bb1_end;
+
+FROM: SingleLinkCluster_bb1_end;
+assume(va.0 > 0);
+TO: SingleLinkCluster_bb2;
+
+FROM: SingleLinkCluster_bb1_end;
+assume(va.0 <= 0);
+TO: SingleLinkCluster_bb10;
+
+FROM: SingleLinkCluster_bb2;
+v1 := va.0 + -1;
+v2 := vb.0 + 1;
+var__temp_vb.1 := v2;
+var__temp_va.1 := v1;
+TO: SingleLinkCluster_bb3;
+
+FROM: SingleLinkCluster_bb3;
+vb.1 := var__temp_vb.1;
+va.1 := var__temp_va.1;
+var__temp_vb.0 := vb.1;
+var__temp_va.0 := va.1;
+TO: SingleLinkCluster_bb3_end;
+
+FROM: SingleLinkCluster_bb3_end;
+assume(vb.1 > 0);
+TO: SingleLinkCluster_bb4;
+
+FROM: SingleLinkCluster_bb3_end;
+assume(vb.1 <= 0);
+TO: SingleLinkCluster_bb1;
+
+FROM: SingleLinkCluster_bb4;
+v4 := vb.1 + -1;
+v5 := vn - 1;
+var__temp_vi.0 := v5;
+var__temp_vb.2 := v4;
+var__temp_va.2 := va.1;
+TO: SingleLinkCluster_bb5;
+
+FROM: SingleLinkCluster_bb5;
+vi.0 := var__temp_vi.0;
+vb.2 := var__temp_vb.2;
+va.2 := var__temp_va.2;
+var__temp_vb.1 := vb.2;
+var__temp_va.1 := va.2;
+TO: SingleLinkCluster_bb5_end;
+
+FROM: SingleLinkCluster_bb5_end;
+assume(vi.0 > 0);
+TO: SingleLinkCluster_bb6;
+
+FROM: SingleLinkCluster_bb5_end;
+assume(vi.0 <= 0);
+TO: SingleLinkCluster_bb3;
+
+FROM: SingleLinkCluster_bb6;
+var__temp_vb.3 := vb.2;
+var__temp_va.3 := va.2;
+TO: SingleLinkCluster_bb6_end;
+
+FROM: SingleLinkCluster_bb6_end;
+assume(va.2 > 0);
+TO: SingleLinkCluster_bb7;
+
+FROM: SingleLinkCluster_bb6_end;
+assume(va.2 <= 0);
+TO: SingleLinkCluster_bb9;
+
+FROM: SingleLinkCluster_bb7;
+v8 := nondet();
+var__temp_vb.3 := vb.2;
+var__temp_va.3 := va.2;
+TO: SingleLinkCluster_bb7_end;
+
+FROM: SingleLinkCluster_bb7_end;
+assume(v8 != 0);
+TO: SingleLinkCluster_bb8;
+
+FROM: SingleLinkCluster_bb7_end;
+assume(v8 == 0);
+TO: SingleLinkCluster_bb9;
+
+FROM: SingleLinkCluster_bb8;
+v10 := va.2 + -1;
+v11 := vb.2 + 1;
+var__temp_vb.3 := v11;
+var__temp_va.3 := v10;
+TO: SingleLinkCluster_bb9;
+
+FROM: SingleLinkCluster_bb9;
+vb.3 := var__temp_vb.3;
+va.3 := var__temp_va.3;
+v12 := vi.0 + -1;
+var__temp_vi.0 := v12;
+var__temp_vb.2 := vb.3;
+var__temp_va.2 := va.3;
+TO: SingleLinkCluster_bb5;
+
+FROM: SingleLinkCluster_bb10;
+TO: SingleLinkCluster_bb10_ret;
+

@@ -1,0 +1,6 @@
+realselect.c:7:12: warning: unused variable 'temp' [-Wunused-variable]
+  int min, temp;
+           ^
+1 warning generated.
+YES
+Runtime: 1092 milliseconds

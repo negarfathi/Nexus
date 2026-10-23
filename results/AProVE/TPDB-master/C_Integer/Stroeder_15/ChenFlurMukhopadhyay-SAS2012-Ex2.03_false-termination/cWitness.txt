@@ -1,0 +1,16 @@
+**TAIL:**
+
+22: int main() {
+23: int x, y;
+24: x = __VERIFIER_nondet_int();
+25: y = __VERIFIER_nondet_int();
+26: while (x &gt; 0) {
+27: x = x + y;
+28: y = -2*y;
+
+**LOOP:**
+
+26: while (x &gt; 0) {
+27: x = x + y;
+28: y = -2*y;
+26: while (x &gt; 0) {

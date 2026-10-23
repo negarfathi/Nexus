@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing catmouse.c
+Converting
+Type-checking catmouse
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of catmouse
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 309 milliseconds

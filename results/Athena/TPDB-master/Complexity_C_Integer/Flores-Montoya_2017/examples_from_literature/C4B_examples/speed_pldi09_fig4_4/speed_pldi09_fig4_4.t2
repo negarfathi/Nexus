@@ -1,0 +1,48 @@
+///*** 1_peed_pldi09_fig4_4 ***///
+START: peed_pldi09_fig4_4_bb0;
+
+FROM: peed_pldi09_fig4_4_bb0;
+var__temp_vi.0 := vn;
+TO: peed_pldi09_fig4_4_bb0_end;
+
+FROM: peed_pldi09_fig4_4_bb0_end;
+assume(0 >= vm);
+TO: peed_pldi09_fig4_4_bb3;
+
+FROM: peed_pldi09_fig4_4_bb0_end;
+assume(0 < vm);
+TO: peed_pldi09_fig4_4_bb1;
+
+FROM: peed_pldi09_fig4_4_bb1;
+vi.0 := var__temp_vi.0;
+TO: peed_pldi09_fig4_4_bb1_end;
+
+FROM: peed_pldi09_fig4_4_bb1_end;
+assume(vi.0 > 0);
+TO: peed_pldi09_fig4_4_bb2;
+
+FROM: peed_pldi09_fig4_4_bb1_end;
+assume(vi.0 <= 0);
+TO: peed_pldi09_fig4_4_bb3;
+
+FROM: peed_pldi09_fig4_4_bb2;
+v3 := vi.0 - 1;
+v4 := vi.0 - vm;
+TO: peed_pldi09_fig4_4_bb2_vi.1;
+FROM: peed_pldi09_fig4_4_bb2_vi.1;
+assume(vi.0 < vm);
+vi.1 := v3;
+TO: peed_pldi09_fig4_4_bb2_svi.1;
+
+FROM: peed_pldi09_fig4_4_bb2_vi.1;
+assume(vi.0 >= vm);
+vi.1 := v4;
+TO: peed_pldi09_fig4_4_bb2_svi.1;
+
+FROM: peed_pldi09_fig4_4_bb2_svi.1;
+var__temp_vi.0 := vi.1;
+TO: peed_pldi09_fig4_4_bb1;
+
+FROM: peed_pldi09_fig4_4_bb3;
+TO: peed_pldi09_fig4_4_bb3_ret;
+

@@ -1,0 +1,45 @@
+///*** 1_twn13 ***///
+START: twn13_bb0;
+
+FROM: twn13_bb0;
+var__temp_v.01 := vb;
+var__temp_v.0 := va;
+TO: twn13_bb0_end;
+
+FROM: twn13_bb0_end;
+assume(vc < 0);
+TO: twn13_bb1;
+
+FROM: twn13_bb0_end;
+assume(vc >= 0);
+TO: twn13_bb3;
+
+FROM: twn13_bb1;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v1 := v.01 * v.01;
+v2 := v.0 + v1;
+TO: twn13_bb1_end;
+
+FROM: twn13_bb1_end;
+assume(v2 > 0);
+TO: twn13_bb2;
+
+FROM: twn13_bb1_end;
+assume(v2 <= 0);
+TO: twn13_bb3;
+
+FROM: twn13_bb2;
+v4 := v.01 * v.01;
+v5 := v4 * vc;
+v6 := v.0 + v5;
+v7 := 2 * vc;
+v8 := v7 * vc;
+v9 := v.01 - v8;
+var__temp_v.01 := v9;
+var__temp_v.0 := v6;
+TO: twn13_bb1;
+
+FROM: twn13_bb3;
+TO: twn13_bb3_ret;
+

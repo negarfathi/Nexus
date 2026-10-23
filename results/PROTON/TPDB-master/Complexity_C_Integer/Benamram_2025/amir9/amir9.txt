@@ -1,0 +1,105 @@
+TOOL_DIR is /opt/term/proton
+BM_DIR = /tmp/PROTON-benchmark.isCIBR
+
+Input File is : amir9.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Rewrite Buffer is not NULL
+
+Finished Rewriting  /*
+ * Example for complexity analysis
+ * Contributed by Amir ben-Amram, june 2025
+ */
+ extern int nondet();
+
+void amir9(int x1, int x2, int x3)
+{
+    int x4 = 0;
+    while (x3-- > 0) {
+        x2 = x2+x4;
+        x4 = x3;
+        {if (nondet()) {
+            x1 = x1+x3;
+        } else {
+         x2 = x2+x3;
+        }}
+    }
+    while (x2 > 0) {
+        x2--;
+    }
+}
+
+End Main   
+
+Input File is : amir9_braced.c
+
+ CBMC instrumentation
+
+Rewriter Init
+
+Finished call to function ParseAST   
+
+ Rewrite Buffer is Not NULL 
+
+Finished Rewriting 
+typedef enum {myFalse, myTrue} myBool; myBool __VERIFIER_nondet_myBool(void);
+extern void __VERIFIER_reached_control(int, char const *);
+extern void __VERIFIER_loop_head(int, char const *);
+extern void __VERIFIER_control_true(int, char const *);
+extern void __VERIFIER_control_false(int, char const *);
+/*
+ * Example for complexity analysis
+ * Contributed by Amir ben-Amram, june 2025
+ */
+ extern int nondet();
+
+void amir9(int x1, int x2, int x3)
+{
+    int x4 = 0;
+   myBool pStored0 = myFalse; __VERIFIER_reached_control(10, __func__);
+ while (x3-- > 0) { __VERIFIER_loop_head(10, __func__);
+printf("CBMC Instrumentation @ line10");myBool flag=__VERIFIER_nondet_myBool();static int ox1;static int ox2;static int ox3;static int ox4;if(pStored0){__CPROVER_assert(!(ox1==x1 && ox2==x2 && ox3==x3 && ox4==x4),"recurrent state found");} if(flag){ox1=x1;ox2=x2;ox3=x3;ox4=x4;pStored0=myTrue;} 
+        x2 = x2+x4;
+        x4 = x3;
+        { __VERIFIER_reached_control(13, __func__);
+if (nondet()) { __VERIFIER_control_true(13, __func__);
+
+            x1 = x1+x3;
+        } else { __VERIFIER_control_false(15, __func__);
+
+         x2 = x2+x3;
+        }}
+    }
+   myBool pStored1 = myFalse; __VERIFIER_reached_control(19, __func__);
+ while (x2 > 0) { __VERIFIER_loop_head(19, __func__);
+printf("CBMC Instrumentation @ line19");myBool flag=__VERIFIER_nondet_myBool();static int ox1;static int ox2;static int ox3;static int ox4;if(pStored1){__CPROVER_assert(!(ox1==x1 && ox2==x2 && ox3==x3 && ox4==x4),"recurrent state found");} if(flag){ox1=x1;ox2=x2;ox3=x3;ox4=x4;pStored1=myTrue;} 
+        x2--;
+    }
+}
+
+End Main 
+ amir9_braced_instrumented.c
+NTFILE is amir9_braced_instrumented.c
+
+* *                 CBMC 5.95.0 (n/a) 64-bit                * *
+* *                 Copyright (C) 2001-2018                 * *
+* *              Daniel Kroening, Edmund Clarke             * *
+* * Carnegie Mellon University, Computer Science Department * *
+* *                  kroening@kroening.com                  * *
+* *        Protected in part by U.S. patent 7,225,417       * *
+* *  *****************************************************  * *
+* *                 Built with Llama                        * *
+* *  *****************************************************  * *
+
+NT-CHECKRESULT. GLRV=0. Z3RV=6. NTRES=0
+/opt/term/proton/llm-t-check.sh
+llm-t-check has execute permission
+LLM_T_CHECK EXIT VAL 24
+T-CHECKRESULT. TRES=24
+NTRES=0 TRES=24 for amir9.c
+FILE=amir9_braced_instrumented.c GLRES=0 Z3RES=6 NTRES=0 TRES=24 TNT-RESULT=SOLVER INTERNAL ERROR EXITCODE=4
+INTERNAL-ERROR
+Runtime: 690 milliseconds

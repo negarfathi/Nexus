@@ -1,0 +1,17 @@
+Lcm.c:10:10: warning: variable 'a' is uninitialized when used here [-Wuninitialized]
+    am = a;
+         ^
+Lcm.c:6:10: note: initialize the variable 'a' to silence this warning
+    int a;
+         ^
+          = 0
+Lcm.c:11:10: warning: variable 'b' is uninitialized when used here [-Wuninitialized]
+    bm = b;
+         ^
+Lcm.c:7:10: note: initialize the variable 'b' to silence this warning
+    int b;
+         ^
+          = 0
+2 warnings generated.
+NO
+Runtime: 838 milliseconds

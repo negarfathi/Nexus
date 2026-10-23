@@ -1,0 +1,16 @@
+digraph dp_graph {
+graph [mindist=0.3,nodesep=0.20,concentrate=true,ranksep=0.1];
+node [shape=rectangle,fontsize=10];
+edge [labeldistance=3,headclip=true,fontsize=8];
+19 [label="chained rule: 19",style=filled, fillcolor=lightblue];
+0 [label="initial rule: 0: f_166 -> f_328",style=filled, fillcolor=darkseagreen];
+15 [label="chained rule: 15",style=filled, fillcolor=lightblue];
+2 [label="initial rule: 2: f_328 -> f_775",style=filled, fillcolor=darkseagreen];
+9 [label="nonterm accelerated rule: 9",style=filled, fillcolor=darkorchid];
+1 [label="initial rule: 1: f_775 -> f_775",style=filled, fillcolor=darkseagreen];
+19 -> 0 [];
+19 -> 15 [];
+15 -> 2 [];
+15 -> 9 [];
+9 -> 1 [];
+}

@@ -1,0 +1,85 @@
+///*** 1_knuth_morris_pratt ***///
+START: knuth_morris_pratt_bb0;
+
+FROM: knuth_morris_pratt_bb0;
+var__temp_vj.0 := 0;
+var__temp_vi.0 := 0;
+TO: knuth_morris_pratt_bb1;
+
+FROM: knuth_morris_pratt_bb1;
+vj.0 := var__temp_vj.0;
+vi.0 := var__temp_vi.0;
+var__temp_vj.1 := vj.0;
+var__temp_v.0 := vi.0;
+TO: knuth_morris_pratt_bb1_end;
+
+FROM: knuth_morris_pratt_bb1_end;
+assume(vi.0 < vn);
+TO: knuth_morris_pratt_bb2;
+
+FROM: knuth_morris_pratt_bb1_end;
+assume(vi.0 >= vn);
+TO: knuth_morris_pratt_bb6;
+
+FROM: knuth_morris_pratt_bb2;
+vj.1 := var__temp_vj.1;
+TO: knuth_morris_pratt_bb2_end;
+
+FROM: knuth_morris_pratt_bb2_end;
+assume(vj.1 >= 0);
+TO: knuth_morris_pratt_bb3;
+
+FROM: knuth_morris_pratt_bb2_end;
+assume(vj.1 < 0);
+TO: knuth_morris_pratt_.critedge;
+
+FROM: knuth_morris_pratt_bb3;
+v2 := nondet();
+TO: knuth_morris_pratt_bb3_end;
+
+FROM: knuth_morris_pratt_bb3_end;
+assume(v2 > 0);
+TO: knuth_morris_pratt_bb4;
+
+FROM: knuth_morris_pratt_bb3_end;
+assume(v2 <= 0);
+TO: knuth_morris_pratt_.critedge;
+
+FROM: knuth_morris_pratt_bb4;
+v4 := nondet();
+var__temp_v.0 := 0;
+TO: knuth_morris_pratt_bb4_end;
+
+FROM: knuth_morris_pratt_bb4_end;
+assume((v4 <= 0) || (v4 > 0));
+TO: knuth_morris_pratt_bb6;
+
+FROM: knuth_morris_pratt_bb4_end;
+assume((v4 > 0) && (v4 <= 0));
+TO: knuth_morris_pratt_bb5;
+
+FROM: knuth_morris_pratt_bb5;
+v7 := vj.1 - v4;
+var__temp_vj.1 := v7;
+TO: knuth_morris_pratt_bb2;
+
+FROM: knuth_morris_pratt_.critedge;
+v8 := vi.0 + 1;
+v9 := vj.1 + 1;
+var__temp_vj.0 := v9;
+var__temp_vi.0 := v8;
+var__temp_v.0 := v8;
+TO: knuth_morris_pratt_.critedge_end;
+
+FROM: knuth_morris_pratt_.critedge_end;
+assume(v9 == vm);
+TO: knuth_morris_pratt_bb6;
+
+FROM: knuth_morris_pratt_.critedge_end;
+assume(v9 != vm);
+TO: knuth_morris_pratt_bb1;
+
+FROM: knuth_morris_pratt_bb6;
+v.0 := var__temp_v.0;
+TO: knuth_morris_pratt_bb6_ret;
+

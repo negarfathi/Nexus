@@ -1,0 +1,67 @@
+///*** 1_size02 ***///
+START: size02_bb0;
+
+FROM: size02_bb0;
+var__temp_v.04 := vd;
+var__temp_v.02 := vc;
+var__temp_v.01 := vb;
+var__temp_v.0 := va;
+TO: size02_bb1;
+
+FROM: size02_bb1;
+v.04 := var__temp_v.04;
+v.02 := var__temp_v.02;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+var__temp_v.13 := v.02;
+var__temp_v.1 := v.01;
+TO: size02_bb1_end;
+
+FROM: size02_bb1_end;
+assume(v.0 > 0);
+TO: size02_bb2;
+
+FROM: size02_bb1_end;
+assume(v.0 <= 0);
+TO: size02_bb3;
+
+FROM: size02_bb2;
+v1 := v.0 - 1;
+v2 := 3 * v.01;
+v3 := 2 * v.02;
+v4 := v2 + v3;
+v5 := -5 * v.01;
+v6 := 3 * v.02;
+v7 := v5 - v6;
+v8 := v1 * v1;
+v9 := v8 + v.04;
+var__temp_v.04 := v9;
+var__temp_v.02 := v7;
+var__temp_v.01 := v4;
+var__temp_v.0 := v1;
+TO: size02_bb1;
+
+FROM: size02_bb3;
+v.13 := var__temp_v.13;
+v.1 := var__temp_v.1;
+v10 := v.1 + v.13;
+TO: size02_bb3_end;
+
+FROM: size02_bb3_end;
+assume(v10 > 0);
+TO: size02_bb4;
+
+FROM: size02_bb3_end;
+assume(v10 <= 0);
+TO: size02_bb5;
+
+FROM: size02_bb4;
+v12 := v.1 - 1;
+v13 := v.13 - 1;
+var__temp_v.13 := v13;
+var__temp_v.1 := v12;
+TO: size02_bb3;
+
+FROM: size02_bb5;
+TO: size02_bb5_ret;
+

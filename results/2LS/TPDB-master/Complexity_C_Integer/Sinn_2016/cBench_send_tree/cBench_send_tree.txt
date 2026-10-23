@@ -1,0 +1,16 @@
+2LS version 0.10.0
+Parsing cBench_send_tree.c
+Converting
+Type-checking cBench_send_tree
+Generating GOTO Program
+Adding CPROVER library
+Function Pointer Removal
+Generic Property Instrumentation
+Constant Propagation
+Using intervals domain with binary search solver
+Computing SSA of send_tree
+Simplifying
+
+Summarizing function __CPROVER__start
+map::at
+Runtime: 319 milliseconds

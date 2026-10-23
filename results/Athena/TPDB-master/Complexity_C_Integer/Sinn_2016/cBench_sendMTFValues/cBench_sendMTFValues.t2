@@ -1,0 +1,87 @@
+///*** 1_sendMTFValues ***///
+START: sendMTFValues_bb0;
+
+FROM: sendMTFValues_bb0;
+var__temp_vgs.0 := 0;
+var__temp_vnPart.0 := vnGroups;
+TO: sendMTFValues_bb1;
+
+FROM: sendMTFValues_bb1;
+vgs.0 := var__temp_vgs.0;
+vnPart.0 := var__temp_vnPart.0;
+TO: sendMTFValues_bb1_end;
+
+FROM: sendMTFValues_bb1_end;
+assume(vnPart.0 > 0);
+TO: sendMTFValues_bb2;
+
+FROM: sendMTFValues_bb1_end;
+assume(vnPart.0 <= 0);
+TO: sendMTFValues_bb7;
+
+FROM: sendMTFValues_bb2;
+v1 := vgs.0 - 1;
+var__temp_vge.0 := v1;
+TO: sendMTFValues_bb3;
+
+FROM: sendMTFValues_bb3;
+vge.0 := var__temp_vge.0;
+v2 := nondet();
+v4 := valphaSize - 1;
+TO: sendMTFValues_bb3_end;
+
+FROM: sendMTFValues_bb3_end;
+assume((v2 != 0) && (vge.0 < v4));
+TO: sendMTFValues_bb4;
+
+FROM: sendMTFValues_bb3_end;
+assume((v2 == 0) || (vge.0 >= v4));
+TO: sendMTFValues_.critedge;
+
+FROM: sendMTFValues_bb4;
+v6 := vge.0 + 1;
+var__temp_vge.0 := v6;
+TO: sendMTFValues_bb3;
+
+FROM: sendMTFValues_.critedge;
+var__temp_vge.1 := vge.0;
+TO: sendMTFValues_.critedge_end;
+
+FROM: sendMTFValues_.critedge_end;
+assume(((vge.0 > vgs.0) && (vnPart.0 != vnGroups)) && (vnPart.0 != 1));
+TO: sendMTFValues_bb5;
+
+FROM: sendMTFValues_.critedge_end;
+assume(((vge.0 <= vgs.0) || (vnPart.0 == vnGroups)) || (vnPart.0 == 1));
+TO: sendMTFValues_bb6;
+
+FROM: sendMTFValues_bb5;
+v10 := vnGroups - vnPart.0;
+v11 := v10 % 2;
+v13 := vge.0 + -1;
+TO: sendMTFValues_bb5_v.ge.0;
+FROM: sendMTFValues_bb5_v.ge.0;
+assume(v11 == 1);
+v.ge.0 := v13;
+TO: sendMTFValues_bb5_sv.ge.0;
+
+FROM: sendMTFValues_bb5_v.ge.0;
+assume(v11 != 1);
+v.ge.0 := vge.0;
+TO: sendMTFValues_bb5_sv.ge.0;
+
+FROM: sendMTFValues_bb5_sv.ge.0;
+var__temp_vge.1 := v.ge.0;
+TO: sendMTFValues_bb6;
+
+FROM: sendMTFValues_bb6;
+vge.1 := var__temp_vge.1;
+v14 := vnPart.0 + -1;
+v15 := vge.1 + 1;
+var__temp_vgs.0 := v15;
+var__temp_vnPart.0 := v14;
+TO: sendMTFValues_bb1;
+
+FROM: sendMTFValues_bb7;
+TO: sendMTFValues_bb7_ret;
+

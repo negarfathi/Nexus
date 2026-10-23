@@ -1,0 +1,54 @@
+///*** 1_t47 ***///
+START: t47_bb0;
+
+FROM: t47_bb0;
+var__temp_vflag.0 := 1;
+var__temp_v.0 := vn;
+TO: t47_bb1;
+
+FROM: t47_bb1;
+vflag.0 := var__temp_vflag.0;
+v.0 := var__temp_v.0;
+TO: t47_bb1_end;
+
+FROM: t47_bb1_end;
+assume(vflag.0 > 0);
+TO: t47_bb2;
+
+FROM: t47_bb1_end;
+assume(vflag.0 <= 0);
+TO: t47_bb3;
+
+FROM: t47_bb2;
+v2 := v.0 + -1;
+TO: t47_bb2_vflag.1;
+FROM: t47_bb2_vflag.1;
+assume(v.0 > 0);
+vflag.1 := 1;
+TO: t47_bb2_svflag.1;
+
+FROM: t47_bb2_vflag.1;
+assume(v.0 <= 0);
+vflag.1 := 0;
+TO: t47_bb2_svflag.1;
+
+FROM: t47_bb2_svflag.1;
+TO: t47_bb2_v.1;
+FROM: t47_bb2_v.1;
+assume(v.0 > 0);
+v.1 := v2;
+TO: t47_bb2_sv.1;
+
+FROM: t47_bb2_v.1;
+assume(v.0 <= 0);
+v.1 := v.0;
+TO: t47_bb2_sv.1;
+
+FROM: t47_bb2_sv.1;
+var__temp_vflag.0 := vflag.1;
+var__temp_v.0 := v.1;
+TO: t47_bb1;
+
+FROM: t47_bb3;
+TO: t47_bb3_ret;
+

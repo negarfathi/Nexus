@@ -1,0 +1,88 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": {
+        "op": "not",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "and",
+                "args": [
+                  {
+                    "op": ">",
+                    "args": [
+                      "l1_v1",
+                      0
+                    ]
+                  },
+                  {
+                    "op": ">",
+                    "args": [
+                      "l1_v2",
+                      0
+                    ]
+                  }
+                ]
+              },
+              {
+                "op": "ite",
+                "args": [
+                  {
+                    "op": "and",
+                    "args": [
+                      {
+                        "op": "=",
+                        "args": [
+                          "l1_v1",
+                          "l1_v2"
+                        ]
+                      },
+                      {
+                        "op": ">=",
+                        "args": [
+                          "l1_v1",
+                          2
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "=",
+                    "args": [
+                      "l1_v1",
+                      {
+                        "op": "+",
+                        "args": [
+                          "l1_v2",
+                          1
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "=",
+                    "args": [
+                      "l1_v2",
+                      {
+                        "op": "+",
+                        "args": [
+                          "l1_v1",
+                          1
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

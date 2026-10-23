@@ -1,0 +1,122 @@
+MAYBE
+proof of AliasDarteFeautrierGonnord-SAS2010-complex_true-termination.c
+# AProVE Commit ID: 48c83ccb80d5f8312cb92f4aa1b51dc35e247e65 nils 20241118 unpublished
+
+
+Termination of the given C Problem could not be shown:
+
+(0) C Problem
+(1) CToLLVMProof [EQUIVALENT, 50 ms]
+(2) LLVM problem
+
+
+----------------------------------------
+
+(0)
+Obligation:
+c file /liveness_analysis/AliasDarteFeautrierGonnord-SAS2010-complex_true-termination.c
+----------------------------------------
+
+(1) CToLLVMProof (EQUIVALENT)
+Compiled c-file /liveness_analysis/AliasDarteFeautrierGonnord-SAS2010-complex_true-termination.c to LLVM.
+----------------------------------------
+
+(2)
+Obligation:
+LLVM Problem
+
+Aliases:
+
+Data layout:
+
+"e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
+
+Machine:
+
+"x86_64-pc-linux-gnu"
+
+Type definitions:
+
+Global variables:
+
+Function declarations and definitions:
+
+*BasicFunctionTypename: "llvm.dbg.declare" returnParam: BasicVoidType parameters: (BasicMetadataType, BasicMetadataType, BasicMetadataType) variableLength: false visibilityType: DEFAULT callingConvention: ccc
+*BasicFunctionTypename: "foo" linkageType: EXTERNALLY_VISIBLE returnParam: i32 parameters: (0 i32, 1 i32) variableLength: false visibilityType: DEFAULT callingConvention: ccc debug line: 7
+	0:
+		%3 = alloca i32, align 4
+		%4 = alloca i32, align 4
+		store %0, %3
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %3)
+		store %1, %4
+		Unnamed Call-Instruction = call BasicVoidType @llvm.dbg.declare(*i32 %4)
+		br %5
+	5:
+		%6 = load %3
+		%7 = icmp slt %6 30
+		br %7, %8, %40
+	8:
+		br %9
+	9:
+		%10 = load %4
+		%11 = load %3
+		%12 = icmp slt %10 %11
+		br %12, %13, %35
+	13:
+		%14 = load %4
+		%15 = icmp sgt %14 5
+		br %15, %16, %19
+	16:
+		%17 = load %4
+		%18 = add i32 %17, 7
+		store %18, %4
+		br %22
+	19:
+		%20 = load %4
+		%21 = add i32 %20, 2
+		store %21, %4
+		br %22
+	22:
+		%23 = load %4
+		%24 = icmp sge %23 10
+		br %24, %25, %31
+	25:
+		%26 = load %4
+		%27 = icmp sle %26 12
+		br %27, %28, %31
+	28:
+		%29 = load %3
+		%30 = add i32 %29, 10
+		store %30, %3
+		br %34
+	31:
+		%32 = load %3
+		%33 = add i32 %32, 1
+		store %33, %3
+		br %34
+	34:
+		br %9
+	35:
+		%36 = load %3
+		%37 = add i32 %36, 2
+		store %37, %3
+		%38 = load %4
+		%39 = sub i32 %38, 10
+		store %39, %4
+		br %5
+	40:
+		ret 0
+
+
+Analyze Termination of all function calls matching the pattern:
+main()Aborted 1788507719Exec. 4, LLVMToSEGraph with some error. Reason: java.lang.IllegalArgumentException: Cannot analyze a function without its definition!.
+            aprove.InputModules.Programs.llvm.states.LLVMAbstractStateFactory.createBeginState(LLVMAbstractStateFactory.java:586)
+            aprove.InputModules.Programs.llvm.segraph.graphConstructionSteps.LLVMRootStateCreationStep.perform(LLVMRootStateCreationStep.java:25)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.executeStepAndPutSucessorStepsInQueue(LLVMSEGraph.java:1087)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:243)
+            aprove.InputModules.Programs.llvm.segraph.LLVMSEGraph.buildFullGraph(LLVMSEGraph.java:216)
+            aprove.InputModules.Programs.llvm.segraph.LLVMGraphBuilder.buildGraph(LLVMGraphBuilder.java:84)
+            aprove.InputModules.Programs.llvm.processors.LLVMToSEGraphProcessor.process(LLVMToSEGraphProcessor.java:110)
+            aprove.Strategies.ExecutableStrategies.Executor.execute(Executor.java:326)
+            aprove.Strategies.ExecutableStrategies.Executor$Runner.wrappedRun(Executor.java:377)
+Runtime: 1036 milliseconds

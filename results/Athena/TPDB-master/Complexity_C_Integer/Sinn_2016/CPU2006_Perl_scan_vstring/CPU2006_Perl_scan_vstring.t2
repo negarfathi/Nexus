@@ -1,0 +1,166 @@
+///*** 1_Perl_scan_vstring ***///
+START: Perl_scan_vstring_bb0;
+
+FROM: Perl_scan_vstring_bb0;
+v0 := nondet();
+v2 := vs + 1;
+TO: Perl_scan_vstring_bb0_v.s;
+FROM: Perl_scan_vstring_bb0_v.s;
+assume(v0 != 0);
+v.s := v2;
+TO: Perl_scan_vstring_bb0_sv.s;
+
+FROM: Perl_scan_vstring_bb0_v.s;
+assume(v0 == 0);
+v.s := vs;
+TO: Perl_scan_vstring_bb0_sv.s;
+
+FROM: Perl_scan_vstring_bb0_sv.s;
+var__temp_vpos.1 := v.s;
+TO: Perl_scan_vstring_bb1;
+
+FROM: Perl_scan_vstring_bb1;
+vpos.1 := var__temp_vpos.1;
+TO: Perl_scan_vstring_bb1_end;
+
+FROM: Perl_scan_vstring_bb1_end;
+assume(vpos.1 < vPL_bufend);
+TO: Perl_scan_vstring_bb2;
+
+FROM: Perl_scan_vstring_bb1_end;
+assume(vpos.1 >= vPL_bufend);
+TO: Perl_scan_vstring_.critedge;
+
+FROM: Perl_scan_vstring_bb2;
+v4 := nondet();
+TO: Perl_scan_vstring_bb2_end;
+
+FROM: Perl_scan_vstring_bb2_end;
+assume(v4 != 0);
+TO: Perl_scan_vstring_bb3;
+
+FROM: Perl_scan_vstring_bb2_end;
+assume(v4 == 0);
+TO: Perl_scan_vstring_.critedge;
+
+FROM: Perl_scan_vstring_bb3;
+v6 := vpos.1 + 1;
+var__temp_vpos.1 := v6;
+TO: Perl_scan_vstring_bb1;
+
+FROM: Perl_scan_vstring_.critedge;
+v7 := nondet();
+TO: Perl_scan_vstring_.critedge_end;
+
+FROM: Perl_scan_vstring_.critedge_end;
+assume(v7 != 0);
+TO: Perl_scan_vstring_bb4;
+
+FROM: Perl_scan_vstring_.critedge_end;
+assume(v7 == 0);
+TO: Perl_scan_vstring_bb12;
+
+FROM: Perl_scan_vstring_bb4;
+v9 := nondet();
+v11 := vs + 1;
+TO: Perl_scan_vstring_bb4_v.s1;
+FROM: Perl_scan_vstring_bb4_v.s1;
+assume(v9 != 0);
+v.s1 := v11;
+TO: Perl_scan_vstring_bb4_sv.s1;
+
+FROM: Perl_scan_vstring_bb4_v.s1;
+assume(v9 == 0);
+v.s1 := vs;
+TO: Perl_scan_vstring_bb4_sv.s1;
+
+FROM: Perl_scan_vstring_bb4_sv.s1;
+var__temp_vpos.2 := vpos.1;
+var__temp_v.1 := v.s1;
+TO: Perl_scan_vstring_.critedge2;
+
+FROM: Perl_scan_vstring_.critedge2;
+vpos.2 := var__temp_vpos.2;
+v.1 := var__temp_v.1;
+var__temp_vend.0 := vpos.2;
+TO: Perl_scan_vstring_bb5;
+
+FROM: Perl_scan_vstring_bb5;
+vend.0 := var__temp_vend.0;
+v12 := vend.0 + -1;
+var__temp_vend.0 := v12;
+TO: Perl_scan_vstring_bb5_end;
+
+FROM: Perl_scan_vstring_bb5_end;
+assume(v12 >= v.1);
+TO: Perl_scan_vstring_bb5;
+
+FROM: Perl_scan_vstring_bb5_end;
+assume(v12 < v.1);
+TO: Perl_scan_vstring_bb6;
+
+FROM: Perl_scan_vstring_bb6;
+v14 := vpos.2 + 1;
+TO: Perl_scan_vstring_bb6_end;
+
+FROM: Perl_scan_vstring_bb6_end;
+assume(v14 < vPL_bufend);
+TO: Perl_scan_vstring_bb7;
+
+FROM: Perl_scan_vstring_bb6_end;
+assume(v14 >= vPL_bufend);
+TO: Perl_scan_vstring_bb12;
+
+FROM: Perl_scan_vstring_bb7;
+v16 := nondet();
+TO: Perl_scan_vstring_bb7_end;
+
+FROM: Perl_scan_vstring_bb7_end;
+assume(v16 != 0);
+TO: Perl_scan_vstring_bb8;
+
+FROM: Perl_scan_vstring_bb7_end;
+assume(v16 == 0);
+TO: Perl_scan_vstring_bb12;
+
+FROM: Perl_scan_vstring_bb8;
+v18 := vpos.2 + 1;
+var__temp_vpos.3 := v18;
+TO: Perl_scan_vstring_bb9;
+
+FROM: Perl_scan_vstring_bb9;
+vpos.3 := var__temp_vpos.3;
+var__temp_vpos.2 := vpos.3;
+var__temp_v.1 := v18;
+TO: Perl_scan_vstring_bb9_end;
+
+FROM: Perl_scan_vstring_bb9_end;
+assume(vpos.3 < vPL_bufend);
+TO: Perl_scan_vstring_bb10;
+
+FROM: Perl_scan_vstring_bb9_end;
+assume(vpos.3 >= vPL_bufend);
+TO: Perl_scan_vstring_.critedge2;
+
+FROM: Perl_scan_vstring_bb10;
+v20 := nondet();
+var__temp_vpos.2 := vpos.3;
+var__temp_v.1 := v18;
+TO: Perl_scan_vstring_bb10_end;
+
+FROM: Perl_scan_vstring_bb10_end;
+assume(v20 != 0);
+TO: Perl_scan_vstring_bb11;
+
+FROM: Perl_scan_vstring_bb10_end;
+assume(v20 == 0);
+TO: Perl_scan_vstring_.critedge2;
+
+FROM: Perl_scan_vstring_bb11;
+v22 := vpos.3 + 1;
+var__temp_vpos.3 := v22;
+TO: Perl_scan_vstring_bb9;
+
+FROM: Perl_scan_vstring_bb12;
+TO: Perl_scan_vstring_bb12_ret;
+

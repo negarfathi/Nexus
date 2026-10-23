@@ -1,0 +1,163 @@
+///*** 1_cf_decode_eol ***///
+START: cf_decode_eol_bb0;
+
+FROM: cf_decode_eol_bb0;
+var__temp_vbits_left.0 := vss_bits_left;
+var__temp_vzeros.0 := 0;
+var__temp_vp.0 := vpr_ptr;
+TO: cf_decode_eol_bb1;
+
+FROM: cf_decode_eol_bb1;
+vbits_left.0 := var__temp_vbits_left.0;
+vzeros.0 := var__temp_vzeros.0;
+vp.0 := var__temp_vp.0;
+TO: cf_decode_eol_bb1_end;
+
+FROM: cf_decode_eol_bb1_end;
+assume(vzeros.0 < 11);
+TO: cf_decode_eol_bb2;
+
+FROM: cf_decode_eol_bb1_end;
+assume(vzeros.0 >= 11);
+TO: cf_decode_eol_bb8;
+
+FROM: cf_decode_eol_bb2;
+var__temp_vbits_left.2 := vbits_left.0;
+var__temp_vp.2 := vp.0;
+TO: cf_decode_eol_bb2_end;
+
+FROM: cf_decode_eol_bb2_end;
+assume(vbits_left.0 < 1);
+TO: cf_decode_eol_bb3;
+
+FROM: cf_decode_eol_bb2_end;
+assume(vbits_left.0 >= 1);
+TO: cf_decode_eol_bb7;
+
+FROM: cf_decode_eol_bb3;
+v2 := vpr_limit - vp.0;
+TO: cf_decode_eol_bb3_end;
+
+FROM: cf_decode_eol_bb3_end;
+assume(v2 < 3);
+TO: cf_decode_eol_bb4;
+
+FROM: cf_decode_eol_bb3_end;
+assume(v2 >= 3);
+TO: cf_decode_eol_bb6;
+
+FROM: cf_decode_eol_bb4;
+TO: cf_decode_eol_bb4_end;
+
+FROM: cf_decode_eol_bb4_end;
+assume(vp.0 < vpr_limit);
+TO: cf_decode_eol_bb5;
+
+FROM: cf_decode_eol_bb4_end;
+assume(vp.0 >= vpr_limit);
+TO: cf_decode_eol_bb13;
+
+FROM: cf_decode_eol_bb5;
+v5 := vp.0 + 1;
+v6 := vbits_left.0 + 8;
+var__temp_vbits_left.2 := v6;
+var__temp_vp.2 := v5;
+TO: cf_decode_eol_bb7;
+
+FROM: cf_decode_eol_bb6;
+v7 := vbits_left.0 + 24;
+v8 := vp.0 + 3;
+var__temp_vbits_left.2 := v7;
+var__temp_vp.2 := v8;
+TO: cf_decode_eol_bb7;
+
+FROM: cf_decode_eol_bb7;
+vbits_left.2 := var__temp_vbits_left.2;
+vp.2 := var__temp_vp.2;
+v9 := vbits_left.2 - 1;
+v10 := vzeros.0 + 1;
+var__temp_vbits_left.0 := v9;
+var__temp_vzeros.0 := v10;
+var__temp_vp.0 := vp.2;
+TO: cf_decode_eol_bb1;
+
+FROM: cf_decode_eol_bb8;
+TO: cf_decode_eol_bb8_v12;
+FROM: cf_decode_eol_bb8_v12;
+assume(vss_K > 0);
+v12 := 2;
+TO: cf_decode_eol_bb8_sv12;
+
+FROM: cf_decode_eol_bb8_v12;
+assume(vss_K <= 0);
+v12 := 1;
+TO: cf_decode_eol_bb8_sv12;
+
+FROM: cf_decode_eol_bb8_sv12;
+var__temp_vbits_left.3 := vbits_left.0;
+var__temp_vp.3 := vp.0;
+TO: cf_decode_eol_bb9;
+
+FROM: cf_decode_eol_bb9;
+vbits_left.3 := var__temp_vbits_left.3;
+vp.3 := var__temp_vp.3;
+var__temp_vbits_left.5 := vbits_left.3;
+var__temp_vp.5 := vp.3;
+TO: cf_decode_eol_bb9_end;
+
+FROM: cf_decode_eol_bb9_end;
+assume(vbits_left.3 < v12);
+TO: cf_decode_eol_bb10;
+
+FROM: cf_decode_eol_bb9_end;
+assume(vbits_left.3 >= v12);
+TO: cf_decode_eol_bb15;
+
+FROM: cf_decode_eol_bb10;
+v14 := vpr_limit - vp.3;
+TO: cf_decode_eol_bb10_end;
+
+FROM: cf_decode_eol_bb10_end;
+assume(v14 < 3);
+TO: cf_decode_eol_bb11;
+
+FROM: cf_decode_eol_bb10_end;
+assume(v14 >= 3);
+TO: cf_decode_eol_bb14;
+
+FROM: cf_decode_eol_bb11;
+TO: cf_decode_eol_bb11_end;
+
+FROM: cf_decode_eol_bb11_end;
+assume(vp.3 < vpr_limit);
+TO: cf_decode_eol_bb12;
+
+FROM: cf_decode_eol_bb11_end;
+assume(vp.3 >= vpr_limit);
+TO: cf_decode_eol_bb13;
+
+FROM: cf_decode_eol_bb12;
+v17 := vp.3 + 1;
+v18 := vbits_left.3 + 8;
+var__temp_vbits_left.5 := v18;
+var__temp_vp.5 := v17;
+TO: cf_decode_eol_bb15;
+
+FROM: cf_decode_eol_bb13;
+TO: cf_decode_eol_bb13_ret;
+
+FROM: cf_decode_eol_bb14;
+v19 := vbits_left.3 + 24;
+v20 := vp.3 + 3;
+var__temp_vbits_left.5 := v19;
+var__temp_vp.5 := v20;
+TO: cf_decode_eol_bb15;
+
+FROM: cf_decode_eol_bb15;
+vbits_left.5 := var__temp_vbits_left.5;
+vp.5 := var__temp_vp.5;
+v21 := vbits_left.5 - 1;
+var__temp_vbits_left.3 := v21;
+var__temp_vp.3 := vp.5;
+TO: cf_decode_eol_bb9;
+

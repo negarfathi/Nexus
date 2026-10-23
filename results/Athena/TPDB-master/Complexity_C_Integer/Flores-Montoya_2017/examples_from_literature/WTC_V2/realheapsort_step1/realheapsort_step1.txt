@@ -1,0 +1,6 @@
+realheapsort_step1.c:10:11: warning: unused variable 'm' [-Wunused-variable]
+  int k,j,m;
+          ^
+1 warning generated.
+YES
+Runtime: 62508 milliseconds

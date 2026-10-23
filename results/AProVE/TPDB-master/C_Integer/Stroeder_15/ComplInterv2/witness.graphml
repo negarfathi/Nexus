@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <key id="programfile" attr.name="programfile" for="graph"/>
+  <key id="programhash" attr.name="programhash" for="graph"/>
+  <key id="sourcecodelang" attr.name="sourcecodelang" for="graph"/>
+  <key id="producer" attr.name="producer" for="graph"/>
+  <key id="specification" attr.name="specification" for="graph"/>
+  <key id="creationtime" attr.name="creationtime" for="graph"/>
+  <key id="witness-type" attr.name="witness-type" for="graph"/>
+  <key id="architecture" attr.name="architecture" for="graph"/>
+  <key id="entry" attr.name="entry" for="node">
+    <default>false</default>
+  </key>
+  <key id="nodetype" attr.name="nodetype" for="node">
+    <default>path</default>
+  </key>
+  <key id="violation" attr.name="violation" for="node">
+    <default>false</default>
+  </key>
+  <key id="cyclehead" attr.name="cyclehead" for="node">
+    <default>false</default>
+  </key>
+  <key id="invariant" attr.name="invariant" for="node">
+    <default>true</default>
+  </key>
+  <key id="sink" attr.name="sink" for="node">
+    <default>false</default>
+  </key>
+  <key id="endline" attr.name="endline" for="edge"/>
+  <key id="enterLoopHead" attr.name="enterLoopHead" for="edge">
+    <default>false</default>
+  </key>
+  <key id="enterFunction" attr.name="enterFunction" for="edge"/>
+  <key id="startline" attr.name="startline" for="edge"/>
+  <key id="returnFrom" attr.name="returnFrom" for="edge"/>
+  <key id="assumption" attr.name="assumption" for="edge"/>
+  <key id="tokens" attr.name="tokens" for="edge"/>
+  <key id="control" attr.name="control" for="edge"/>
+  <key id="originfile" attr.name="originfile" for="edge">
+    <default>/liveness_analysis/ComplInterv2.c</default>
+  </key>
+  <key id="sourcecode" attr.name="sourcecode" for="edge"/>
+  <graph edgedefault="directed">
+    <data key="witness-type">violation_witness</data>
+    <data key="sourcecodelang">C</data>
+    <data key="producer">AProVE</data>
+    <data key="creationtime">2026-09-03T14:29:55Z</data>
+    <data key="specification">CHECK( init(main()), LTL(F end) )</data>
+    <data key="programfile">/liveness_analysis/ComplInterv2.c</data>
+    <data key="programhash">a4e4c55c78b95f44c6095497bf409656f44c1a6a97ae10e1462b294c9f7e80ca</data>
+    <data key="architecture">64bit</data>
+    <node id="S103">
+      <data key="entry">true</data>
+    </node>
+    <node id="S106"/>
+    <edge source="S103" target="S106">
+      <data key="startline">5</data>
+      <data key="endline">5</data>
+      <data key="enterFunction">main</data>
+    </edge>
+    <node id="S108"/>
+    <edge source="S106" target="S108">
+      <data key="sourcecode">int i;</data>
+      <data key="startline">6</data>
+      <data key="endline">6</data>
+    </edge>
+    <node id="S114"/>
+    <edge source="S108" target="S114">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">i = __VERIFIER_nondet_int();</data>
+      <data key="startline">7</data>
+      <data key="endline">7</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S131"/>
+    <edge source="S114" target="S131">
+      <data key="sourcecode">while (i != 0) {</data>
+      <data key="startline">9</data>
+      <data key="endline">9</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <node id="S134"/>
+    <edge source="S131" target="S134">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">if (i &gt; -5 &amp;&amp; i &lt; 5) {</data>
+      <data key="startline">10</data>
+      <data key="endline">10</data>
+    </edge>
+    <node id="S169"/>
+    <edge source="S134" target="S169">
+      <data key="sourcecode">while (i != 0) {</data>
+      <data key="startline">9</data>
+      <data key="endline">9</data>
+      <data key="control">condition-true</data>
+    </edge>
+    <edge source="S169" target="S134">
+      <data key="enterLoopHead">true</data>
+      <data key="sourcecode">if (i &gt; -5 &amp;&amp; i &lt; 5) {</data>
+      <data key="startline">10</data>
+      <data key="endline">10</data>
+    </edge>
+  </graph>
+</graphml>

@@ -1,0 +1,72 @@
+///*** 1_set_color_ht_extracted ***///
+START: set_color_ht_extracted_bb0;
+
+FROM: set_color_ht_extracted_bb0;
+var__temp_vy.0 := vh;
+TO: set_color_ht_extracted_bb1;
+
+FROM: set_color_ht_extracted_bb1;
+vy.0 := var__temp_vy.0;
+v0 := vy.0 + -1;
+var__temp_vx.0 := vw;
+TO: set_color_ht_extracted_bb2;
+
+FROM: set_color_ht_extracted_bb2;
+vx.0 := var__temp_vx.0;
+TO: set_color_ht_extracted_bb2_end;
+
+FROM: set_color_ht_extracted_bb2_end;
+assume(vx.0 > 0);
+TO: set_color_ht_extracted_bb3;
+
+FROM: set_color_ht_extracted_bb2_end;
+assume(vx.0 <= 0);
+TO: set_color_ht_extracted_bb5;
+
+FROM: set_color_ht_extracted_bb3;
+TO: set_color_ht_extracted_bb3_vx.0.;
+FROM: set_color_ht_extracted_bb3_vx.0.;
+assume(vx.0 < 8);
+vx.0. := vx.0;
+TO: set_color_ht_extracted_bb3_svx.0.;
+
+FROM: set_color_ht_extracted_bb3_vx.0.;
+assume(vx.0 >= 8);
+vx.0. := 8;
+TO: set_color_ht_extracted_bb3_svx.0.;
+
+FROM: set_color_ht_extracted_bb3_svx.0.;
+v3 := vx.0 - vx.0.;
+var__temp_vi.0 := vx.0.;
+TO: set_color_ht_extracted_bb4;
+
+FROM: set_color_ht_extracted_bb4;
+vi.0 := var__temp_vi.0;
+v4 := vi.0 + -1;
+var__temp_vx.0 := v3;
+var__temp_vi.0 := v4;
+TO: set_color_ht_extracted_bb4_end;
+
+FROM: set_color_ht_extracted_bb4_end;
+assume(v4 >= 0);
+TO: set_color_ht_extracted_bb4;
+
+FROM: set_color_ht_extracted_bb4_end;
+assume(v4 < 0);
+TO: set_color_ht_extracted_bb2;
+
+FROM: set_color_ht_extracted_bb5;
+var__temp_vy.0 := v0;
+TO: set_color_ht_extracted_bb5_end;
+
+FROM: set_color_ht_extracted_bb5_end;
+assume(v0 <= 0);
+TO: set_color_ht_extracted_bb6;
+
+FROM: set_color_ht_extracted_bb5_end;
+assume(v0 > 0);
+TO: set_color_ht_extracted_bb1;
+
+FROM: set_color_ht_extracted_bb6;
+TO: set_color_ht_extracted_bb6_ret;
+

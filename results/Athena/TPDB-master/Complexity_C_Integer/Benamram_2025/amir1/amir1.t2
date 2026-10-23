@@ -1,0 +1,65 @@
+///*** 1_amir1 ***///
+START: amir1_bb0;
+
+FROM: amir1_bb0;
+var__temp_vx3.0 := 0;
+var__temp_v.01 := vx1;
+var__temp_v.0 := vx4;
+TO: amir1_bb1;
+
+FROM: amir1_bb1;
+vx3.0 := var__temp_vx3.0;
+v.01 := var__temp_v.01;
+v.0 := var__temp_v.0;
+v0 := v.0 + -1;
+var__temp_vx3.1 := vx3.0;
+TO: amir1_bb1_end;
+
+FROM: amir1_bb1_end;
+assume(v.0 > 0);
+TO: amir1_bb2;
+
+FROM: amir1_bb1_end;
+assume(v.0 <= 0);
+TO: amir1_bb3;
+
+FROM: amir1_bb2;
+v2 := v.01 + vx2;
+v3 := nondet();
+TO: amir1_bb2_v.x2;
+FROM: amir1_bb2_v.x2;
+assume(v3 != 0);
+v.x2 := v2;
+TO: amir1_bb2_sv.x2;
+
+FROM: amir1_bb2_v.x2;
+assume(v3 == 0);
+v.x2 := vx2;
+TO: amir1_bb2_sv.x2;
+
+FROM: amir1_bb2_sv.x2;
+var__temp_vx3.0 := v2;
+var__temp_v.01 := v.x2;
+var__temp_v.0 := v0;
+TO: amir1_bb1;
+
+FROM: amir1_bb3;
+vx3.1 := var__temp_vx3.1;
+TO: amir1_bb3_end;
+
+FROM: amir1_bb3_end;
+assume(vx3.1 > 0);
+TO: amir1_bb4;
+
+FROM: amir1_bb3_end;
+assume(vx3.1 <= 0);
+TO: amir1_bb5;
+
+FROM: amir1_bb4;
+v6 := vx3.1 + -1;
+var__temp_vx3.1 := v6;
+TO: amir1_bb3;
+
+FROM: amir1_bb5;
+TO: amir1_bb5_ret;
+

@@ -1,0 +1,52 @@
+///*** 1_speedpldi2 ***///
+START: speedpldi2_bb0;
+
+FROM: speedpldi2_bb0;
+var__temp_vv2.0 := 0;
+var__temp_vv1.0 := vn;
+TO: speedpldi2_bb0_end;
+
+FROM: speedpldi2_bb0_end;
+assume((vn >= 0) && (vm > 0));
+TO: speedpldi2_bb1;
+
+FROM: speedpldi2_bb0_end;
+assume((vn < 0) || (vm <= 0));
+TO: speedpldi2_bb4;
+
+FROM: speedpldi2_bb1;
+vv2.0 := var__temp_vv2.0;
+vv1.0 := var__temp_vv1.0;
+TO: speedpldi2_bb1_end;
+
+FROM: speedpldi2_bb1_end;
+assume(vv1.0 > 0);
+TO: speedpldi2_bb2;
+
+FROM: speedpldi2_bb1_end;
+assume(vv1.0 <= 0);
+TO: speedpldi2_bb4;
+
+FROM: speedpldi2_bb2;
+var__temp_vv2.0 := 0;
+var__temp_vv1.0 := vv1.0;
+TO: speedpldi2_bb2_end;
+
+FROM: speedpldi2_bb2_end;
+assume(vv2.0 < vm);
+TO: speedpldi2_bb3;
+
+FROM: speedpldi2_bb2_end;
+assume(vv2.0 >= vm);
+TO: speedpldi2_bb1;
+
+FROM: speedpldi2_bb3;
+v4 := vv2.0 + 1;
+v5 := vv1.0 + -1;
+var__temp_vv2.0 := v4;
+var__temp_vv1.0 := v5;
+TO: speedpldi2_bb1;
+
+FROM: speedpldi2_bb4;
+TO: speedpldi2_bb4_ret;
+
