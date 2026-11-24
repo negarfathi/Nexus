@@ -1,0 +1,456 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l2_v1",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l2_v1",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        {
+          "args": [
+            "l2_v2",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l2_v2",
+        0
+      ],
+      "op": "="
+    }
+  ],
+  "op": "or"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l2_v1",
+        {
+          "op": "+",
+          "args": [
+            "l2_v2",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "op": "=",
+      "args": [
+        "l2_v2",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l2_v3",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l2_v3",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 1 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l2_v2",
+            0
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l2_v2",
+            "l2_v1"
+          ],
+          "op": "<"
+        }
+      ],
+      "op": "or"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l2_v1",
+        0
+      ]
+    },
+    {
+      "op": "or",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l2_v2",
+            0
+          ]
+        },
+        {
+          "op": "<",
+          "args": [
+            "l2_v2",
+            "l2_v1"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v1",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v1",
+    {
+      "args": [
+        0,
+        {
+          "args": [
+            "l2_v2"
+          ],
+          "op": "neg"
+        }
+      ],
+      "op": "max"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v1",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    "l2_v1",
+    {
+      "op": "max",
+      "args": [
+        0,
+        {
+          "op": "neg",
+          "args": [
+            "l2_v2"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E],
+                             Implies(And(l1_header_to_exit(A,
+                                        B,
+                                        0,
+                                        C,
+                                        D,
+                                        E),
+                                        Not(0 <= C)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C],
+                                       Implies(Or(0 >= A,
+                                        And(Not(A <= 0),
+                                        0 >= B)),
+                                        l1_header_to_exit(A,
+                                        B,
+                                        C,
+                                        A,
+                                        B,
+                                        C)))),
+                       l1_header_to_exit(-1, 0, 0, -1, 0, 0)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v1 = 10451,
+ l3_v3_out = 4,
+ l2_v3_next = 3,
+ l3_v1_out = 10452,
+ l2_v2 = 1,
+ l3_v2_out = 30613,
+ l2_v1_next = 10452,
+ l2_v3 = 2,
+ l2_v2_next = 30613,
+ l3_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C, D, E],\n                             Implies(And(l1_header_to_exit(A,\n                                        B,\n                                        0,\n                                        C,\n                                        D,\n                                        E),\n                                        Not(0 <= C)),\n                                     query!0))),\n             hyper-res(asserted(ForAll([A, B, C],\n                                       Implies(Or(0 >= A,\n                                        And(Not(A <= 0),\n                                        0 >= B)),\n                                        l1_header_to_exit(A,\n                                        B,\n                                        C,\n                                        A,\n                                        B,\n                                        C)))),\n                       l1_header_to_exit(-1, 0, 0, -1, 0, 0)),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"sat","query_condition":"l2_bad_invariant_initialization","status":"invalid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l2_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[0 <= l2_v1,\n 0 < l2_v1,\n Or(l2_v1 < 0, If(0 >= -l2_v2, 0, -l2_v2) < 0)]","status":"valid"},{"counterexample":{"assignments":{"l2_v1":"10451","l2_v1_next":"10452","l2_v2":"1","l2_v2_next":"30613","l2_v3":"2","l2_v3_next":"3","l3_header_to_exit":"[else -> True]","l3_v1_out":"10452","l3_v2_out":"30613","l3_v3_out":"4"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[0 <= l2_v1,\n 0 < l2_v1,\n And(0 < l2_v1,\n     l3_header_to_exit(l2_v1,\n                       l2_v2 + 1,\n                       l2_v3 + 1,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out),\n     l2_v1_next == l3_v1_out,\n     l2_v2_next == l3_v2_out,\n     l2_v3_next == l2_v3 + 1),\n Not(Or(l2_v1_next < l2_v1,\n        And(l2_v1_next == l2_v1,\n            If(0 >= -l2_v2_next, 0, -l2_v2_next) <\n            If(0 >= -l2_v2, 0, -l2_v2))))]","status":"invalid"}],"components":{"invariant":"invalid","ranking_function":"invalid"},"loop_id":"l2","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        0
+      ],
+      "op": ">"
+    },
+    "true"
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l2_v1",
+        0
+      ]
+    },
+    "true"
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l2_v2",
+        0
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l2_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l2_v2",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}

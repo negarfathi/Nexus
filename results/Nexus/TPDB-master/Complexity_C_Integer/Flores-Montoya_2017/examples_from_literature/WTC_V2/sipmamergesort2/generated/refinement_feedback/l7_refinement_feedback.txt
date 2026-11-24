@@ -1,0 +1,84 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l7
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l7_v10",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l7_v11",
+        0
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l7_v10",
+    "l7_v11"
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l7
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l7_v10",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l7_v11",
+        0
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    "l7_v10",
+    "l7_v11"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l7_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l7_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 <= l7_v10, 0 <= l7_v11),\n And(0 < l7_v10, 0 < l7_v11),\n l7_v10 + l7_v11 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[And(0 <= l7_v10, 0 <= l7_v11),\n And(0 < l7_v10, 0 < l7_v11),\n Or(And(And(0 < l7_v10, 0 < l7_v11, 0 < l7_nd1),\n        l7_v1_next == l7_v1,\n        l7_v2_next == l7_v2 + 1,\n        l7_v3_next == l7_v3,\n        l7_v4_next == l7_v4 + l7_v7,\n        l7_v5_next == l7_v5,\n        l7_v6_next == l7_v6,\n        l7_v7_next == l7_v7,\n        l7_v8_next == l7_v8,\n        l7_v9_next == l7_v9,\n        l7_v10_next == l7_v10 - 1,\n        l7_v11_next == l7_v11,\n        l7_v12_next == l7_v12),\n    And(And(0 < l7_v10, 0 < l7_v11, 0 >= l7_nd1),\n        l7_v1_next == l7_v1,\n        l7_v2_next == l7_v2,\n        l7_v3_next == l7_v3 - 1,\n        l7_v4_next == l7_v4 + l7_v7,\n        l7_v5_next == l7_v5,\n        l7_v6_next == l7_v6,\n        l7_v7_next == l7_v7,\n        l7_v8_next == l7_v8,\n        l7_v9_next == l7_v9,\n        l7_v10_next == l7_v10,\n        l7_v11_next == l7_v11 - 1,\n        l7_v12_next == l7_v12)),\n Not(l7_v10_next + l7_v11_next < l7_v10 + l7_v11)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l7","status":"valid"}

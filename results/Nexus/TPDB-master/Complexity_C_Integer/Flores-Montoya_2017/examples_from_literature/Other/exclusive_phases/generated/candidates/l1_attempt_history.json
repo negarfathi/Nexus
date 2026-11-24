@@ -1,0 +1,174 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v3",
+                      0
+                    ],
+                    "op": ">"
+                  }
+                ],
+                "op": "not"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      "l1_v1"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "abs"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      1
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "abs"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v3",
+                      0
+                    ],
+                    "op": ">"
+                  }
+                ],
+                "op": "not"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      "l1_v1"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "abs"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      1
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "abs"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  "l1_v1"
+                ],
+                "op": "-"
+              },
+              "l1_v1"
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_valid",
+    "unresolved_checks": []
+  }
+]

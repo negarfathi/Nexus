@@ -1,0 +1,224 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                1,
+                "l1_v1"
+              ],
+              "op": "<="
+            },
+            {
+              "args": [
+                "l1_v1",
+                3
+              ],
+              "op": "<"
+            }
+          ],
+          "op": "and"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    1,
+                    "l1_v1"
+                  ],
+                  "op": "<="
+                },
+                {
+                  "args": [
+                    "l1_v1",
+                    3
+                  ],
+                  "op": "="
+                }
+              ],
+              "op": "and"
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v3",
+                    0
+                  ],
+                  "op": "="
+                },
+                {
+                  "args": [
+                    "l1_v2",
+                    1
+                  ],
+                  "op": ">"
+                }
+              ],
+              "op": "and"
+            }
+          ],
+          "op": "or"
+        }
+      ],
+      "op": "and"
+    },
+    "l1_v3",
+    "l1_v1"
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 0 invariant(s), 1 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v1",
+            3
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "not"
+    }
+  ],
+  "op": "not"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 2 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        1,
+        "l1_v1"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v1",
+        4
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        100,
+        "l1_v1"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        10,
+        "l1_v2"
+      ],
+      "op": "*"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        1,
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v1",
+        4
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        100,
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "*",
+      "args": [
+        10,
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %69"
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"loop_id":"l1","candidate_kind":"terminating","status":"unsupported","components":{},"checks":[],"reason":"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %69"}

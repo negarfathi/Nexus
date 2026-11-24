@@ -2,6 +2,9 @@
 #define INLINE_ATTRIBUTE_INJECTOR_H
 
 #include <filesystem>
+// >>> NEXUS CHANGE BEGIN [2.4.4 - lexical scope stack container]
+#include <vector>
+// <<< NEXUS CHANGE END [2.4.4 - lexical scope stack container]
 
 #include "clang/Rewrite/Core/Rewriter.h"
 #include "clang/Frontend/FrontendAction.h"
@@ -12,10 +15,30 @@ class InlineAttributeInjectorVisitor : public clang::RecursiveASTVisitor<InlineA
 public:
     InlineAttributeInjectorVisitor(clang::Rewriter &rewriter, const std::set<const clang::FunctionDecl *> &entryFunctions) : rewriter(rewriter), entryFunctions(entryFunctions) {}
     bool VisitFunctionDecl(clang::FunctionDecl *FD);
+    // >>> NEXUS CHANGE BEGIN [2.4 - preserve source-level return provenance]
+    bool TraverseFunctionDecl(clang::FunctionDecl *FD);
+    // >>> NEXUS CHANGE BEGIN [2.4.1 - track lexical nesting of source loops]
+    bool TraverseWhileStmt(clang::WhileStmt *statement);
+    bool TraverseForStmt(clang::ForStmt *statement);
+    bool TraverseDoStmt(clang::DoStmt *statement);
+    // <<< NEXUS CHANGE END [2.4.1 - track lexical nesting of source loops]
+    bool VisitReturnStmt(clang::ReturnStmt *RS);
+    // <<< NEXUS CHANGE END [2.4 - preserve source-level return provenance]
 
 private:
     clang::Rewriter &rewriter;
     const std::set<const clang::FunctionDecl *> &entryFunctions;
+    // >>> NEXUS CHANGE BEGIN [2.4 - identify entry function returns only]
+    bool traversingEntryFunction = false;
+    // >>> NEXUS CHANGE BEGIN [2.4.1 - source loop depth for return provenance]
+    unsigned sourceLoopDepth = 0;
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - preserve source loop identity]
+    unsigned nextSourceLoopId = 0;
+    std::vector<unsigned> sourceLoopIds;
+    bool markSourceLoopBody(const clang::Stmt *body, unsigned loopId, unsigned parentId);
+    // <<< NEXUS CHANGE END [2.4.4 - preserve source loop identity]
+    // <<< NEXUS CHANGE END [2.4.1 - source loop depth for return provenance]
+    // <<< NEXUS CHANGE END [2.4 - identify entry function returns only]
 };
 
 class InlineAttributeInjectorConsumer : public clang::ASTConsumer {

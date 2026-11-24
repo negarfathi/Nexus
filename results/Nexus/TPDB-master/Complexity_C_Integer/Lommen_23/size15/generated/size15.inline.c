@@ -1,0 +1,30 @@
+extern int __VERIFIER_nondet_int(void);
+
+void size15(int x, int y, int f, int a, int b, int c) {
+  int u = __VERIFIER_nondet_int();
+  int v = __VERIFIER_nondet_int();
+
+  x = u;
+  f = v;
+  while (1) { __asm__ __volatile__("# NEXUS_SOURCE_LOOP_ID_1_PARENT_0" ::: "memory"); 
+    if (1 <= x && x <= 3 && f == 0) {
+      x = x + 1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else if (y > 1 && f == 1) {
+      y = y - 1;
+      v = __VERIFIER_nondet_int();
+      f = v;
+    } else {
+      while(a < b && c != 0) { __asm__ __volatile__("# NEXUS_SOURCE_LOOP_ID_2_PARENT_1" ::: "memory"); 
+        a = a + c*c*c;
+        b = b + c*c;
+        c = c + 1;
+      }
+      break;
+    }
+  }
+  while(b > 0) { __asm__ __volatile__("# NEXUS_SOURCE_LOOP_ID_3_PARENT_0" ::: "memory"); 
+    b = b - 1;
+  }
+}

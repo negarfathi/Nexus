@@ -142,10 +142,13 @@ static std::vector<std::string> getLoopSymbols(const nlohmann::json& loopBundle)
             loopSymbols.push_back(stateSymbol.at("current").get<std::string>());
         }
 
-        if (loopSymbols.empty()) {
-            throw std::runtime_error("Target loop has no current-state symbols.");
-        }
-
+        // >>> NEXUS CHANGE BEGIN [1.2 - support zero-state loops]
+        // An empty state_symbols array is valid: some loops have no integer
+        // state variables. Keep the empty symbol list so the output schema
+        // permits only constants (and variable-free expressions), while
+        // CandidateParser still rejects undeclared variable references.
+        // The validator's state relations also support zero arguments.
+        // <<< NEXUS CHANGE END [1.2 - support zero-state loops]
         return loopSymbols;
     }
 
@@ -167,20 +170,19 @@ static std::string loadCandidateGrammar(const std::filesystem::path& candidateGr
 static RefinementFeedback splitRefinementFeedback(const std::string& feedbackText) {
     static const std::string syntacticMarker = "==================== SYNTACTIC FEEDBACK ====================";
     static const std::string semanticMarker = "===================== SEMANTIC FEEDBACK =====================";
-
+    // >>> NEXUS CHANGE BEGIN [5.8 - control feedback is not a Z3 validator summary]
+    static const std::string controlMarker = "===================== REFINEMENT CONTROL FEEDBACK =====================";
+    const std::size_t lastControl = feedbackText.rfind(controlMarker);
     const std::size_t lastSyntactic = feedbackText.rfind(syntacticMarker);
     const std::size_t lastSemantic = feedbackText.rfind(semanticMarker);
-
     std::size_t currentPosition = std::string::npos;
-    if (lastSyntactic != std::string::npos && lastSemantic != std::string::npos) {
-        currentPosition = std::max(lastSyntactic, lastSemantic);
+    for (const auto position : {lastControl, lastSyntactic, lastSemantic}) {
+        if (position != std::string::npos &&
+            (currentPosition == std::string::npos || position > currentPosition)) {
+            currentPosition = position;
+        }
     }
-    else if (lastSyntactic != std::string::npos) {
-        currentPosition = lastSyntactic;
-    }
-    else if (lastSemantic != std::string::npos) {
-        currentPosition = lastSemantic;
-    }
+    // <<< NEXUS CHANGE END [5.8 - control feedback is not a Z3 validator summary]
 
     if (currentPosition == std::string::npos) {
         return {
@@ -199,8 +201,10 @@ static Prompt buildPrompt(const std::string& loopId, const nlohmann::json& loopB
     std::string mode;
     std::string taskInstructions;
 
+    // >>> NEXUS CHANGE BEGIN [7.2 - synthesis strategy for complete witnesses]
     if (synthesisMode == Initial) {
         mode = "Initial";
+        // >>> NEXUS CHANGE BEGIN [8.4 - Existential recurrent-set synthesis guidance]
         taskInstructions = R"PROMPT(
 Analyze the supplied loop information and determine whether the target loop is terminating or non-terminating.
 
@@ -222,15 +226,19 @@ If the target loop is non-terminating, construct one recurrent set.
 
 The recurrent set must satisfy:
 - RECURRENT_REACHABILITY: at least one reachable loop-header state must belong to the recurrent set.
-- RECURRENT_GUARD_CONTAINMENT: every state in the recurrent set must satisfy the loop guard.
-- RECURRENT_CLOSURE: every completed loop iteration from a recurrent-set state must produce another recurrent-set state.
-- RECURRENT_NO_NORMAL_EXIT: recurrent-set states must not permit normal loop exit.
-- RECURRENT_NO_FUNCTION_RETURN: recurrent-set states must not permit function return.
+- RECURRENT_EXISTENTIAL_PROGRESS: from EVERY state of the recurrent set, at least ONE legal guard-true completed loop iteration must reach another recurrent-set state. Existentially choose any nondeterministic guard decision, next state, and path-local witnesses. An infinite execution must remain possible at every step; dead ends are not recurrent.
+- Exits and returns on OTHER nondeterministic paths do not invalidate a non-termination witness.
 
 Dependency loops provide reachability and execution context only. Construct the candidate only for the target loop.
+
+For terminating witnesses, determine a sufficient inductive invariant before choosing a ranking expression; confirm the ranking measure is compatible with all possible iteration paths and the invariant.
+For non-terminating witnesses, derive a nonempty reachable recurrent region with one perpetually enabled continuing path from every region state. Do not require universal closure or forbid alternative exits/returns. All nondeterministic choices must be genuinely allowed by the extracted transition relation.
 )PROMPT";
+        // <<< NEXUS CHANGE END [8.4 - Existential recurrent-set synthesis guidance]
     }
 
+    // <<< NEXUS CHANGE END [7.2 - synthesis strategy for complete witnesses]
+    // >>> NEXUS CHANGE BEGIN [5.11 - syntax repair retains candidate hypothesis]
     else if (synthesisMode == SyntacticRefinement) {
         mode = "SyntacticRefinement";
         taskInstructions = R"PROMPT(
@@ -250,18 +258,27 @@ The repaired candidate must:
 - make ranking-function expressions derive from RankingExpr;
 - conform exactly to the supplied candidate grammar.
 
-Use the feedback_history to avoid repeating previously rejected syntactic forms or errors.
+Use candidate_history and feedback_history to avoid repeating previously rejected syntactic forms or errors.
 
 Dependency loops provide context only. Repair the candidate only for the target loop.
 )PROMPT";
     }
+    // <<< NEXUS CHANGE END [5.11 - syntax repair retains candidate hypothesis]
 
+    // >>> NEXUS CHANGE BEGIN [5.12 and 7.3 - semantic repair and dependent witnesses]
+    // >>> NEXUS CHANGE BEGIN [6.0 - typed semantic-feedback instructions]
     else if (synthesisMode == SemanticRefinement) {
         mode = "SemanticRefinement";
+        // >>> NEXUS CHANGE BEGIN [8.5 - Existential-progress refinement feedback]
         taskInstructions = R"PROMPT(
 Analyze the previous candidate and current feedback, and repair the candidate so that it is semantically valid.
 
-The previous_candidate is the candidate to repair. The current_feedback reports the semantic validation checks for that candidate.
+The previous_candidate is the candidate to repair. The current_feedback reports the human-readable checks.
+When present, the validation_feedback object contains the authoritative structured validator status, check names, expected/observed results, and available Z3 counterexample data.
+If the current_feedback is refinement-control feedback instead, use candidate_history and feedback_history to avoid repeating the earlier witness; control feedback is not a fresh Z3 result.
+For a failed solver obligation, use concrete assignments only when supplied under counterexample.assignments; such model assignments may be partial.
+For a failed fixedpoint obligation, counterexample.answer_expression may be a symbolic formula rather than a concrete valuation.
+For an unknown check, reason_unknown is not evidence for or against the witness; do not invent a counterexample.
 
 Interpret the feedback as follows:
 - "passed" means the corresponding requirement is satisfied.
@@ -271,19 +288,29 @@ Interpret the feedback as follows:
 If the candidate is terminating:
 - repair the invariant only when an invariant check failed;
 - repair the ranking function only when a ranking-function check failed;
-- preserve a witness component when all of its checks passed.
+- preserve a witness component when all of its checks passed, unless a required change to the invariant alters the assumptions under which the other component was checked;
+- if the invariant changes, re-evaluate the ranking-function obligations under the NEW invariant: a ranking function validated under the old invariant is not automatically valid under the new one.
 
 If the candidate is non-terminating:
-- repair the recurrent set according to its failed checks while preserving parts that remain valid whenever possible.
+- repair the recurrent set according to its failed checks while preserving parts that remain valid whenever possible;
+- RECURRENT_EXISTENTIAL_PROGRESS requires an enabled continuing successor for EACH recurrent-set state (not every successor). A solver model showing a dead-end state is evidence to strengthen or reshape the set;
+- if progress is unknown due to dependent Horn transitions, do not invent a transition or regard unknown as non-termination proof.
 
 Do not change between terminating and non-terminating merely because the current witness failed validation. Change the classification only if the supplied loop semantics provide evidence that the previous classification is incorrect.
 
-Use the feedback_history to avoid repeating previously rejected witnesses or semantic mistakes.
+Use candidate_history and feedback_history to avoid repeating previously rejected witnesses or semantic mistakes.
+An invalid or unknown candidate does NOT establish that the opposite termination classification is correct; an alternative classification must be justified independently by the loop semantics.
+After every repair, propose a complete candidate satisfying ALL obligations, not only those that failed in the previous attempt.
 
 Dependency loops provide reachability and execution context only. Repair the candidate only for the target loop.
 )PROMPT";
+        // <<< NEXUS CHANGE END [8.5 - Existential-progress refinement feedback]
     }
+    // <<< NEXUS CHANGE END [6.0 - typed semantic-feedback instructions]
+    // <<< NEXUS CHANGE END [5.12 and 7.3 - semantic repair and dependent witnesses]
 
+    // >>> NEXUS CHANGE BEGIN [7.1 - complete witness construction guidance]
+    // >>> NEXUS CHANGE BEGIN [8.6 - Existential progress in shared synthesis instructions]
     const std::string commonInstructions = R"PROMPT(
 Interpret arithmetic over mathematical integers.
 
@@ -319,6 +346,15 @@ A non-terminating candidate must have exactly this form:
 
 Every expression_ast must conform to the supplied candidate grammar.
 
+Reason from the precise loop relations, not from the source-code shape alone:
+- Derive any useful bounds, equalities, phases, and parity constraints from entry_states and the complete loop_iteration_steps relation.
+- Include enough states for invariant initialization AND inductiveness; never assume that an entry condition remains true after an iteration without checking it.
+- A ranking function must be non-negative and strictly decrease on EVERY relevant completed iteration. Use a lexicographic RankingExpr, encoded as nested lex(first, rest), when different phases decrease different measures.
+- Treat nondeterministic choices as fresh per transition. Termination obligations must hold for every choice admitted by the extracted relations; do not assume a favorable random value.
+- For a recurrent-set witness, prove reachability and existential progress: every recurrent-set state must have at least one guard-enabled completed iteration back into the set. Exits/returns on other choices are allowed. Merely showing one finite trace or a set with no enabled iteration is insufficient.
+- An unreachable loop does not need an invented ranking decrease on unreachable transitions, but any proposed witness must still satisfy the validator's universal proof obligations.
+- Use only expressions supported by the grammar. Do not add extra witness fields, helper variables, unproved assumptions, or natural-language placeholders.
+
 Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
 
 Use the following JSON AST encoding:
@@ -333,6 +369,8 @@ Examples:
 
 Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
 )PROMPT";
+    // <<< NEXUS CHANGE END [8.6 - Existential progress in shared synthesis instructions]
+    // <<< NEXUS CHANGE END [7.1 - complete witness construction guidance]
 
     nlohmann::json input = {
         {"target_loop_id", loopId},
@@ -367,11 +405,71 @@ Return only the JSON candidate object. Do not return Markdown, explanations, com
 
         const RefinementFeedback refinementFeedback = splitRefinementFeedback(refinementFeedbackText);
 
-        input["current_feedback"] = refinementFeedback.current;
+        // >>> NEXUS CHANGE BEGIN [6.1 - expose structured Z3 feedback to LLM]
+        // The validator emits one authoritative summary for each validation.
+        // Keep the earlier readable feedback, but put the structured record in
+        // a separate input field so the LLM can use exact failed obligations.
+        if (synthesisMode == SemanticRefinement) {
+            static const std::string marker = "VALIDATION_SUMMARY_JSON:";
+            std::istringstream lines(refinementFeedback.current);
+            std::string line;
+            std::string readable;
+            bool found = false;
+            while (std::getline(lines, line)) {
+                if (line.rfind(marker, 0) == 0) {
+                    const nlohmann::json record = nlohmann::json::parse(line.substr(marker.size()), nullptr, false);
+                    if (record.is_discarded() || !record.is_object() || found) {
+                        throw std::runtime_error("Malformed or duplicated structured validator feedback.");
+                    }
+                    input["validation_feedback"] = record;
+                    found = true;
+                }
+                else {
+                    readable += line + "\n";
+                }
+            }
+            // >>> NEXUS CHANGE BEGIN [5.9 - semantic refinement after duplicate control]
+            const bool isControlFeedback = refinementFeedback.current.rfind(
+                "===================== REFINEMENT CONTROL FEEDBACK =====================", 0) == 0;
+            if (!found && !isControlFeedback) {
+                throw std::runtime_error("Structured validator feedback is missing for semantic refinement.");
+            }
+            // Control feedback is not validator evidence; never fabricate a
+            // check, status, or counterexample for a duplicated candidate.
+            input["current_feedback"] = readable;
+            // <<< NEXUS CHANGE END [5.9 - semantic refinement after duplicate control]
+        }
+        else {
+            input["current_feedback"] = refinementFeedback.current;
+        }
+        // <<< NEXUS CHANGE END [6.1 - expose structured Z3 feedback to LLM]
 
         if (!refinementFeedback.history.empty()) {
             input["feedback_history"] = refinementFeedback.history;
         }
+        // >>> NEXUS CHANGE BEGIN [5.10 - compact previous witness outcomes]
+        const std::filesystem::path candidateHistoryPath = candidatePath.parent_path() /
+            (loopId + "_attempt_history.json");
+        if (std::filesystem::exists(candidateHistoryPath)) {
+            std::ifstream historyInput(candidateHistoryPath);
+            if (!historyInput) {
+                throw std::runtime_error("Cannot open candidate attempt history.");
+            }
+            nlohmann::json history;
+            historyInput >> history;
+            if (!history.is_array()) {
+                throw std::runtime_error("Malformed candidate attempt history.");
+            }
+            nlohmann::json recent = nlohmann::json::array();
+            // Keep the feedback focused without losing the exact current
+            // previous_candidate supplied in its own field.
+            const std::size_t first = history.size() > 6 ? history.size() - 6 : 0;
+            for (std::size_t i = first; i < history.size(); ++i) {
+                recent.push_back(history.at(i));
+            }
+            input["candidate_history"] = std::move(recent);
+        }
+        // <<< NEXUS CHANGE END [5.10 - compact previous witness outcomes]
     }
 
     return {mode, input.dump(), taskInstructions + "\n" + commonInstructions};
@@ -438,128 +536,109 @@ static void appendPromptHistory(const std::filesystem::path& promptHistoryPath, 
 }
 
 static void sendRequest(const std::string& llmModel, const Prompt& prompt, const std::string& loopId, const std::vector<std::string>& loopSymbols, long timeoutMilliseconds, int promptAttempt, const std::filesystem::path& promptHistoryPath, Response& response) {
-    nlohmann::json allowedStringLeaves = nlohmann::json::array();
-    for (const std::string& symbol : loopSymbols) {
-        allowedStringLeaves.push_back(symbol);
-    }
-    allowedStringLeaves.push_back("true");
-    allowedStringLeaves.push_back("false");
-
-    const std::vector<std::pair<std::string, std::size_t>> operatorArities = {
-        {"and", 2},
-        {"or", 2},
-        {"not", 1},
-        {"implies", 2},
-        {"iff", 2},
-        {"=", 2},
-        {"!=", 2},
-        {"<", 2},
-        {"<=", 2},
-        {">", 2},
-        {">=", 2},
-        {"+", 2},
-        {"-", 2},
-        {"neg", 1},
-        {"*", 2},
-        {"div", 2},
-        {"mod", 2},
-        {"pow", 2},
-        {"abs", 1},
-        {"min", 2},
-        {"max", 2},
-        {"ite", 3},
-        {"lex", 2}
+    // >>> NEXUS CHANGE BEGIN [3.1 - grammar-typed AST response schema]
+    // Keep the exact candidate JSON/AST shape. A positional tuple schema is
+    // necessary: "ite" takes (Bool, Arith, Arith), comparisons take (Arith,
+    // Arith), and "lex" takes (Arith, Ranking). CandidateParser remains the
+    // final authority if a serving backend cannot enforce every constraint.
+    auto ref = [](const std::string& name) -> nlohmann::json {
+        return {{"$ref", "#/$defs/" + name}};
     };
-
-    nlohmann::json expressionAlternatives = nlohmann::json::array();
-    expressionAlternatives.push_back({
-        {"type", "integer"}
-    });
-    expressionAlternatives.push_back({
-        {"type", "string"},
-        {"enum", allowedStringLeaves}
-    });
-
-    for (const auto& [operatorName, arity] : operatorArities) {
-        expressionAlternatives.push_back({
+    auto opSchema = [&](const std::string& op, const std::vector<std::string>& argumentKinds) -> nlohmann::json {
+        nlohmann::json prefix = nlohmann::json::array();
+        for (const std::string& kind : argumentKinds) {
+            prefix.push_back(ref(kind));
+        }
+        return {
             {"type", "object"},
             {"properties", {
-                {"op", {
-                    {"type", "string"},
-                    {"enum", nlohmann::json::array({operatorName})}
-                }},
+                {"op", {{"type", "string"}, {"enum", nlohmann::json::array({op})}}},
                 {"args", {
                     {"type", "array"},
-                    {"minItems", arity},
-                    {"maxItems", arity},
-                    {"items", {
-                        {"$ref", "#/$defs/expression_ast"}
-                    }}
+                    {"minItems", argumentKinds.size()},
+                    {"maxItems", argumentKinds.size()},
+                    {"prefixItems", prefix}
                 }}
             }},
-            {"required", nlohmann::json::array({
-                "op",
-                "args"
-            })},
+            {"required", nlohmann::json::array({"op", "args"})},
             {"additionalProperties", false}
-        });
+        };
+    };
+    nlohmann::json boolAlternatives = nlohmann::json::array({
+        {{"type", "string"}, {"enum", nlohmann::json::array({"true", "false"})}}
+    });
+    for (const char* op : {"and", "or", "implies", "iff"}) {
+        boolAlternatives.push_back(opSchema(op, {"bool_expr", "bool_expr"}));
+    }
+    boolAlternatives.push_back(opSchema("not", {"bool_expr"}));
+    for (const char* op : {"=", "!=", "<", "<=", ">", ">="}) {
+        boolAlternatives.push_back(opSchema(op, {"arith_expr", "arith_expr"}));
     }
 
-    const nlohmann::json expressionAstSchema = {
-        {"anyOf", expressionAlternatives}
-    };
+    nlohmann::json arithAlternatives = nlohmann::json::array({{{"type", "integer"}}});
+    if (!loopSymbols.empty()) {
+        arithAlternatives.push_back({{"type", "string"}, {"enum", loopSymbols}});
+    }
+    for (const char* op : {"+", "-", "*", "div", "mod", "min", "max"}) {
+        arithAlternatives.push_back(opSchema(op, {"arith_expr", "arith_expr"}));
+    }
+    for (const char* op : {"neg", "abs"}) {
+        arithAlternatives.push_back(opSchema(op, {"arith_expr"}));
+    }
+    arithAlternatives.push_back(opSchema("ite", {"bool_expr", "arith_expr", "arith_expr"}));
+    arithAlternatives.push_back(opSchema("pow", {"arith_expr", "nonnegative_integer"}));
 
+    const nlohmann::json expressionSchemas = nlohmann::json::array({
+        {
+            {"type", "object"},
+            {"properties", {
+                {"expression_kind", {{"type", "string"}, {"enum", nlohmann::json::array({"invariant"})}}},
+                {"expression_ast", ref("bool_expr")}
+            }},
+            {"required", nlohmann::json::array({"expression_kind", "expression_ast"})},
+            {"additionalProperties", false}
+        },
+        {
+            {"type", "object"},
+            {"properties", {
+                {"expression_kind", {{"type", "string"}, {"enum", nlohmann::json::array({"ranking-function"})}}},
+                {"expression_ast", ref("ranking_expr")}
+            }},
+            {"required", nlohmann::json::array({"expression_kind", "expression_ast"})},
+            {"additionalProperties", false}
+        },
+        {
+            {"type", "object"},
+            {"properties", {
+                {"expression_kind", {{"type", "string"}, {"enum", nlohmann::json::array({"recurrent-set"})}}},
+                {"expression_ast", ref("bool_expr")}
+            }},
+            {"required", nlohmann::json::array({"expression_kind", "expression_ast"})},
+            {"additionalProperties", false}
+        }
+    });
     const nlohmann::json candidateSchema = {
         {"type", "object"},
         {"properties", {
-            {"loop_id", {
-                {"type", "string"},
-                {"enum", nlohmann::json::array({loopId})}
-            }},
-            {"candidate_kind", {
-                {"type", "string"},
-                {"enum", nlohmann::json::array({
-                    "terminating",
-                    "non-terminating"
-                })}
-            }},
+            {"loop_id", {{"type", "string"}, {"enum", nlohmann::json::array({loopId})}}},
+            {"candidate_kind", {{"type", "string"}, {"enum", nlohmann::json::array({"terminating", "non-terminating"})}}},
             {"candidate_expressions", {
-                {"type", "array"},
-                {"minItems", 1},
-                {"maxItems", 2},
-                {"items", {
-                    {"type", "object"},
-                    {"properties", {
-                        {"expression_kind", {
-                            {"type", "string"},
-                            {"enum", nlohmann::json::array({
-                                "invariant",
-                                "ranking-function",
-                                "recurrent-set"
-                            })}
-                        }},
-                        {"expression_ast", {
-                            {"$ref", "#/$defs/expression_ast"}
-                        }}
-                    }},
-                    {"required", nlohmann::json::array({
-                        "expression_kind",
-                        "expression_ast"
-                    })},
-                    {"additionalProperties", false}
-                }}
+                {"type", "array"}, {"minItems", 1}, {"maxItems", 2},
+                {"items", {{"anyOf", expressionSchemas}}}
             }}
         }},
-        {"required", nlohmann::json::array({
-            "loop_id",
-            "candidate_kind",
-            "candidate_expressions"
-        })},
+        {"required", nlohmann::json::array({"loop_id", "candidate_kind", "candidate_expressions"})},
         {"additionalProperties", false},
         {"$defs", {
-            {"expression_ast", expressionAstSchema}
+            {"bool_expr", {{"anyOf", boolAlternatives}}},
+            {"arith_expr", {{"anyOf", arithAlternatives}}},
+            {"ranking_expr", {{"anyOf", nlohmann::json::array({
+                ref("arith_expr"), opSchema("lex", {"arith_expr", "ranking_expr"})
+            })}}},
+            {"nonnegative_integer", {{"type", "integer"}, {"minimum", 0}}}
         }}
     };
+    // <<< NEXUS CHANGE END [3.1 - grammar-typed AST response schema]
 
     nlohmann::json request;
     std::string url;

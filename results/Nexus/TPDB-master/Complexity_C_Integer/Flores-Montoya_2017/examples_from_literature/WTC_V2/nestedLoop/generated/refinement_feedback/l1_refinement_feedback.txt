@@ -1,0 +1,547 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v1",
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": ">"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v4",
+        {
+          "op": "+",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        }
+      ]
+    },
+    {
+      "op": ">",
+      "args": [
+        "l1_v1",
+        {
+          "op": "+",
+          "args": [
+            "l1_v3",
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l1","status":"unknown"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 1 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        "l1_v4"
+      ],
+      "op": "-"
+    },
+    0
+  ],
+  "op": "max"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "max",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v1",
+        "l1_v4"
+      ]
+    },
+    0
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v6_out = 10,
+ l2_v3_out = 8,
+ l1_nd2 = 1,
+ l1_v3 = 4,
+ l1_v4 = 10449,
+ l2_v5_out = 9,
+ l2_v1_out = 6,
+ l1_nd1 = 1,
+ l2_v2_out = 7,
+ l1_v4_next = 10449,
+ l1_v2 = 3,
+ l1_v1 = 10450,
+ l1_v6 = 5,
+ l1_v2_next = 3,
+ l2_v4_out = 10448,
+ l1_v3_next = 4,
+ l1_v1_next = 10450,
+ l1_v6_next = 10,
+ l1_v5_next = 9,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True,\n And(0 < l1_nd1, l1_v4 < l1_v1),\n If(0 <= l1_v1 - l1_v4, l1_v1 - l1_v4, 0) < 0]","status":"valid"},{"counterexample":{"assignments":{"l1_nd1":"1","l1_nd2":"1","l1_v1":"10450","l1_v1_next":"10450","l1_v2":"3","l1_v2_next":"3","l1_v3":"4","l1_v3_next":"4","l1_v4":"10449","l1_v4_next":"10449","l1_v5_next":"9","l1_v6":"5","l1_v6_next":"10","l2_header_to_exit":"[else -> True]","l2_v1_out":"6","l2_v2_out":"7","l2_v3_out":"8","l2_v4_out":"10448","l2_v5_out":"9","l2_v6_out":"10"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[True,\n And(0 < l1_nd1, l1_v4 < l1_v1),\n And(And(0 < l1_nd2, l1_v4 < l1_v1),\n     l2_header_to_exit(l1_v1,\n                       l1_v2,\n                       l1_v3,\n                       l1_v4,\n                       0,\n                       l1_v6,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out,\n                       l2_v6_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l1_v2,\n     l1_v3_next == l1_v3,\n     l1_v4_next == l2_v4_out + 1,\n     l1_v5_next == l2_v5_out,\n     l1_v6_next == l2_v6_out),\n Not(If(0 <= l1_v1_next - l1_v4_next,\n        l1_v1_next - l1_v4_next,\n        0) <\n     If(0 <= l1_v1 - l1_v4, l1_v1 - l1_v4, 0))]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v4",
+        "l1_v1"
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        "l1_v4",
+        "l1_v1"
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<",
+      "args": [
+        "l1_v4",
+        "l1_v1"
+      ]
+    },
+    {
+      "op": "<",
+      "args": [
+        "l1_v4",
+        "l1_v1"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l1","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v4",
+    "l1_v1"
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        "l1_v4"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v1",
+            "l1_v6"
+          ],
+          "op": "-"
+        },
+        0
+      ],
+      "op": "max"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l1_v4",
+    "l1_v1"
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v1",
+        "l1_v4"
+      ]
+    },
+    {
+      "op": "max",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v1",
+            "l1_v6"
+          ]
+        },
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K],
+                             Implies(And(l2_header_to_exit(G,
+                                        H,
+                                        I,
+                                        J,
+                                        0,
+                                        K,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(D <= -1 + G),
+                                        J <= G,
+                                        Not(G <= J)),
+                                     query!10))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T],
+                                       Implies(And(l2_header_to_exit(H,
+                                        I,
+                                        J,
+                                        G,
+                                        M,
+                                        G,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T),
+                                        l3_header_to_exit(H,
+                                        I,
+                                        J,
+                                        K,
+                                        A,
+                                        K,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G),
+                                        A == 1 + L,
+                                        Not(I <= L),
+                                        M == 1 + L),
+                                        l2_header_to_exit(H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        N,
+                                        O,
+                                        P,
+                                        Q,
+                                        R,
+                                        S,
+                                        T)))),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(Or(0 >= G,
+                                        And(Not(G <= 0),
+                                        E >= B)),
+                                        l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                                 l2_header_to_exit(1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1)),
+                       hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M],
+                                        Implies(And(l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M),
+                                        Not(C <= F),
+                                        G == 1 + F),
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M)))),
+                                 hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G],
+                                        Implies(Or(0 >= G,
+                                        And(Not(G <= 0),
+                                        F >= C)),
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F)))),
+                                        l3_header_to_exit(1,
+                                        1,
+                                        1,
+                                        0,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        1,
+                                        0,
+                                        1,
+                                        1)),
+                                 l3_header_to_exit(1,
+                                        1,
+                                        1,
+                                        0,
+                                        1,
+                                        0,
+                                        1,
+...
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v6_out = 8365,
+ l2_v3_out = 7,
+ l1_v3 = 4,
+ l1_v4 = 8365,
+ l2_v5_out = 8,
+ l2_v1_out = 5,
+ l1_nd2 = 1,
+ l2_v2_out = 6,
+ l1_v4_next = 0,
+ l1_v2 = 3,
+ l1_nd1 = 1,
+ l1_v1 = 8366,
+ l1_v6 = 8367,
+ l1_v2_next = 3,
+ l2_v4_out = -1,
+ l1_v3_next = 4,
+ l1_v1_next = 8366,
+ l1_v6_next = 8365,
+ l1_v5_next = 8,
+ l2_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A,\n                              B,\n                              C,\n                              D,\n                              E,\n                              F,\n                              G,\n                              H,\n                              I,\n                              J,\n                              K],\n                             Implies(And(l2_header_to_exit(G,\n                                        H,\n                                        I,\n                                        J,\n                                        0,\n                                        K,\n                                        A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F),\n                                        Not(D <= -1 + G),\n                                        J <= G,\n                                        Not(G <= J)),\n                                     query!10))),\n             hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F,\n                                        G,\n                                        H,\n                                        I,\n                                        J,\n                                        K,\n                                        L,\n                                        M,\n                                        N,\n                                        O,\n                                        P,\n                                        Q,\n                                        R,\n                                        S,\n                                        T],\n                                       Implies(And(l2_header_to_exit(H,\n                                        I,\n                                        J,\n                                        G,\n                                        M,\n                                        G,\n                                        O,\n                                        P,\n                                        Q,\n                                        R,\n                                        S,\n                                        T),\n                                        l3_header_to_exit(H,\n                                        I,\n                                        J,\n                                        K,\n                                        A,\n                                        K,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F,\n                                        G),\n                                        A == 1 + L,\n                                        Not(I <= L),\n                                        M == 1 + L),\n                                        l2_header_to_exit(H,\n                                        I,\n                                        J,\n                                        K,\n                                        L,\n                                        N,\n                                        O,\n                                        P,\n                                        Q,\n                                        R,\n                                        S,\n                                        T)))),\n                       hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                           ","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l1_bad_invariant_preservation","status":"invalid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[l1_v4 <= l1_v1,\n And(0 < l1_nd1, l1_v4 < l1_v1),\n l1_v1 - l1_v4 + If(0 <= l1_v1 - l1_v6, l1_v1 - l1_v6, 0) <\n 0]","status":"valid"},{"counterexample":{"assignments":{"l1_nd1":"1","l1_nd2":"1","l1_v1":"8366","l1_v1_next":"8366","l1_v2":"3","l1_v2_next":"3","l1_v3":"4","l1_v3_next":"4","l1_v4":"8365","l1_v4_next":"0","l1_v5_next":"8","l1_v6":"8367","l1_v6_next":"8365","l2_header_to_exit":"[else -> True]","l2_v1_out":"5","l2_v2_out":"6","l2_v3_out":"7","l2_v4_out":"-1","l2_v5_out":"8","l2_v6_out":"8365"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[l1_v4 <= l1_v1,\n And(0 < l1_nd1, l1_v4 < l1_v1),\n And(And(0 < l1_nd2, l1_v4 < l1_v1),\n     l2_header_to_exit(l1_v1,\n                       l1_v2,\n                       l1_v3,\n                       l1_v4,\n                       0,\n                       l1_v6,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out,\n                       l2_v6_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l1_v2,\n     l1_v3_next == l1_v3,\n     l1_v4_next == l2_v4_out + 1,\n     l1_v5_next == l2_v5_out,\n     l1_v6_next == l2_v6_out),\n Not(l1_v1_next - l1_v4_next +\n     If(0 <= l1_v1_next - l1_v6_next,\n        l1_v1_next - l1_v6_next,\n        0) <\n     l1_v1 - l1_v4 +\n     If(0 <= l1_v1 - l1_v6, l1_v1 - l1_v6, 0))]","status":"invalid"}],"components":{"invariant":"invalid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}

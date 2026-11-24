@@ -1,0 +1,227 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v7",
+    11
+  ],
+  "op": "<"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    10,
+    "l1_v7"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<",
+  "args": [
+    "l1_v7",
+    11
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    10,
+    "l1_v7"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A,
+                              B,
+                              C,
+                              D,
+                              E,
+                              F,
+                              G,
+                              H,
+                              I,
+                              J,
+                              K,
+                              L,
+                              M,
+                              N,
+                              O,
+                              P,
+                              Q,
+                              R,
+                              S,
+                              T],
+                             Implies(And(l1_iteration_steps(A,
+                                        C,
+                                        E,
+                                        G,
+                                        I,
+                                        K,
+                                        M,
+                                        O,
+                                        Q,
+                                        S,
+                                        B,
+                                        D,
+                                        F,
+                                        H,
+                                        J,
+                                        L,
+                                        N,
+                                        P,
+                                        R,
+                                        T),
+                                        Not(11 <= M),
+                                        11 <= N),
+                                     query!4))),
+             hyper-res(asserted(ForAll([A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        G,
+                                        H,
+                                        I,
+                                        J,
+                                        K,
+                                        L,
+                                        M],
+                                       Implies(And(L ==
+                                        3 + K,
+                                        I == 1 + H,
+                                        3 <= M + -1*K,
+                                        Not(1 <= F),
+                                        Not(11 <= H),
+                                        G == 23 + F),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        F,
+                                        H,
+                                        J,
+                                        K,
+                                        M,
+                                        A,
+                                        B,
+                                        C,
+                                        D,
+                                        E,
+                                        G,
+                                        I,
+                                        J,
+                                        L,
+                                        M)))),
+                       l1_iteration_steps(2,
+                                        4,
+                                        5,
+                                        6,
+                                        7,
+                                        -23,
+                                        10,
+                                        8,
+                                        0,
+                                        3,
+                                        2,
+                                        4,
+                                        5,
+                                        6,
+                                        7,
+                                        0,
+                                        11,
+                                        8,
+                                        3,
+                                        3)),
+             query!4),
+   asserted(Implies(query!4, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A,\n                              B,\n                              C,\n                              D,\n                              E,\n                              F,\n                              G,\n                              H,\n                              I,\n                              J,\n                              K,\n                              L,\n                              M,\n                              N,\n                              O,\n                              P,\n                              Q,\n                              R,\n                              S,\n                              T],\n                             Implies(And(l1_iteration_steps(A,\n                                        C,\n                                        E,\n                                        G,\n                                        I,\n                                        K,\n                                        M,\n                                        O,\n                                        Q,\n                                        S,\n                                        B,\n                                        D,\n                                        F,\n                                        H,\n                                        J,\n                                        L,\n                                        N,\n                                        P,\n                                        R,\n                                        T),\n                                        Not(11 <= M),\n                                        11 <= N),\n                                     query!4))),\n             hyper-res(asserted(ForAll([A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F,\n                                        G,\n                                        H,\n                                        I,\n                                        J,\n                                        K,\n                                        L,\n                                        M],\n                                       Implies(And(L ==\n                                        3 + K,\n                                        I == 1 + H,\n                                        3 <= M + -1*K,\n                                        Not(1 <= F),\n                                        Not(11 <= H),\n                                        G == 23 + F),\n                                        l1_iteration_steps(A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        F,\n                                        H,\n                                        J,\n                                        K,\n                                        M,\n                                        A,\n                                        B,\n                                        C,\n                                        D,\n                                        E,\n                                        G,\n                                        I,\n                                        J,\n                                        L,\n                                        M)))),\n                       l1_iteration_steps(2,\n                                        4,\n                                        5,\n                                        6,\n                                        7,\n                                        -23,\n                                        10,\n                                        8,\n                                        0,\n                                        3,\n                                        2,\n             ","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l1_bad_invariant_preservation","status":"invalid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[11 > l1_v7, 11 > l1_v7, 10 - l1_v7 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[11 > l1_v7,\n 11 > l1_v7,\n Or(And(And(11 > l1_v7,\n            1 > l1_v6,\n            3 > l1_v10 - l1_v9,\n            l1_v9 < l1_v10),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 + 8 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9 + 1,\n        l1_v10_next == l1_v10),\n    And(And(11 > l1_v7, 1 > l1_v6, 3 <= l1_v10 - l1_v9),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 + 24 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9 + 3,\n        l1_v10_next == l1_v10),\n    And(And(11 > l1_v7, 1 <= l1_v6),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9,\n        l1_v10_next == l1_v10)),\n Not(10 - l1_v7_next < 10 - l1_v7)]","status":"valid"}],"components":{"invariant":"invalid","ranking_function":"valid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v7",
+    11
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    10,
+    "l1_v7"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l1_v7",
+    11
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    10,
+    "l1_v7"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[11 >= l1_v7, 11 > l1_v7, 10 - l1_v7 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[11 >= l1_v7,\n 11 > l1_v7,\n Or(And(And(11 > l1_v7,\n            1 > l1_v6,\n            3 > l1_v10 - l1_v9,\n            l1_v9 < l1_v10),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 + 8 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9 + 1,\n        l1_v10_next == l1_v10),\n    And(And(11 > l1_v7, 1 > l1_v6, 3 <= l1_v10 - l1_v9),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 + 24 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9 + 3,\n        l1_v10_next == l1_v10),\n    And(And(11 > l1_v7, 1 <= l1_v6),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5,\n        l1_v6_next == l1_v6 - 1,\n        l1_v7_next == l1_v7 + 1,\n        l1_v8_next == l1_v8,\n        l1_v9_next == l1_v9,\n        l1_v10_next == l1_v10)),\n Not(10 - l1_v7_next < 10 - l1_v7)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l1","status":"valid"}

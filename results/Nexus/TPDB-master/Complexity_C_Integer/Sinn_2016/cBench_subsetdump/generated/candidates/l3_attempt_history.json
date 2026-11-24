@@ -1,0 +1,32 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l3_v2",
+              "l3_v3"
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l3"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_valid",
+    "unresolved_checks": []
+  }
+]

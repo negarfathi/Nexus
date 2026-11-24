@@ -1,0 +1,48 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v3",
+    "l1_v5"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v3",
+    "l1_v5"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True, l1_v3 > l1_v5, l1_v3 - l1_v5 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[True,\n l1_v3 > l1_v5,\n And(l1_v3 > l1_v5,\n     l2_header_to_exit(l1_v1,\n                       l1_v2,\n                       l1_v3,\n                       l1_v4,\n                       l1_v5,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l2_v2_out + 1,\n     l1_v3_next == l1_v3 - 1,\n     l1_v4_next == l2_v4_out,\n     l1_v5_next == l1_v5),\n Not(l1_v3_next - l1_v5_next < l1_v3 - l1_v5)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l1","status":"valid"}

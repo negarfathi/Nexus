@@ -1,0 +1,264 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                "l2_v2",
+                0
+              ],
+              "op": "="
+            },
+            {
+              "args": [
+                "l2_v2",
+                1
+              ],
+              "op": "="
+            }
+          ],
+          "op": "or"
+        },
+        {
+          "args": [
+            "l2_v3",
+            {
+              "args": [
+                {
+                  "args": [
+                    2,
+                    "l2_v2"
+                  ],
+                  "op": "*"
+                },
+                2
+              ],
+              "op": "-"
+            }
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "or"
+    }
+  ],
+  "op": "not"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "not",
+  "args": [
+    {
+      "op": "or",
+      "args": [
+        {
+          "op": "or",
+          "args": [
+            {
+              "op": "=",
+              "args": [
+                "l2_v2",
+                0
+              ]
+            },
+            {
+              "op": "=",
+              "args": [
+                "l2_v2",
+                1
+              ]
+            }
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            "l2_v3",
+            {
+              "op": "-",
+              "args": [
+                {
+                  "op": "*",
+                  "args": [
+                    2,
+                    "l2_v2"
+                  ]
+                },
+                2
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C],
+                             Implies(And(l1_reachable_header_states(A,
+                                        B,
+                                        C),
+                                        Or(0 == B,
+                                        1 == B,
+                                        B >= 2),
+                                        0 <= B),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B],
+                                       l1_reachable_header_states(0,
+                                        A,
+                                        B))),
+                       l1_reachable_header_states(0, 2, 0)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B],
+                             Implies(And(Not(0 == A),
+                                        Not(A <= B),
+                                        Not(B <= -2 + 2*A),
+                                        Or(0 == A,
+                                        1 == A,
+                                        2*B <= -2 + 2*A),
+                                        Not(1 == A)),
+                                     query!9))),
+             query!9),
+   asserted(Implies(query!9, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v3 = -2,
+ l2_v2 = -1,
+ l2_v1 = 0,
+ l2_v1_next = 0,
+ l2_v3_next = -4,
+ l2_v2_next = -1]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C],\n                             Implies(And(l1_reachable_header_states(A,\n                                        B,\n                                        C),\n                                        Or(0 == B,\n                                        1 == B,\n                                        B >= 2),\n                                        0 <= B),\n                                     query!0))),\n             hyper-res(asserted(ForAll([A, B],\n                                       l1_reachable_header_states(0,\n                                        A,\n                                        B))),\n                       l1_reachable_header_states(0, 2, 0)),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"sat","query_condition":"l2_bad_invariant_initialization","status":"invalid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B],\n                             Implies(And(Not(0 == A),\n                                        Not(A <= B),\n                                        Not(B <= -2 + 2*A),\n                                        Or(0 == A,\n                                        1 == A,\n                                        2*B <= -2 + 2*A),\n                                        Not(1 == A)),\n                                     query!9))),\n             query!9),\n   asserted(Implies(query!9, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l2_bad_invariant_preservation","status":"invalid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[Not(Or(Or(0 == l2_v2, 1 == l2_v2), l2_v3 <= 2*l2_v2 - 2)),\n l2_v3 < l2_v2,\n l2_v2 - l2_v3 < 0]","status":"valid"},{"counterexample":{"assignments":{"l2_v1":"0","l2_v1_next":"0","l2_v2":"-1","l2_v2_next":"-1","l2_v3":"-2","l2_v3_next":"-4"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[Not(Or(Or(0 == l2_v2, 1 == l2_v2), l2_v3 <= 2*l2_v2 - 2)),\n l2_v3 < l2_v2,\n And(l2_v3 < l2_v2,\n     l2_v1_next == l2_v1,\n     l2_v2_next == l2_v2,\n     l2_v3_next == 2*l2_v3),\n Not(l2_v2_next - l2_v3_next < l2_v2 - l2_v3)]","status":"invalid"}],"components":{"invariant":"invalid","ranking_function":"invalid"},"loop_id":"l2","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v2",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l2_v3",
+        1
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l2_v2",
+        0
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l2_v3",
+        1
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l2_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l2_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 <= l2_v2, 1 <= l2_v3),\n l2_v3 < l2_v2,\n l2_v2 - l2_v3 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[And(0 <= l2_v2, 1 <= l2_v3),\n l2_v3 < l2_v2,\n And(l2_v3 < l2_v2,\n     l2_v1_next == l2_v1,\n     l2_v2_next == l2_v2,\n     l2_v3_next == 2*l2_v3),\n Not(l2_v2_next - l2_v3_next < l2_v2 - l2_v3)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l2","status":"valid"}

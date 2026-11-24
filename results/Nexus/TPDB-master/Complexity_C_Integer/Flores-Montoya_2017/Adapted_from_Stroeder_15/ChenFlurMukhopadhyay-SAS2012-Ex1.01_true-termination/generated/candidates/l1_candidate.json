@@ -1,0 +1,157 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": "true"
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "ite",
+        "args": [
+          {
+            "op": "<=",
+            "args": [
+              "l1_v1",
+              0
+            ]
+          },
+          0,
+          {
+            "op": "ite",
+            "args": [
+              {
+                "op": "=",
+                "args": [
+                  "l1_v1",
+                  10
+                ]
+              },
+              10,
+              {
+                "op": "ite",
+                "args": [
+                  {
+                    "op": "=",
+                    "args": [
+                      "l1_v1",
+                      9
+                    ]
+                  },
+                  9,
+                  {
+                    "op": "ite",
+                    "args": [
+                      {
+                        "op": "=",
+                        "args": [
+                          "l1_v1",
+                          8
+                        ]
+                      },
+                      1,
+                      {
+                        "op": "ite",
+                        "args": [
+                          {
+                            "op": "=",
+                            "args": [
+                              "l1_v1",
+                              7
+                            ]
+                          },
+                          8,
+                          {
+                            "op": "ite",
+                            "args": [
+                              {
+                                "op": "=",
+                                "args": [
+                                  "l1_v1",
+                                  6
+                                ]
+                              },
+                              2,
+                              {
+                                "op": "ite",
+                                "args": [
+                                  {
+                                    "op": "=",
+                                    "args": [
+                                      "l1_v1",
+                                      5
+                                    ]
+                                  },
+                                  7,
+                                  {
+                                    "op": "ite",
+                                    "args": [
+                                      {
+                                        "op": "=",
+                                        "args": [
+                                          "l1_v1",
+                                          4
+                                        ]
+                                      },
+                                      4,
+                                      {
+                                        "op": "ite",
+                                        "args": [
+                                          {
+                                            "op": "=",
+                                            "args": [
+                                              "l1_v1",
+                                              3
+                                            ]
+                                          },
+                                          5,
+                                          {
+                                            "op": "ite",
+                                            "args": [
+                                              {
+                                                "op": "=",
+                                                "args": [
+                                                  "l1_v1",
+                                                  2
+                                                ]
+                                              },
+                                              3,
+                                              {
+                                                "op": "ite",
+                                                "args": [
+                                                  {
+                                                    "op": "=",
+                                                    "args": [
+                                                      "l1_v1",
+                                                      1
+                                                    ]
+                                                  },
+                                                  6,
+                                                  11
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

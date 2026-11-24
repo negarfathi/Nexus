@@ -1,0 +1,377 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l2_v3",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l2_v3",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            2,
+            "l2_v2"
+          ],
+          "op": "*"
+        },
+        "l2_v3"
+      ],
+      "op": "+"
+    },
+    1
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        2,
+        "l2_v2"
+      ],
+      "op": "*"
+    },
+    "l2_v3"
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    {
+      "op": "+",
+      "args": [
+        {
+          "op": "*",
+          "args": [
+            2,
+            "l2_v2"
+          ]
+        },
+        "l2_v3"
+      ]
+    },
+    1
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "*",
+      "args": [
+        2,
+        "l2_v2"
+      ]
+    },
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H],
+                             Implies(And(l3_header_to_exit(G,
+                                        H,
+                                        B,
+                                        A,
+                                        C,
+                                        D,
+                                        E,
+                                        F),
+                                        Not(1 <= 2*D + E),
+                                        0 <= 2*H + B,
+                                        Not(B <= -1),
+                                        A == -1 + G),
+                                     query!74))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(0 >= D,
+                                        l3_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D,
+                                        A,
+                                        B,
+                                        C,
+                                        D)))),
+                       l3_header_to_exit(0,
+                                        0,
+                                        0,
+                                        -1,
+                                        0,
+                                        0,
+                                        0,
+                                        -1)),
+             query!74),
+   asserted(Implies(query!74, False)),
+   False)
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v1 = 2437,
+ l2_v3 = 21239,
+ l3_v2_out = 8855,
+ l3_v1_out = 4,
+ l2_v2 = 0,
+ l3_v3_out = 3529,
+ l3_v4_out = 5,
+ l2_v1_next = 2437,
+ l2_v3_next = 3529,
+ l2_v4_next = 5,
+ l2_v2_next = 8855,
+ l3_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l2_bad_invariant_initialization","status":"valid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H],\n                             Implies(And(l3_header_to_exit(G,\n                                        H,\n                                        B,\n                                        A,\n                                        C,\n                                        D,\n                                        E,\n                                        F),\n                                        Not(1 <= 2*D + E),\n                                        0 <= 2*H + B,\n                                        Not(B <= -1),\n                                        A == -1 + G),\n                                     query!74))),\n             hyper-res(asserted(ForAll([A, B, C, D],\n                                       Implies(0 >= D,\n                                        l3_header_to_exit(A,\n                                        B,\n                                        C,\n                                        D,\n                                        A,\n                                        B,\n                                        C,\n                                        D)))),\n                       l3_header_to_exit(0,\n                                        0,\n                                        0,\n                                        -1,\n                                        0,\n                                        0,\n                                        0,\n                                        -1)),\n             query!74),\n   asserted(Implies(query!74, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l2_bad_invariant_preservation","status":"invalid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[1 <= 2*l2_v2 + l2_v3, 0 < l2_v3, 2*l2_v2 + l2_v3 < 0]","status":"valid"},{"counterexample":{"assignments":{"l2_v1":"2437","l2_v1_next":"2437","l2_v2":"0","l2_v2_next":"8855","l2_v3":"21239","l2_v3_next":"3529","l2_v4_next":"5","l3_header_to_exit":"[else -> True]","l3_v1_out":"4","l3_v2_out":"8855","l3_v3_out":"3529","l3_v4_out":"5"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[1 <= 2*l2_v2 + l2_v3,\n 0 < l2_v3,\n And(0 < l2_v3,\n     l3_header_to_exit(l2_v1,\n                       l2_v2,\n                       l2_v3 + -1,\n                       l2_v1 - 1,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out,\n                       l3_v4_out),\n     l2_v1_next == l2_v1,\n     l2_v2_next == l3_v2_out,\n     l2_v3_next == l3_v3_out,\n     l2_v4_next == l3_v4_out),\n Not(2*l2_v2_next + l2_v3_next < 2*l2_v2 + l2_v3)]","status":"invalid"}],"components":{"invariant":"invalid","ranking_function":"invalid"},"loop_id":"l2","status":"invalid"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 1 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v3",
+        0
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l2_v4",
+        0
+      ],
+      "op": "="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l2_v3",
+        0
+      ]
+    },
+    {
+      "op": "=",
+      "args": [
+        "l2_v4",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l2_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l2","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l2_v2",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l2_v2",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    "l2_v2",
+    "l2_v3"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l2_v1 = 2437,
+ l2_v3 = 21239,
+ l3_v2_out = 8855,
+ l3_v1_out = 2,
+ l2_v2 = 0,
+ l3_v3_out = 12384,
+ l3_v4_out = 3,
+ l2_v1_next = 2437,
+ l2_v3_next = 12384,
+ l2_v4_next = 3,
+ l2_v2_next = 8855,
+ l3_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l2_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l2_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[0 <= l2_v2, 0 < l2_v3, l2_v2 + l2_v3 < 0]","status":"valid"},{"counterexample":{"assignments":{"l2_v1":"2437","l2_v1_next":"2437","l2_v2":"0","l2_v2_next":"8855","l2_v3":"21239","l2_v3_next":"12384","l2_v4_next":"3","l3_header_to_exit":"[else -> True]","l3_v1_out":"2","l3_v2_out":"8855","l3_v3_out":"12384","l3_v4_out":"3"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[0 <= l2_v2,\n 0 < l2_v3,\n And(0 < l2_v3,\n     l3_header_to_exit(l2_v1,\n                       l2_v2,\n                       l2_v3 + -1,\n                       l2_v1 - 1,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out,\n                       l3_v4_out),\n     l2_v1_next == l2_v1,\n     l2_v2_next == l3_v2_out,\n     l2_v3_next == l3_v3_out,\n     l2_v4_next == l3_v4_out),\n Not(l2_v2_next + l2_v3_next < l2_v2 + l2_v3)]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l2","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        3
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v3",
+        0
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l2_v1",
+        3
+      ]
+    },
+    {
+      "op": "<",
+      "args": [
+        "l2_v3",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"unsat","query_condition":"l2_reachable_recurrent_set","status":"invalid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"invalid"},"loop_id":"l2","status":"invalid"}

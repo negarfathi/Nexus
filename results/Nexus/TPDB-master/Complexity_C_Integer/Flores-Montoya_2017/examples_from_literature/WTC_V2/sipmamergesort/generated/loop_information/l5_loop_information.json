@@ -1,0 +1,770 @@
+{
+  "loop_id": "l5",
+  "function": "sipmamergesort_init",
+  "llvm_header_block": "%95",
+  "parent_loop_id": "l2",
+  "child_loop_ids": [],
+  "previous_sequential_loop_ids": [
+    "l4"
+  ],
+  "next_sequential_loop_ids": [],
+  "state_symbols": [
+    {
+      "current": "l5_v1",
+      "next": "l5_v1_next",
+      "output": "l5_v1_out",
+      "type": "i32",
+      "llvm_slot": "%2"
+    },
+    {
+      "current": "l5_v2",
+      "next": "l5_v2_next",
+      "output": "l5_v2_out",
+      "type": "i32",
+      "llvm_slot": "%3"
+    },
+    {
+      "current": "l5_v3",
+      "next": "l5_v3_next",
+      "output": "l5_v3_out",
+      "type": "i32",
+      "llvm_slot": "%4"
+    },
+    {
+      "current": "l5_v4",
+      "next": "l5_v4_next",
+      "output": "l5_v4_out",
+      "type": "i32",
+      "llvm_slot": "%5"
+    },
+    {
+      "current": "l5_v5",
+      "next": "l5_v5_next",
+      "output": "l5_v5_out",
+      "type": "i32",
+      "llvm_slot": "%6"
+    },
+    {
+      "current": "l5_v6",
+      "next": "l5_v6_next",
+      "output": "l5_v6_out",
+      "type": "i32",
+      "llvm_slot": "%7"
+    },
+    {
+      "current": "l5_v7",
+      "next": "l5_v7_next",
+      "output": "l5_v7_out",
+      "type": "i32",
+      "llvm_slot": "%8"
+    },
+    {
+      "current": "l5_v8",
+      "next": "l5_v8_next",
+      "output": "l5_v8_out",
+      "type": "i32",
+      "llvm_slot": "%9"
+    },
+    {
+      "current": "l5_v9",
+      "next": "l5_v9_next",
+      "output": "l5_v9_out",
+      "type": "i32",
+      "llvm_slot": "%10"
+    },
+    {
+      "current": "l5_v10",
+      "next": "l5_v10_next",
+      "output": "l5_v10_out",
+      "type": "i32",
+      "llvm_slot": "%11"
+    },
+    {
+      "current": "l5_v11",
+      "next": "l5_v11_next",
+      "output": "l5_v11_out",
+      "type": "i32",
+      "llvm_slot": "%12"
+    },
+    {
+      "current": "l5_v12",
+      "next": "l5_v12_next",
+      "output": "l5_v12_out",
+      "type": "i32",
+      "llvm_slot": "%13"
+    }
+  ],
+  "nondeterministic_symbols": [],
+  "loop_guard": {
+    "id": "l5_guard",
+    "formula": {
+      "op": ">",
+      "args": [
+        "l5_v10",
+        0
+      ]
+    }
+  },
+  "entry_states": {
+    "id": "l5_entry_states",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "id": "l5_entry_states_p1",
+        "condition": true,
+        "source_call": {
+          "purpose": "sequential_predecessor_exit",
+          "relation": "l4_actual_exit",
+          "source_state": [
+            "l4_v1_out",
+            "l4_v2_out",
+            "l4_v3_out",
+            "l4_v4_out",
+            "l4_v5_out",
+            "l4_v6_out",
+            "l4_v7_out",
+            "l4_v8_out",
+            "l4_v9_out",
+            "l4_v10_out",
+            "l4_v11_out",
+            "l4_v12_out"
+          ]
+        },
+        "updates": {
+          "l5_v1": "l4_v1_out",
+          "l5_v2": "l4_v2_out",
+          "l5_v3": "l4_v3_out",
+          "l5_v4": "l4_v4_out",
+          "l5_v5": "l4_v5_out",
+          "l5_v6": "l4_v6_out",
+          "l5_v7": "l4_v7_out",
+          "l5_v8": "l4_v8_out",
+          "l5_v9": "l4_v9_out",
+          "l5_v10": "l4_v10_out",
+          "l5_v11": "l4_v11_out",
+          "l5_v12": "l4_v12_out"
+        }
+      }
+    ]
+  },
+  "loop_iteration_steps": {
+    "id": "l5_iteration_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "id": "l5_iteration_steps_p1",
+        "condition": {
+          "op": ">",
+          "args": [
+            "l5_v10",
+            0
+          ]
+        },
+        "updates": {
+          "l5_v1_next": "l5_v1",
+          "l5_v2_next": {
+            "op": "+",
+            "args": [
+              "l5_v2",
+              1
+            ]
+          },
+          "l5_v3_next": "l5_v3",
+          "l5_v4_next": {
+            "op": "+",
+            "args": [
+              "l5_v4",
+              "l5_v7"
+            ]
+          },
+          "l5_v5_next": "l5_v5",
+          "l5_v6_next": "l5_v6",
+          "l5_v7_next": "l5_v7",
+          "l5_v8_next": "l5_v8",
+          "l5_v9_next": "l5_v9",
+          "l5_v10_next": {
+            "op": "-",
+            "args": [
+              "l5_v10",
+              1
+            ]
+          },
+          "l5_v11_next": "l5_v11",
+          "l5_v12_next": "l5_v12"
+        }
+      }
+    ]
+  },
+  "loop_exit_steps": {
+    "id": "l5_exit_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": [
+      {
+        "id": "l5_exit_steps_p1",
+        "condition": {
+          "op": "<=",
+          "args": [
+            "l5_v10",
+            0
+          ]
+        },
+        "updates": {
+          "l5_v1_out": "l5_v1",
+          "l5_v2_out": "l5_v2",
+          "l5_v3_out": "l5_v3",
+          "l5_v4_out": "l5_v4",
+          "l5_v5_out": "l5_v5",
+          "l5_v6_out": "l5_v6",
+          "l5_v7_out": "l5_v7",
+          "l5_v8_out": "l5_v8",
+          "l5_v9_out": "l5_v9",
+          "l5_v10_out": "l5_v10",
+          "l5_v11_out": "l5_v11",
+          "l5_v12_out": "l5_v12"
+        }
+      }
+    ]
+  },
+  "loop_return_steps": {
+    "id": "l5_return_steps",
+    "path_semantics": "existential_disjunction",
+    "paths": []
+  },
+  "reachable_header_states": {
+    "id": "l5_reachable_header_states",
+    "formula_semantics": "least_fixedpoint",
+    "rules": [
+      {
+        "id": "l5_reachable_header_states_base",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_reachable_header_states",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ]
+          }
+        },
+        "body": {
+          "op": "relation_call",
+          "relation": "l5_entry_states",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ]
+          }
+        }
+      },
+      {
+        "id": "l5_reachable_header_states_recursive",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_reachable_header_states",
+          "arguments": {
+            "state": [
+              "l5_v1_next",
+              "l5_v2_next",
+              "l5_v3_next",
+              "l5_v4_next",
+              "l5_v5_next",
+              "l5_v6_next",
+              "l5_v7_next",
+              "l5_v8_next",
+              "l5_v9_next",
+              "l5_v10_next",
+              "l5_v11_next",
+              "l5_v12_next"
+            ]
+          }
+        },
+        "body": {
+          "op": "and",
+          "args": [
+            {
+              "op": "relation_call",
+              "relation": "l5_reachable_header_states",
+              "arguments": {
+                "state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ]
+              }
+            },
+            {
+              "op": "relation_call",
+              "relation": "l5_iteration_steps",
+              "arguments": {
+                "current_state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ],
+                "next_state": [
+                  "l5_v1_next",
+                  "l5_v2_next",
+                  "l5_v3_next",
+                  "l5_v4_next",
+                  "l5_v5_next",
+                  "l5_v6_next",
+                  "l5_v7_next",
+                  "l5_v8_next",
+                  "l5_v9_next",
+                  "l5_v10_next",
+                  "l5_v11_next",
+                  "l5_v12_next"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "header_to_exit": {
+    "id": "l5_header_to_exit",
+    "formula_semantics": "least_fixedpoint",
+    "rules": [
+      {
+        "id": "l5_header_to_exit_base",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_header_to_exit",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ],
+            "output_state": [
+              "l5_v1_out",
+              "l5_v2_out",
+              "l5_v3_out",
+              "l5_v4_out",
+              "l5_v5_out",
+              "l5_v6_out",
+              "l5_v7_out",
+              "l5_v8_out",
+              "l5_v9_out",
+              "l5_v10_out",
+              "l5_v11_out",
+              "l5_v12_out"
+            ]
+          }
+        },
+        "body": {
+          "op": "relation_call",
+          "relation": "l5_exit_steps",
+          "arguments": {
+            "current_state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ],
+            "output_state": [
+              "l5_v1_out",
+              "l5_v2_out",
+              "l5_v3_out",
+              "l5_v4_out",
+              "l5_v5_out",
+              "l5_v6_out",
+              "l5_v7_out",
+              "l5_v8_out",
+              "l5_v9_out",
+              "l5_v10_out",
+              "l5_v11_out",
+              "l5_v12_out"
+            ]
+          }
+        }
+      },
+      {
+        "id": "l5_header_to_exit_recursive",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_header_to_exit",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ],
+            "output_state": [
+              "l5_v1_out",
+              "l5_v2_out",
+              "l5_v3_out",
+              "l5_v4_out",
+              "l5_v5_out",
+              "l5_v6_out",
+              "l5_v7_out",
+              "l5_v8_out",
+              "l5_v9_out",
+              "l5_v10_out",
+              "l5_v11_out",
+              "l5_v12_out"
+            ]
+          }
+        },
+        "body": {
+          "op": "and",
+          "args": [
+            {
+              "op": "relation_call",
+              "relation": "l5_iteration_steps",
+              "arguments": {
+                "current_state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ],
+                "next_state": [
+                  "l5_v1_next",
+                  "l5_v2_next",
+                  "l5_v3_next",
+                  "l5_v4_next",
+                  "l5_v5_next",
+                  "l5_v6_next",
+                  "l5_v7_next",
+                  "l5_v8_next",
+                  "l5_v9_next",
+                  "l5_v10_next",
+                  "l5_v11_next",
+                  "l5_v12_next"
+                ]
+              }
+            },
+            {
+              "op": "relation_call",
+              "relation": "l5_header_to_exit",
+              "arguments": {
+                "state": [
+                  "l5_v1_next",
+                  "l5_v2_next",
+                  "l5_v3_next",
+                  "l5_v4_next",
+                  "l5_v5_next",
+                  "l5_v6_next",
+                  "l5_v7_next",
+                  "l5_v8_next",
+                  "l5_v9_next",
+                  "l5_v10_next",
+                  "l5_v11_next",
+                  "l5_v12_next"
+                ],
+                "output_state": [
+                  "l5_v1_out",
+                  "l5_v2_out",
+                  "l5_v3_out",
+                  "l5_v4_out",
+                  "l5_v5_out",
+                  "l5_v6_out",
+                  "l5_v7_out",
+                  "l5_v8_out",
+                  "l5_v9_out",
+                  "l5_v10_out",
+                  "l5_v11_out",
+                  "l5_v12_out"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "header_to_return": {
+    "id": "l5_header_to_return",
+    "formula_semantics": "least_fixedpoint",
+    "rules": [
+      {
+        "id": "l5_header_to_return_base",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_header_to_return",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ]
+          }
+        },
+        "body": {
+          "op": "relation_call",
+          "relation": "l5_return_steps",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ]
+          }
+        }
+      },
+      {
+        "id": "l5_header_to_return_recursive",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_header_to_return",
+          "arguments": {
+            "state": [
+              "l5_v1",
+              "l5_v2",
+              "l5_v3",
+              "l5_v4",
+              "l5_v5",
+              "l5_v6",
+              "l5_v7",
+              "l5_v8",
+              "l5_v9",
+              "l5_v10",
+              "l5_v11",
+              "l5_v12"
+            ]
+          }
+        },
+        "body": {
+          "op": "and",
+          "args": [
+            {
+              "op": "relation_call",
+              "relation": "l5_iteration_steps",
+              "arguments": {
+                "current_state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ],
+                "next_state": [
+                  "l5_v1_next",
+                  "l5_v2_next",
+                  "l5_v3_next",
+                  "l5_v4_next",
+                  "l5_v5_next",
+                  "l5_v6_next",
+                  "l5_v7_next",
+                  "l5_v8_next",
+                  "l5_v9_next",
+                  "l5_v10_next",
+                  "l5_v11_next",
+                  "l5_v12_next"
+                ]
+              }
+            },
+            {
+              "op": "relation_call",
+              "relation": "l5_header_to_return",
+              "arguments": {
+                "state": [
+                  "l5_v1_next",
+                  "l5_v2_next",
+                  "l5_v3_next",
+                  "l5_v4_next",
+                  "l5_v5_next",
+                  "l5_v6_next",
+                  "l5_v7_next",
+                  "l5_v8_next",
+                  "l5_v9_next",
+                  "l5_v10_next",
+                  "l5_v11_next",
+                  "l5_v12_next"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "actual_exit": {
+    "id": "l5_actual_exit",
+    "rules": [
+      {
+        "id": "l5_actual_exit_rule",
+        "head": {
+          "op": "relation_call",
+          "relation": "l5_actual_exit",
+          "arguments": {
+            "state": [
+              "l5_v1_out",
+              "l5_v2_out",
+              "l5_v3_out",
+              "l5_v4_out",
+              "l5_v5_out",
+              "l5_v6_out",
+              "l5_v7_out",
+              "l5_v8_out",
+              "l5_v9_out",
+              "l5_v10_out",
+              "l5_v11_out",
+              "l5_v12_out"
+            ]
+          }
+        },
+        "body": {
+          "op": "and",
+          "args": [
+            {
+              "op": "relation_call",
+              "relation": "l5_entry_states",
+              "arguments": {
+                "state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ]
+              }
+            },
+            {
+              "op": "relation_call",
+              "relation": "l5_header_to_exit",
+              "arguments": {
+                "state": [
+                  "l5_v1",
+                  "l5_v2",
+                  "l5_v3",
+                  "l5_v4",
+                  "l5_v5",
+                  "l5_v6",
+                  "l5_v7",
+                  "l5_v8",
+                  "l5_v9",
+                  "l5_v10",
+                  "l5_v11",
+                  "l5_v12"
+                ],
+                "output_state": [
+                  "l5_v1_out",
+                  "l5_v2_out",
+                  "l5_v3_out",
+                  "l5_v4_out",
+                  "l5_v5_out",
+                  "l5_v6_out",
+                  "l5_v7_out",
+                  "l5_v8_out",
+                  "l5_v9_out",
+                  "l5_v10_out",
+                  "l5_v11_out",
+                  "l5_v12_out"
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "unsupported": []
+}

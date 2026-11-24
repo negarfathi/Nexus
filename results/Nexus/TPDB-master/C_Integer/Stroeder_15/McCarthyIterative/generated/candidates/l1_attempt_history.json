@@ -1,0 +1,270 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v3",
+                      1
+                    ],
+                    "op": "="
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v2",
+                          90
+                        ],
+                        "op": ">="
+                      },
+                      {
+                        "args": [
+                          "l1_v2",
+                          99
+                        ],
+                        "op": "<="
+                      }
+                    ],
+                    "op": "and"
+                  }
+                ],
+                "op": "and"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v3",
+                      2
+                    ],
+                    "op": "="
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v2",
+                          101
+                        ],
+                        "op": ">="
+                      },
+                      {
+                        "args": [
+                          "l1_v2",
+                          110
+                        ],
+                        "op": "<="
+                      }
+                    ],
+                    "op": "and"
+                  }
+                ],
+                "op": "and"
+              }
+            ],
+            "op": "or"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v3",
+                  1
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  90
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  2,
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          100,
+                          "l1_v2"
+                        ],
+                        "op": "-"
+                      },
+                      0
+                    ],
+                    "op": "max"
+                  }
+                ],
+                "op": "*"
+              },
+              "l1_v3"
+            ],
+            "op": "+"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  11
+                ],
+                "op": "div"
+              },
+              {
+                "args": [
+                  1
+                ],
+                "op": "neg"
+              }
+            ],
+            "op": "+"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  11
+                ],
+                "op": "div"
+              },
+              {
+                "args": [
+                  1
+                ],
+                "op": "neg"
+              }
+            ],
+            "op": "+"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

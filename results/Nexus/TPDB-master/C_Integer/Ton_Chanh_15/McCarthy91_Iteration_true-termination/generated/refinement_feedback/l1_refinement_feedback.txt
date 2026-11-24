@@ -1,0 +1,416 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            10
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            100
+          ],
+          "op": ">"
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            9
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                90
+              ],
+              "op": "<"
+            }
+          ],
+          "op": "not"
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "or"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            10
+          ]
+        },
+        {
+          "op": ">",
+          "args": [
+            "l1_v3",
+            100
+          ]
+        }
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            9
+          ]
+        },
+        {
+          "op": "not",
+          "args": [
+            {
+              "op": "<",
+              "args": [
+                "l1_v3",
+                90
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l1_v1 = 5, l1_v3 = 101, l1_v2 = 9]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"5","l1_v2":"9","l1_v3":"101"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[Or(And(10 == l1_v2, 100 < l1_v3),\n    And(9 == l1_v2, Not(90 > l1_v3))),\n Not(Exists([l1_v3_next, l1_v2_next, l1_v1_next],\n            And(0 < l1_v2,\n                Or(And(And(0 < l1_v2, 100 < l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 - 1,\n                       l1_v3_next == l1_v3 - 10),\n                   And(And(0 < l1_v2, 100 >= l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 + 1,\n                       l1_v3_next == l1_v3 + 11)),\n                Or(And(10 == l1_v2_next, 100 < l1_v3_next),\n                   And(9 == l1_v2_next,\n                       Not(90 > l1_v3_next))))))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v2",
+    "l1_v2"
+  ],
+  "op": "="
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 1 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            10
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                109
+              ],
+              "op": "<="
+            },
+            {
+              "args": [
+                "l1_v3",
+                101
+              ],
+              "op": ">="
+            }
+          ],
+          "op": "and"
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            9
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                98
+              ],
+              "op": "<="
+            },
+            {
+              "args": [
+                "l1_v3",
+                90
+              ],
+              "op": ">="
+            }
+          ],
+          "op": "and"
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "or"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            10
+          ]
+        },
+        {
+          "op": "and",
+          "args": [
+            {
+              "op": "<=",
+              "args": [
+                "l1_v3",
+                109
+              ]
+            },
+            {
+              "op": ">=",
+              "args": [
+                "l1_v3",
+                101
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            9
+          ]
+        },
+        {
+          "op": "and",
+          "args": [
+            {
+              "op": "<=",
+              "args": [
+                "l1_v3",
+                98
+              ]
+            },
+            {
+              "op": ">=",
+              "args": [
+                "l1_v3",
+                90
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l1_v3 = 109, l1_v2 = 10, l1_v1 = 5]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"5","l1_v2":"10","l1_v3":"109"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[Or(And(10 == l1_v2, And(109 >= l1_v3, 101 <= l1_v3)),\n    And(9 == l1_v2, And(98 >= l1_v3, 90 <= l1_v3))),\n Not(Exists([l1_v3_next, l1_v2_next, l1_v1_next],\n            And(0 < l1_v2,\n                Or(And(And(0 < l1_v2, 100 < l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 - 1,\n                       l1_v3_next == l1_v3 - 10),\n                   And(And(0 < l1_v2, 100 >= l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 + 1,\n                       l1_v3_next == l1_v3 + 11)),\n                Or(And(10 == l1_v2_next,\n                       And(109 >= l1_v3_next,\n                           101 <= l1_v3_next)),\n                   And(9 == l1_v2_next,\n                       And(98 >= l1_v3_next,\n                           90 <= l1_v3_next))))))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            10
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            102
+          ],
+          "op": ">="
+        }
+      ],
+      "op": "and"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            9
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v3",
+            92
+          ],
+          "op": ">="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "or"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "or",
+  "args": [
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            10
+          ]
+        },
+        {
+          "op": ">=",
+          "args": [
+            "l1_v3",
+            102
+          ]
+        }
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            9
+          ]
+        },
+        {
+          "op": ">=",
+          "args": [
+            "l1_v3",
+            92
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l1_v1 = 5, l1_v3 = 101, l1_v2 = 9]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"5","l1_v2":"9","l1_v3":"101"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[Or(And(10 == l1_v2, 102 <= l1_v3),\n    And(9 == l1_v2, 92 <= l1_v3)),\n Not(Exists([l1_v3_next, l1_v2_next, l1_v1_next],\n            And(0 < l1_v2,\n                Or(And(And(0 < l1_v2, 100 < l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 - 1,\n                       l1_v3_next == l1_v3 - 10),\n                   And(And(0 < l1_v2, 100 >= l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 + 1,\n                       l1_v3_next == l1_v3 + 11)),\n                Or(And(10 == l1_v2_next, 102 <= l1_v3_next),\n                   And(9 == l1_v2_next, 92 <= l1_v3_next)))))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}

@@ -1,0 +1,52 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": {
+        "op": "and",
+        "args": [
+          {
+            "op": ">",
+            "args": [
+              {
+                "op": "*",
+                "args": [
+                  4,
+                  "l1_v2"
+                ]
+              },
+              {
+                "op": "*",
+                "args": [
+                  5,
+                  "l1_v3"
+                ]
+              }
+            ]
+          },
+          {
+            "op": ">",
+            "args": [
+              {
+                "op": "*",
+                "args": [
+                  4,
+                  "l1_v3"
+                ]
+              },
+              {
+                "op": "*",
+                "args": [
+                  3,
+                  "l1_v2"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

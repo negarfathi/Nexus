@@ -1,0 +1,100 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v2"
+                ],
+                "op": "-"
+              },
+              {
+                "args": [
+                  2
+                ],
+                "op": "neg"
+              }
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      "l1_v2"
+                    ],
+                    "op": "-"
+                  },
+                  "l1_v1"
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      "l1_v2"
+                    ],
+                    "op": "-"
+                  },
+                  2
+                ],
+                "op": "mod"
+              },
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v2"
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              "l1_v1"
+            ],
+            "op": ">"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "valid"
+    },
+    "outcome": "validation_valid",
+    "unresolved_checks": []
+  }
+]

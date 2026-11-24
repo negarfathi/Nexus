@@ -1,0 +1,325 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              {
+                                                "args": [
+                                                  {
+                                                    "args": [
+                                                      {
+                                                        "args": [
+                                                          "l1_v4",
+                                                          "l1_v4"
+                                                        ],
+                                                        "op": "*"
+                                                      },
+                                                      {
+                                                        "args": [
+                                                          {
+                                                            "args": [
+                                                              {
+                                                                "args": [
+                                                                  {
+                                                                    "args": [
+                                                                      {
+                                                                        "args": [
+                                                                          "l1_v3",
+                                                                          "l1_v3"
+                                                                        ],
+                                                                        "op": "*"
+                                                                      },
+                                                                      "l1_v3"
+                                                                    ],
+                                                                    "op": "*"
+                                                                  },
+                                                                  "l1_v3"
+                                                                ],
+                                                                "op": "*"
+                                                              }
+                                                            ],
+                                                            "op": "neg"
+                                                          }
+                                                        ],
+                                                        "op": "neg"
+                                                      }
+                                                    ],
+                                                    "op": "+"
+                                                  }
+                                                ],
+                                                "op": "neg"
+                                              }
+                                            ],
+                                            "op": "neg"
+                                          }
+                                        ],
+                                        "op": "neg"
+                                      }
+                                    ],
+                                    "op": "neg"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "neg"
+                      }
+                    ],
+                    "op": "neg"
+                  }
+                ],
+                "op": "neg"
+              },
+              {
+                "args": [
+                  "l1_v4",
+                  "l1_v5"
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "<"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v4",
+                          "l1_v4"
+                        ],
+                        "op": "*"
+                      },
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              "l1_v3",
+                              "l1_v3"
+                            ],
+                            "op": "*"
+                          },
+                          {
+                            "args": [
+                              "l1_v3",
+                              "l1_v3"
+                            ],
+                            "op": "*"
+                          }
+                        ],
+                        "op": "*"
+                      }
+                    ],
+                    "op": "-"
+                  },
+                  "l1_v5"
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v4",
+                  "l1_v4"
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v4",
+                      "l1_v4"
+                    ],
+                    "op": "*"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v3",
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      },
+                      {
+                        "args": [
+                          "l1_v3",
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      }
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "-"
+              },
+              "l1_v5"
+            ],
+            "op": "<"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": "l1_v5",
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      },
+      {
+        "name": "INVARIANT_PRESERVATION",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v4",
+                      "l1_v4"
+                    ],
+                    "op": "*"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v3",
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      },
+                      {
+                        "args": [
+                          "l1_v3",
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      }
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "-"
+              },
+              "l1_v5"
+            ],
+            "op": "<"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  }
+]

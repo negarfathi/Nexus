@@ -1,0 +1,73 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        1
+      ],
+      "op": ">"
+    },
+    {
+      "args": [
+        "l1_v2",
+        {
+          "args": [
+            2,
+            "l1_v3"
+          ],
+          "op": "*"
+        }
+      ],
+      "op": ">="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">",
+      "args": [
+        "l1_v2",
+        1
+      ]
+    },
+    {
+      "op": ">=",
+      "args": [
+        "l1_v2",
+        {
+          "op": "*",
+          "args": [
+            2,
+            "l1_v3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: passed
+
+
+RECURRENT_SET_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unsat","query_condition":"[And(1 < l1_v2, l1_v2 >= 2*l1_v3),\n Not(Exists([l1_v3_next, l1_v2_next, l1_nd2, l1_v1_next],\n            And(And(1 < l1_v2, l1_v2 >= 2*l1_v3),\n                Or(And(And(1 < l1_v2, l1_v2 >= 2*l1_v3),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_nd2,\n                       l1_v3_next == l1_v2)),\n                And(1 < l1_v2_next,\n                    l1_v2_next >= 2*l1_v3_next))))]","status":"valid"}],"components":{"recurrent_set":"valid"},"loop_id":"l1","status":"valid"}

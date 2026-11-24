@@ -1,0 +1,483 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      1
+                    ],
+                    "op": ">"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v2",
+                          2
+                        ],
+                        "op": "mod"
+                      },
+                      1
+                    ],
+                    "op": "="
+                  }
+                ],
+                "op": "and"
+              },
+              2,
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      1
+                    ],
+                    "op": ">"
+                  },
+                  1,
+                  0
+                ],
+                "op": "ite"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      2
+                    ],
+                    "op": "mod"
+                  },
+                  1
+                ],
+                "op": "="
+              },
+              1,
+              0
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              2
+            ],
+            "op": "<="
+          },
+          "expression_kind": "recurrent-set"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              1
+            ],
+            "op": ">"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  2
+                ],
+                "op": "mod"
+              },
+              "l1_v2"
+            ],
+            "op": "lex"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 6,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  1
+                ],
+                "op": ">"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 7,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  1
+                ],
+                "op": ">"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 6,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 8,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  2
+                ],
+                "op": "mod"
+              },
+              "l1_v2"
+            ],
+            "op": "lex"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "duplicate_of_attempt": 5,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 9,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              0
+            ],
+            "op": "="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      2
+                    ],
+                    "op": "mod"
+                  },
+                  1
+                ],
+                "op": "="
+              },
+              1,
+              0
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 2,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 10,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  1
+                ],
+                "op": ">"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  1
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 11,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  1
+                ],
+                "op": ">"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  1
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 10,
+    "outcome": "duplicate"
+  }
+]

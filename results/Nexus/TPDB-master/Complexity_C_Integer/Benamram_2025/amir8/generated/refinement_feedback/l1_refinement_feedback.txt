@@ -1,0 +1,36 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True, 0 < l1_v2, l1_v2 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[True,\n 0 < l1_v2,\n And(0 < l1_v2,\n     l2_header_to_exit(l1_v1,\n                       l1_v2 + -1,\n                       l1_v3,\n                       l1_v4,\n                       l1_v3,\n                       l1_v4,\n                       0,\n                       l1_v8,\n                       l1_v9,\n                       l1_v10,\n                       l1_v11,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out,\n                       l2_v6_out,\n                       l2_v7_out,\n                       l2_v8_out,\n                       l2_v9_out,\n                       l2_v10_out,\n                       l2_v11_out),\n     l3_header_to_exit(l1_v1,\n                       l1_v2 + -1,\n                       l1_v3,\n                       l1_v4,\n                       l1_v4,\n                       l1_v3,\n                       0,\n                       l2_v5_out,\n                       l1_v9,\n                       l2_v10_out,\n                       l1_v11,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out,\n                       l3_v4_out,\n                       l3_v5_out,\n                       l3_v6_out,\n                       l3_v7_out,\n                       l3_v8_out,\n                       l3_v9_out,\n                       l3_v10_out,\n                       l3_v11_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l1_v2 + -1,\n     l1_v3_next == l2_v5_out + l3_v5_out,\n     l1_v4_next == l1_v4,\n     l1_v5_next == l3_v5_out,\n     l1_v6_next == l3_v6_out,\n     l1_v7_next == l3_v7_out,\n     l1_v8_next == l2_v5_out,\n     l1_v9_next == l3_v5_out,\n     l1_v10_next == l2_v10_out,\n     l1_v11_next == l3_v11_out),\n Not(l1_v2_next < l1_v2)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l1","status":"valid"}

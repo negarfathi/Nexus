@@ -1,0 +1,53 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": ">="
+              },
+              {
+                "args": [
+                  "l1_v1",
+                  4
+                ],
+                "op": "<="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              {
+                "args": [
+                  4,
+                  "l1_v1"
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "lex"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {},
+    "outcome": "validation_unsupported",
+    "unresolved_checks": []
+  }
+]

@@ -1,0 +1,163 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "false",
+          "expression_kind": "invariant"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              "l1_v2"
+            ],
+            "op": ">="
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "outcome": "wrong_kind_for_syntax_repair"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              "l1_v2"
+            ],
+            "op": ">="
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 2,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              "l1_v2"
+            ],
+            "op": ">="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v2"
+                ],
+                "op": "-"
+              },
+              {
+                "args": [
+                  "l1_v3"
+                ],
+                "op": "abs"
+              }
+            ],
+            "op": "lex"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "outcome": "wrong_kind_for_syntax_repair"
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v1",
+              "l1_v2"
+            ],
+            "op": ">="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v2"
+                ],
+                "op": "-"
+              },
+              "l1_v3"
+            ],
+            "op": "lex"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      },
+      {
+        "name": "INVARIANT_PRESERVATION",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

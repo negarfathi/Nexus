@@ -1,0 +1,91 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v1"
+                        ],
+                        "op": "abs"
+                      },
+                      {
+                        "args": [
+                          "l1_v2",
+                          1
+                        ],
+                        "op": "-"
+                      }
+                    ],
+                    "op": "<="
+                  }
+                ],
+                "op": "not"
+              }
+            ],
+            "op": "not"
+          },
+          "expression_kind": "invariant"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1"
+                ],
+                "op": "abs"
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  1
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "<="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v3",
+              "l1_v2"
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_valid",
+    "unresolved_checks": []
+  }
+]

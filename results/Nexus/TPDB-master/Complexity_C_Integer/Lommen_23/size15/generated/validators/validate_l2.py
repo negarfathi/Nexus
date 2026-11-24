@@ -1,0 +1,17 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l2')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("\"true\"")
+print()
+print('RANKING_FUNCTION:')
+print("\"l2_v5\"")
+print()
+print('FEEDBACK:')
+#!/usr/bin/env python3
+
+print("UNSUPPORTED: \"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %69\"")
+print('INVARIANT_RESULT: "unknown"')
+print('RANKING_FUNCTION_RESULT: "unknown"')
+print("VALIDATION_SUMMARY_JSON:{\"loop_id\":\"l2\",\"candidate_kind\":\"terminating\",\"status\":\"unsupported\",\"components\":{},\"checks\":[],\"reason\":\"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %69\"}")

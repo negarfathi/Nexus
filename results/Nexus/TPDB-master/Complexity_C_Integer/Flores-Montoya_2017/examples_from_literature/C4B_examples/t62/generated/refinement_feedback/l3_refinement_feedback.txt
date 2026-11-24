@@ -1,0 +1,365 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    0,
+    {
+      "args": [
+        {
+          "args": [
+            "l3_v1",
+            {
+              "args": [
+                "l3_v2",
+                1
+              ],
+              "op": "-"
+            }
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "neg"
+    }
+  ],
+  "op": "max"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "max",
+  "args": [
+    0,
+    {
+      "op": "neg",
+      "args": [
+        {
+          "op": "+",
+          "args": [
+            "l3_v1",
+            {
+              "op": "-",
+              "args": [
+                "l3_v2",
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l3_v1 = -1,
+ l3_v2 = 1,
+ l3_nd1 = 1,
+ l3_v2_next = 0,
+ l3_v1_next = -1]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l3_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l3_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True,\n True,\n If(0 >= -(l3_v1 + l3_v2 - 1), 0, -(l3_v1 + l3_v2 - 1)) < 0]","status":"valid"},{"counterexample":{"assignments":{"l3_nd1":"1","l3_v1":"-1","l3_v1_next":"-1","l3_v2":"1","l3_v2_next":"0"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[True,\n True,\n And(And(l3_v1 < l3_v2 + -1, 0 < l3_nd1),\n     l3_v1_next == l3_v1,\n     l3_v2_next == l3_v2 + -1),\n Not(If(0 >= -(l3_v1_next + l3_v2_next - 1),\n        0,\n        -(l3_v1_next + l3_v2_next - 1)) <\n     If(0 >= -(l3_v1 + l3_v2 - 1), 0, -(l3_v1 + l3_v2 - 1)))]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l3","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        "l3_v1"
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "neg"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        "l3_v1"
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "neg"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 0 invariant(s), 2 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v1",
+    {
+      "args": [
+        "l3_v2",
+        1
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l3_v2",
+        "l3_v1"
+      ],
+      "op": "-"
+    },
+    1
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l3_v1",
+    {
+      "op": "-",
+      "args": [
+        "l3_v2",
+        1
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l3_v2",
+        "l3_v1"
+      ]
+    },
+    1
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D],
+                             Implies(And(l2_header_to_exit(A,
+                                        B,
+                                        C,
+                                        D),
+                                        l1_reachable_header_states(A,
+                                        B),
+                                        Not(C <= -1 + D)),
+                                     query!0))),
+             hyper-res(asserted(ForAll([A, B, C, D],
+                                       Implies(And(Or(And(Not(C <=
+                                        1 + A),
+                                        0 >= D),
+                                        A >= -1 + C),
+                                        B == 1 + A),
+                                        l2_header_to_exit(A,
+                                        C,
+                                        B,
+                                        C)))),
+                       l2_header_to_exit(0, 1, 1, 1)),
+             hyper-res(asserted(ForAll([A, B],
+                                       Implies(Not(B <= A),
+                                        l1_reachable_header_states(A,
+                                        B)))),
+                       l1_reachable_header_states(0, 1)),
+             query!0),
+   asserted(Implies(query!0, False)),
+   False)
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C, D],\n                             Implies(And(l2_header_to_exit(A,\n                                        B,\n                                        C,\n                                        D),\n                                        l1_reachable_header_states(A,\n                                        B),\n                                        Not(C <= -1 + D)),\n                                     query!0))),\n             hyper-res(asserted(ForAll([A, B, C, D],\n                                       Implies(And(Or(And(Not(C <=\n                                        1 + A),\n                                        0 >= D),\n                                        A >= -1 + C),\n                                        B == 1 + A),\n                                        l2_header_to_exit(A,\n                                        C,\n                                        B,\n                                        C)))),\n                       l2_header_to_exit(0, 1, 1, 1)),\n             hyper-res(asserted(ForAll([A, B],\n                                       Implies(Not(B <= A),\n                                        l1_reachable_header_states(A,\n                                        B)))),\n                       l1_reachable_header_states(0, 1)),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"sat","query_condition":"l3_bad_invariant_initialization","status":"invalid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l3_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[l3_v1 <= l3_v2 - 1, True, l3_v2 - l3_v1 - 1 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[l3_v1 <= l3_v2 - 1,\n True,\n And(And(l3_v1 < l3_v2 + -1, 0 < l3_nd1),\n     l3_v1_next == l3_v1,\n     l3_v2_next == l3_v2 + -1),\n Not(l3_v2_next - l3_v1_next - 1 < l3_v2 - l3_v1 - 1)]","status":"valid"}],"components":{"invariant":"invalid","ranking_function":"valid"},"loop_id":"l3","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l3_v1",
+    {
+      "args": [
+        "l3_v2",
+        1
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "<"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "<",
+  "args": [
+    "l3_v1",
+    {
+      "op": "-",
+      "args": [
+        "l3_v2",
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l3_v1 = 0, l3_v2 = 2]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l3_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l3_v1":"0","l3_v2":"2"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[l3_v1 < l3_v2 - 1,\n Not(Exists([l3_v2_next, l3_v1_next, l3_nd1],\n            And(True,\n                Or(And(And(l3_v1 < l3_v2 + -1, 0 < l3_nd1),\n                       l3_v1_next == l3_v1,\n                       l3_v2_next == l3_v2 + -1)),\n                l3_v1_next < l3_v2_next - 1)))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l3","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    0,
+    {
+      "args": [
+        {
+          "args": [
+            "l3_v2",
+            "l3_v1"
+          ],
+          "op": "-"
+        },
+        1
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "max"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "max",
+  "args": [
+    0,
+    {
+      "op": "-",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l3_v2",
+            "l3_v1"
+          ]
+        },
+        1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l3_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l3_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True,\n True,\n If(0 >= l3_v2 - l3_v1 - 1, 0, l3_v2 - l3_v1 - 1) < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[True,\n True,\n And(And(l3_v1 < l3_v2 + -1, 0 < l3_nd1),\n     l3_v1_next == l3_v1,\n     l3_v2_next == l3_v2 + -1),\n Not(If(0 >= l3_v2_next - l3_v1_next - 1,\n        0,\n        l3_v2_next - l3_v1_next - 1) <\n     If(0 >= l3_v2 - l3_v1 - 1, 0, l3_v2 - l3_v1 - 1))]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l3","status":"valid"}

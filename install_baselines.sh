@@ -7,8 +7,7 @@ baselines_directory="$root_directory/baselines"
 
 echo "Installing baselines..."
 
-bash "$baselines_directory/Athena/install_llvm2KITTeL.sh"
-bash "$baselines_directory/Athena/install_MuVal.sh"
+bash "$baselines_directory/Athena/install_Athena.sh"
 bash "$baselines_directory/PROTON/install_PROTON.sh"
 bash "$baselines_directory/UAutomizer/install_UAutomizer.sh"
 bash "$baselines_directory/AProVE/install_AProVE.sh"

@@ -1,0 +1,23 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": "l3_v5",
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l3"
+    },
+    "candidate_kind": "terminating",
+    "components": {},
+    "outcome": "validation_unsupported",
+    "unresolved_checks": []
+  }
+]

@@ -1,0 +1,205 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v1",
+                  0
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l2_v3",
+                  1
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v1",
+                  0
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l2_v2",
+                  2
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v3",
+                  "l2_v2"
+                ],
+                "op": "<"
+              }
+            ],
+            "op": "not"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v2",
+                  "l2_v3"
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "neg"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v1",
+                  -1
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  "l2_v2",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "components": {
+      "recurrent_set": "unknown"
+    },
+    "outcome": "validation_unknown",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "unknown"
+      }
+    ]
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      0
+                    ],
+                    "op": "<"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v1"
+                        ],
+                        "op": "abs"
+                      },
+                      {
+                        "args": [
+                          1,
+                          0
+                        ],
+                        "op": "+"
+                      }
+                    ],
+                    "op": "-"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v1"
+                        ],
+                        "op": "abs"
+                      },
+                      0
+                    ],
+                    "op": "+"
+                  }
+                ],
+                "op": "ite"
+              },
+              "l1_v1"
+            ],
+            "op": "+"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

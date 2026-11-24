@@ -1,0 +1,17 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l3')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("\"true\"")
+print()
+print('RANKING_FUNCTION:')
+print("\"l3_v5\"")
+print()
+print('FEEDBACK:')
+#!/usr/bin/env python3
+
+print("UNSUPPORTED: \"l3: entry CFG excluded a structurally reachable loop header\"")
+print('INVARIANT_RESULT: "unknown"')
+print('RANKING_FUNCTION_RESULT: "unknown"')
+print("VALIDATION_SUMMARY_JSON:{\"loop_id\":\"l3\",\"candidate_kind\":\"terminating\",\"status\":\"unsupported\",\"components\":{},\"checks\":[],\"reason\":\"l3: entry CFG excluded a structurally reachable loop header\"}")

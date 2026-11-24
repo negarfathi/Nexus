@@ -1,0 +1,182 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  0
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              102,
+              "l1_v2"
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  0
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              102,
+              "l1_v2"
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      "l1_v3"
+                    ],
+                    "op": "+"
+                  },
+                  102
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v2",
+                      50
+                    ],
+                    "op": ">"
+                  },
+                  {
+                    "args": [
+                      "l1_v3",
+                      50
+                    ],
+                    "op": "<="
+                  }
+                ],
+                "op": "or"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              204,
+              {
+                "args": [
+                  {
+                    "args": [
+                      2,
+                      "l1_v2"
+                    ],
+                    "op": "*"
+                  },
+                  "l1_v3"
+                ],
+                "op": "+"
+              }
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_PRESERVATION",
+        "status": "invalid"
+      }
+    ]
+  }
+]

@@ -1,0 +1,48 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l4_v5",
+    "l4_v5"
+  ],
+  "op": "="
+}
+
+RANKING_FUNCTION:
+"l4_v5"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l4
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "=",
+  "args": [
+    "l4_v5",
+    "l4_v5"
+  ]
+}
+
+RANKING_FUNCTION:
+"l4_v5"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l4_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l4_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[l4_v5 == l4_v5,\n And(0 < l4_v5, Not(0 == l4_nd1)),\n l4_v5 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[l4_v5 == l4_v5,\n And(0 < l4_v5, Not(0 == l4_nd1)),\n And(And(0 < l4_v5, 0 != l4_nd2),\n     l4_v1_next == l4_v1,\n     l4_v2_next == l4_v2,\n     l4_v3_next == l4_v3,\n     l4_v4_next == l4_v4,\n     l4_v5_next == l4_v5 + -1),\n Not(l4_v5_next < l4_v5)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l4","status":"valid"}

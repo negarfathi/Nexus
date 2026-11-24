@@ -1,0 +1,57 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "neg",
+        "args": [
+          {
+            "op": "abs",
+            "args": [
+              {
+                "op": "abs",
+                "args": [
+                  {
+                    "op": "abs",
+                    "args": [
+                      {
+                        "op": "neg",
+                        "args": [
+                          {
+                            "op": "neg",
+                            "args": [
+                              {
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "op": "neg",
+                                    "args": [
+                                      {
+                                        "op": "*",
+                                        "args": [
+                                          4,
+                                          "l1_v2"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "l1_v2"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,576 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      -2,
+                      "l1_v3"
+                    ],
+                    "op": "*"
+                  },
+                  {
+                    "args": [
+                      "l1_v4",
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  -2,
+                                  "l1_v3"
+                                ],
+                                "op": "*"
+                              },
+                              2
+                            ],
+                            "op": "+"
+                          }
+                        ],
+                        "op": "neg"
+                      }
+                    ],
+                    "op": "+"
+                  }
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v4",
+                  {
+                    "args": [
+                      -2,
+                      {
+                        "args": [
+                          "l1_v3",
+                          1
+                        ],
+                        "op": "-"
+                      }
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  {
+                    "args": [
+                      2,
+                      {
+                        "args": [
+                          "l1_v3",
+                          1
+                        ],
+                        "op": "-"
+                      }
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v2",
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          4,
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      },
+                      2
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 6,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v4",
+                  0
+                ],
+                "op": "<="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 7,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 5,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 8,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 9,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v4",
+                  {
+                    "args": [
+                      "l1_v2"
+                    ],
+                    "op": "neg"
+                  }
+                ],
+                "op": "<"
+              }
+            ],
+            "op": "not"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 10,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 11,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  "l1_v3",
+                  0
+                ],
+                "op": ">"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v4",
+                  0
+                ],
+                "op": "<"
+              }
+            ],
+            "op": "not"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 12,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v4",
+                      0
+                    ],
+                    "op": "<"
+                  },
+                  {
+                    "args": [
+                      "l1_v3",
+                      0
+                    ],
+                    "op": ">"
+                  }
+                ],
+                "op": "and"
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "valid"
+    },
+    "outcome": "validation_valid",
+    "unresolved_checks": []
+  }
+]

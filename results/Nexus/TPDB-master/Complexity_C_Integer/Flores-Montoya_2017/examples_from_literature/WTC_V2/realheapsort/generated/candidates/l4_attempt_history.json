@@ -1,0 +1,388 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l4_v4",
+                  0
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          2,
+                          "l4_v4"
+                        ],
+                        "op": "*"
+                      },
+                      1
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l4_v1",
+                          2
+                        ],
+                        "op": "-"
+                      },
+                      "l4_v3"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l4"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          2,
+                          "l4_v4"
+                        ],
+                        "op": "*"
+                      },
+                      1
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l4_v1",
+                          2
+                        ],
+                        "op": "-"
+                      },
+                      "l4_v3"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  "l4_v4",
+                  -1
+                ],
+                "op": "<="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l4"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_REACHABILITY",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          2,
+                          "l4_v4"
+                        ],
+                        "op": "*"
+                      },
+                      1
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l4_v1",
+                          2
+                        ],
+                        "op": "-"
+                      },
+                      "l4_v3"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          2,
+                          "l4_v1"
+                        ],
+                        "op": "*"
+                      },
+                      1
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l4_v1",
+                          2
+                        ],
+                        "op": "-"
+                      },
+                      "l4_v3"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l4"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_REACHABILITY",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          2,
+                          "l4_v4"
+                        ],
+                        "op": "*"
+                      },
+                      1
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l4_v1",
+                          2
+                        ],
+                        "op": "-"
+                      },
+                      "l4_v3"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  "l4_v4",
+                  "l4_v1"
+                ],
+                "op": "="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l4"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_REACHABILITY",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      2,
+                      "l4_v4"
+                    ],
+                    "op": "*"
+                  },
+                  1
+                ],
+                "op": "+"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l4_v1",
+                      2
+                    ],
+                    "op": "-"
+                  },
+                  "l4_v3"
+                ],
+                "op": "-"
+              }
+            ],
+            "op": "<="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l4_v1",
+                      2
+                    ],
+                    "op": "-"
+                  },
+                  "l4_v3"
+                ],
+                "op": "-"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      2,
+                      "l4_v4"
+                    ],
+                    "op": "*"
+                  },
+                  1
+                ],
+                "op": "+"
+              }
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l4"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      },
+      {
+        "name": "INVARIANT_PRESERVATION",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

@@ -1,4 +1,9 @@
 #include "../include/loop_information_extractor.h"
+// >>> NEXUS CHANGE BEGIN [2.4 - inspect source-level return markers]
+#include <sstream>
+#include "llvm/IR/InlineAsm.h"
+#include "llvm/IR/CFG.h"
+// <<< NEXUS CHANGE END [2.4 - inspect source-level return markers]
 
 // Global extractor state.
 unsigned nextLoopId = 1;
@@ -521,6 +526,27 @@ std::vector<llvm::BasicBlock*> getSuccessorsOfTerminator(llvm::Instruction* term
     return successors;
 }
 
+// >>> NEXUS CHANGE BEGIN [2.4.4 - source-defined loop relationships]
+// Cleared for each entry function. These maps capture source C nesting even
+// when LLVM LoopInfo splits a syntactically nested return-only branch into
+// disjoint top-level natural loops. Neither JSON nor witness semantics change.
+std::map<const llvm::Loop*, unsigned> sourceLoopIdsByIRLoop;
+std::map<const llvm::Loop*, const llvm::Loop*> sourceParentsByIRLoop;
+std::map<const llvm::Loop*, std::vector<llvm::Loop*>> sourceChildrenByIRLoop;
+
+const llvm::Loop* getSemanticParentLoop(const llvm::Loop* loop) {
+    if (!loop) return nullptr;
+    auto it = sourceParentsByIRLoop.find(loop);
+    return it == sourceParentsByIRLoop.end() ? loop->getParentLoop() : it->second;
+}
+std::vector<llvm::Loop*> getSemanticChildLoops(const llvm::Loop* loop) {
+    if (!loop) return {};
+    auto it = sourceChildrenByIRLoop.find(loop);
+    if (it != sourceChildrenByIRLoop.end()) return it->second;
+    return std::vector<llvm::Loop*>(loop->getSubLoops().begin(), loop->getSubLoops().end());
+}
+// <<< NEXUS CHANGE END [2.4.4 - source-defined loop relationships]
+
 // Loop discovery and relationships.
 std::string getLoopId(const llvm::Loop* L) {
     std::string key;
@@ -634,104 +660,234 @@ std::vector<llvm::BasicBlock*> getUniqueExitBlocks(llvm::Loop* loop) {
     return exits;
 }
 
-bool isSemanticReturnExitEdge(const llvm::Loop* loop, const llvm::BasicBlock* sourceBlock, const llvm::BasicBlock* successorBlock) {
-    auto findFunctionReturnSlot = [&](const llvm::Function* function) -> const llvm::Value* {
-        if (!function) {
-            return nullptr;
+// >>> NEXUS CHANGE BEGIN [2.4.4 - exact source-level identity for return edges]
+struct SourceReturnProvenance {
+    unsigned depth = 0;
+    bool hasLoopIds = false;
+    std::set<unsigned> loopIds;
+};
+
+std::optional<SourceReturnProvenance> getSourceReturnProvenance(const llvm::BasicBlock* block) {
+    if (!block) return std::nullopt;
+    constexpr llvm::StringLiteral prefix("NEXUS_SOURCE_RETURN_DEPTH_");
+    for (const llvm::Instruction& instruction : *block) {
+        const auto* call = llvm::dyn_cast<llvm::CallBase>(&instruction);
+        if (!call || !call->isInlineAsm()) continue;
+        const auto* asmValue = llvm::dyn_cast<llvm::InlineAsm>(call->getCalledOperand()->stripPointerCasts());
+        if (!asmValue) continue;
+        const llvm::StringRef text = asmValue->getAsmString();
+        const size_t start = text.find(prefix);
+        if (start == llvm::StringRef::npos) continue;
+        const llvm::StringRef payload = text.substr(start + prefix.size());
+        auto parts = payload.split("_IDS");
+        SourceReturnProvenance result;
+        if (parts.first.getAsInteger(10, result.depth)) return std::nullopt;
+        if (parts.second.empty()) return result; // Compatibility with older IR.
+        result.hasLoopIds = true;
+        llvm::StringRef rest = parts.second;
+        if (rest == "_NONE") return result;
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - parse every nested ancestor ID]
+        if (!rest.consume_front("_")) return std::nullopt;
+        while (!rest.empty()) {
+            auto split = rest.split('_');
+            unsigned id = 0;
+            if (split.first.getAsInteger(10, id) || id == 0) return std::nullopt;
+            result.loopIds.insert(id);
+            rest = split.second;
         }
-        for (const llvm::BasicBlock& block : *function) {
-            const auto* returnInstruction = dyn_cast<llvm::ReturnInst>(block.getTerminator());
-            if (!returnInstruction || returnInstruction->getNumOperands() == 0) {
-                continue;
-            }
-            const llvm::Value* returnValue = returnInstruction->getReturnValue();
-            const auto* loadInstruction = dyn_cast_or_null<llvm::LoadInst>(returnValue);
-            if (!loadInstruction) {
-                continue;
-            }
-            const llvm::Value* loadedPointer = loadInstruction->getPointerOperand()->stripPointerCasts();
-            if (isa<llvm::AllocaInst>(loadedPointer) || isa<llvm::GlobalVariable>(loadedPointer)) {
-                return loadedPointer;
-            }
-        }
-        return nullptr;
-    };
-    auto blockStoresToSlot = [&](const llvm::BasicBlock* block, const llvm::Value* slot) -> bool {
-        if (!block || !slot) {
-            return false;
-        }
+        return result;
+        // <<< NEXUS CHANGE END [2.4.4 - parse every nested ancestor ID]
+    }
+    return std::nullopt;
+}
+
+std::optional<SourceReturnProvenance> getReturnOnForcedExitPath(const llvm::BasicBlock* initialBlock) {
+    std::set<const llvm::BasicBlock*> visited;
+    const llvm::BasicBlock* block = initialBlock;
+    while (block && visited.insert(block).second) {
+        if (auto marker = getSourceReturnProvenance(block)) return marker;
+        const auto* branch = llvm::dyn_cast<llvm::BranchInst>(block->getTerminator());
+        if (!branch || !branch->isUnconditional()) return std::nullopt;
         for (const llvm::Instruction& instruction : *block) {
-            const auto* storeInstruction = dyn_cast<llvm::StoreInst>(&instruction);
-            if (!storeInstruction) {
-                continue;
-            }
-            const llvm::Value* storedPointer = storeInstruction->getPointerOperand()->stripPointerCasts();
-            if (storedPointer == slot) {
-                return true;
-            }
+            if (llvm::isa<llvm::PHINode>(&instruction) ||
+                llvm::isa<llvm::DbgInfoIntrinsic>(&instruction) ||
+                &instruction == block->getTerminator()) continue;
+            return std::nullopt;
         }
-        return false;
-    };
-    auto blockCanReachReturnInstWithoutReenteringLoop = [&](const llvm::BasicBlock* startBlock, const llvm::Loop* forbiddenLoop) -> bool {
-        if (!startBlock) {
-            return false;
-        }
-        std::queue<const llvm::BasicBlock*> worklist;
-        std::set<const llvm::BasicBlock*> seen;
-        worklist.push(startBlock);
-        seen.insert(startBlock);
-        while (!worklist.empty()) {
-            const llvm::BasicBlock* block = worklist.front();
-            worklist.pop();
-            const llvm::Instruction* terminator = block ? block->getTerminator() : nullptr;
-            if (!terminator) {
-                continue;
-            }
-            if (isa<llvm::ReturnInst>(terminator)) {
-                return true;
-            }
-            for (unsigned successorIndex = 0; successorIndex < terminator->getNumSuccessors(); ++successorIndex) {
-                const llvm::BasicBlock* successorBlock = terminator->getSuccessor(successorIndex);
-                if (!successorBlock) {
-                    continue;
-                }
-                if (forbiddenLoop && forbiddenLoop->contains(successorBlock)) {
-                    continue;
-                }
-                if (seen.insert(successorBlock).second) {
-                    worklist.push(successorBlock);
-                }
-            }
-        }
-        return false;
-    };
-    if (!loop || !sourceBlock || !successorBlock) {
-        return false;
+        block = branch->getSuccessor(0);
     }
-    if (loop->contains(successorBlock)) {
-        return false;
+    return std::nullopt;
+}
+
+bool returnBelongsToLoop(const llvm::Loop* loop, const SourceReturnProvenance& marker) {
+    if (!loop) return false;
+    if (marker.hasLoopIds) {
+        auto it = sourceLoopIdsByIRLoop.find(loop);
+        return it != sourceLoopIdsByIRLoop.end() && marker.loopIds.count(it->second) != 0;
     }
-    const llvm::Function* function = sourceBlock->getParent();
-    const llvm::Value* returnSlot = findFunctionReturnSlot(function);
-    if (returnSlot) {
-        if (blockStoresToSlot(sourceBlock, returnSlot) && blockCanReachReturnInstWithoutReenteringLoop(successorBlock, loop)) {
-            return true;
-        }
-        if (blockStoresToSlot(successorBlock, returnSlot) && blockCanReachReturnInstWithoutReenteringLoop(successorBlock, loop)) {
-            return true;
-        }
+    // Only unannotated legacy bitcode uses the old depth comparison.
+    return marker.depth >= loop->getLoopDepth();
+}
+
+bool isSemanticReturnExitEdge(const llvm::Loop* loop, const llvm::BasicBlock* sourceBlock,
+                              const llvm::BasicBlock* successorBlock) {
+    if (!loop || !sourceBlock || !successorBlock || loop->contains(successorBlock)) return false;
+    if (llvm::isa<llvm::ReturnInst>(sourceBlock->getTerminator())) return true;
+    if (auto marker = getSourceReturnProvenance(sourceBlock)) {
+        if (returnBelongsToLoop(loop, *marker)) return true;
     }
-    if (isa<llvm::ReturnInst>(sourceBlock->getTerminator())) {
-        return true;
+    if (auto marker = getReturnOnForcedExitPath(successorBlock)) {
+        return returnBelongsToLoop(loop, *marker);
     }
     return false;
 }
+
+// Inline assembly markers are intentional side-effect-free *source* tags.
+// Read the tag only from blocks owned directly by a natural loop, never from
+// its LLVM subloops, so the outer loop cannot accidentally inherit a child's ID.
+std::optional<std::pair<unsigned, unsigned>> readSourceLoopTag(const llvm::BasicBlock* block) {
+    constexpr llvm::StringLiteral prefix("NEXUS_SOURCE_LOOP_ID_");
+    for (const llvm::Instruction& instruction : *block) {
+        const auto* call = llvm::dyn_cast<llvm::CallBase>(&instruction);
+        if (!call || !call->isInlineAsm()) continue;
+        const auto* asmValue = llvm::dyn_cast<llvm::InlineAsm>(call->getCalledOperand()->stripPointerCasts());
+        if (!asmValue) continue;
+        llvm::StringRef text = asmValue->getAsmString();
+        size_t markerStart = text.find(prefix);
+        if (markerStart == llvm::StringRef::npos) continue;
+        auto parts = text.substr(markerStart + prefix.size()).split("_PARENT_");
+        unsigned sourceId = 0, sourceParent = 0;
+        if (parts.first.getAsInteger(10, sourceId) ||
+            parts.second.getAsInteger(10, sourceParent) || sourceId == 0) return std::nullopt;
+        return std::make_pair(sourceId, sourceParent);
+    }
+    return std::nullopt;
+}
+
+void associateSourceLoops(llvm::LoopInfo& loopInfo, const std::vector<llvm::Loop*>& allLoops) {
+    sourceLoopIdsByIRLoop.clear();
+    sourceParentsByIRLoop.clear();
+    sourceChildrenByIRLoop.clear();
+    std::map<unsigned, llvm::Loop*> irBySourceId;
+    std::map<llvm::Loop*, unsigned> parentIdByIR;
+    for (llvm::Loop* loop : allLoops) {
+        for (llvm::BasicBlock* block : loop->blocks()) {
+            if (loopInfo.getLoopFor(block) != loop) continue;
+            if (auto marker = readSourceLoopTag(block)) {
+                sourceLoopIdsByIRLoop[loop] = marker->first;
+                parentIdByIR[loop] = marker->second;
+                irBySourceId[marker->first] = loop;
+                break;
+            }
+        }
+    }
+    for (llvm::Loop* loop : allLoops) {
+        auto parentIt = parentIdByIR.find(loop);
+        if (parentIt == parentIdByIR.end()) continue;
+        llvm::Loop* parent = nullptr;
+        if (parentIt->second != 0) {
+            auto found = irBySourceId.find(parentIt->second);
+            if (found != irBySourceId.end()) parent = found->second;
+            else continue; // Unknown source parent: retain LLVM relationship.
+        }
+        sourceParentsByIRLoop[loop] = parent;
+    }
+    for (llvm::Loop* loop : allLoops) {
+        if (const llvm::Loop* parent = getSemanticParentLoop(loop)) {
+            sourceChildrenByIRLoop[parent].push_back(loop);
+        }
+    }
+    for (llvm::Loop* loop : allLoops) {
+        sourceChildrenByIRLoop.try_emplace(loop);
+    }
+}
+
+// A lexical C child loop may lie outside its parent's LLVM natural-loop
+// blocks. Permit walking to its header only through *empty unconditional*
+// blocks. Never silently skip a statement or a conditional branch.
+bool isSourceChildCorridor(const llvm::Loop* parent, const llvm::BasicBlock* initialBlock) {
+    const std::vector<llvm::Loop*> children = getSemanticChildLoops(parent);
+    if (children.empty()) return false;
+    const llvm::BasicBlock* block = initialBlock;
+    std::set<const llvm::BasicBlock*> visited;
+    while (block && visited.insert(block).second) {
+        for (const llvm::Loop* child : children) {
+            if (child->contains(block)) return true;
+        }
+        const auto* branch = llvm::dyn_cast<llvm::BranchInst>(block->getTerminator());
+        if (!branch || !branch->isUnconditional()) return false;
+        for (const llvm::Instruction& instruction : *block) {
+            if (llvm::isa<llvm::PHINode>(&instruction) ||
+                llvm::isa<llvm::DbgInfoIntrinsic>(&instruction) ||
+                &instruction == block->getTerminator()) continue;
+            return false;
+        }
+        block = branch->getSuccessor(0);
+    }
+    return false;
+}
+// >>> NEXUS CHANGE BEGIN [2.4.4 - refuse truncated source-scoped returns]
+bool reachesUnmodeledSourceContinuation(const llvm::Loop* loop, const llvm::BasicBlock* start) {
+    if (!loop || !start) return false;
+    // >>> NEXUS CHANGE BEGIN [2.4.5 - bound exit-corridor search to this parent iteration]
+    // The source-level parent iteration ends when control reaches its header.
+    // Anything that occurs after that backedge belongs to a *future* parent
+    // iteration, not to the current exit of this child.  This is essential
+    // even when LLVM LoopInfo and source nesting are different.
+    const llvm::Loop* enclosingLoop = getSemanticParentLoop(loop);
+    // <<< NEXUS CHANGE END [2.4.5 - bound exit-corridor search to this parent iteration]
+    std::queue<const llvm::BasicBlock*> work;
+    std::set<const llvm::BasicBlock*> seen;
+    work.push(start);
+    seen.insert(start);
+    while (!work.empty()) {
+        const llvm::BasicBlock* block = work.front();
+        work.pop();
+        // >>> NEXUS CHANGE BEGIN [2.4.5 - do not inspect future parent iterations]
+        if (enclosingLoop && block == enclosingLoop->getHeader()) {
+            continue;  // Normal completion of the current enclosing iteration.
+        }
+        // <<< NEXUS CHANGE END [2.4.5 - do not inspect future parent iterations]
+        if (auto marker = getSourceReturnProvenance(block)) {
+            if (returnBelongsToLoop(loop, *marker)) return true;
+        }
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - account for unmatched lexical continuation]
+        // A path outside the LLVM parent that enters a lexical child or
+        // returns to the parent header must not be modeled as a normal exit.
+        if (block == loop->getHeader()) return true;
+        for (llvm::Loop* child : getSemanticChildLoops(loop)) {
+            if (child->contains(block)) return true;
+        }
+        // <<< NEXUS CHANGE END [2.4.4 - account for unmatched lexical continuation]
+        const auto* terminator = block->getTerminator();
+        for (unsigned i = 0; terminator && i < terminator->getNumSuccessors(); ++i) {
+            const llvm::BasicBlock* succ = terminator->getSuccessor(i);
+            // Do not treat a future iteration's return as the current exit.
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - catch reentry outside LLVM region]
+            // >>> NEXUS CHANGE BEGIN [2.4.5 - distinguish parent backedge from child reentry]
+            if (enclosingLoop && succ == enclosingLoop->getHeader()) {
+                continue;  // Boundary: subsequent child executions are not this exit.
+            }
+            if (succ && loop->contains(succ)) {
+                return true;  // Reentering the child (even via its body) is not a normal exit.
+            }
+            if (succ && seen.insert(succ).second) work.push(succ);
+            // <<< NEXUS CHANGE END [2.4.5 - distinguish parent backedge from child reentry]
+            // <<< NEXUS CHANGE END [2.4.4 - catch reentry outside LLVM region]
+        }
+    }
+    return false;
+}
+// <<< NEXUS CHANGE END [2.4.4 - refuse truncated source-scoped returns]
+// <<< NEXUS CHANGE END [2.4.4 - exact source-level identity for return edges]
 
 bool isAncestorLoopOf(const llvm::Loop* possibleAncestor, const llvm::Loop* loop) {
     if (!possibleAncestor || !loop) {
         return false;
     }
-    for (const llvm::Loop* parent = loop->getParentLoop(); parent; parent = parent->getParentLoop()) {
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - source lexical parent traversal]
+    for (const llvm::Loop* parent = getSemanticParentLoop(loop); parent; parent = getSemanticParentLoop(parent)) {
+    // <<< NEXUS CHANGE END [2.4.4 - source lexical parent traversal]
         if (parent == possibleAncestor) {
             return true;
         }
@@ -740,71 +896,99 @@ bool isAncestorLoopOf(const llvm::Loop* possibleAncestor, const llvm::Loop* loop
 }
 
 bool loopsShareImmediateParent(const llvm::Loop* leftLoop, const llvm::Loop* rightLoop) {
-    return leftLoop && rightLoop && leftLoop->getParentLoop() == rightLoop->getParentLoop();
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - compare source siblings, not LLVM siblings]
+    return leftLoop && rightLoop && getSemanticParentLoop(leftLoop) == getSemanticParentLoop(rightLoop);
+    // <<< NEXUS CHANGE END [2.4.4 - compare source siblings, not LLVM siblings]
+}
+
+// >>> NEXUS CHANGE BEGIN [1.1 - CFG-correct sibling loop ordering]
+// A sequential dependency is a path from a normal exit of one sibling loop
+// to the header of another sibling *within the same enclosing iteration*.
+// In particular, an enclosing-loop backedge must NEVER be used to claim that
+// a later sibling executes before an earlier sibling. LLVM basic-block order
+// is not execution order, so this test is based exclusively on CFG edges.
+// Both previous/next queries use this single predicate to ensure symmetry.
+bool canReachFollowingSiblingInSameParentIteration(
+    llvm::Loop* sourceLoop,
+    llvm::Loop* targetLoop,
+    const std::vector<llvm::Loop*>& allLoops) {
+    if (!sourceLoop || !targetLoop || sourceLoop == targetLoop ||
+        !sourceLoop->getHeader() || !targetLoop->getHeader() ||
+        !loopsShareImmediateParent(sourceLoop, targetLoop) ||
+        sourceLoop->getHeader()->getParent() != targetLoop->getHeader()->getParent()) {
+        return false;
+    }
+
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - source parent for sequential ordering]
+    llvm::Loop* commonParent = const_cast<llvm::Loop*>(getSemanticParentLoop(sourceLoop));
+    // <<< NEXUS CHANGE END [2.4.4 - source parent for sequential ordering]
+    llvm::BasicBlock* parentHeader = commonParent ? commonParent->getHeader() : nullptr;
+    llvm::BasicBlock* targetHeader = targetLoop->getHeader();
+    llvm::Function* function = sourceLoop->getHeader()->getParent();
+
+    // Treat other loops as atomic components: a path through their bodies
+    // must be represented by their own exit summaries, not a raw CFG walk.
+    // Never re-enter the source loop after using one of its normal exits.
+    auto isAllowedBlock = [&](llvm::BasicBlock* block) -> bool {
+        if (!block || block->getParent() != function) {
+            return false;
+        }
+        if (commonParent && (!commonParent->contains(block) || block == parentHeader)) {
+            return false; // Outside this parent iteration, or crossing its backedge.
+        }
+        if (sourceLoop->contains(block)) {
+            return false;
+        }
+        if (targetLoop->contains(block) && block != targetHeader) {
+            return false;
+        }
+        for (llvm::Loop* otherLoop : allLoops) {
+            if (!otherLoop || otherLoop == sourceLoop || otherLoop == targetLoop ||
+                isAncestorLoopOf(otherLoop, sourceLoop) ||
+                isAncestorLoopOf(otherLoop, targetLoop)) {
+                continue;
+            }
+            if (otherLoop->contains(block)) {
+                return false;
+            }
+        }
+        return true;
+    };
+
+    llvm::SmallVector<std::pair<llvm::BasicBlock*, llvm::BasicBlock*>, 16> exitEdges;
+    sourceLoop->getExitEdges(exitEdges);
+    for (const auto& [exitSource, exitTarget] : exitEdges) {
+        // A function return is not a normal sequential predecessor exit.
+        // This matches the return-exit filtering in generateEntryStates().
+        if (!exitSource || !isAllowedBlock(exitTarget) ||
+            isSemanticReturnExitEdge(sourceLoop, exitSource, exitTarget)) {
+            continue;
+        }
+
+        std::queue<llvm::BasicBlock*> worklist;
+        std::set<llvm::BasicBlock*> visited;
+        worklist.push(exitTarget);
+        visited.insert(exitTarget);
+        while (!worklist.empty()) {
+            llvm::BasicBlock* current = worklist.front();
+            worklist.pop();
+            if (current == targetHeader) {
+                return true;
+            }
+            for (llvm::BasicBlock* successor : getSuccessorsOfTerminator(current->getTerminator())) {
+                if (isAllowedBlock(successor) && visited.insert(successor).second) {
+                    worklist.push(successor);
+                }
+            }
+        }
+    }
+    return false;
 }
 
 std::vector<llvm::Loop*> getPreviousSequentialLoops(llvm::Loop* targetLoop, const std::vector<llvm::Loop*>& allLoops) {
     std::vector<llvm::Loop*> previousLoops;
-    if (!targetLoop || !targetLoop->getHeader()) {
-        return previousLoops;
-    }
     for (llvm::Loop* candidateLoop : allLoops) {
-        if (!candidateLoop || candidateLoop == targetLoop) {
-            continue;
-        }
-        if (!loopsShareImmediateParent(candidateLoop, targetLoop)) {
-            continue;
-        }
-        bool reachesTargetHeader = false;
-        for (llvm::BasicBlock* exitBlock : getUniqueExitBlocks(candidateLoop)) {
-            if (!exitBlock) {
-                continue;
-            }
-            std::queue<llvm::BasicBlock*> worklist;
-            std::set<llvm::BasicBlock*> seen;
-            worklist.push(exitBlock);
-            seen.insert(exitBlock);
-            while (!worklist.empty() && !reachesTargetHeader) {
-                llvm::BasicBlock* block = worklist.front();
-                worklist.pop();
-                if (block == targetLoop->getHeader()) {
-                    reachesTargetHeader = true;
-                    break;
-                }
-                llvm::Instruction* terminator = block ? block->getTerminator() : nullptr;
-                for (llvm::BasicBlock* successorBlock : getSuccessorsOfTerminator(terminator)) {
-                    if (!successorBlock) {
-                        continue;
-                    }
-                    if (targetLoop->contains(successorBlock) && successorBlock != targetLoop->getHeader()) {
-                        continue;
-                    }
-                    bool insideUnrelatedLoop = false;
-                    for (llvm::Loop* otherLoop : allLoops) {
-                        if (!otherLoop || otherLoop == targetLoop || otherLoop == candidateLoop) {
-                            continue;
-                        }
-                        if (isAncestorLoopOf(otherLoop, targetLoop) || isAncestorLoopOf(otherLoop, candidateLoop)) {
-                            continue;
-                        }
-                        if (otherLoop->contains(successorBlock)) {
-                            insideUnrelatedLoop = true;
-                            break;
-                        }
-                    }
-                    if (insideUnrelatedLoop) {
-                        continue;
-                    }
-                    if (seen.insert(successorBlock).second) {
-                        worklist.push(successorBlock);
-                    }
-                }
-            }
-            if (reachesTargetHeader) {
-                break;
-            }
-        }
-        if (reachesTargetHeader) {
+        if (canReachFollowingSiblingInSameParentIteration(candidateLoop, targetLoop, allLoops)) {
             previousLoops.push_back(candidateLoop);
         }
     }
@@ -816,66 +1000,8 @@ std::vector<llvm::Loop*> getPreviousSequentialLoops(llvm::Loop* targetLoop, cons
 
 std::vector<llvm::Loop*> getNextSequentialLoops(llvm::Loop* targetLoop, const std::vector<llvm::Loop*>& allLoops) {
     std::vector<llvm::Loop*> nextLoops;
-    if (!targetLoop) {
-        return nextLoops;
-    }
     for (llvm::Loop* candidateLoop : allLoops) {
-        if (!candidateLoop || candidateLoop == targetLoop) {
-            continue;
-        }
-        if (!loopsShareImmediateParent(candidateLoop, targetLoop)) {
-            continue;
-        }
-        bool targetCanReachCandidate = false;
-        for (llvm::BasicBlock* exitBlock : getUniqueExitBlocks(targetLoop)) {
-            if (!exitBlock) {
-                continue;
-            }
-            std::queue<llvm::BasicBlock*> worklist;
-            std::set<llvm::BasicBlock*> seen;
-            worklist.push(exitBlock);
-            seen.insert(exitBlock);
-            while (!worklist.empty() && !targetCanReachCandidate) {
-                llvm::BasicBlock* block = worklist.front();
-                worklist.pop();
-                if (block == candidateLoop->getHeader()) {
-                    targetCanReachCandidate = true;
-                    break;
-                }
-                llvm::Instruction* terminator = block ? block->getTerminator() : nullptr;
-                for (llvm::BasicBlock* successorBlock : getSuccessorsOfTerminator(terminator)) {
-                    if (!successorBlock) {
-                        continue;
-                    }
-                    if (candidateLoop->contains(successorBlock) && successorBlock != candidateLoop->getHeader()) {
-                        continue;
-                    }
-                    bool insideUnrelatedLoop = false;
-                    for (llvm::Loop* otherLoop : allLoops) {
-                        if (!otherLoop || otherLoop == targetLoop || otherLoop == candidateLoop) {
-                            continue;
-                        }
-                        if (isAncestorLoopOf(otherLoop, targetLoop) || isAncestorLoopOf(otherLoop, candidateLoop)) {
-                            continue;
-                        }
-                        if (otherLoop->contains(successorBlock)) {
-                            insideUnrelatedLoop = true;
-                            break;
-                        }
-                    }
-                    if (insideUnrelatedLoop) {
-                        continue;
-                    }
-                    if (seen.insert(successorBlock).second) {
-                        worklist.push(successorBlock);
-                    }
-                }
-            }
-            if (targetCanReachCandidate) {
-                break;
-            }
-        }
-        if (targetCanReachCandidate) {
+        if (canReachFollowingSiblingInSameParentIteration(targetLoop, candidateLoop, allLoops)) {
             nextLoops.push_back(candidateLoop);
         }
     }
@@ -884,6 +1010,7 @@ std::vector<llvm::Loop*> getNextSequentialLoops(llvm::Loop* targetLoop, const st
     });
     return nextLoops;
 }
+// <<< NEXUS CHANGE END [1.1 - CFG-correct sibling loop ordering]
 
 // Variable and state extraction.
 std::vector<StateVariable> extractVariables(llvm::Loop* loop, const std::string& loopId) {
@@ -964,6 +1091,57 @@ std::vector<std::string> getOutputVariableNames(const std::vector<StateVariable>
     }
     return names;
 }
+
+// >>> NEXUS CHANGE BEGIN [2.3 - explicit benchmark primitive semantics]
+// These are *Nexus benchmark contracts*, not general C/POSIX semantics:
+//   int random(void) -> independently chosen mathematical integer per call;
+//   void tick(int)   -> total, state-preserving cost observation (cost ignored).
+// No configuration file or hardcoded assumptions for any other user function.
+// Only *declarations* with the expected LLVM signature receive a summary.
+enum class KnownCallSemantics { Unsupported, NondetInteger, StatePreservingVoid };
+
+KnownCallSemantics classifyKnownCall(const llvm::CallBase* call) {
+    if (!call) return KnownCallSemantics::Unsupported;
+    if (call->isInlineAsm()) {
+        const auto* inlineAssembly = llvm::dyn_cast<llvm::InlineAsm>(call->getCalledOperand()->stripPointerCasts());
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - loop markers are analysis-only calls]
+        if (inlineAssembly && (inlineAssembly->getAsmString().find("NEXUS_SOURCE_RETURN") != std::string::npos ||
+            inlineAssembly->getAsmString().find("NEXUS_SOURCE_LOOP_ID_") != std::string::npos) &&
+            call->getType()->isVoidTy() && call->arg_size() == 0) {
+        // <<< NEXUS CHANGE END [2.4.4 - loop markers are analysis-only calls]
+            return KnownCallSemantics::StatePreservingVoid;
+        }
+        return KnownCallSemantics::Unsupported;
+    }
+    const llvm::Function* callee = call->getCalledFunction();
+    if (!callee) return KnownCallSemantics::Unsupported;
+    if (callee->isIntrinsic()) {
+        if (callee->getIntrinsicID() == llvm::Intrinsic::lifetime_start ||
+            callee->getIntrinsicID() == llvm::Intrinsic::lifetime_end) {
+            return KnownCallSemantics::StatePreservingVoid;
+        }
+        return KnownCallSemantics::Unsupported;
+    }
+    if (!callee->isDeclaration()) return KnownCallSemantics::Unsupported;
+    const auto name = callee->getName();
+    if (call->getType()->isIntegerTy() && call->arg_size() == 0 &&
+        (name.starts_with("__VERIFIER_nondet_") || name == "nondet")) {
+        return KnownCallSemantics::NondetInteger;
+    }
+    if (name == "random" && call->getType()->isIntegerTy(32) && call->arg_size() == 0 &&
+        callee->arg_size() == 0) {
+        // In C, `int random();` is an old-style declaration: Clang emits
+        // `declare i32 @random(...)` despite this zero-argument call.
+        return KnownCallSemantics::NondetInteger;
+    }
+    if (name == "tick" && call->getType()->isVoidTy() && call->arg_size() == 1 &&
+        call->getArgOperand(0)->getType()->isIntegerTy(32) &&
+        !callee->isVarArg() && callee->arg_size() == 1) {
+        return KnownCallSemantics::StatePreservingVoid;
+    }
+    return KnownCallSemantics::Unsupported;
+}
+// <<< NEXUS CHANGE END [2.3 - explicit benchmark primitive semantics]
 
 // Symbolic execution.
 Expression evaluateValue(const llvm::Value* llvmValue, LoopContext& loopContext, SymbolicState& symbolicState) {
@@ -1201,19 +1379,28 @@ Expression evaluateValue(const llvm::Value* llvmValue, LoopContext& loopContext,
     else if (isa<llvm::FreezeInst>(instruction)) {
         result = evaluateValue(instruction->getOperand(0), loopContext, symbolicState);
     }
+    // >>> NEXUS CHANGE BEGIN [2.3 - sound call evaluation]
     else if (const auto* callInstruction = dyn_cast<llvm::CallInst>(instruction)) {
-        const llvm::Function* calledFunction = callInstruction->getCalledFunction();
-        if (calledFunction && callInstruction->getType()->isIntegerTy() && (calledFunction->getName().starts_with("__VERIFIER_nondet_") || calledFunction->getName() == "nondet")) {
+        // Evaluate operands even for the modeled no-op: an operand may contain
+        // a previously executed value whose symbolic semantics must be checked.
+        for (unsigned argumentIndex = 0; argumentIndex < callInstruction->arg_size(); ++argumentIndex) {
+            (void)evaluateValue(callInstruction->getArgOperand(argumentIndex), loopContext, symbolicState);
+        }
+        const KnownCallSemantics semantics = classifyKnownCall(callInstruction);
+        if (semantics == KnownCallSemantics::NondetInteger) {
             const std::string nondeterministicName = loopContext.loopId + "_nd" + std::to_string(loopContext.nextNondetId++);
             loopContext.nondeterministicSymbols.emplace_back(nondeterministicName, getIntegerTypeName(callInstruction->getType()));
             result = atom(nondeterministicName);
+        }
+        else if (semantics == KnownCallSemantics::StatePreservingVoid) {
+            result = atom("true"); // Void result is not used; no state update.
         }
         else {
             addUnsupported(loopContext, "unsupported call: " + convertLLVMValueToString(instruction));
             result = atom("<unsupported-call>");
         }
-
     }
+    // <<< NEXUS CHANGE END [2.3 - sound call evaluation]
     else {
         addUnsupported(loopContext, "unsupported instruction in symbolic evaluator: " + convertLLVMValueToString(instruction));
         result = atom("<unsupported-inst>");
@@ -1417,15 +1604,26 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
                 recordRawTransition("loop_back", completedPath, successorState, loopContext, rawTransitions);
                 continue;
             }
-            if (!loopContext.loop->contains(successorBlock)) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - enter C child outside LLVM parent]
+            if (!loopContext.loop->contains(successorBlock) &&
+                !isSourceChildCorridor(loopContext.loop, successorBlock)) {
+            // <<< NEXUS CHANGE END [2.4.4 - enter C child outside LLVM parent]
                 std::vector<std::string> completedPath = successorState.pathBlocks;
                 completedPath.push_back(getBasicBlockName(successorBlock));
+                // >>> NEXUS CHANGE BEGIN [2.4.4 - no invented normal exit]
+                if (!isSemanticReturnExitEdge(loopContext.loop, currentBlock, successorBlock) &&
+                    reachesUnmodeledSourceContinuation(loopContext.loop, successorBlock)) {
+                    addUnsupported(loopContext, "source-scoped return or continuation is reachable beyond an unmodeled LLVM exit corridor: " + getBasicBlockName(successorBlock));
+                }
+                // <<< NEXUS CHANGE END [2.4.4 - no invented normal exit]
                 const std::string transitionKind = isSemanticReturnExitEdge(loopContext.loop, currentBlock, successorBlock) ? "return" : "exit";
                 recordRawTransition(transitionKind, completedPath, successorState, loopContext, rawTransitions);
                 continue;
             }
             llvm::Loop* childLoop = nullptr;
-            for (llvm::Loop* subLoop : loopContext.loop->getSubLoops()) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - use source children for composed steps]
+            for (llvm::Loop* subLoop : getSemanticChildLoops(loopContext.loop)) {
+            // <<< NEXUS CHANGE END [2.4.4 - use source children for composed steps]
                 if (subLoop->contains(successorBlock)) {
                     childLoop = subLoop;
                     break;
@@ -1507,10 +1705,36 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
                         continue;
                     }
                     if (!loopContext.loop->contains(childExitCase.exitBlock)) {
+
                         std::vector<std::string> completedPath = afterChildState.pathBlocks;
+
                         completedPath.push_back(getBasicBlockName(childExitCase.exitBlock));
-                        recordRawTransition("exit", completedPath, afterChildState, loopContext, rawTransitions);
+
+                        // >>> NEXUS CHANGE BEGIN [2.4.2 - classify child exit relative to parent]
+
+                        // Normal child EXIT can immediately enter a source-level RETURN
+
+                        // belonging to the enclosing loop (but not to the child).
+
+                        const auto sourceReturn = getReturnOnForcedExitPath(childExitCase.exitBlock);
+
+                        const std::string parentTransition =
+
+                            (sourceReturn && returnBelongsToLoop(loopContext.loop, *sourceReturn)) ? "return" : "exit";
+
+                        // >>> NEXUS CHANGE BEGIN [2.4.4 - avoid missing parent continuation]
+                        if (parentTransition != "return" &&
+                            (!loopContext.loop->contains(childLoop->getHeader()) ||
+                             reachesUnmodeledSourceContinuation(loopContext.loop, childExitCase.exitBlock))) {
+                            addUnsupported(loopContext, "source-nested child exits outside LLVM parent through an unsummarized continuation: " + childExitBlockName);
+                        }
+                        // <<< NEXUS CHANGE END [2.4.4 - avoid missing parent continuation]
+                        recordRawTransition(parentTransition, completedPath, afterChildState, loopContext, rawTransitions);
+
+                        // <<< NEXUS CHANGE END [2.4.2 - classify child exit relative to parent]
+
                         continue;
+
                     }
                     exploreLoopPaths(loopContext, childExitCase.exitBlock, std::move(afterChildState), visitedBlocks, rawTransitions);
                 }
@@ -1544,15 +1768,26 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
                 recordRawTransition("loop_back", completedPath, caseState, loopContext, rawTransitions);
                 continue;
             }
-            if (!loopContext.loop->contains(successorBlock)) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - enter C child outside LLVM parent]
+            if (!loopContext.loop->contains(successorBlock) &&
+                !isSourceChildCorridor(loopContext.loop, successorBlock)) {
+            // <<< NEXUS CHANGE END [2.4.4 - enter C child outside LLVM parent]
                 std::vector<std::string> completedPath = caseState.pathBlocks;
                 completedPath.push_back(getBasicBlockName(successorBlock));
+                // >>> NEXUS CHANGE BEGIN [2.4.4 - no invented normal exit]
+                if (!isSemanticReturnExitEdge(loopContext.loop, currentBlock, successorBlock) &&
+                    reachesUnmodeledSourceContinuation(loopContext.loop, successorBlock)) {
+                    addUnsupported(loopContext, "source-scoped return or continuation is reachable beyond an unmodeled LLVM exit corridor: " + getBasicBlockName(successorBlock));
+                }
+                // <<< NEXUS CHANGE END [2.4.4 - no invented normal exit]
                 const std::string transitionKind = isSemanticReturnExitEdge(loopContext.loop, currentBlock, successorBlock) ? "return" : "exit";
                 recordRawTransition(transitionKind, completedPath, caseState, loopContext, rawTransitions);
                 continue;
             }
             llvm::Loop* childLoop = nullptr;
-            for (llvm::Loop* subLoop : loopContext.loop->getSubLoops()) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - use source children for composed steps]
+            for (llvm::Loop* subLoop : getSemanticChildLoops(loopContext.loop)) {
+            // <<< NEXUS CHANGE END [2.4.4 - use source children for composed steps]
                 if (subLoop->contains(successorBlock)) {
                     childLoop = subLoop;
                     break;
@@ -1634,10 +1869,36 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
                         continue;
                     }
                     if (!loopContext.loop->contains(childExitCase.exitBlock)) {
+
                         std::vector<std::string> completedPath = afterChildState.pathBlocks;
+
                         completedPath.push_back(getBasicBlockName(childExitCase.exitBlock));
-                        recordRawTransition("exit", completedPath, afterChildState, loopContext, rawTransitions);
+
+                        // >>> NEXUS CHANGE BEGIN [2.4.2 - classify child exit relative to parent]
+
+                        // Normal child EXIT can immediately enter a source-level RETURN
+
+                        // belonging to the enclosing loop (but not to the child).
+
+                        const auto sourceReturn = getReturnOnForcedExitPath(childExitCase.exitBlock);
+
+                        const std::string parentTransition =
+
+                            (sourceReturn && returnBelongsToLoop(loopContext.loop, *sourceReturn)) ? "return" : "exit";
+
+                        // >>> NEXUS CHANGE BEGIN [2.4.4 - avoid missing parent continuation]
+                        if (parentTransition != "return" &&
+                            (!loopContext.loop->contains(childLoop->getHeader()) ||
+                             reachesUnmodeledSourceContinuation(loopContext.loop, childExitCase.exitBlock))) {
+                            addUnsupported(loopContext, "source-nested child exits outside LLVM parent through an unsummarized continuation: " + childExitBlockName);
+                        }
+                        // <<< NEXUS CHANGE END [2.4.4 - avoid missing parent continuation]
+                        recordRawTransition(parentTransition, completedPath, afterChildState, loopContext, rawTransitions);
+
+                        // <<< NEXUS CHANGE END [2.4.2 - classify child exit relative to parent]
+
                         continue;
+
                     }
                     exploreLoopPaths(loopContext, childExitCase.exitBlock, std::move(afterChildState), visitedBlocks, rawTransitions);
                 }
@@ -1668,15 +1929,26 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
             recordRawTransition("loop_back", completedPath, defaultState, loopContext, rawTransitions);
             return;
         }
-        if (!loopContext.loop->contains(defaultSuccessorBlock)) {
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - enter C child outside LLVM parent]
+        if (!loopContext.loop->contains(defaultSuccessorBlock) &&
+            !isSourceChildCorridor(loopContext.loop, defaultSuccessorBlock)) {
+        // <<< NEXUS CHANGE END [2.4.4 - enter C child outside LLVM parent]
             std::vector<std::string> completedPath = defaultState.pathBlocks;
             completedPath.push_back(getBasicBlockName(defaultSuccessorBlock));
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - no invented normal exit]
+            if (!isSemanticReturnExitEdge(loopContext.loop, currentBlock, defaultSuccessorBlock) &&
+                reachesUnmodeledSourceContinuation(loopContext.loop, defaultSuccessorBlock)) {
+                addUnsupported(loopContext, "source-scoped return or continuation is reachable beyond an unmodeled LLVM exit corridor: " + getBasicBlockName(defaultSuccessorBlock));
+            }
+            // <<< NEXUS CHANGE END [2.4.4 - no invented normal exit]
             const std::string transitionKind = isSemanticReturnExitEdge(loopContext.loop, currentBlock, defaultSuccessorBlock) ? "return" : "exit";
             recordRawTransition(transitionKind, completedPath, defaultState, loopContext, rawTransitions);
             return;
         }
         llvm::Loop* childLoop = nullptr;
-        for (llvm::Loop* subLoop : loopContext.loop->getSubLoops()) {
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - use source children for composed steps]
+        for (llvm::Loop* subLoop : getSemanticChildLoops(loopContext.loop)) {
+        // <<< NEXUS CHANGE END [2.4.4 - use source children for composed steps]
             if (subLoop->contains(defaultSuccessorBlock)) {
                 childLoop = subLoop;
                 break;
@@ -1758,10 +2030,36 @@ void exploreLoopPaths(LoopContext& loopContext, llvm::BasicBlock* currentBlock, 
                     continue;
                 }
                 if (!loopContext.loop->contains(childExitCase.exitBlock)) {
+
                     std::vector<std::string> completedPath = afterChildState.pathBlocks;
+
                     completedPath.push_back(getBasicBlockName(childExitCase.exitBlock));
-                    recordRawTransition("exit", completedPath, afterChildState, loopContext, rawTransitions);
+
+                    // >>> NEXUS CHANGE BEGIN [2.4.2 - classify child exit relative to parent]
+
+                    // Normal child EXIT can immediately enter a source-level RETURN
+
+                    // belonging to the enclosing loop (but not to the child).
+
+                    const auto sourceReturn = getReturnOnForcedExitPath(childExitCase.exitBlock);
+
+                    const std::string parentTransition =
+
+                        (sourceReturn && returnBelongsToLoop(loopContext.loop, *sourceReturn)) ? "return" : "exit";
+
+                    // >>> NEXUS CHANGE BEGIN [2.4.4 - avoid missing parent continuation]
+                        if (parentTransition != "return" &&
+                            (!loopContext.loop->contains(childLoop->getHeader()) ||
+                             reachesUnmodeledSourceContinuation(loopContext.loop, childExitCase.exitBlock))) {
+                            addUnsupported(loopContext, "source-nested child exits outside LLVM parent through an unsummarized continuation: " + childExitBlockName);
+                        }
+                        // <<< NEXUS CHANGE END [2.4.4 - avoid missing parent continuation]
+                        recordRawTransition(parentTransition, completedPath, afterChildState, loopContext, rawTransitions);
+
+                    // <<< NEXUS CHANGE END [2.4.2 - classify child exit relative to parent]
+
                     continue;
+
                 }
                 exploreLoopPaths(loopContext, childExitCase.exitBlock, std::move(afterChildState), visitedBlocks, rawTransitions);
             }
@@ -2328,9 +2626,12 @@ nlohmann::ordered_json generateLoopGuard(LoopContext& loopContext) {
         if (!currentBlock || !loopContext.loop) {
             return;
         }
+        // >>> NEXUS CHANGE BEGIN [2.1 - guard-region traversal completeness]
         if (visitedBlocks.count(currentBlock)) {
+            addUnsupported(loopContext, "cycle inside loop-guard region before a body transition: " + getBasicBlockName(currentBlock));
             return;
         }
+        // <<< NEXUS CHANGE END [2.1 - guard-region traversal completeness]
         visitedBlocks.insert(currentBlock);
         executeBlock(currentBlock, loopContext, currentState);
         for (const auto& [successorBlock, edgeCondition] : getGuardedSuccessors(currentBlock, loopContext, currentState)) {
@@ -2344,9 +2645,14 @@ nlohmann::ordered_json generateLoopGuard(LoopContext& loopContext) {
             if (!loopContext.loop->contains(successorBlock)) {
                 continue;
             }
+            // >>> NEXUS CHANGE BEGIN [2.1 - unconditional header self-backedges]
             if (successorBlock == loopContext.loop->getHeader()) {
+                // The header-to-header edge itself performs an iteration.
+                // Discarding it makes `while(1){}` incorrectly have guard false.
+                guardDisjuncts.push_back(mkAnd(successorState.pathConditions));
                 continue;
             }
+            // <<< NEXUS CHANGE END [2.1 - unconditional header self-backedges]
             bindPhiNodesForEntryEdge(loopContext, currentBlock, successorBlock, successorState);
             if (isInsideDirectChildLoop(loopContext.loop, successorBlock)) {
                 guardDisjuncts.push_back(mkAnd(successorState.pathConditions));
@@ -2369,11 +2675,12 @@ nlohmann::ordered_json generateLoopGuard(LoopContext& loopContext) {
         std::set<const llvm::BasicBlock*> visitedBlocks;
         std::set<llvm::BasicBlock*> guardRegion = collectLoopGuardRegionBlocks(loopContext);
         collectGuardDisjunctsFromHeaderToBody(loopContext, guardRegion, loopContext.loop->getHeader(), std::move(headerState), visitedBlocks, guardDisjuncts);
-        if (guardDisjuncts.empty()) {
-            addUnsupported(loopContext, "loop guard extraction produced no finite body-entry condition");
-            return atom("false");
-        }
+        // >>> NEXUS CHANGE BEGIN [2.1 - empty guard is a valid false formula]
+        // Empty disjunction = false.  Exploration failures are explicitly
+        // reported by the traversal; absence of a feasible body edge is not
+        // itself an unsupported extraction (e.g. `while (0)`).
         return mkOr(guardDisjuncts);
+        // <<< NEXUS CHANGE END [2.1 - empty guard is a valid false formula]
     };
     const std::string loopId = getLoopId(loopContext.loop);
     nlohmann::ordered_json guardJson;
@@ -2418,9 +2725,12 @@ nlohmann::ordered_json generateEntryStates(LoopContext& loopContext, const std::
         }
         llvm::BasicBlock* targetHeader = loopContext.loop->getHeader();
         if (parentLoop) {
-            if (!parentLoop->contains(block)) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - lexical child entry beyond LLVM loop region]
+            if (!parentLoop->contains(block) && block != targetHeader &&
+                !isSourceChildCorridor(parentLoop, block)) {
                 return false;
             }
+            // <<< NEXUS CHANGE END [2.4.4 - lexical child entry beyond LLVM loop region]
             if (loopContext.loop->contains(block) && block != targetHeader) {
                 return false;
             }
@@ -2518,16 +2828,14 @@ nlohmann::ordered_json generateEntryStates(LoopContext& loopContext, const std::
                 candidates.push_back(block);
             }
         };
-        if (parentLoop) {
-            for (llvm::BasicBlock* block : parentLoop->blocks()) {
-                addCandidateIfAllowed(block);
-            }
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - include lexical entry corridors]
+        // The source parent may not contain its child in LLVM LoopInfo.
+        // Include only structurally admissible corridor blocks plus the child
+        // header; the filter below still forbids another loop's body.
+        for (llvm::BasicBlock& block : *loopContext.function) {
+            addCandidateIfAllowed(&block);
         }
-        else {
-            for (llvm::BasicBlock& block : *loopContext.function) {
-                addCandidateIfAllowed(&block);
-            }
-        }
+        // <<< NEXUS CHANGE END [2.4.4 - include lexical entry corridors]
         llvm::BasicBlock* targetHeader = loopContext.loop ? loopContext.loop->getHeader() : nullptr;
         if (!targetHeader || !seenCandidates.count(targetHeader)) {
             return {};
@@ -2698,7 +3006,9 @@ nlohmann::ordered_json generateEntryStates(LoopContext& loopContext, const std::
         return sourceCallJson;
     };
     const std::string loopId = getLoopId(loopContext.loop);
-    llvm::Loop* parentLoop = loopContext.loop ? loopContext.loop->getParentLoop() : nullptr;
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - entry constraints from lexical parent]
+    llvm::Loop* parentLoop = loopContext.loop ? const_cast<llvm::Loop*>(getSemanticParentLoop(loopContext.loop)) : nullptr;
+    // <<< NEXUS CHANGE END [2.4.4 - entry constraints from lexical parent]
     const std::vector<llvm::Loop*> previousLoops = getPreviousSequentialLoops(loopContext.loop, allLoops);
     const std::vector<llvm::BasicBlock*> blocks = collectEntryCFGBlocks(loopContext, parentLoop, allLoops, previousLoops);
     const std::set<llvm::BasicBlock*> allowedBlocks(blocks.begin(), blocks.end());
@@ -2745,9 +3055,59 @@ nlohmann::ordered_json generateEntryStates(LoopContext& loopContext, const std::
             exploreReadableEntryPaths(loopContext, parentLoop, allLoops, allowedBlocks, exitTargetBlock, std::move(previousExitState), {}, {previousExitCall}, entryPaths);
         }
     }
-    if (entryPaths.empty()) {
-        addUnsupported(loopContext, "entry_states has no summarized source-to-header path");
+    // >>> NEXUS CHANGE BEGIN [2.2 - empty entry is false, not automatically unsupported]
+    // No enumerated path may represent a genuinely unreachable loop header.
+    // Before accepting it, audit for structurally reachable paths excluded by
+    // the summarized entry CFG. The explorer itself reports cycles/unsupported
+    // instructions while enumerating its admitted paths.
+    if (loopContext.loop && loopContext.function) {
+        std::set<const llvm::BasicBlock*> rawReachable;
+        std::queue<const llvm::BasicBlock*> rawQueue;
+        rawQueue.push(&loopContext.function->getEntryBlock());
+        rawReachable.insert(rawQueue.front());
+        while (!rawQueue.empty()) {
+            const llvm::BasicBlock* block = rawQueue.front();
+            rawQueue.pop();
+            const llvm::Instruction* terminator = block->getTerminator();
+            for (unsigned i = 0; terminator && i < terminator->getNumSuccessors(); ++i) {
+                const llvm::BasicBlock* successor = terminator->getSuccessor(i);
+                if (successor && rawReachable.insert(successor).second) rawQueue.push(successor);
+            }
+        }
+        if (allowedBlocks.empty() && rawReachable.count(loopContext.loop->getHeader())) {
+            addUnsupported(loopContext, "entry CFG excluded a structurally reachable loop header");
+        }
+        // Check both complete and empty entry relations: missing *one*
+        // predecessor path is just as unsound as missing *all* of them.
+        for (llvm::BasicBlock* allowedBlock : allowedBlocks) {
+            for (const llvm::BasicBlock* predecessor : llvm::predecessors(allowedBlock)) {
+                if (!predecessor || !rawReachable.count(predecessor) ||
+                    allowedBlocks.count(const_cast<llvm::BasicBlock*>(predecessor)) ||
+                    loopContext.loop->contains(predecessor)) continue;
+                const llvm::Loop* outsidePredecessorLoop = nullptr;
+                for (llvm::Loop* otherLoop : allLoops) {
+                    if (otherLoop && otherLoop != loopContext.loop &&
+                        !isAncestorLoopOf(otherLoop, loopContext.loop) &&
+                        otherLoop->contains(predecessor)) {
+                        outsidePredecessorLoop = otherLoop;
+                    }
+                }
+                if (!outsidePredecessorLoop) continue;
+                bool summarized = false;
+                for (llvm::Loop* previousLoop : previousLoops) {
+                    if (previousLoop && previousLoop->contains(predecessor)) {
+                        summarized = true;
+                        break;
+                    }
+                }
+                if (!summarized) {
+                    addUnsupported(loopContext, "entry path may traverse unsummarized predecessor loop: " +
+                        getBasicBlockName(predecessor));
+                }
+            }
+        }
     }
+    // <<< NEXUS CHANGE END [2.2 - empty entry is false, not automatically unsupported]
     nlohmann::ordered_json entryJson;
     entryJson["id"] = makeRelationName(loopId, "entry_states");
     entryJson["path_semantics"] = "existential_disjunction";
@@ -2783,11 +3143,17 @@ nlohmann::ordered_json serializeChildCalls(LoopContext& loopContext, const std::
         if (getLoopId(rootLoop) == wantedLoopId) {
             return rootLoop;
         }
-        for (llvm::Loop* childLoop : rootLoop->getSubLoops()) {
+        // >>> NEXUS CHANGE BEGIN [2.4.5 - resolve child summaries by source nesting]
+        // The emitted parent_loop_id/child_loop_ids and exploration already use
+        // the source-level parent map.  LLVM getSubLoops() can omit a lexical
+        // child whose loop lies on an early-return branch; looking it up here
+        // via LLVM alone incorrectly emits an unsupported relation.
+        for (llvm::Loop* childLoop : getSemanticChildLoops(rootLoop)) {
             if (llvm::Loop* foundLoop = findLoopById(childLoop, wantedLoopId)) {
                 return foundLoop;
             }
         }
+        // <<< NEXUS CHANGE END [2.4.5 - resolve child summaries by source nesting]
         return nullptr;
     };
     nlohmann::ordered_json childCallsJson = nlohmann::ordered_json::array();
@@ -3103,6 +3469,272 @@ nlohmann::ordered_json generateActualExit(const std::string& loopId, const std::
     return actualExitJson;
 }
 
+// >>> NEXUS CHANGE BEGIN [2.5 - verify coverage of executable control flow]
+// LoopInfo can omit irreducible cycles. Likewise, a remaining (not inlined)
+// call anywhere reachable from the entry function may hide nontermination.
+// Report these as unsupported, rather than proving a truncated program model.
+// This check is deliberately conservative; it does not create synthetic loops.
+std::vector<std::string> auditFunctionControlFlowCoverage(
+    llvm::Function& function, const std::vector<llvm::Loop*>& allLoops) {
+    std::set<std::string> issues;
+    std::set<llvm::BasicBlock*> reachable;
+    std::queue<llvm::BasicBlock*> worklist;
+    worklist.push(&function.getEntryBlock());
+    reachable.insert(&function.getEntryBlock());
+    while (!worklist.empty()) {
+        llvm::BasicBlock* block = worklist.front();
+        worklist.pop();
+        for (const llvm::Instruction& instruction : *block) {
+            if (isa<llvm::DbgInfoIntrinsic>(&instruction)) {
+                continue;
+            }
+            if (const auto* call = dyn_cast<llvm::CallBase>(&instruction)) {
+                if (classifyKnownCall(call) == KnownCallSemantics::Unsupported) {
+                    issues.insert("reachable call lacks a termination-safe summary or inlined body: " + convertLLVMValueToString(&instruction));
+                }
+            }
+        }
+        const llvm::Instruction* terminator = block->getTerminator();
+        if (!terminator) {
+            issues.insert("reachable basic block has no terminator: " + getBasicBlockName(block));
+            continue;
+        }
+        if (!isa<llvm::BranchInst>(terminator) && !isa<llvm::SwitchInst>(terminator) &&
+            !isa<llvm::ReturnInst>(terminator) && !isa<llvm::UnreachableInst>(terminator)) {
+            issues.insert("reachable CFG terminator is not modeled: " + getBasicBlockName(block));
+        }
+        for (unsigned i = 0; i < terminator->getNumSuccessors(); ++i) {
+            llvm::BasicBlock* next = terminator->getSuccessor(i);
+            if (next && reachable.insert(next).second) {
+                worklist.push(next);
+            }
+        }
+    }
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - flag source return scopes without IR matches]
+    // A source return that names an unmatched lexical loop must never be
+    // reinterpreted as a normal loop exit just because an LLVM nesting ID
+    // could not be reconstructed (for example an uneditable macro body).
+    std::set<unsigned> knownSourceLoops;
+    for (const auto& [loop, id] : sourceLoopIdsByIRLoop) {
+        if (loop && loop->getHeader()->getParent() == &function) knownSourceLoops.insert(id);
+    }
+    for (llvm::BasicBlock* block : reachable) {
+        if (auto marker = getSourceReturnProvenance(block)) {
+            if (!marker->hasLoopIds) continue;
+            for (unsigned id : marker->loopIds) {
+                if (!knownSourceLoops.count(id)) {
+                    issues.insert("source return references an unmatched lexical loop ID " + std::to_string(id));
+                }
+            }
+        }
+    }
+    // <<< NEXUS CHANGE END [2.4.4 - flag source return scopes without IR matches]
+    // >>> NEXUS CHANGE BEGIN [2.5.1 - audit cycles after removing modeled natural backedges]
+    // A full SCC can contain *both* an LLVM-recognized natural loop and an
+    // irreducible subcycle. Merely requiring the SCC to lie inside a LoopInfo
+    // loop incorrectly declares those subcycles covered. Every remaining
+    // cycle after dropping the modeled backedges is unmodeled control flow.
+    std::set<std::pair<llvm::BasicBlock*, llvm::BasicBlock*>> modeledBackedges;
+    for (llvm::Loop* loop : allLoops) {
+        if (!loop) continue;
+        for (llvm::BasicBlock* block : loop->blocks()) {
+            const llvm::Instruction* terminator = block->getTerminator();
+            for (unsigned i = 0; terminator && i < terminator->getNumSuccessors(); ++i) {
+                if (terminator->getSuccessor(i) == loop->getHeader()) {
+                    modeledBackedges.insert({block, loop->getHeader()});
+                }
+            }
+        }
+    }
+    // Tarjan SCCs on residual CFG edges, with known LoopInfo backedges removed.
+    // <<< NEXUS CHANGE END [2.5.1 - audit cycles after removing modeled natural backedges]
+    std::map<llvm::BasicBlock*, int> indexes, lowlinks;
+    std::set<llvm::BasicBlock*> onStack;
+    std::vector<llvm::BasicBlock*> stack;
+    int nextIndex = 0;
+    std::function<void(llvm::BasicBlock*)> visit;
+    visit = [&](llvm::BasicBlock* block) {
+        indexes[block] = nextIndex;
+        lowlinks[block] = nextIndex++;
+        stack.push_back(block);
+        onStack.insert(block);
+        const llvm::Instruction* terminator = block->getTerminator();
+        if (terminator) {
+            for (unsigned i = 0; i < terminator->getNumSuccessors(); ++i) {
+                llvm::BasicBlock* next = terminator->getSuccessor(i);
+                // >>> NEXUS CHANGE BEGIN [2.5.1 - ignore only modeled backedges]
+                if (!next || !reachable.count(next) || modeledBackedges.count({block, next})) continue;
+                // <<< NEXUS CHANGE END [2.5.1 - ignore only modeled backedges]
+                if (!indexes.count(next)) {
+                    visit(next);
+                    lowlinks[block] = std::min(lowlinks[block], lowlinks[next]);
+                }
+                else if (onStack.count(next)) {
+                    lowlinks[block] = std::min(lowlinks[block], indexes[next]);
+                }
+            }
+        }
+        if (lowlinks[block] != indexes[block]) return;
+        std::vector<llvm::BasicBlock*> component;
+        while (!stack.empty()) {
+            llvm::BasicBlock* node = stack.back();
+            stack.pop_back();
+            onStack.erase(node);
+            component.push_back(node);
+            if (node == block) break;
+        }
+        bool cyclic = component.size() > 1;
+        if (!cyclic && !component.empty()) {
+            const llvm::Instruction* term = component.front()->getTerminator();
+            for (unsigned i = 0; term && i < term->getNumSuccessors(); ++i) {
+                // >>> NEXUS CHANGE BEGIN [2.5.1 - self-edge residual coverage]
+                cyclic = cyclic || (term->getSuccessor(i) == component.front() &&
+                                    !modeledBackedges.count({component.front(), component.front()}));
+                // <<< NEXUS CHANGE END [2.5.1 - self-edge residual coverage]
+            }
+        }
+        if (!cyclic) return;
+        // >>> NEXUS CHANGE BEGIN [2.5.1 - residual CFG SCC is genuinely unmodeled]
+        // The component remains cyclic after ALL modeled natural backedges
+        // were removed; LoopInfo summaries cannot account for this cycle.
+        issues.insert("reachable irreducible or otherwise unmodeled CFG cycle at " + getBasicBlockName(component.front()));
+        // <<< NEXUS CHANGE END [2.5.1 - residual CFG SCC is genuinely unmodeled]
+    };
+    for (llvm::BasicBlock* block : reachable) {
+        if (!indexes.count(block)) {
+            visit(block);
+        }
+    }
+    return {issues.begin(), issues.end()};
+}
+// <<< NEXUS CHANGE END [2.5 - verify coverage of executable control flow]
+
+// >>> NEXUS CHANGE BEGIN [2.5.2 - certify source loops without a backedge]
+// LLVM may erase the natural-loop structure of a source C loop whose every
+// feasible body path returns or breaks. This is a TERMINATION proof only when
+// the *entire reachable entry-function CFG* is a finite DAG and all executed
+// calls/terminators are modeled. Merely failing to find a LoopInfo loop is NOT
+// sufficient: irreducible cycles and uninlined calls must remain unsupported.
+struct AcyclicEntryCheck {
+    bool proven = false;
+    std::string reason;
+};
+
+AcyclicEntryCheck certifyAcyclicEntryFunction(
+    llvm::Function& function, const std::vector<std::string>& coverageIssues) {
+    constexpr llvm::StringLiteral unmatchedPrefix("source return references an unmatched lexical loop ID ");
+    for (const std::string& issue : coverageIssues) {
+        if (llvm::StringRef(issue).starts_with(unmatchedPrefix)) continue;
+        return {false, issue}; // Never discard a genuine coverage warning.
+    }
+
+    std::set<const llvm::BasicBlock*> reachable;
+    std::queue<const llvm::BasicBlock*> pending;
+    reachable.insert(&function.getEntryBlock());
+    pending.push(&function.getEntryBlock());
+    std::set<unsigned> observedSourceLoopIds;
+    std::map<unsigned, unsigned> sourceParentIds;
+    std::set<unsigned> returnScopeIds;
+    constexpr llvm::StringLiteral loopMarkerPrefix("NEXUS_SOURCE_LOOP_ID_");
+    constexpr llvm::StringLiteral returnMarkerPrefix("NEXUS_SOURCE_RETURN_DEPTH_");
+
+    while (!pending.empty()) {
+        const llvm::BasicBlock* block = pending.front();
+        pending.pop();
+        const llvm::Instruction* terminator = block->getTerminator();
+        if (!terminator ||
+            !(llvm::isa<llvm::BranchInst>(terminator) ||
+              llvm::isa<llvm::SwitchInst>(terminator) ||
+              llvm::isa<llvm::ReturnInst>(terminator))) {
+            // In particular, `unreachable` represents undefined execution,
+            // not an ordinary successfully terminating path.
+            return {false, "acyclic certificate requires modeled branch/switch/return terminators"};
+        }
+        for (const llvm::Instruction& instruction : *block) {
+            const auto* call = llvm::dyn_cast<llvm::CallBase>(&instruction);
+            if (!call) continue;
+            if (classifyKnownCall(call) == KnownCallSemantics::Unsupported) {
+                return {false, "acyclic certificate rejected an unsupported reachable call"};
+            }
+            if (!call->isInlineAsm()) continue;
+            const auto* assembly = llvm::dyn_cast<llvm::InlineAsm>(call->getCalledOperand()->stripPointerCasts());
+            if (!assembly) return {false, "acyclic certificate cannot read inline assembly"};
+            const llvm::StringRef text = assembly->getAsmString();
+            const size_t loopStart = text.find(loopMarkerPrefix);
+            if (loopStart != llvm::StringRef::npos) {
+                auto fields = text.substr(loopStart + loopMarkerPrefix.size()).split("_PARENT_");
+                unsigned id = 0, parent = 0;
+                if (fields.first.getAsInteger(10, id) ||
+                    fields.second.getAsInteger(10, parent) || id == 0) {
+                    return {false, "malformed source-loop marker in an acyclic entry"};
+                }
+                auto existing = sourceParentIds.find(id);
+                if (existing != sourceParentIds.end() && existing->second != parent) {
+                    return {false, "conflicting source-loop markers in an acyclic entry"};
+                }
+                observedSourceLoopIds.insert(id);
+                sourceParentIds[id] = parent;
+            }
+            if (text.find(returnMarkerPrefix) != llvm::StringRef::npos) {
+                auto marker = getSourceReturnProvenance(block);
+                if (!marker || !marker->hasLoopIds) {
+                    return {false, "unverifiable source-return marker in an acyclic entry"};
+                }
+                returnScopeIds.insert(marker->loopIds.begin(), marker->loopIds.end());
+            }
+        }
+        for (unsigned i = 0; i < terminator->getNumSuccessors(); ++i) {
+            const llvm::BasicBlock* successor = terminator->getSuccessor(i);
+            if (successor && reachable.insert(successor).second) pending.push(successor);
+        }
+    }
+
+    // A stale/incorrectly injected return scope must NEVER be excused just
+    // because LoopInfo found no natural loop.
+    for (unsigned id : returnScopeIds) {
+        if (!observedSourceLoopIds.count(id)) {
+            return {false, "source return has no corresponding executable source-loop marker"};
+        }
+    }
+    for (const auto& [id, parent] : sourceParentIds) {
+        if (parent != 0 && !observedSourceLoopIds.count(parent)) {
+            return {false, "source-loop marker references an unobserved lexical parent"};
+        }
+    }
+
+    // Independent topological check on the *full* reachable CFG, not just
+    // LoopInfo backedges. This also rejects irreducible cycles.
+    std::map<const llvm::BasicBlock*, unsigned> inDegree;
+    for (const llvm::BasicBlock* block : reachable) inDegree[block] = 0;
+    for (const llvm::BasicBlock* block : reachable) {
+        const llvm::Instruction* terminator = block->getTerminator();
+        for (unsigned i = 0; i < terminator->getNumSuccessors(); ++i) {
+            const llvm::BasicBlock* successor = terminator->getSuccessor(i);
+            if (successor && reachable.count(successor)) ++inDegree[successor];
+        }
+    }
+    std::queue<const llvm::BasicBlock*> zeroDegree;
+    for (const auto& [block, degree] : inDegree) {
+        if (degree == 0) zeroDegree.push(block);
+    }
+    std::size_t visited = 0;
+    while (!zeroDegree.empty()) {
+        const llvm::BasicBlock* block = zeroDegree.front();
+        zeroDegree.pop();
+        ++visited;
+        const llvm::Instruction* terminator = block->getTerminator();
+        for (unsigned i = 0; i < terminator->getNumSuccessors(); ++i) {
+            const llvm::BasicBlock* successor = terminator->getSuccessor(i);
+            if (successor && --inDegree[successor] == 0) zeroDegree.push(successor);
+        }
+    }
+    if (visited != reachable.size()) {
+        return {false, "reachable CFG contains a cycle not certified by LLVM LoopInfo"};
+    }
+    return {true, {}};
+}
+// <<< NEXUS CHANGE END [2.5.2 - certify source loops without a backedge]
+
 // Public operations.
 bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath, const std::filesystem::path& summariesDir, const std::set<std::string>& entryFunctionNames) {
     auto convertStringsToJson = [&](const std::vector<std::string>& S) -> nlohmann::ordered_json {
@@ -3135,6 +3767,11 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
         }
         return symbolsJson;
     };
+    // >>> NEXUS CHANGE BEGIN [2.5.2 - reset the acyclic certificate per extraction]
+    acyclicTerminationCertified_ = false;
+    unsigned analyzedEntryFunctions = 0;
+    bool allEntriesAcyclic = true;
+    // <<< NEXUS CHANGE END [2.5.2 - reset the acyclic certificate per extraction]
     nextLoopId = 1;
     loopIds.clear();
     llvm::SMDiagnostic error;
@@ -3151,11 +3788,49 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
         if (entryFunctionNames.find(function.getName().str()) == entryFunctionNames.end()) {
             continue;
         }
+        // >>> NEXUS CHANGE BEGIN [2.5.2 - account for every entry function]
+        ++analyzedEntryFunctions;
+        // <<< NEXUS CHANGE END [2.5.2 - account for every entry function]
         llvm::DominatorTree dominatorTree(function);
         llvm::LoopInfo loopInfo;
         loopInfo.analyze(dominatorTree);
         std::vector<llvm::Loop*> allLoops = collectLoops(loopInfo);
         sortLoops(allLoops);
+        // >>> NEXUS CHANGE BEGIN [2.4.4 - correlate C lexical loops with LLVM natural loops]
+        associateSourceLoops(loopInfo, allLoops);
+        // <<< NEXUS CHANGE END [2.4.4 - correlate C lexical loops with LLVM natural loops]
+        // >>> NEXUS CHANGE BEGIN [2.5 - coverage audit for entry function]
+        const std::vector<std::string> functionCoverageIssues =
+            auditFunctionControlFlowCoverage(function, allLoops);
+        // <<< NEXUS CHANGE END [2.5 - coverage audit for entry function]
+        // >>> NEXUS CHANGE BEGIN [2.5.1 - unsupported CFG with zero LLVM loops]
+        // If an entry function has no recognized loops, there is no honest
+        // loop JSON to attach the findings to. Never invent a loop merely to
+        // populate `unsupported`: keep the JSON schema unchanged and report
+        // the source-level extraction limitation explicitly instead.
+        // >>> NEXUS CHANGE BEGIN [2.5.2 - distinguish acyclic source loops from unsupported CFG]
+        if (allLoops.empty()) {
+            const AcyclicEntryCheck certificate =
+                certifyAcyclicEntryFunction(function, functionCoverageIssues);
+            if (certificate.proven) {
+                // Source loops with no backedge have no iteration relation;
+                // do not invent a Loop Information JSON or an LLM witness.
+                continue;
+            }
+            std::filesystem::create_directories(summariesDir);
+            std::ostringstream message;
+            message << "unsupported control flow in entry function " << function.getName().str() << ": ";
+            for (const std::string& issue : functionCoverageIssues) {
+                message << issue << " | ";
+            }
+            message << certificate.reason;
+            std::ofstream diagnostic(summariesDir / "unsupported_extraction.txt");
+            if (diagnostic) diagnostic << message.str() << '\n';
+            throw UnsupportedControlFlowError(message.str());
+        }
+        allEntriesAcyclic = false;
+        // <<< NEXUS CHANGE END [2.5.2 - distinguish acyclic source loops from unsupported CFG]
+        // <<< NEXUS CHANGE END [2.5.1 - unsupported CFG with zero LLVM loops]
         for (llvm::Loop* loop : allLoops) {
             (void)getLoopId(loop);
         }
@@ -3165,14 +3840,18 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
             loopJson["loop_id"] = loopId;
             loopJson["function"] = function.getName().str();
             loopJson["llvm_header_block"] = getBasicBlockName(loop->getHeader());
-            if (llvm::Loop* parent = loop->getParentLoop()) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - emit C lexical parent relationship]
+            if (const llvm::Loop* parent = getSemanticParentLoop(loop)) {
+            // <<< NEXUS CHANGE END [2.4.4 - emit C lexical parent relationship]
                 loopJson["parent_loop_id"] = getLoopId(parent);
             }
             else {
                 loopJson["parent_loop_id"] = nullptr;
             }
             std::vector<std::string> childLoops;
-            for (llvm::Loop* child : loop->getSubLoops()) {
+            // >>> NEXUS CHANGE BEGIN [2.4.4 - emit C lexical children]
+            for (llvm::Loop* child : getSemanticChildLoops(loop)) {
+            // <<< NEXUS CHANGE END [2.4.4 - emit C lexical children]
                 childLoops.push_back(getLoopId(child));
             }
             loopJson["child_loop_ids"] = convertStringsToJson(childLoops);
@@ -3195,6 +3874,11 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
             for (const auto& variable : loopContext.variables) {
                 loopContext.variableNames[variable.slot] = variable.name;
             }
+            // >>> NEXUS CHANGE BEGIN [2.5 - preserve coverage failures]
+            for (const std::string& issue : functionCoverageIssues) {
+                addUnsupported(loopContext, issue);
+            }
+            // <<< NEXUS CHANGE END [2.5 - preserve coverage failures]
             nlohmann::ordered_json loopGuardJson = generateLoopGuard(loopContext);
             nlohmann::ordered_json entryStatesJson = generateEntryStates(loopContext, allLoops);
             nlohmann::ordered_json iterationStepsJson = generateLoopIterationSteps(loopContext);
@@ -3215,6 +3899,18 @@ bool loopInformationExtractor::extract(const std::filesystem::path& inlineBcPath
             jsonsByLoopId[loopId] = std::move(loopJson);
         }
     }
+    // >>> NEXUS CHANGE BEGIN [2.5.2 - explicit zero-loop structural termination certificate]
+    // Never certify an empty/missing set of entries. All selected definitions
+    // must have passed the fully supported acyclic-CFG check above.
+    if (jsonsByLoopId.empty() && analyzedEntryFunctions != 0 &&
+        analyzedEntryFunctions == entryFunctionNames.size() && allEntriesAcyclic) {
+        acyclicTerminationCertified_ = true;
+        std::filesystem::create_directories(summariesDir);
+        std::ofstream proof(summariesDir / "acyclic_termination.txt");
+        if (proof) proof << "Termination certified: all reachable entry-function CFGs are finite DAGs, with supported calls and valid source-loop markers.\n";
+        return true;
+    }
+    // <<< NEXUS CHANGE END [2.5.2 - explicit zero-loop structural termination certificate]
     if (jsonsByLoopId.empty()) {
         return false;
     }

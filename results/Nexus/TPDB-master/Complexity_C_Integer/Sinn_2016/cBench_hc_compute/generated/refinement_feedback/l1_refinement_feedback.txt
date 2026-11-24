@@ -1,0 +1,175 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+"l1_v2"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l3_v5_out = 14,
+ l1_v3_next = 28958,
+ l2_v5_out = 8,
+ l1_v4 = 3,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l2_v2_out = 6,
+ l3_v1_out = 10,
+ l3_v2_out = 11,
+ l1_v2 = 7720,
+ l1_v1 = 2,
+ l3_v4_out = 13,
+ l3_v3_out = 12,
+ l1_v5 = 4,
+ l1_v2_next = 28958,
+ l1_v4_next = 13,
+ l1_v1_next = 2,
+ l2_v3_out = 28958,
+ l1_v5_next = 14,
+ l2_header_to_exit = [else -> True],
+ l3_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True, 0 < l1_v2, l1_v2 < 0]","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"2","l1_v1_next":"2","l1_v2":"7720","l1_v2_next":"28958","l1_v3_next":"28958","l1_v4":"3","l1_v4_next":"13","l1_v5":"4","l1_v5_next":"14","l2_header_to_exit":"[else -> True]","l2_v1_out":"5","l2_v2_out":"6","l2_v3_out":"28958","l2_v4_out":"7","l2_v5_out":"8","l3_header_to_exit":"[else -> True]","l3_v1_out":"10","l3_v2_out":"11","l3_v3_out":"12","l3_v4_out":"13","l3_v5_out":"14"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[True,\n 0 < l1_v2,\n And(0 < l1_v2,\n     l2_header_to_exit(l1_v1,\n                       l1_v2,\n                       l1_v2 + -1,\n                       l1_v4,\n                       l1_v5,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out),\n     l3_header_to_exit(l1_v1,\n                       l1_v2,\n                       l2_v3_out,\n                       l1_v2 - l2_v3_out,\n                       l1_v5,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out,\n                       l3_v4_out,\n                       l3_v5_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l2_v3_out,\n     l1_v3_next == l2_v3_out,\n     l1_v4_next == l3_v4_out,\n     l1_v5_next == l3_v5_out),\n Not(l1_v2_next < l1_v2)]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 1 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v2",
+    0
+  ],
+  "op": ">"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": ">",
+  "args": [
+    "l1_v2",
+    0
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: unknown
+
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"description":"iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unknown","reason_unknown":"dependent iteration path needs a sound relational encoding","status":"unknown"}],"components":{"recurrent_set":"unknown"},"loop_id":"l1","status":"unknown"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v2 = 1, l1_v5 = -1]
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l3_v5_out = 8854,
+ l1_v3_next = 2,
+ l2_v5_out = 8,
+ l1_v4 = 4,
+ l2_v4_out = 7,
+ l2_v1_out = 5,
+ l2_v2_out = 6,
+ l3_v1_out = 10,
+ l3_v2_out = 11,
+ l1_v2 = 1,
+ l1_v1 = 3,
+ l3_v4_out = 13,
+ l3_v3_out = 12,
+ l1_v5 = 8855,
+ l1_v2_next = 2,
+ l1_v4_next = 13,
+ l1_v1_next = 3,
+ l2_v3_out = 2,
+ l1_v5_next = 8854,
+ l2_header_to_exit = [else -> True],
+ l3_header_to_exit = [else -> True]]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"counterexample":{"assignments":{"l1_v2":"1","l1_v5":"-1"},"kind":"model"},"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"sat","query_condition":"[True, 0 < l1_v2, Or(l1_v2 < 0, l1_v5 < 0)]","status":"invalid"},{"counterexample":{"assignments":{"l1_v1":"3","l1_v1_next":"3","l1_v2":"1","l1_v2_next":"2","l1_v3_next":"2","l1_v4":"4","l1_v4_next":"13","l1_v5":"8855","l1_v5_next":"8854","l2_header_to_exit":"[else -> True]","l2_v1_out":"5","l2_v2_out":"6","l2_v3_out":"2","l2_v4_out":"7","l2_v5_out":"8","l3_header_to_exit":"[else -> True]","l3_v1_out":"10","l3_v2_out":"11","l3_v3_out":"12","l3_v4_out":"13","l3_v5_out":"8854"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[True,\n 0 < l1_v2,\n And(0 < l1_v2,\n     l2_header_to_exit(l1_v1,\n                       l1_v2,\n                       l1_v2 + -1,\n                       l1_v4,\n                       l1_v5,\n                       l2_v1_out,\n                       l2_v2_out,\n                       l2_v3_out,\n                       l2_v4_out,\n                       l2_v5_out),\n     l3_header_to_exit(l1_v1,\n                       l1_v2,\n                       l2_v3_out,\n                       l1_v2 - l2_v3_out,\n                       l1_v5,\n                       l3_v1_out,\n                       l3_v2_out,\n                       l3_v3_out,\n                       l3_v4_out,\n                       l3_v5_out),\n     l1_v1_next == l1_v1,\n     l1_v2_next == l2_v3_out,\n     l1_v3_next == l2_v3_out,\n     l1_v4_next == l3_v4_out,\n     l1_v5_next == l3_v5_out),\n Not(Or(l1_v2_next < l1_v2,\n        And(l1_v2_next == l1_v2, l1_v5_next < l1_v5)))]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 1 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 3 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.

@@ -1,0 +1,27 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l8_v11",
+              0
+            ],
+            "op": ">="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": "l8_v11",
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l8"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_valid"
+  }
+]

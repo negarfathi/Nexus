@@ -1,0 +1,48 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l3_v4",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l3_v4"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l3
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l3_v4",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l3_v4"
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l3_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l3_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[0 <= l3_v4, 0 < l3_v4, l3_v4 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[0 <= l3_v4,\n 0 < l3_v4,\n Or(And(And(0 < l3_v4, 0 < l3_v2, 0 != l3_nd1),\n        l3_v1_next == l3_v1,\n        l3_v2_next == l3_v2 + -1,\n        l3_v3_next == l3_v3 + 1,\n        l3_v4_next == l3_v4 + -1),\n    And(Or(And(0 < l3_v4, 0 < l3_v2, 0 == l3_nd1),\n           And(0 < l3_v4, 0 >= l3_v2)),\n        l3_v1_next == l3_v1,\n        l3_v2_next == l3_v2,\n        l3_v3_next == l3_v3,\n        l3_v4_next == l3_v4 + -1)),\n Not(l3_v4_next < l3_v4)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l3","status":"valid"}

@@ -1,0 +1,243 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v1",
+                  100
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      100,
+                      {
+                        "args": [
+                          100,
+                          "l1_v1"
+                        ],
+                        "op": "-"
+                      }
+                    ],
+                    "op": "*"
+                  },
+                  {
+                    "args": [
+                      2,
+                      "l1_v2"
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "+"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          100,
+                          {
+                            "args": [
+                              100,
+                              "l1_v1"
+                            ],
+                            "op": "-"
+                          }
+                        ],
+                        "op": "*"
+                      },
+                      {
+                        "args": [
+                          2,
+                          "l1_v2"
+                        ],
+                        "op": "*"
+                      }
+                    ],
+                    "op": "+"
+                  },
+                  1
+                ],
+                "op": "+"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      100
+                    ],
+                    "op": "<="
+                  },
+                  {
+                    "args": [
+                      "l1_v2",
+                      1
+                    ],
+                    "op": ">="
+                  }
+                ],
+                "op": "and"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      100
+                    ],
+                    "op": ">"
+                  },
+                  {
+                    "args": [
+                      "l1_v2",
+                      2
+                    ],
+                    "op": ">="
+                  }
+                ],
+                "op": "and"
+              }
+            ],
+            "op": "or"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "non-terminating",
+    "classification_changed_from": "terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  0
+                ],
+                "op": "<="
+              },
+              0,
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      100
+                    ],
+                    "op": "<="
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          101,
+                          "l1_v1"
+                        ],
+                        "op": "-"
+                      },
+                      {
+                        "args": [
+                          10,
+                          "l1_v2"
+                        ],
+                        "op": "*"
+                      }
+                    ],
+                    "op": "+"
+                  },
+                  "l1_v2"
+                ],
+                "op": "ite"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "classification_changed_from": "non-terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

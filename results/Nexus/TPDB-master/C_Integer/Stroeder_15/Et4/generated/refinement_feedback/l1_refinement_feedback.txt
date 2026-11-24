@@ -1,0 +1,124 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    "l1_v3",
+    10
+  ],
+  "op": "="
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "=",
+  "args": [
+    "l1_v3",
+    10
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l1_v4 = 10, l1_v2 = 10, l1_v3 = 10]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l1_v2":"10","l1_v3":"10","l1_v4":"10"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[10 == l1_v3,\n Not(Exists([l1_v3_next,\n             l1_nd4,\n             l1_v5_next,\n             l1_v4_next,\n             l1_v2_next,\n             l1_v1_next],\n            And(And(1 <= l1_v3 - l1_v4, l1_v2 == l1_v4),\n                Or(And(And(1 <= l1_v3 - l1_v4,\n                           l1_v2 == l1_v4),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v4 + 1 + l1_nd4,\n                       10 == l1_v3_next,\n                       l1_v4_next == l1_v4 + 1 + l1_nd4,\n                       l1_v5_next == l1_nd4)),\n                10 == l1_v3_next)))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        10
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ],
+          "op": "="
+        },
+        {
+          "args": [
+            "l1_v4",
+            9
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v3",
+        10
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": "=",
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            "l1_v4",
+            9
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: passed
+
+
+RECURRENT_SET_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unsat","query_condition":"[And(10 == l1_v3, And(l1_v2 == l1_v4, 9 >= l1_v4)),\n Not(Exists([l1_v4_next,\n             l1_v2_next,\n             l1_v3_next,\n             l1_nd4,\n             l1_v5_next,\n             l1_v1_next],\n            And(And(1 <= l1_v3 - l1_v4, l1_v2 == l1_v4),\n                Or(And(And(1 <= l1_v3 - l1_v4,\n                           l1_v2 == l1_v4),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v4 + 1 + l1_nd4,\n                       10 == l1_v3_next,\n                       l1_v4_next == l1_v4 + 1 + l1_nd4,\n                       l1_v5_next == l1_nd4)),\n                And(10 == l1_v3_next,\n                    And(l1_v2_next == l1_v4_next,\n                        9 >= l1_v4_next)))))]","status":"valid"}],"components":{"recurrent_set":"valid"},"loop_id":"l1","status":"valid"}

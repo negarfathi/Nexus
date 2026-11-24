@@ -9,9 +9,8 @@ excel_file="$root_directory/results_baselines.xlsx"
 
 timeout=600
 
-llvm2kittel_image="llvm2kittel"
-llvm2kittel_directory="$baselines_directory/Athena/llvm2kittel"
-muval_image="coar"
+athena_image="coar:svcomp"
+athena_configuration="${ATHENA_CONFIGURATION:-athena_termcomp.json}"
 proton_image="proton"
 uautomizer_image="uautomizer"
 aprove_image="aprove"
@@ -20,11 +19,6 @@ twols_image="2ls"
 
 if [[ ! -d "$benchmarks_directory" ]]; then
     echo "Benchmarks folder not found: $benchmarks_directory"
-    exit 1
-fi
-
-if [[ ! -d "$llvm2kittel_directory" ]]; then
-    echo "llvm2KITTeL folder not found: $llvm2kittel_directory"
     exit 1
 fi
 
@@ -187,40 +181,33 @@ find "$benchmarks_directory" -type f -name "*.c" | sort | while read -r source_c
     result_directory="$results_directory/Athena/$relative_directory"
     output_file="$result_directory/${stem}.txt"
     start_time=$(date +%s%N)
-    docker run --rm \
-        -v "$result_directory:/liveness_analysis" \
-        -v "$llvm2kittel_directory:/liveness_analysis/llvm2kittel" \
-        "$llvm2kittel_image" \
-        /bin/bash -c "
-            cd /liveness_analysis &&
-            clang -Wall -Wextra -g -c -emit-llvm -O0 '$filename' -o '${stem}.bc' &&
-            /liveness_analysis/llvm2kittel/build/llvm2kittel \
-                --signedness-info=false \
-                --unreachable-exit=true \
-                --dump-ll \
-                --no-slicing \
-                --eager-inline \
-                --t2 '${stem}.bc' > '${stem}.t2'
-        " > "$output_file" 2>&1
-    llvm_exit=$?
-    if [[ $llvm_exit -eq 0 && -s "$result_directory/${stem}.t2" ]]; then
-        docker run --rm \
-            -v "$result_directory:/liveness_analysis" \
-            "$muval_image" \
-            /bin/bash -c "
-                cd /root/coar &&
-                timeout $timeout ./main.exe \
-                    -c ./config/solver/muval_parallel_exc_tbq_ar.json \
-                    -p ltsterm \
-                    '/liveness_analysis/${stem}.t2'
-            " >> "$output_file" 2>&1
-        exit_code=$?
-    else
-        echo "llvm2KITTeL failed." >> "$output_file"
-        exit_code=$llvm_exit
-    fi
+    docker run --rm --platform linux/amd64 \
+        -v "$result_directory:/inputs:ro" \
+        -w /opt/coar \
+        --entrypoint /bin/bash \
+        "$athena_image" -c '
+            set -e
+            python3 - "/opt/coar/config/solver/$3" /tmp/focustnt_athena.json <<"PY"
+import json, sys
+
+with open(sys.argv[1]) as f:
+    config = json.load(f)
+config[1]["clang"] = "/opt/coar/bin/llvm-19.1.7/bin/clang-19"
+config[1]["framac_share"] = "/opt/coar/share/frama-c"
+with open(sys.argv[2], "w") as f:
+    json.dump(config, f)
+PY
+            exec timeout -k 5s "${1}s" \
+                /opt/coar/bin/coar \
+                -c /tmp/focustnt_athena.json \
+                -p cterm --c-data-model LP64 \
+                "/inputs/$2"
+        ' _ "$timeout" "$filename" "$athena_configuration" > "$output_file" 2>&1
+    exit_code=$?
     if [[ $exit_code -eq 124 ]]; then
-        echo "TIMEOUT" >> "$output_file"
+        printf '\nTIMEOUT\n' >> "$output_file"
+    elif [[ $exit_code -ne 0 ]]; then
+        printf '\nERROR\n' >> "$output_file"
     fi
     end_time=$(date +%s%N)
     elapsed_time=$(((end_time - start_time) / 1000000))

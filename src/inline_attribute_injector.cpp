@@ -1,4 +1,7 @@
 #include "../include/inline_attribute_injector.h"
+// >>> NEXUS CHANGE BEGIN [2.4 - tokenize return statement terminators]
+#include "clang/Lex/Lexer.h"
+// <<< NEXUS CHANGE END [2.4 - tokenize return statement terminators]
 
 namespace {
 
@@ -89,6 +92,137 @@ std::set<const clang::FunctionDecl *> findEntryFunctions(const FunctionGraphColl
 }
 
 }
+
+// >>> NEXUS CHANGE BEGIN [2.4 - mark real entry-function return statements]
+// Clang -O0 is free to route both a normal while exit and a C `return;`
+// to the same IR ret block.  A source-only, state-preserving marker retained
+// in LLVM IR distinguishes the *actual* return statement's outgoing edge.
+// Wrapping the statement is essential for unbraced `if (cond) return;`.
+bool InlineAttributeInjectorVisitor::TraverseFunctionDecl(clang::FunctionDecl *FD) {
+    const bool wasEntry = traversingEntryFunction;
+    // >>> NEXUS CHANGE BEGIN [2.4.1 - reset loop nesting per entry function]
+    const unsigned previousLoopDepth = sourceLoopDepth;
+    sourceLoopDepth = 0;
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - distinct IDs for source loops in each entry]
+    const auto previousSourceIds = sourceLoopIds;
+    const unsigned previousNextId = nextSourceLoopId;
+    sourceLoopIds.clear();
+    nextSourceLoopId = 0;
+    // <<< NEXUS CHANGE END [2.4.4 - distinct IDs for source loops in each entry]
+    // <<< NEXUS CHANGE END [2.4.1 - reset loop nesting per entry function]
+    traversingEntryFunction = FD && FD->isThisDeclarationADefinition() &&
+        entryFunctions.count(FD->getCanonicalDecl()) != 0;
+    const bool success = clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor>::TraverseFunctionDecl(FD);
+    traversingEntryFunction = wasEntry;
+    // >>> NEXUS CHANGE BEGIN [2.4.1 - restore enclosing traversal state]
+    sourceLoopDepth = previousLoopDepth;
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - restore AST visitor context]
+    sourceLoopIds = previousSourceIds;
+    nextSourceLoopId = previousNextId;
+    // <<< NEXUS CHANGE END [2.4.4 - restore AST visitor context]
+    // <<< NEXUS CHANGE END [2.4.1 - restore enclosing traversal state]
+    return success;
+}
+
+// >>> NEXUS CHANGE BEGIN [2.4.4 - identify source loop scopes in LLVM]
+// LoopInfo need not reproduce lexical C nesting: when an inner loop is on a
+// branch that only returns, LLVM can report it as a *sibling* of its C parent.
+// A state-preserving marker inside each source loop body lets us correlate
+// LLVM natural loops with the C AST; lexical depth alone is insufficient.
+bool InlineAttributeInjectorVisitor::markSourceLoopBody(
+    const clang::Stmt *body, unsigned loopId, unsigned parentId) {
+    if (!traversingEntryFunction || !body) return true;
+    clang::SourceManager &sm = rewriter.getSourceMgr();
+    const clang::SourceLocation begin = body->getBeginLoc();
+    const clang::SourceLocation end = body->getEndLoc();
+    if (begin.isInvalid() || end.isInvalid() || begin.isMacroID() || end.isMacroID()) {
+        return true; // Unsupported macro syntax cannot be rewritten; unmatched return scopes are audited.
+    }
+    if (!sm.isInMainFile(begin)) return true;
+    const std::string marker = " __asm__ __volatile__(\"# NEXUS_SOURCE_LOOP_ID_" +
+        std::to_string(loopId) + "_PARENT_" + std::to_string(parentId) +
+        "\" ::: \"memory\"); ";
+    if (const auto *compound = llvm::dyn_cast<clang::CompoundStmt>(body)) {
+        return !rewriter.InsertTextBefore(compound->getLBracLoc().getLocWithOffset(1), marker);
+    }
+    // An unbraced body must remain a single statement. Lexer handles an
+    // expression-statement's trailing semicolon, which is outside its AST range.
+    clang::SourceLocation afterBody = clang::Lexer::findLocationAfterToken(
+        end, clang::tok::semi, sm, rewriter.getLangOpts(), false);
+    if (afterBody.isInvalid()) {
+        afterBody = clang::Lexer::getLocForEndOfToken(end, 0, sm, rewriter.getLangOpts());
+    }
+    if (afterBody.isInvalid() || afterBody.isMacroID()) return false;
+    if (rewriter.InsertTextBefore(begin, "{" + marker)) return false;
+    return !rewriter.InsertTextBefore(afterBody, " }");
+}
+
+bool InlineAttributeInjectorVisitor::TraverseWhileStmt(clang::WhileStmt *statement) {
+    const unsigned id = traversingEntryFunction ? ++nextSourceLoopId : 0;
+    const unsigned parent = sourceLoopIds.empty() ? 0 : sourceLoopIds.back();
+    if (id && !markSourceLoopBody(statement->getBody(), id, parent)) return false;
+    if (id) sourceLoopIds.push_back(id);
+    ++sourceLoopDepth;
+    const bool result = clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor>::TraverseWhileStmt(statement);
+    --sourceLoopDepth;
+    if (id) sourceLoopIds.pop_back();
+    return result;
+}
+bool InlineAttributeInjectorVisitor::TraverseForStmt(clang::ForStmt *statement) {
+    const unsigned id = traversingEntryFunction ? ++nextSourceLoopId : 0;
+    const unsigned parent = sourceLoopIds.empty() ? 0 : sourceLoopIds.back();
+    if (id && !markSourceLoopBody(statement->getBody(), id, parent)) return false;
+    if (id) sourceLoopIds.push_back(id);
+    ++sourceLoopDepth;
+    const bool result = clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor>::TraverseForStmt(statement);
+    --sourceLoopDepth;
+    if (id) sourceLoopIds.pop_back();
+    return result;
+}
+bool InlineAttributeInjectorVisitor::TraverseDoStmt(clang::DoStmt *statement) {
+    const unsigned id = traversingEntryFunction ? ++nextSourceLoopId : 0;
+    const unsigned parent = sourceLoopIds.empty() ? 0 : sourceLoopIds.back();
+    if (id && !markSourceLoopBody(statement->getBody(), id, parent)) return false;
+    if (id) sourceLoopIds.push_back(id);
+    ++sourceLoopDepth;
+    const bool result = clang::RecursiveASTVisitor<InlineAttributeInjectorVisitor>::TraverseDoStmt(statement);
+    --sourceLoopDepth;
+    if (id) sourceLoopIds.pop_back();
+    return result;
+}
+// <<< NEXUS CHANGE END [2.4.4 - identify source loop scopes in LLVM]
+
+bool InlineAttributeInjectorVisitor::VisitReturnStmt(clang::ReturnStmt *RS) {
+    if (!traversingEntryFunction || !RS) return true;
+    clang::SourceManager& sourceManager = rewriter.getSourceMgr();
+    const clang::SourceLocation begin = RS->getBeginLoc();
+    const clang::SourceLocation end = RS->getEndLoc();
+    // Do not silently lose return provenance inside an uneditable macro.
+    if (begin.isInvalid() || end.isInvalid() || begin.isMacroID() || end.isMacroID()) {
+        return false;
+    }
+    if (!sourceManager.isInMainFile(begin)) return true;
+    const clang::SourceLocation afterSemicolon = clang::Lexer::findLocationAfterToken(
+        end, clang::tok::semi, sourceManager, rewriter.getLangOpts(), false);
+    if (afterSemicolon.isInvalid() || afterSemicolon.isMacroID()) return false;
+    // >>> NEXUS CHANGE BEGIN [2.4.1 - encode source-level return depth]
+    // The marker carries *lexical* loop depth: a source return following a
+    // loop is depth 0 and must remain a normal loop EXIT, not a return step.
+    // >>> NEXUS CHANGE BEGIN [2.4.4 - encode exact lexical ancestors]
+    std::string sourceIds;
+    for (unsigned id : sourceLoopIds) sourceIds += "_" + std::to_string(id);
+    if (sourceIds.empty()) sourceIds = "_NONE";
+    const std::string marker = "{ __asm__ __volatile__(\"# NEXUS_SOURCE_RETURN_DEPTH_" +
+        std::to_string(sourceLoopDepth) + "_IDS" + sourceIds + "\" ::: \"memory\"); ";
+    // <<< NEXUS CHANGE END [2.4.4 - encode exact lexical ancestors]
+    if (rewriter.InsertTextBefore(begin, marker)) {
+        return false;
+    }
+    // <<< NEXUS CHANGE END [2.4.1 - encode source-level return depth]
+    if (rewriter.InsertTextBefore(afterSemicolon, " }")) return false;
+    return true;
+}
+// <<< NEXUS CHANGE END [2.4 - mark real entry-function return statements]
 
 bool InlineAttributeInjectorVisitor::VisitFunctionDecl(clang::FunctionDecl *FD) {
     if (FD && FD->isThisDeclarationADefinition()) {

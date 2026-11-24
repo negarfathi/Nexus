@@ -1,0 +1,135 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l5
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l5_v6",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l5_v2",
+        0
+      ],
+      "op": ">"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l5
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l5_v6",
+        0
+      ]
+    },
+    {
+      "op": ">",
+      "args": [
+        "l5_v2",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l5_v2 = 1, l5_v6 = 0]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l5_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l5_v2":"1","l5_v6":"0"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[And(0 == l5_v6, 0 < l5_v2),\n Not(Exists([l5_v2_next,\n             l5_v6_next,\n             l5_v13_next,\n             l5_v12_next,\n             l5_v11_next,\n             l5_v10_next,\n             l5_v9_next,\n             l5_v8_next,\n             l5_v7_next,\n             l5_v5_next,\n             l5_v4_next,\n             l5_v3_next,\n             l5_v1_next,\n             l5_nd1],\n            And(l5_v6 < l5_v2,\n                Or(And(And(l5_v6 < l5_v2, 0 != l5_nd1),\n                       l5_v1_next == l5_v1,\n                       l5_v2_next == l5_v2,\n                       l5_v3_next == l5_v3,\n                       l5_v4_next == l5_v4,\n                       l5_v5_next == l5_v5,\n                       l5_v6_next == l5_v6 + 1,\n                       l5_v7_next == l5_v7,\n                       l5_v8_next == l5_v8,\n                       l5_v9_next == l5_v9,\n                       l5_v10_next == l5_v10 + 1,\n                       l5_v11_next == l5_v11,\n                       l5_v12_next == l5_v12,\n                       l5_v13_next == l5_v13),\n                   And(And(l5_v6 < l5_v2, 0 == l5_nd1),\n                       l5_v1_next == l5_v1,\n                       l5_v2_next == l5_v2,\n                       l5_v3_next == l5_v3,\n                       l5_v4_next == l5_v4,\n                       l5_v5_next == l5_v5,\n                       l5_v6_next == l5_v6 + 1,\n                       l5_v7_next == l5_v7,\n                       l5_v8_next == l5_v8,\n                       l5_v9_next == l5_v9,\n                       l5_v10_next == l5_v10,\n                       l5_v11_next == l5_v11,\n                       l5_v12_next == l5_v12,\n                       l5_v13_next == l5_v13)),\n                And(0 == l5_v6_next, 0 < l5_v2_next))))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l5","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l5
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l5_v6",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        "l5_v6",
+        "l5_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l5_v2",
+    "l5_v6"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l5
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l5_v6",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l5_v6",
+        "l5_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l5_v2",
+    "l5_v6"
+  ]
+}
+
+FEEDBACK:

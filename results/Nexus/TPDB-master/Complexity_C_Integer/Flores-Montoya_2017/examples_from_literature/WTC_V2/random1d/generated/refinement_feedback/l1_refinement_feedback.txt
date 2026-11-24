@@ -1,0 +1,226 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            1
+          ],
+          "op": "-"
+        }
+      ],
+      "op": "neg"
+    },
+    "l1_v2"
+  ],
+  "op": "ite"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A non-terminating candidate must contain exactly one recurrent-set, with no invariant or ranking-function expressions. Found 0 invariant(s), 1 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 3 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"true"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"true"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: passed
+
+RECURRENT_EXISTENTIAL_PROGRESS: failed - some recurrent-set state has no completed iteration back into the set.
+COUNTEREXAMPLE:
+[l1_v1 = -1, l1_v3 = 0]
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"sat","query_condition":"l1_reachable_recurrent_set","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"-1","l1_v3":"0"},"kind":"model"},"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"sat","query_condition":"[True,\n Not(Exists([l1_v3_next, l1_v2_next, l1_v1_next, l1_nd1],\n            And(l1_v3 <= l1_v1,\n                Or(And(And(l1_v3 <= l1_v1, 0 < l1_nd1),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 + 1,\n                       l1_v3_next == l1_v3 + 1),\n                   And(And(l1_v3 <= l1_v1, 0 >= l1_nd1),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 - 1,\n                       l1_v3_next == l1_v3 + 1)),\n                True)))]","status":"invalid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+"false"
+
+FEEDBACK:
+RECURRENT_REACHABILITY: failed - no reachable loop-header state belongs to the recurrent set.
+
+RECURRENT_EXISTENTIAL_PROGRESS: passed
+
+
+RECURRENT_SET_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"non-terminating","checks":[{"description":"no reachable loop-header state belongs to the recurrent set.","expected":"sat","name":"RECURRENT_REACHABILITY","observed":"unsat","query_condition":"l1_reachable_recurrent_set","status":"invalid"},{"description":"some recurrent-set state has no completed iteration back into the set.","expected":"unsat","name":"RECURRENT_EXISTENTIAL_PROGRESS","observed":"unsat","query_condition":"[False,\n Not(Exists([l1_v3_next, l1_v2_next, l1_v1_next, l1_nd1],\n            And(l1_v3 <= l1_v1,\n                Or(And(And(l1_v3 <= l1_v1, 0 < l1_nd1),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 + 1,\n                       l1_v3_next == l1_v3 + 1),\n                   And(And(l1_v3 <= l1_v1, 0 >= l1_nd1),\n                       l1_v1_next == l1_v1,\n                       l1_v2_next == l1_v2 - 1,\n                       l1_v3_next == l1_v3 + 1)),\n                False)))]","status":"valid"}],"components":{"recurrent_set":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "not"
+}
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v3",
+        1
+      ],
+      "op": "<"
+    }
+  ],
+  "op": "not"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 2 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l1_v3",
+    {
+      "args": [
+        "l1_v1",
+        1
+      ],
+      "op": "+"
+    }
+  ],
+  "op": "<="
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        "l1_v3"
+      ],
+      "op": "-"
+    },
+    1
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "<=",
+  "args": [
+    "l1_v3",
+    {
+      "op": "+",
+      "args": [
+        "l1_v1",
+        1
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v1",
+        "l1_v3"
+      ]
+    },
+    1
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[l1_v3 <= l1_v1 + 1, l1_v3 <= l1_v1, l1_v1 - l1_v3 + 1 < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[l1_v3 <= l1_v1 + 1,\n l1_v3 <= l1_v1,\n Or(And(And(l1_v3 <= l1_v1, 0 < l1_nd1),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2 + 1,\n        l1_v3_next == l1_v3 + 1),\n    And(And(l1_v3 <= l1_v1, 0 >= l1_nd1),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2 - 1,\n        l1_v3_next == l1_v3 + 1)),\n Not(l1_v1_next - l1_v3_next + 1 < l1_v1 - l1_v3 + 1)]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l1","status":"valid"}

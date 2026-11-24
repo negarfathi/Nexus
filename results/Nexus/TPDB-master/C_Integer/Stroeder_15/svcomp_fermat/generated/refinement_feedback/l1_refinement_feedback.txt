@@ -1,0 +1,817 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v5"
+          ],
+          "op": "-"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                1
+              ],
+              "op": "+"
+            },
+            {
+              "args": [
+                "l1_v2",
+                1
+              ],
+              "op": "+"
+            }
+          ],
+          "op": "*"
+        }
+      ],
+      "op": "*"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ],
+          "op": "-"
+        },
+        {
+          "args": [
+            "l1_v2",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "*"
+    }
+  ],
+  "op": "+"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "+",
+  "args": [
+    {
+      "op": "*",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v2",
+            "l1_v5"
+          ]
+        },
+        {
+          "op": "*",
+          "args": [
+            {
+              "op": "+",
+              "args": [
+                "l1_v2",
+                1
+              ]
+            },
+            {
+              "op": "+",
+              "args": [
+                "l1_v2",
+                1
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "op": "*",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ]
+        },
+        {
+          "op": "+",
+          "args": [
+            "l1_v2",
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: unknown
+DETAIL:
+ok
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v1 = 0, l1_v4 = -7, l1_v3 = -7, l1_v2 = -6, l1_v5 = -6]
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1 = 0,
+ l1_v1_next = 0,
+ l1_v5_next = 0,
+ l1_v2 = 6,
+ l1_v4_next = -3,
+ l1_v5 = 0,
+ l1_v4 = -3,
+ l1_v2_next = 6,
+ l1_v3_next = -1,
+ l1_v3 = -2]
+
+
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unknown","query_condition":"l1_bad_invariant_preservation","reason_unknown":"ok","status":"unknown"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v2":"-6","l1_v3":"-7","l1_v4":"-7","l1_v5":"-6"},"kind":"model"},"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v3 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n (l1_v2 - l1_v5)*(l1_v2 + 1)*(l1_v2 + 1) +\n (l1_v2 - l1_v4)*(l1_v2 + 1) <\n 0]","status":"invalid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v1_next":"0","l1_v2":"6","l1_v2_next":"6","l1_v3":"-2","l1_v3_next":"-1","l1_v4":"-3","l1_v4_next":"-3","l1_v5":"0","l1_v5_next":"0"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v3 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        l1_v4_next == l1_v4 + 1,\n        l1_v5_next == l1_v5),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5)),\n Not((l1_v2_next - l1_v5_next)*\n     (l1_v2_next + 1)*\n     (l1_v2_next + 1) +\n     (l1_v2_next - l1_v4_next)*(l1_v2_next + 1) <\n     (l1_v2 - l1_v5)*(l1_v2 + 1)*(l1_v2 + 1) +\n     (l1_v2 - l1_v4)*(l1_v2 + 1))]","status":"invalid"}],"components":{"invariant":"unknown","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v4"
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l1_v2",
+        "l1_v3"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 2 invariant(s), 0 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v3",
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: unknown
+DETAIL:
+ok
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1 = 0,
+ l1_v1_next = 0,
+ l1_v5_next = 0,
+ l1_v3 = -4,
+ l1_v4_next = -6,
+ l1_v4 = -6,
+ l1_v5 = 0,
+ l1_v2_next = 3,
+ l1_v2 = 3,
+ l1_v3_next = -3]
+
+
+INVARIANT_RESULT: "unknown"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unknown","query_condition":"l1_bad_invariant_preservation","reason_unknown":"ok","status":"unknown"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 == l1_v1, l1_v3 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n l1_v2 - l1_v5 < 0]","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v1_next":"0","l1_v2":"3","l1_v2_next":"3","l1_v3":"-4","l1_v3_next":"-3","l1_v4":"-6","l1_v4_next":"-6","l1_v5":"0","l1_v5_next":"0"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v3 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        l1_v4_next == l1_v4 + 1,\n        l1_v5_next == l1_v5),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5)),\n Not(l1_v2_next - l1_v5_next < l1_v2 - l1_v5)]","status":"invalid"}],"components":{"invariant":"unknown","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v5",
+        "l1_v2"
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        "l1_v5"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ],
+          "op": "-"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v2",
+                "l1_v3"
+              ],
+              "op": "-"
+            }
+          ],
+          "op": "neg"
+        }
+      ],
+      "op": "lex"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v5",
+        "l1_v2"
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        "l1_v2",
+        "l1_v5"
+      ]
+    },
+    {
+      "op": "lex",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ]
+        },
+        {
+          "op": "neg",
+          "args": [
+            {
+              "op": "-",
+              "args": [
+                "l1_v2",
+                "l1_v3"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.
+COUNTEREXAMPLE:
+mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H, I],
+                             Implies(And(l1_iteration_steps(0,
+                                        B,
+                                        D,
+                                        F,
+                                        H,
+                                        A,
+                                        C,
+                                        E,
+                                        G,
+                                        I),
+                                        H <= B,
+                                        Or(Not(I <= C),
+                                        Not(0 == A)),
+                                        Not(D*D*D ==
+                                        F*F*F + H*H*H)),
+                                     query!4))),
+             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],
+                                       Implies(And(G ==
+                                        1 + F,
+                                        D == 1 + C,
+                                        F <= B,
+                                        C <= -1 + B,
+                                        Not(E <= B),
+                                        Not(C*C*C ==
+                                        E*E*E + F*F*F)),
+                                        l1_iteration_steps(A,
+                                        B,
+                                        C,
+                                        E,
+                                        F,
+                                        A,
+                                        B,
+                                        D,
+                                        1,
+                                        G)))),
+                       l1_iteration_steps(0,
+                                        -7,
+                                        -8,
+                                        -6,
+                                        -7,
+                                        0,
+                                        -7,
+                                        -7,
+                                        1,
+                                        -6)),
+             query!4),
+   asserted(Implies(query!4, False)),
+   False)
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v1 = 0, l1_v3 = -3, l1_v5 = -2, l1_v4 = 5, l1_v2 = 7]
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1 = 0,
+ l1_v1_next = 0,
+ l1_v5_next = -4,
+ l1_v4_next = -7,
+ l1_v2_next = -2,
+ l1_v4 = -7,
+ l1_v3 = -6,
+ l1_v3_next = -5,
+ l1_v2 = -2,
+ l1_v5 = -4]
+
+
+INVARIANT_RESULT: "invalid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C, D, E, F, G, H, I],\n                             Implies(And(l1_iteration_steps(0,\n                                        B,\n                                        D,\n                                        F,\n                                        H,\n                                        A,\n                                        C,\n                                        E,\n                                        G,\n                                        I),\n                                        H <= B,\n                                        Or(Not(I <= C),\n                                        Not(0 == A)),\n                                        Not(D*D*D ==\n                                        F*F*F + H*H*H)),\n                                     query!4))),\n             hyper-res(asserted(ForAll([A, B, C, D, E, F, G],\n                                       Implies(And(G ==\n                                        1 + F,\n                                        D == 1 + C,\n                                        F <= B,\n                                        C <= -1 + B,\n                                        Not(E <= B),\n                                        Not(C*C*C ==\n                                        E*E*E + F*F*F)),\n                                        l1_iteration_steps(A,\n                                        B,\n                                        C,\n                                        E,\n                                        F,\n                                        A,\n                                        B,\n                                        D,\n                                        1,\n                                        G)))),\n                       l1_iteration_steps(0,\n                                        -7,\n                                        -8,\n                                        -6,\n                                        -7,\n                                        0,\n                                        -7,\n                                        -7,\n                                        1,\n                                        -6)),\n             query!4),\n   asserted(Implies(query!4, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l1_bad_invariant_preservation","status":"invalid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v2":"7","l1_v3":"-3","l1_v4":"5","l1_v5":"-2"},"kind":"model"},"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(l1_v2 - l1_v5 < 0,\n    l1_v2 - l1_v4 < 0,\n    -(l1_v2 - l1_v3) < 0)]","status":"invalid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v1_next":"0","l1_v2":"-2","l1_v2_next":"-2","l1_v3":"-6","l1_v3_next":"-5","l1_v4":"-7","l1_v4_next":"-7","l1_v5":"-4","l1_v5_next":"-4"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        l1_v4_next == l1_v4 + 1,\n        l1_v5_next == l1_v5),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5)),\n Not(Or(l1_v2_next - l1_v5_next < l1_v2 - l1_v5,\n        And(l1_v2_next - l1_v5_next == l1_v2 - l1_v5,\n            l1_v2_next - l1_v4_next < l1_v2 - l1_v4),\n        And(l1_v2_next - l1_v5_next == l1_v2 - l1_v5,\n            l1_v2_next - l1_v4_next == l1_v2 - l1_v4,\n            -(l1_v2_next - l1_v3_next) < -(l1_v2 - l1_v3))))]","status":"invalid"}],"components":{"invariant":"invalid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v5",
+        {
+          "args": [
+            "l1_v2",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            1
+          ],
+          "op": "+"
+        },
+        "l1_v5"
+      ],
+      "op": "-"
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ],
+          "op": "-"
+        },
+        {
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ],
+          "op": "-"
+        }
+      ],
+      "op": "lex"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v5",
+        {
+          "op": "+",
+          "args": [
+            "l1_v2",
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    {
+      "op": "-",
+      "args": [
+        {
+          "op": "+",
+          "args": [
+            "l1_v2",
+            1
+          ]
+        },
+        "l1_v5"
+      ]
+    },
+    {
+      "op": "lex",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            "l1_v2",
+            "l1_v4"
+          ]
+        },
+        {
+          "op": "-",
+          "args": [
+            "l1_v2",
+            "l1_v3"
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: failed - the ranking function can be negative while the invariant and loop guard hold.
+COUNTEREXAMPLE:
+[l1_v1 = 0, l1_v3 = 7, l1_v4 = -5, l1_v2 = 5, l1_v5 = -7]
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v2":"5","l1_v3":"7","l1_v4":"-5","l1_v5":"-7"},"kind":"model"},"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2 + 1),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(l1_v2 + 1 - l1_v5 < 0,\n    l1_v2 - l1_v4 < 0,\n    l1_v2 - l1_v3 < 0)]","status":"invalid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2 + 1),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        l1_v4_next == l1_v4 + 1,\n        l1_v5_next == l1_v5),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5)),\n Not(Or(l1_v2_next + 1 - l1_v5_next < l1_v2 + 1 - l1_v5,\n        And(l1_v2_next + 1 - l1_v5_next == l1_v2 + 1 - l1_v5,\n            l1_v2_next - l1_v4_next < l1_v2 - l1_v4),\n        And(l1_v2_next + 1 - l1_v5_next == l1_v2 + 1 - l1_v5,\n            l1_v2_next - l1_v4_next == l1_v2 - l1_v4,\n            l1_v2_next - l1_v3_next < l1_v2 - l1_v3)))]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v1",
+        0
+      ],
+      "op": "="
+    },
+    {
+      "args": [
+        "l1_v5",
+        {
+          "args": [
+            "l1_v2",
+            1
+          ],
+          "op": "+"
+        }
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ],
+  "op": "-"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "=",
+      "args": [
+        "l1_v1",
+        0
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l1_v5",
+        {
+          "op": "+",
+          "args": [
+            "l1_v2",
+            1
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "-",
+  "args": [
+    "l1_v2",
+    "l1_v5"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v1 = 0,
+ l1_v1_next = 0,
+ l1_v5 = -5,
+ l1_v2 = 3,
+ l1_v3 = 6,
+ l1_v5_next = -5,
+ l1_v2_next = 3,
+ l1_v4_next = -3,
+ l1_v3_next = 1,
+ l1_v4 = -4]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2 + 1),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n l1_v2 - l1_v5 < 0]","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v1_next":"0","l1_v2":"3","l1_v2_next":"3","l1_v3":"6","l1_v3_next":"1","l1_v4":"-4","l1_v4_next":"-3","l1_v5":"-5","l1_v5_next":"-5"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[And(0 == l1_v1, l1_v5 <= l1_v2 + 1),\n And(Not(l1_v3*l1_v3*l1_v3 ==\n         l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5),\n     l1_v5 <= l1_v2),\n Or(And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 > l1_v2,\n            l1_v4 + 1 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        1 == l1_v3_next,\n        l1_v4_next == l1_v4 + 1,\n        l1_v5_next == l1_v5),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 > l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        1 == l1_v4_next,\n        l1_v5_next == l1_v5 + 1),\n    And(And(l1_v3*l1_v3*l1_v3 !=\n            l1_v4*l1_v4*l1_v4 + l1_v5*l1_v5*l1_v5,\n            l1_v5 <= l1_v2,\n            l1_v3 + 1 <= l1_v2,\n            l1_v4 <= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1,\n        l1_v4_next == l1_v4,\n        l1_v5_next == l1_v5)),\n Not(l1_v2_next - l1_v5_next < l1_v2 - l1_v5)]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}

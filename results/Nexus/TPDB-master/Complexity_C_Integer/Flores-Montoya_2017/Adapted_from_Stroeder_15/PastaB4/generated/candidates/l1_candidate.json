@@ -1,0 +1,27 @@
+{
+  "loop_id": "l1",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": "true"
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "ite",
+        "args": [
+          {
+            "op": ">",
+            "args": [
+              "l1_v1",
+              "l1_v2"
+            ]
+          },
+          1,
+          0
+        ]
+      }
+    }
+  ]
+}

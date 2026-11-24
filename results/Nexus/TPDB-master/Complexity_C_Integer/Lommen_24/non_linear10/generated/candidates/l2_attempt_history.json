@@ -1,0 +1,522 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": 0,
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              {
+                                                "args": [
+                                                  {
+                                                    "args": [
+                                                      {
+                                                        "args": [
+                                                          {
+                                                            "args": [
+                                                              {
+                                                                "args": [
+                                                                  {
+                                                                    "args": [
+                                                                      {
+                                                                        "args": [
+                                                                          {
+                                                                            "args": [
+                                                                              {
+                                                                                "args": [
+                                                                                  {
+                                                                                    "args": [
+                                                                                      {
+                                                                                        "args": [
+                                                                                          {
+                                                                                            "args": [
+                                                                                              {
+                                                                                                "args": [
+                                                                                                  {
+                                                                                                    "args": [
+                                                                                                      {
+                                                                                                        "args": [
+                                                                                                          {
+                                                                                                            "args": [
+                                                                                                              {
+                                                                                                                "args": [
+                                                                                                                  {
+                                                                                                                    "args": [
+                                                                                                                      {
+                                                                                                                        "args": [
+                                                                                                                          {
+                                                                                                                            "args": [
+                                                                                                                              {
+                                                                                                                                "args": [
+                                                                                                                                  {
+                                                                                                                                    "args": [
+                                                                                                                                      {
+                                                                                                                                        "args": [
+                                                                                                                                          {
+                                                                                                                                            "args": [
+                                                                                                                                              {
+                                                                                                                                                "args": [
+                                                                                                                                                  {
+                                                                                                                                                    "args": [
+                                                                                                                                                      {
+                                                                                                                                                        "args": [
+                                                                                                                                                          {
+                                                                                                                                                            "args": [
+                                                                                                                                                              {
+                                                                                                                                                                "args": [
+                                                                                                                                                                  {
+                                                                                                                                                                    "args": [
+                                                                                                                                                                      {
+                                                                                                                                                                        "args": [
+                                                                                                                                                                          {
+                                                                                                                                                                            "args": [
+                                                                                                                                                                              {
+                                                                                                                                                                                "args": [
+                                                                                                                                                                                  {
+                                                                                                                                                                                    "args": [
+                                                                                                                                                                                      {
+                                                                                                                                                                                        "args": [
+                                                                                                                                                                                          {
+                                                                                                                                                                                            "args": [
+                                                                                                                                                                                              {
+                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                  {
+                                                                                                                                                                                                    "args": [
+                                                                                                                                                                                                      {
+                                                                                                                                                                                                        "args": [
+                                                                                                                                                                                                          {
+                                                                                                                                                                                                            "args": [
+                                                                                                                                                                                                              {
+                                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                                  {
+                                                                                                                                                                                                                    "args": [
+                                                                                                                                                                                                                      "l2_v3",
+                                                                                                                                                                                                                      "l2_v3"
+                                                                                                                                                                                                                    ],
+                                                                                                                                                                                                                    "op": "*"
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                "op": "neg"
+                                                                                                                                                                                                              }
+                                                                                                                                                                                                            ],
+                                                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                                                          }
+                                                                                                                                                                                                        ],
+                                                                                                                                                                                                        "op": "neg"
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                    ],
+                                                                                                                                                                                                    "op": "neg"
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                ],
+                                                                                                                                                                                                "op": "neg"
+                                                                                                                                                                                              }
+                                                                                                                                                                                            ],
+                                                                                                                                                                                            "op": "neg"
+                                                                                                                                                                                          }
+                                                                                                                                                                                        ],
+                                                                                                                                                                                        "op": "neg"
+                                                                                                                                                                                      },
+                                                                                                                                                                                      {
+                                                                                                                                                                                        "args": [
+                                                                                                                                                                                          {
+                                                                                                                                                                                            "args": [
+                                                                                                                                                                                              {
+                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                  {
+                                                                                                                                                                                                    "args": [
+                                                                                                                                                                                                      {
+                                                                                                                                                                                                        "args": [
+                                                                                                                                                                                                          {
+                                                                                                                                                                                                            "args": [
+                                                                                                                                                                                                              {
+                                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                                  {
+                                                                                                                                                                                                                    "args": [
+                                                                                                                                                                                                                      {
+                                                                                                                                                                                                                        "args": [
+                                                                                                                                                                                                                          {
+                                                                                                                                                                                                                            "args": [
+                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                                                  {
+                                                                                                                                                                                                                                    "args": [
+                                                                                                                                                                                                                                      {
+                                                                                                                                                                                                                                        "args": [
+                                                                                                                                                                                                                                          {
+                                                                                                                                                                                                                                            "args": [
+                                                                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                "args": [
+                                                                                                                                                                                                                                                  "l2_v3",
+                                                                                                                                                                                                                                                  "l2_v3"
+                                                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                                                "op": "*"
+                                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                                            ],
+                                                                                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                                        ],
+                                                                                                                                                                                                                                        "op": "neg"
+                                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                                    ],
+                                                                                                                                                                                                                                    "op": "abs"
+                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                                "op": "neg"
+                                                                                                                                                                                                                              }
+                                                                                                                                                                                                                            ],
+                                                                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                                                                          }
+                                                                                                                                                                                                                        ],
+                                                                                                                                                                                                                        "op": "abs"
+                                                                                                                                                                                                                      }
+                                                                                                                                                                                                                    ],
+                                                                                                                                                                                                                    "op": "neg"
+                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                ],
+                                                                                                                                                                                                                "op": "abs"
+                                                                                                                                                                                                              }
+                                                                                                                                                                                                            ],
+                                                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                                                          }
+                                                                                                                                                                                                        ],
+                                                                                                                                                                                                        "op": "abs"
+                                                                                                                                                                                                      }
+                                                                                                                                                                                                    ],
+                                                                                                                                                                                                    "op": "abs"
+                                                                                                                                                                                                  }
+                                                                                                                                                                                                ],
+                                                                                                                                                                                                "op": "abs"
+                                                                                                                                                                                              }
+                                                                                                                                                                                            ],
+                                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                                          }
+                                                                                                                                                                                        ],
+                                                                                                                                                                                        "op": "abs"
+                                                                                                                                                                                      }
+                                                                                                                                                                                    ],
+                                                                                                                                                                                    "op": "div"
+                                                                                                                                                                                  }
+                                                                                                                                                                                ],
+                                                                                                                                                                                "op": "abs"
+                                                                                                                                                                              }
+                                                                                                                                                                            ],
+                                                                                                                                                                            "op": "abs"
+                                                                                                                                                                          }
+                                                                                                                                                                        ],
+                                                                                                                                                                        "op": "neg"
+                                                                                                                                                                      },
+                                                                                                                                                                      "l2_v4"
+                                                                                                                                                                    ],
+                                                                                                                                                                    "op": "*"
+                                                                                                                                                                  }
+                                                                                                                                                                ],
+                                                                                                                                                                "op": "neg"
+                                                                                                                                                              }
+                                                                                                                                                            ],
+                                                                                                                                                            "op": "neg"
+                                                                                                                                                          },
+                                                                                                                                                          "l2_v4"
+                                                                                                                                                        ],
+                                                                                                                                                        "op": "*"
+                                                                                                                                                      }
+                                                                                                                                                    ],
+                                                                                                                                                    "op": "neg"
+                                                                                                                                                  },
+                                                                                                                                                  "l2_v4"
+                                                                                                                                                ],
+                                                                                                                                                "op": "*"
+                                                                                                                                              }
+                                                                                                                                            ],
+                                                                                                                                            "op": "neg"
+                                                                                                                                          },
+                                                                                                                                          "l2_v4"
+                                                                                                                                        ],
+                                                                                                                                        "op": "*"
+                                                                                                                                      }
+                                                                                                                                    ],
+                                                                                                                                    "op": "neg"
+                                                                                                                                  }
+                                                                                                                                ],
+                                                                                                                                "op": "neg"
+                                                                                                                              },
+                                                                                                                              "l2_v4"
+                                                                                                                            ],
+                                                                                                                            "op": "*"
+                                                                                                                          }
+                                                                                                                        ],
+                                                                                                                        "op": "neg"
+                                                                                                                      },
+                                                                                                                      "l2_v4"
+                                                                                                                    ],
+                                                                                                                    "op": "*"
+                                                                                                                  }
+                                                                                                                ],
+                                                                                                                "op": "neg"
+                                                                                                              }
+                                                                                                            ],
+                                                                                                            "op": "neg"
+                                                                                                          }
+                                                                                                        ],
+                                                                                                        "op": "neg"
+                                                                                                      }
+                                                                                                    ],
+                                                                                                    "op": "neg"
+                                                                                                  }
+                                                                                                ],
+                                                                                                "op": "neg"
+                                                                                              }
+                                                                                            ],
+                                                                                            "op": "neg"
+                                                                                          }
+                                                                                        ],
+                                                                                        "op": "neg"
+                                                                                      }
+                                                                                    ],
+                                                                                    "op": "neg"
+                                                                                  }
+                                                                                ],
+                                                                                "op": "neg"
+                                                                              }
+                                                                            ],
+                                                                            "op": "neg"
+                                                                          }
+                                                                        ],
+                                                                        "op": "neg"
+                                                                      }
+                                                                    ],
+                                                                    "op": "neg"
+                                                                  }
+                                                                ],
+                                                                "op": "neg"
+                                                              }
+                                                            ],
+                                                            "op": "neg"
+                                                          }
+                                                        ],
+                                                        "op": "neg"
+                                                      }
+                                                    ],
+                                                    "op": "neg"
+                                                  }
+                                                ],
+                                                "op": "neg"
+                                              }
+                                            ],
+                                            "op": "neg"
+                                          }
+                                        ],
+                                        "op": "neg"
+                                      }
+                                    ],
+                                    "op": "neg"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "neg"
+                      }
+                    ],
+                    "op": "neg"
+                  }
+                ],
+                "op": "neg"
+              }
+            ],
+            "op": "neg"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      2,
+                                      "l2_v5"
+                                    ],
+                                    "op": "*"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "neg"
+                      },
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  2,
+                                  "l2_v5"
+                                ],
+                                "op": "*"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "neg"
+                      }
+                    ],
+                    "op": "+"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              2,
+                              "l2_v5"
+                            ],
+                            "op": "*"
+                          }
+                        ],
+                        "op": "neg"
+                      }
+                    ],
+                    "op": "neg"
+                  }
+                ],
+                "op": "+"
+              }
+            ],
+            "op": "neg"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": 0,
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  }
+]

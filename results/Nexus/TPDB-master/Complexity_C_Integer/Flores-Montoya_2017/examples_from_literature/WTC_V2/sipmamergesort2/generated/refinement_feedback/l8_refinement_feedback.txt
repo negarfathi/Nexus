@@ -1,0 +1,36 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l8
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    "l8_v11",
+    0
+  ],
+  "op": ">="
+}
+
+RANKING_FUNCTION:
+"l8_v11"
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l8
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": ">=",
+  "args": [
+    "l8_v11",
+    0
+  ]
+}
+
+RANKING_FUNCTION:
+"l8_v11"
+
+FEEDBACK:

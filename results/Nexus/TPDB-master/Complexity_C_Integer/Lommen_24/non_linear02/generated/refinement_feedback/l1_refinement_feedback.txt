@@ -1,0 +1,235 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "args": [
+                                    {
+                                      "args": [
+                                        {
+                                          "args": [
+                                            {
+                                              "args": [
+                                                {
+                                                  "args": [
+                                                    "l1_v3",
+                                                    0
+                                                  ],
+                                                  "op": "*"
+                                                }
+                                              ],
+                                              "op": "neg"
+                                            }
+                                          ],
+                                          "op": "neg"
+                                        }
+                                      ],
+                                      "op": "neg"
+                                    }
+                                  ],
+                                  "op": "neg"
+                                }
+                              ],
+                              "op": "neg"
+                            }
+                          ],
+                          "op": "neg"
+                        }
+                      ],
+                      "op": "neg"
+                    }
+                  ],
+                  "op": "neg"
+                },
+                {
+                  "args": [
+                    "l1_v5",
+                    0
+                  ],
+                  "op": "mod"
+                }
+              ],
+              "op": "min"
+            }
+          ],
+          "op": "neg"
+        },
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v3",
+                0
+              ],
+              "op": "="
+            },
+            {
+              "args": [
+                {
+                  "args": [
+                    "l1_v5",
+                    0
+                  ],
+                  "op": "<"
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        "l1_v4",
+                        0
+                      ],
+                      "op": "="
+                    },
+                    {
+                      "args": [
+                        "l1_v4",
+                        0
+                      ],
+                      "op": "mod"
+                    },
+                    "l1_v1"
+                  ],
+                  "op": "ite"
+                },
+                "l1_v4"
+              ],
+              "op": "ite"
+            },
+            "l1_v4"
+          ],
+          "op": "ite"
+        }
+      ],
+      "op": "min"
+    }
+  ],
+  "op": "neg"
+}
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 0 invariant(s), 1 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 4 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 2 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+Syntactic repair must preserve the prior candidate_kind. Repair the grammar error without changing the proof hypothesis.
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 7 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+RANKING_FUNCTION:
+0
+
+RANKING_FUNCTION:
+1
+
+FEEDBACK:
+[
+  {
+    "check": "candidate-structure",
+    "message": "A terminating candidate must contain exactly one invariant and one ranking-function, with no recurrent-set expressions. Found 0 invariant(s), 2 ranking-function(s), and 0 recurrent-set(s).",
+    "path": "$.candidate_expressions"
+  }
+]
+
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "args": [
+    "l1_v4"
+  ],
+  "op": "abs"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+"true"
+
+RANKING_FUNCTION:
+{
+  "op": "abs",
+  "args": [
+    "l1_v4"
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: failed - a completed loop iteration can fail to strictly decrease the ranking function.
+COUNTEREXAMPLE:
+[l1_v5 = 2,
+ l1_v1_next = 0,
+ l1_v3_next = 0,
+ l1_v2_next = 0,
+ l1_v5_next = 18,
+ l1_v4_next = -4,
+ l1_v4 = -1,
+ l1_v3 = 0,
+ l1_v2 = 0,
+ l1_v1 = 0]
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "invalid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[True,\n And(l1_v4*l1_v4 - l1_v3*l1_v3*l1_v3*l1_v3*l1_v3 < l1_v5,\n     Not(0 == l1_v4)),\n If(l1_v4 >= 0, l1_v4, -l1_v4) < 0]","status":"valid"},{"counterexample":{"assignments":{"l1_v1":"0","l1_v1_next":"0","l1_v2":"0","l1_v2_next":"0","l1_v3":"0","l1_v3_next":"0","l1_v4":"-1","l1_v4_next":"-4","l1_v5":"2","l1_v5_next":"18"},"kind":"model"},"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"sat","query_condition":"[True,\n And(l1_v4*l1_v4 - l1_v3*l1_v3*l1_v3*l1_v3*l1_v3 < l1_v5,\n     Not(0 == l1_v4)),\n And(And(l1_v4*l1_v4 - l1_v3*l1_v3*l1_v3*l1_v3*l1_v3 < l1_v5,\n         0 != l1_v4),\n     l1_v1_next == -1*l1_v1,\n     l1_v2_next == -1*l1_v2,\n     l1_v3_next == l1_v3,\n     l1_v4_next == 4*l1_v4,\n     l1_v5_next == 9*l1_v5 + l1_v3*l1_v3),\n Not(If(l1_v4_next >= 0, l1_v4_next, -l1_v4_next) <\n     If(l1_v4 >= 0, l1_v4, -l1_v4))]","status":"invalid"}],"components":{"invariant":"valid","ranking_function":"invalid"},"loop_id":"l1","status":"invalid"}
+
+===================== REFINEMENT CONTROL FEEDBACK =====================
+The new candidate duplicates attempt 2 exactly. It has already been attempted; no proof was inferred from this repetition. Produce a genuinely different witness using the loop semantics and prior validator feedback. Do not infer that the opposite termination classification is true merely because one candidate failed.

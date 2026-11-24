@@ -1,0 +1,395 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v3",
+              0
+            ],
+            "op": ">"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v1"
+                ],
+                "op": "*"
+              }
+            ],
+            "op": "div"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          "l1_v1",
+                                          "l1_v1"
+                                        ],
+                                        "op": "*"
+                                      }
+                                    ],
+                                    "op": "neg"
+                                  }
+                                ],
+                                "op": "abs"
+                              },
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              {
+                                                "args": [
+                                                  {
+                                                    "args": [
+                                                      "l1_v3",
+                                                      "l1_v3"
+                                                    ],
+                                                    "op": "*"
+                                                  }
+                                                ],
+                                                "op": "neg"
+                                              }
+                                            ],
+                                            "op": "abs"
+                                          },
+                                          {
+                                            "args": [
+                                              {
+                                                "args": [
+                                                  {
+                                                    "args": [
+                                                      {
+                                                        "args": [
+                                                          {
+                                                            "args": [
+                                                              {
+                                                                "args": [
+                                                                  {
+                                                                    "args": [
+                                                                      "l1_v3",
+                                                                      "l1_v3"
+                                                                    ],
+                                                                    "op": "*"
+                                                                  }
+                                                                ],
+                                                                "op": "neg"
+                                                              }
+                                                            ],
+                                                            "op": "abs"
+                                                          },
+                                                          {
+                                                            "args": [
+                                                              {
+                                                                "args": [
+                                                                  {
+                                                                    "args": [
+                                                                      {
+                                                                        "args": [
+                                                                          {
+                                                                            "args": [
+                                                                              {
+                                                                                "args": [
+                                                                                  "l1_v3",
+                                                                                  "l1_v3"
+                                                                                ],
+                                                                                "op": "*"
+                                                                              }
+                                                                            ],
+                                                                            "op": "neg"
+                                                                          }
+                                                                        ],
+                                                                        "op": "abs"
+                                                                      },
+                                                                      {
+                                                                        "args": [
+                                                                          {
+                                                                            "args": [
+                                                                              {
+                                                                                "args": [
+                                                                                  {
+                                                                                    "args": [
+                                                                                      {
+                                                                                        "args": [
+                                                                                          "l1_v3",
+                                                                                          "l1_v3"
+                                                                                        ],
+                                                                                        "op": "*"
+                                                                                      }
+                                                                                    ],
+                                                                                    "op": "neg"
+                                                                                  }
+                                                                                ],
+                                                                                "op": "abs"
+                                                                              }
+                                                                            ],
+                                                                            "op": "neg"
+                                                                          }
+                                                                        ],
+                                                                        "op": "neg"
+                                                                      }
+                                                                    ],
+                                                                    "op": "-"
+                                                                  }
+                                                                ],
+                                                                "op": "abs"
+                                                              }
+                                                            ],
+                                                            "op": "neg"
+                                                          }
+                                                        ],
+                                                        "op": "-"
+                                                      },
+                                                      "l1_v1"
+                                                    ],
+                                                    "op": "*"
+                                                  }
+                                                ],
+                                                "op": "neg"
+                                              }
+                                            ],
+                                            "op": "abs"
+                                          }
+                                        ],
+                                        "op": "div"
+                                      }
+                                    ],
+                                    "op": "abs"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "div"
+                          }
+                        ],
+                        "op": "abs"
+                      }
+                    ],
+                    "op": "neg"
+                  },
+                  "l1_v2"
+                ],
+                "op": ">"
+              },
+              "l1_v3",
+              "l1_v2"
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v3",
+              0
+            ],
+            "op": ">"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l1_v1",
+                      "l1_v1"
+                    ],
+                    "op": "*"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v3",
+                          "l1_v3"
+                        ],
+                        "op": "*"
+                      },
+                      "l1_v3"
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "+"
+              }
+            ],
+            "op": "div"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v3",
+              0
+            ],
+            "op": "<="
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v1"
+                ],
+                "op": "*"
+              }
+            ],
+            "op": "div"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v3",
+              0
+            ],
+            "op": ">"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v2",
+              {
+                "args": [
+                  "l1_v1",
+                  "l1_v1"
+                ],
+                "op": "*"
+              }
+            ],
+            "op": "div"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  }
+]

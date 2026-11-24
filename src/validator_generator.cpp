@@ -902,6 +902,35 @@ static void generateActualExit(PythonContext& context, const nlohmann::ordered_j
     generateDerivedHornRules(context, loopInformation, "actual_exit", "Actual exit", 1);
 }
 
+// >>> NEXUS CHANGE BEGIN [1.3 - Recursive lexicographic ranking flattening]
+// RankingExpr ::= ArithExpr | lex(ArithExpr, RankingExpr).
+// Convert a recursively constructed lexicographic ranking into its ordered
+// scalar components, which is the representation expected by the validator.
+// The grammar requires exactly two operands: the first must be scalar and the
+// second can be another lex or a scalar expression.
+static void collectRankingComponents(const nlohmann::ordered_json& rankingExpression,
+                                     std::vector<nlohmann::ordered_json>& components) {
+    if (!rankingExpression.is_object() || !rankingExpression.contains("op") ||
+        !rankingExpression.at("op").is_string() ||
+        rankingExpression.at("op").get<std::string>() != "lex") {
+        components.push_back(rankingExpression);
+        return;
+    }
+    if (!rankingExpression.contains("args") || !rankingExpression.at("args").is_array() ||
+        rankingExpression.at("args").size() != 2) {
+        throw std::runtime_error("lex ranking expression must have exactly two components.");
+    }
+    const auto& arguments = rankingExpression.at("args");
+    if (arguments.at(0).is_object() && arguments.at(0).contains("op") &&
+        arguments.at(0).at("op").is_string() &&
+        arguments.at(0).at("op").get<std::string>() == "lex") {
+        throw std::runtime_error("The first component of lex must be an arithmetic expression.");
+    }
+    components.push_back(arguments.at(0));
+    collectRankingComponents(arguments.at(1), components);
+}
+// <<< NEXUS CHANGE END [1.3 - Recursive lexicographic ranking flattening]
+
 static CandidateInformation generateCandidate(PythonContext& context, const nlohmann::ordered_json& candidate, const nlohmann::ordered_json& targetLoop) {
     const std::string targetLoopId = targetLoop.at("loop_id").get<std::string>();
     const std::string candidateKind = candidate.at("candidate_kind").get<std::string>();
@@ -937,17 +966,9 @@ static CandidateInformation generateCandidate(PythonContext& context, const nloh
         context.output << targetLoopId << "_invariant = " << encodeExpression(context, *invariant, currentInvariantEnvironment, false, false) << "\n"
                        << targetLoopId << "_invariant_next = " << encodeExpression(context, *invariant, nextInvariantEnvironment, false, false) << "\n\n";
         std::vector<nlohmann::ordered_json> rankingComponents;
-        if (rankingFunction->is_object() && rankingFunction->contains("op") && rankingFunction->at("op").is_string() && rankingFunction->at("op").get<std::string>() == "lex") {
-            if (!rankingFunction->contains("args") || !rankingFunction->at("args").is_array() || rankingFunction->at("args").empty()) {
-                throw std::runtime_error("lex ranking expression requires at least one component.");
-            }
-            for (const auto& component : rankingFunction->at("args")) {
-                rankingComponents.push_back(component);
-            }
-        }
-        else {
-            rankingComponents.push_back(*rankingFunction);
-        }
+        // >>> NEXUS CHANGE BEGIN [1.3 - Recursive lexicographic ranking flattening]
+        collectRankingComponents(*rankingFunction, rankingComponents);
+        // <<< NEXUS CHANGE END [1.3 - Recursive lexicographic ranking flattening]
         candidateInformation.rankingComponents = rankingComponents.size();
         std::vector<std::string> currentRanking;
         std::vector<std::string> nextRanking;
@@ -1080,6 +1101,7 @@ static void generateTerminationValidation(PythonContext& context, const nlohmann
                    << iterationFormula << ", Not("
                    << join(lexicographicAlternatives, "Or", "BoolVal(False)")
                    << "))\n\n";
+    // >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record each validation obligation inside generated Python]
     context.output << R"PY(def report_result(name, result, expected, failure_message):
     if result == unknown:
         print(f'{name}: unknown')
@@ -1096,9 +1118,15 @@ def check_fixedpoint(name, relation, expected, failure_message):
     try:
         result = fp.query(relation())
     except Z3Exception as ex:
-        reason = str(ex).lower()
-        if "timeout" in reason or "canceled" in reason:
-            sys.exit(124)
+        # >>> NEXUS CHANGE BEGIN [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+        recovered_result = recover_incomplete_z3_query(name, ex)
+        if recovered_result is not None:
+            # >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record undecidable Z3 exception]
+            record_validation_check(name, recovered_result, expected, failure_message,
+                                    fp, "fixedpoint", detail=str(ex), query=relation())
+            # <<< NEXUS CHANGE END [4.3 / 6.4 - record undecidable Z3 exception]
+            return recovered_result
+        # <<< NEXUS CHANGE END [1.4 - Distinguish Z3 solver incompleteness from internal errors]
         raise
 
     if result == unknown:
@@ -1132,6 +1160,9 @@ def check_fixedpoint(name, relation, expected, failure_message):
         except Exception as ex:
             print(f'Z3 returned unknown: {ex}')
 
+    # >>> NEXUS CHANGE BEGIN [4.4 / 6.5 - fixedpoint obligation result]
+    record_validation_check(name, result, expected, failure_message, fp, "fixedpoint", query=relation())
+    # <<< NEXUS CHANGE END [4.4 / 6.5 - fixedpoint obligation result]
     print()
     return result
 
@@ -1143,9 +1174,15 @@ def check_solver(name, solver, expected, failure_message):
     try:
         result = solver.check()
     except Z3Exception as ex:
-        reason = str(ex).lower()
-        if "timeout" in reason or "canceled" in reason:
-            sys.exit(124)
+        # >>> NEXUS CHANGE BEGIN [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+        recovered_result = recover_incomplete_z3_query(name, ex)
+        if recovered_result is not None:
+            # >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record undecidable Z3 exception]
+            record_validation_check(name, recovered_result, expected, failure_message,
+                                    solver, "solver", detail=str(ex))
+            # <<< NEXUS CHANGE END [4.3 / 6.4 - record undecidable Z3 exception]
+            return recovered_result
+        # <<< NEXUS CHANGE END [1.4 - Distinguish Z3 solver incompleteness from internal errors]
         raise
 
     if result == unknown:
@@ -1164,6 +1201,9 @@ def check_solver(name, solver, expected, failure_message):
         print('DETAIL:')
         print(solver.reason_unknown())
 
+    # >>> NEXUS CHANGE BEGIN [4.5 / 6.6 - solver obligation result]
+    record_validation_check(name, result, expected, failure_message, solver, "solver")
+    # <<< NEXUS CHANGE END [4.5 / 6.6 - solver obligation result]
     print()
     return result
 
@@ -1177,6 +1217,7 @@ def validation_status(checks):
     return "unknown" if saw_unknown else "valid"
 
 )PY";
+    // <<< NEXUS CHANGE END [4.3 / 6.4 - record each validation obligation inside generated Python]
     context.output << targetLoopId << "_invariant_initialization_result = check_fixedpoint(\n"
                    << "    \"INVARIANT_INITIALIZATION\",\n"
                    << "    " << badInitialization << ",\n"
@@ -1211,19 +1252,21 @@ def validation_status(checks):
                    << "])\n\n"
                    << "print()\n"
                    << "print(f'INVARIANT_RESULT: \"{INVARIANT_RESULT}\"')\n"
-                   << "print(f'RANKING_FUNCTION_RESULT: \"{RANKING_FUNCTION_RESULT}\"')\n";
+                   << "print(f'RANKING_FUNCTION_RESULT: \"{RANKING_FUNCTION_RESULT}\"')\n"
+                   // >>> NEXUS CHANGE BEGIN [4.6 - emit authoritative terminating summary]
+                   << "emit_validation_summary(" << nlohmann::ordered_json(targetLoopId).dump()
+                   << ", \"terminating\", {\"invariant\": INVARIANT_RESULT, \"ranking_function\": RANKING_FUNCTION_RESULT})\n";
+                   // <<< NEXUS CHANGE END [4.6 - emit authoritative terminating summary]
 }
 
 static void generateNonTerminationValidation(PythonContext& context, const nlohmann::ordered_json& targetLoop) {
     const std::string targetLoopId = targetLoop.at("loop_id").get<std::string>();
     const std::string reachableHeaderStates = targetLoop.at("reachable_header_states").at("id").get<std::string>();
     const std::string iterationSteps = targetLoop.at("loop_iteration_steps").at("id").get<std::string>();
-    const std::string exitSteps = targetLoop.at("loop_exit_steps").at("id").get<std::string>();
-    const std::string returnSteps = targetLoop.at("loop_return_steps").at("id").get<std::string>();
     const std::string guard = targetLoop.at("loop_guard").at("id").get<std::string>();
+    // >>> NEXUS CHANGE BEGIN [8.0a - Streamlined recurrent witness context]
     const std::vector<std::string> current = getStateSymbolNames(targetLoop, "current");
-    const std::vector<std::string> next = getStateSymbolNames(targetLoop, "next");
-    const std::vector<std::string> output = getStateSymbolNames(targetLoop, "output");
+    // <<< NEXUS CHANGE END [8.0a - Streamlined recurrent witness context]
     auto relationCall = [](const std::string& relation, const std::vector<std::string>& arguments) {
         std::ostringstream result;
         result << relation << "(";
@@ -1241,25 +1284,120 @@ static void generateNonTerminationValidation(PythonContext& context, const nlohm
                        << "fp.register_relation(" << relationName << ")\n"
                        << "fp.rule(" << relationName << "(), " << body << ", name=" << nlohmann::ordered_json(relationName + "_rule").dump() << ")\n\n";
     };
+    // >>> NEXUS CHANGE BEGIN [8.0b - Document existential proof mode]
     context.output << "# ============================================================\n"
-                   << "# Non-termination validation\n"
+                   << "# Non-termination validation: existential recurrent-set witness\n"
                    << "# ============================================================\n\n";
+    // <<< NEXUS CHANGE END [8.0b - Document existential proof mode]
     const std::string reachableRecurrentSet = targetLoopId + "_reachable_recurrent_set";
     registerBooleanQuery(reachableRecurrentSet, "And(" + relationCall(reachableHeaderStates, current) + ", " + targetLoopId + "_recurrent_set)");
-    context.output << targetLoopId << "_recurrent_guard_solver = Solver()\n"
-                   << targetLoopId << "_recurrent_guard_solver.add("
-                   << targetLoopId << "_recurrent_set, Not("
-                   << guard << "))\n\n";
-    std::vector<std::string> currentNext = current;
-    currentNext.insert(currentNext.end(), next.begin(), next.end());
-    const std::string badClosure = targetLoopId + "_bad_recurrent_closure";
-    registerBooleanQuery(badClosure, "And(" + targetLoopId + "_recurrent_set, " + relationCall(iterationSteps, currentNext) + ", Not(" + targetLoopId + "_recurrent_set_next))");
-    std::vector<std::string> currentOutput = current;
-    currentOutput.insert(currentOutput.end(), output.begin(), output.end());
-    const std::string badExit = targetLoopId + "_bad_recurrent_exit";
-    registerBooleanQuery(badExit, "And(" + targetLoopId + "_recurrent_set, " + relationCall(exitSteps, currentOutput) + ")");
-    const std::string badReturn = targetLoopId + "_bad_recurrent_return";
-    registerBooleanQuery(badReturn, "And(" + targetLoopId + "_recurrent_set, " + relationCall(returnSteps, current) + ")");
+    // >>> NEXUS CHANGE BEGIN [8.0 - Existential guard choices]
+    // Do not require R(current) => guard(current, choice) for *all* choices.
+    // The progress query below existentially selects a guard-true choice and
+    // an actual continuing iteration in the same scope.
+    // <<< NEXUS CHANGE END [8.0 - Existential guard choices]
+
+    // >>> NEXUS CHANGE BEGIN [8.1 - Sound existential successor certificate]
+    // A single infinite execution is enough: R is reachable, R implies the
+    // guard has an enabling choice, and every state in R has SOME completed iteration back into R.
+    // Do NOT demand closure under every nondeterministic transition, or ban
+    // alternative exit/return paths. Those demands are strictly stronger.
+    //
+    // Iteration paths with child/source relation calls refer to recursive Horn
+    // predicates. Their raw Z3 Function declarations are *uninterpreted* in an
+    // SMT Solver (the Fixedpoint rules do NOT axiomatize them there). Rather
+    // than risk accepting a proof against an incorrect interpretation, fail
+    // closed with an unknown validation result whenever such calls occur.
+    const nlohmann::ordered_json& paths = targetLoop.at("loop_iteration_steps").at("paths");
+    if (!paths.is_array()) {
+        throw std::runtime_error("loop_iteration_steps.paths must be an array.");
+    }
+    std::function<bool(const nlohmann::ordered_json&)> containsRelationReference =
+        [&](const nlohmann::ordered_json& node) -> bool {
+        if (node.is_object()) {
+            if ((node.contains("relation") && node.at("relation").is_string()) ||
+                (node.contains("op") && node.at("op").is_string() &&
+                 node.at("op").get<std::string>() == "relation_call")) {
+                return true;
+            }
+            for (auto it = node.begin(); it != node.end(); ++it) {
+                if (containsRelationReference(it.value())) {
+                    return true;
+                }
+            }
+        }
+        else if (node.is_array()) {
+            for (const auto& value : node) {
+                if (containsRelationReference(value)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    std::vector<std::string> iterationPathIds;
+    bool hasDependentIterationPaths = false;
+    for (std::size_t i = 0; i < paths.size(); ++i) {
+        const auto& path = paths.at(i);
+        if (containsRelationReference(path)) {
+            hasDependentIterationPaths = true;
+            continue;
+        }
+        const std::string pathId = path.contains("id") && path.at("id").is_string()
+            ? path.at("id").get<std::string>()
+            : iterationSteps + "_p" + std::to_string(i + 1);
+        iterationPathIds.push_back(pathId);
+    }
+    context.output << "# Direct, fully interpreted iteration alternatives\n"
+                   << targetLoopId << "_direct_iteration_paths = [";
+    for (std::size_t i = 0; i < iterationPathIds.size(); ++i) {
+        if (i != 0) {
+            context.output << ", ";
+        }
+        context.output << iterationPathIds[i];
+    }
+    context.output << "]\n"
+                   << targetLoopId << "_has_dependent_paths = "
+                   << (hasDependentIterationPaths ? "True" : "False") << "\n";
+    // >>> NEXUS CHANGE BEGIN [8.2 - Quantify fresh choice and successor variables]
+    // Every completed iteration is a relation T(current, next, nondeterminism,
+    // path-local symbols). The existential choices are *inside* the negation:
+    //     R(current) AND NOT (EXISTS next, choices: guard AND T AND R(next)).
+    // A satisfiable negation exhibits a recurrent-set state without a proven
+    // continuing successor. UNSAT proves existential progress for all R states.
+    context.output << R"PY(
+def nexus_recurrent_successor(iteration_paths, recurrent_next, current_state, guard):
+    if not iteration_paths:
+        return BoolVal(False)
+    body = And(guard, Or(*iteration_paths), recurrent_next)
+    current_names = {v.decl().name() for v in current_state}
+    witness_symbols = []
+    found_names = set()
+    pending = [body]
+    while pending:
+        node = pending.pop()
+        if is_quantifier(node):
+            pending.append(node.body())
+            continue
+        if is_const(node) and node.decl().kind() == Z3_OP_UNINTERPRETED and node.sort().kind() == Z3_INT_SORT:
+            name = node.decl().name()
+            if name not in current_names and name not in found_names:
+                witness_symbols.append(node)
+                found_names.add(name)
+        pending.extend(node.children())
+    return Exists(witness_symbols, body) if witness_symbols else body
+
+)PY";
+    // <<< NEXUS CHANGE END [8.2 - Quantify fresh choice and successor variables]
+    context.output << targetLoopId << "_existential_progress_solver = Solver()\n"
+                   << targetLoopId << "_existential_progress_solver.add("
+                   << targetLoopId << "_recurrent_set, "
+                   << "Not(nexus_recurrent_successor("
+                   << targetLoopId << "_direct_iteration_paths, "
+                   << targetLoopId << "_recurrent_set_next, "
+                   << targetLoopId << "_state, " << guard << ")))\n\n";
+    // <<< NEXUS CHANGE END [8.1 - Sound existential successor certificate]
+    // >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record each validation obligation inside generated Python]
     context.output << R"PY(def report_result(name, result, expected, failure_message):
     if result == unknown:
         print(f'{name}: unknown')
@@ -1276,9 +1414,15 @@ def check_fixedpoint(name, relation, expected, failure_message):
     try:
         result = fp.query(relation())
     except Z3Exception as ex:
-        reason = str(ex).lower()
-        if "timeout" in reason or "canceled" in reason:
-            sys.exit(124)
+        # >>> NEXUS CHANGE BEGIN [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+        recovered_result = recover_incomplete_z3_query(name, ex)
+        if recovered_result is not None:
+            # >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record undecidable Z3 exception]
+            record_validation_check(name, recovered_result, expected, failure_message,
+                                    fp, "fixedpoint", detail=str(ex), query=relation())
+            # <<< NEXUS CHANGE END [4.3 / 6.4 - record undecidable Z3 exception]
+            return recovered_result
+        # <<< NEXUS CHANGE END [1.4 - Distinguish Z3 solver incompleteness from internal errors]
         raise
 
     if result == unknown:
@@ -1312,6 +1456,9 @@ def check_fixedpoint(name, relation, expected, failure_message):
         except Exception as ex:
             print(f'Z3 returned unknown: {ex}')
 
+    # >>> NEXUS CHANGE BEGIN [4.4 / 6.5 - fixedpoint obligation result]
+    record_validation_check(name, result, expected, failure_message, fp, "fixedpoint", query=relation())
+    # <<< NEXUS CHANGE END [4.4 / 6.5 - fixedpoint obligation result]
     print()
     return result
 
@@ -1323,9 +1470,15 @@ def check_solver(name, solver, expected, failure_message):
     try:
         result = solver.check()
     except Z3Exception as ex:
-        reason = str(ex).lower()
-        if "timeout" in reason or "canceled" in reason:
-            sys.exit(124)
+        # >>> NEXUS CHANGE BEGIN [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+        recovered_result = recover_incomplete_z3_query(name, ex)
+        if recovered_result is not None:
+            # >>> NEXUS CHANGE BEGIN [4.3 / 6.4 - record undecidable Z3 exception]
+            record_validation_check(name, recovered_result, expected, failure_message,
+                                    solver, "solver", detail=str(ex))
+            # <<< NEXUS CHANGE END [4.3 / 6.4 - record undecidable Z3 exception]
+            return recovered_result
+        # <<< NEXUS CHANGE END [1.4 - Distinguish Z3 solver incompleteness from internal errors]
         raise
 
     if result == unknown:
@@ -1344,6 +1497,9 @@ def check_solver(name, solver, expected, failure_message):
         print('DETAIL:')
         print(solver.reason_unknown())
 
+    # >>> NEXUS CHANGE BEGIN [4.5 / 6.6 - solver obligation result]
+    record_validation_check(name, result, expected, failure_message, solver, "solver")
+    # <<< NEXUS CHANGE END [4.5 / 6.6 - solver obligation result]
     print()
     return result
 
@@ -1357,45 +1513,43 @@ def validation_status(checks):
     return "unknown" if saw_unknown else "valid"
 
 )PY";
+    // <<< NEXUS CHANGE END [4.3 / 6.4 - record each validation obligation inside generated Python]
     context.output << targetLoopId << "_recurrent_reachability_result = check_fixedpoint(\n"
                    << "    \"RECURRENT_REACHABILITY\",\n"
                    << "    " << reachableRecurrentSet << ",\n"
                    << "    sat,\n"
                    << "    \"no reachable loop-header state belongs to the recurrent set.\"\n"
-                   << ")\n\n"
-                   << targetLoopId << "_recurrent_guard_result = check_solver(\n"
-                   << "    \"RECURRENT_GUARD_CONTAINMENT\",\n"
-                   << "    " << targetLoopId << "_recurrent_guard_solver,\n"
-                   << "    unsat,\n"
-                   << "    \"a recurrent-set state can violate the loop guard.\"\n"
-                   << ")\n\n"
-                   << targetLoopId << "_recurrent_closure_result = check_fixedpoint(\n"
-                   << "    \"RECURRENT_CLOSURE\",\n"
-                   << "    " << badClosure << ",\n"
-                   << "    unsat,\n"
-                   << "    \"a completed loop iteration can leave the recurrent set.\"\n"
-                   << ")\n\n"
-                   << targetLoopId << "_recurrent_exit_result = check_fixedpoint(\n"
-                   << "    \"RECURRENT_NO_NORMAL_EXIT\",\n"
-                   << "    " << badExit << ",\n"
-                   << "    unsat,\n"
-                   << "    \"a recurrent-set state can permit normal loop exit.\"\n"
-                   << ")\n\n"
-                   << targetLoopId << "_recurrent_return_result = check_fixedpoint(\n"
-                   << "    \"RECURRENT_NO_FUNCTION_RETURN\",\n"
-                   << "    " << badReturn << ",\n"
-                   << "    unsat,\n"
-                   << "    \"a recurrent-set state can permit function return.\"\n"
-                   << ")\n\n"
+                   << ")\n\n";
+    // >>> NEXUS CHANGE BEGIN [8.3 - Existential progress replaces universal closure and no-exit tests]
+    // The progress obligation must find a legal *continuing* choice from
+    // every recurrent-set state. Other possible exits/returns are immaterial.
+    // If the transition uses recursive Horn relations, SMT sees only an
+    // uninterpreted symbol, not its fixedpoint meaning: report unknown.
+    context.output << "if " << targetLoopId << "_has_dependent_paths:\n"
+                   << "    " << targetLoopId << "_recurrent_progress_result = unknown\n"
+                   << "    print('RECURRENT_EXISTENTIAL_PROGRESS: unknown')\n"
+                   << "    record_validation_check(\n"
+                   << "        'RECURRENT_EXISTENTIAL_PROGRESS', unknown, unsat,\n"
+                   << "        'iteration paths contain Horn relation calls whose semantics cannot be used directly in SMT',\n"
+                   << "        None, 'solver', detail='dependent iteration path needs a sound relational encoding')\n"
+                   << "else:\n"
+                   << "    " << targetLoopId << "_recurrent_progress_result = check_solver(\n"
+                   << "        'RECURRENT_EXISTENTIAL_PROGRESS',\n"
+                   << "        " << targetLoopId << "_existential_progress_solver,\n"
+                   << "        unsat,\n"
+                   << "        'some recurrent-set state has no completed iteration back into the set.'\n"
+                   << "    )\n\n"
                    << "RECURRENT_SET_RESULT = validation_status([\n"
                    << "    (" << targetLoopId << "_recurrent_reachability_result, sat),\n"
-                   << "    (" << targetLoopId << "_recurrent_guard_result, unsat),\n"
-                   << "    (" << targetLoopId << "_recurrent_closure_result, unsat),\n"
-                   << "    (" << targetLoopId << "_recurrent_exit_result, unsat),\n"
-                   << "    (" << targetLoopId << "_recurrent_return_result, unsat)\n"
+                   << "    (" << targetLoopId << "_recurrent_progress_result, unsat)\n"
                    << "])\n\n"
                    << "print()\n"
-                   << "print(f'RECURRENT_SET_RESULT: \"{RECURRENT_SET_RESULT}\"')\n";
+                   << "print(f'RECURRENT_SET_RESULT: \"{RECURRENT_SET_RESULT}\"')\n"
+    // <<< NEXUS CHANGE END [8.3 - Existential progress replaces universal closure and no-exit tests]
+                   // >>> NEXUS CHANGE BEGIN [4.7 - emit authoritative recurrent-set summary]
+                   << "emit_validation_summary(" << nlohmann::ordered_json(targetLoopId).dump()
+                   << ", \"non-terminating\", {\"recurrent_set\": RECURRENT_SET_RESULT})\n";
+                   // <<< NEXUS CHANGE END [4.7 - emit authoritative recurrent-set summary]
 }
 
 bool ValidatorGenerator::generate(const std::string& loopId, const std::filesystem::path& loopInformationDirectory, const std::filesystem::path& candidatePath, const std::filesystem::path& validatorPath, long timeoutMilliseconds) {
@@ -1486,13 +1640,27 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
             else if (candidateKind == "non-terminating") {
                 validatorStream << "print('RECURRENT_SET_RESULT: \"unknown\"')\n";
             }
+            // >>> NEXUS CHANGE BEGIN [4.8 - unsupported is not an invalid witness]
+            const nlohmann::ordered_json summary = {
+                {"loop_id", loopId},
+                {"candidate_kind", candidateKind},
+                {"status", "unsupported"},
+                {"components", nlohmann::ordered_json::object()},
+                {"checks", nlohmann::ordered_json::array()},
+                {"reason", message.str()}
+            };
+            validatorStream << "print(" << nlohmann::ordered_json("VALIDATION_SUMMARY_JSON:" + summary.dump()).dump() << ")\n";
+            // <<< NEXUS CHANGE END [4.8 - unsupported is not an invalid witness]
             return static_cast<bool>(validatorStream);
         }
         PythonContext context;
         context.output << "#!/usr/bin/env python3\n\n"
                        << "from z3 import *\n"
                        << "import sys\n"
-                       << "import time\n\n"
+                       << "import time\n"
+                       // >>> NEXUS CHANGE BEGIN [4.1 / 6.2 - machine-readable validation and counterexamples]
+                       << "import json\n\n"
+                       // <<< NEXUS CHANGE END [4.1 / 6.2 - machine-readable validation and counterexamples]
                        << "VALIDATION_TIMEOUT_MS = " << timeoutMilliseconds << "\n"
                        << "VALIDATION_DEADLINE = (\n"
                        << "    time.monotonic() + VALIDATION_TIMEOUT_MS / 1000.0\n"
@@ -1506,6 +1674,105 @@ bool ValidatorGenerator::generate(const std::string& loopId, const std::filesyst
                        << "    if remaining <= 0:\n"
                        << "        sys.exit(124)\n"
                        << "    return max(1, remaining)\n\n"
+                       // >>> NEXUS CHANGE BEGIN [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+                       // A Spacer 'Stuck on a lemma' exception means a query could not be decided.
+                       // It is NOT proof that the candidate passed or failed; preserve 'unknown'.
+                       // Other Z3 exceptions (e.g., malformed expressions) remain real errors.
+                       << R"PY(def recover_incomplete_z3_query(name, error):
+    reason = str(error).lower()
+    if "timeout" in reason or "canceled" in reason or "cancelled" in reason:
+        sys.exit(124)
+    if "stuck on a lemma" in reason:
+        print(f'{name}: unknown')
+        print('DETAIL:')
+        print(f'Z3 Spacer could not complete this query: {error}')
+        print()
+        return unknown
+    return None
+
+)PY"
+                       // <<< NEXUS CHANGE END [1.4 - Distinguish Z3 solver incompleteness from internal errors]
+                       // >>> NEXUS CHANGE BEGIN [4.2 / 6.3 - obligation records and trustworthy Z3 evidence]
+                       << R"PY(VALIDATION_CHECKS = []
+
+def _nexus_safe_text(value, limit=4000):
+    return str(value)[:limit]
+
+def record_validation_check(name, result, expected, failure_message, source, source_kind,
+                            detail=None, query=None):
+    observed = str(result)
+    record = {
+        "name": name,
+        "status": "unknown" if result == unknown else ("valid" if result == expected else "invalid"),
+        "expected": str(expected),
+        "observed": observed,
+        "description": failure_message
+    }
+    # >>> NEXUS CHANGE BEGIN [6.7 - expose the relevant verification query]
+    try:
+        condition = query if query is not None else (source.assertions() if source_kind == "solver" else None)
+        if condition is not None:
+            record["query_condition"] = _nexus_safe_text(condition, 3000)
+    except Exception:
+        pass  # A missing query string is not a different Z3 outcome.
+    # <<< NEXUS CHANGE END [6.7 - expose the relevant verification query]
+    if result == unknown:
+        if detail is None:
+            try:
+                detail = source.reason_unknown()
+            except Exception as ex:
+                detail = f"Z3 could not provide a reason: {ex}"
+        record["reason_unknown"] = _nexus_safe_text(detail)
+    elif result == sat and result != expected:
+        if source_kind == "solver":
+            try:
+                model = source.model()
+                assignments = {}
+                for declaration in sorted(model.decls(), key=lambda d: d.name()):
+                    assignments[declaration.name()] = _nexus_safe_text(model[declaration])
+                record["counterexample"] = {
+                    "kind": "model",
+                    "assignments": assignments
+                }
+            except Exception as ex:
+                record["counterexample_unavailable"] = _nexus_safe_text(ex)
+        elif source_kind == "fixedpoint":
+            try:
+                answer = source.get_ground_sat_answer()
+                if str(answer) == "False":
+                    answer = source.get_answer()
+                record["counterexample"] = {
+                    "kind": "fixedpoint_answer",
+                    "answer_expression": _nexus_safe_text(answer)
+                }
+            except Exception as ex:
+                try:
+                    record["counterexample"] = {
+                        "kind": "fixedpoint_answer",
+                        "answer_expression": _nexus_safe_text(source.get_answer())
+                    }
+                except Exception:
+                    record["counterexample_unavailable"] = _nexus_safe_text(ex)
+    VALIDATION_CHECKS.append(record)
+
+def emit_validation_summary(loop_id, candidate_kind, components):
+    values = list(components.values())
+    if any(value == "invalid" for value in values):
+        overall = "invalid"
+    elif any(value == "unknown" for value in values):
+        overall = "unknown"
+    else:
+        overall = "valid"
+    print("VALIDATION_SUMMARY_JSON:" + json.dumps({
+        "loop_id": loop_id,
+        "candidate_kind": candidate_kind,
+        "status": overall,
+        "components": components,
+        "checks": VALIDATION_CHECKS
+    }, sort_keys=True, separators=(",", ":")))
+
+)PY"
+                       // <<< NEXUS CHANGE END [4.2 / 6.3 - obligation records and trustworthy Z3 evidence]
                        << "fp = Fixedpoint()\n"
                        << "fp.set(engine=\"spacer\")\n\n"
                        << "# ============================================================\n"

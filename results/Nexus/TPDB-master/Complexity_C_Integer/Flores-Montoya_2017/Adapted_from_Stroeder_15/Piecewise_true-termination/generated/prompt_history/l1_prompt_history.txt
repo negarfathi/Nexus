@@ -1,0 +1,1791 @@
+==================== PROMPT ====================
+ATTEMPT: 1
+MODE: Initial
+MODEL: gpt-oss-20b
+REASONING_EFFORT: medium
+INCLUDE_REASONING: true
+RESPONSE_FORMAT: json_schema
+SCHEMA_NAME: nexus_candidate
+STRICT_SCHEMA: true
+
+INSTRUCTIONS:
+
+Analyze the supplied loop information and determine whether the target loop is terminating or non-terminating.
+
+A target loop is "terminating" if every reachable execution of the target loop eventually leaves the loop.
+
+A target loop is "non-terminating" if at least one reachable execution of the target loop can continue indefinitely.
+
+If the target loop is terminating, construct one inductive invariant and one ranking function.
+
+The invariant must satisfy:
+- INVARIANT_INITIALIZATION: every reachable entry state must satisfy the invariant.
+- INVARIANT_PRESERVATION: if the invariant and loop guard hold before a completed iteration, the invariant must hold in the resulting next state.
+
+The ranking function must satisfy:
+- RANKING_NONNEGATIVITY: whenever the invariant and loop guard hold, the ranking value must be non-negative.
+- RANKING_DECREASE: on every completed iteration satisfying the invariant and loop guard, the next ranking value must be strictly smaller than the current ranking value.
+
+If the target loop is non-terminating, construct one recurrent set.
+
+The recurrent set must satisfy:
+- RECURRENT_REACHABILITY: at least one reachable loop-header state must belong to the recurrent set.
+- RECURRENT_EXISTENTIAL_PROGRESS: from EVERY state of the recurrent set, at least ONE legal guard-true completed loop iteration must reach another recurrent-set state. Existentially choose any nondeterministic guard decision, next state, and path-local witnesses. An infinite execution must remain possible at every step; dead ends are not recurrent.
+- Exits and returns on OTHER nondeterministic paths do not invalidate a non-termination witness.
+
+Dependency loops provide reachability and execution context only. Construct the candidate only for the target loop.
+
+For terminating witnesses, determine a sufficient inductive invariant before choosing a ranking expression; confirm the ranking measure is compatible with all possible iteration paths and the invariant.
+For non-terminating witnesses, derive a nonempty reachable recurrent region with one perpetually enabled continuing path from every region state. Do not require universal closure or forbid alternative exits/returns. All nondeterministic choices must be genuinely allowed by the extracted transition relation.
+
+
+Interpret arithmetic over mathematical integers.
+
+Return exactly one candidate for the target loop.
+
+A terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": <BoolExpr>
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": <RankingExpr>
+    }
+  ]
+}
+
+A non-terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": <BoolExpr>
+    }
+  ]
+}
+
+Every expression_ast must conform to the supplied candidate grammar.
+
+Reason from the precise loop relations, not from the source-code shape alone:
+- Derive any useful bounds, equalities, phases, and parity constraints from entry_states and the complete loop_iteration_steps relation.
+- Include enough states for invariant initialization AND inductiveness; never assume that an entry condition remains true after an iteration without checking it.
+- A ranking function must be non-negative and strictly decrease on EVERY relevant completed iteration. Use a lexicographic RankingExpr, encoded as nested lex(first, rest), when different phases decrease different measures.
+- Treat nondeterministic choices as fresh per transition. Termination obligations must hold for every choice admitted by the extracted relations; do not assume a favorable random value.
+- For a recurrent-set witness, prove reachability and existential progress: every recurrent-set state must have at least one guard-enabled completed iteration back into the set. Exits/returns on other choices are allowed. Merely showing one finite trace or a set with no enabled iteration is insufficient.
+- An unreachable loop does not need an invented ranking decrease on unreachable transitions, but any proposed witness must still satisfy the validator's universal proof obligations.
+- Use only expressions supported by the grammar. Do not add extra witness fields, helper variables, unproved assumptions, or natural-language placeholders.
+
+Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
+
+Use the following JSON AST encoding:
+- Variable: "l1_v1"
+- Integer: 0, 1, -2
+- Boolean: "true" or "false"
+- Operator application: {"op":"<operator>","args":[...]}
+
+Examples:
+{"op":"<","args":["l1_v1","l1_v2"]}
+{"op":"*","args":[2,"l1_v1"]}
+
+Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
+
+
+INPUT:
+{"candidate_grammar":"BoolExpr ::=\n      \"true\"\n    | \"false\"\n    | \"and\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"or\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"not\" \"(\" BoolExpr \")\"\n    | \"implies\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"iff\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"!=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n\nArithExpr ::=\n      Integer\n    | Variable\n    | \"+\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"-\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"neg\" \"(\" ArithExpr \")\"\n    | \"*\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"div\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"mod\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"pow\" \"(\" ArithExpr \",\" NonNegativeInteger \")\"\n    | \"abs\" \"(\" ArithExpr \")\"\n    | \"min\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"max\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"ite\" \"(\" BoolExpr \",\" ArithExpr \",\" ArithExpr \")\"\n\nRankingExpr ::=\n      ArithExpr\n    | \"lex\" \"(\" ArithExpr \",\" RankingExpr \")\"\n\nVariable ::= any variable name provided for the target loop\nInteger ::= any mathematical integer literal\nNonNegativeInteger ::= any integer literal k such that k >= 0","loop_information":[{"information":{"actual_exit":{"id":"l1_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_entry_states"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_out","l1_v2_out"]},"op":"relation_call","relation":"l1_actual_exit"},"id":"l1_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l1_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l1_entry_states_p1","updates":{"l1_v1":"arg0","l1_v2":"arg1"}}]},"function":"foo","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l1_v1","l1_v2"],"output_state":["l1_v1_out","l1_v2_out"]},"op":"relation_call","relation":"l1_exit_steps"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_return","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_return_steps"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_recursive"}]},"llvm_header_block":"%5","loop_exit_steps":{"id":"l1_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":[{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"="}],"op":"and"},{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":"<="}],"op":"and"}],"op":"or"},{"args":["l1_v2",0],"op":"<="}],"op":"or"},"id":"l1_exit_steps_p1","updates":{"l1_v1_out":"l1_v1","l1_v2_out":"l1_v2"}}]},"loop_guard":{"formula":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":[{"args":["l1_v1","l1_v2"],"op":"="}],"op":"not"}],"op":"and"},"id":"l1_guard"},"loop_id":"l1","loop_iteration_steps":{"id":"l1_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":"<"}],"op":"and"},"id":"l1_iteration_steps_p1","updates":{"l1_v1_next":"l1_nd1","l1_v2_next":{"args":["l1_v2",1],"op":"-"}}},{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":">="},{"args":["l1_v1","l1_v2"],"op":"<"}],"op":"and"},"id":"l1_iteration_steps_p2","updates":{"l1_v1_next":{"args":["l1_v1",1],"op":"-"},"l1_v2_next":"l1_nd2"}},{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":">="},{"args":["l1_v1","l1_v2"],"op":">="}],"op":"and"},"id":"l1_iteration_steps_p3","updates":{"l1_v1_next":"l1_v1","l1_v2_next":"l1_v2"}}]},"loop_return_steps":{"id":"l1_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":[],"nondeterministic_symbols":[{"name":"l1_nd1","type":"i32"},{"name":"l1_nd2","type":"i32"},{"name":"l1_nd3","type":"i32"},{"name":"l1_nd4","type":"i32"},{"name":"l1_nd5","type":"i32"},{"name":"l1_nd6","type":"i32"}],"parent_loop_id":null,"previous_sequential_loop_ids":[],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l1_reachable_header_states","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_entry_states"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_reachable_header_states"},{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l1_v1","llvm_slot":"%3","next":"l1_v1_next","output":"l1_v1_out","type":"i32"},{"current":"l1_v2","llvm_slot":"%4","next":"l1_v2_next","output":"l1_v2_out","type":"i32"}],"unsupported":[]},"loop_id":"l1","role":"target"}],"target_loop_id":"l1"}
+
+OUTPUT_SCHEMA:
+{
+  "$defs": {
+    "arith_expr": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "enum": [
+            "l1_v1",
+            "l1_v2"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "+"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "-"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "*"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "div"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "mod"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "min"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "max"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "neg"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "abs"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "ite"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/nonnegative_integer"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "pow"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "bool_expr": {
+      "anyOf": [
+        {
+          "enum": [
+            "true",
+            "false"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "and"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "or"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "implies"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "iff"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "not"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "!="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "nonnegative_integer": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "ranking_expr": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/arith_expr"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/ranking_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "lex"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_expressions": {
+      "items": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/bool_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "invariant"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/ranking_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "ranking-function"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/bool_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "recurrent-set"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "type": "array"
+    },
+    "candidate_kind": {
+      "enum": [
+        "terminating",
+        "non-terminating"
+      ],
+      "type": "string"
+    },
+    "loop_id": {
+      "enum": [
+        "l1"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "loop_id",
+    "candidate_kind",
+    "candidate_expressions"
+  ],
+  "type": "object"
+}
+
+==================== PROMPT ====================
+ATTEMPT: 2
+MODE: SemanticRefinement
+MODEL: gpt-oss-20b
+REASONING_EFFORT: medium
+INCLUDE_REASONING: true
+RESPONSE_FORMAT: json_schema
+SCHEMA_NAME: nexus_candidate
+STRICT_SCHEMA: true
+
+INSTRUCTIONS:
+
+Analyze the previous candidate and current feedback, and repair the candidate so that it is semantically valid.
+
+The previous_candidate is the candidate to repair. The current_feedback reports the human-readable checks.
+When present, the validation_feedback object contains the authoritative structured validator status, check names, expected/observed results, and available Z3 counterexample data.
+If the current_feedback is refinement-control feedback instead, use candidate_history and feedback_history to avoid repeating the earlier witness; control feedback is not a fresh Z3 result.
+For a failed solver obligation, use concrete assignments only when supplied under counterexample.assignments; such model assignments may be partial.
+For a failed fixedpoint obligation, counterexample.answer_expression may be a symbolic formula rather than a concrete valuation.
+For an unknown check, reason_unknown is not evidence for or against the witness; do not invent a counterexample.
+
+Interpret the feedback as follows:
+- "passed" means the corresponding requirement is satisfied.
+- "failed" means the corresponding requirement is violated; use the failure explanation and any supplied counterexample to repair the relevant witness.
+- "unknown" means the validator could not determine whether the requirement is satisfied.
+
+If the candidate is terminating:
+- repair the invariant only when an invariant check failed;
+- repair the ranking function only when a ranking-function check failed;
+- preserve a witness component when all of its checks passed, unless a required change to the invariant alters the assumptions under which the other component was checked;
+- if the invariant changes, re-evaluate the ranking-function obligations under the NEW invariant: a ranking function validated under the old invariant is not automatically valid under the new one.
+
+If the candidate is non-terminating:
+- repair the recurrent set according to its failed checks while preserving parts that remain valid whenever possible;
+- RECURRENT_EXISTENTIAL_PROGRESS requires an enabled continuing successor for EACH recurrent-set state (not every successor). A solver model showing a dead-end state is evidence to strengthen or reshape the set;
+- if progress is unknown due to dependent Horn transitions, do not invent a transition or regard unknown as non-termination proof.
+
+Do not change between terminating and non-terminating merely because the current witness failed validation. Change the classification only if the supplied loop semantics provide evidence that the previous classification is incorrect.
+
+Use candidate_history and feedback_history to avoid repeating previously rejected witnesses or semantic mistakes.
+An invalid or unknown candidate does NOT establish that the opposite termination classification is correct; an alternative classification must be justified independently by the loop semantics.
+After every repair, propose a complete candidate satisfying ALL obligations, not only those that failed in the previous attempt.
+
+Dependency loops provide reachability and execution context only. Repair the candidate only for the target loop.
+
+
+Interpret arithmetic over mathematical integers.
+
+Return exactly one candidate for the target loop.
+
+A terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": <BoolExpr>
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": <RankingExpr>
+    }
+  ]
+}
+
+A non-terminating candidate must have exactly this form:
+{
+  "loop_id": "<TARGET_LOOP_ID>",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": <BoolExpr>
+    }
+  ]
+}
+
+Every expression_ast must conform to the supplied candidate grammar.
+
+Reason from the precise loop relations, not from the source-code shape alone:
+- Derive any useful bounds, equalities, phases, and parity constraints from entry_states and the complete loop_iteration_steps relation.
+- Include enough states for invariant initialization AND inductiveness; never assume that an entry condition remains true after an iteration without checking it.
+- A ranking function must be non-negative and strictly decrease on EVERY relevant completed iteration. Use a lexicographic RankingExpr, encoded as nested lex(first, rest), when different phases decrease different measures.
+- Treat nondeterministic choices as fresh per transition. Termination obligations must hold for every choice admitted by the extracted relations; do not assume a favorable random value.
+- For a recurrent-set witness, prove reachability and existential progress: every recurrent-set state must have at least one guard-enabled completed iteration back into the set. Exits/returns on other choices are allowed. Merely showing one finite trace or a set with no enabled iteration is insufficient.
+- An unreachable loop does not need an invented ranking decrease on unreachable transitions, but any proposed witness must still satisfy the validator's universal proof obligations.
+- Use only expressions supported by the grammar. Do not add extra witness fields, helper variables, unproved assumptions, or natural-language placeholders.
+
+Candidate expressions may use only the target loop's current-state variables from state_symbols[*].current.
+
+Use the following JSON AST encoding:
+- Variable: "l1_v1"
+- Integer: 0, 1, -2
+- Boolean: "true" or "false"
+- Operator application: {"op":"<operator>","args":[...]}
+
+Examples:
+{"op":"<","args":["l1_v1","l1_v2"]}
+{"op":"*","args":[2,"l1_v1"]}
+
+Return only the JSON candidate object. Do not return Markdown, explanations, comments, or mathematical-expression strings.
+
+
+INPUT:
+{"candidate_grammar":"BoolExpr ::=\n      \"true\"\n    | \"false\"\n    | \"and\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"or\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"not\" \"(\" BoolExpr \")\"\n    | \"implies\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"iff\" \"(\" BoolExpr \",\" BoolExpr \")\"\n    | \"=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"!=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"<=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \">=\" \"(\" ArithExpr \",\" ArithExpr \")\"\n\nArithExpr ::=\n      Integer\n    | Variable\n    | \"+\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"-\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"neg\" \"(\" ArithExpr \")\"\n    | \"*\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"div\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"mod\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"pow\" \"(\" ArithExpr \",\" NonNegativeInteger \")\"\n    | \"abs\" \"(\" ArithExpr \")\"\n    | \"min\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"max\" \"(\" ArithExpr \",\" ArithExpr \")\"\n    | \"ite\" \"(\" BoolExpr \",\" ArithExpr \",\" ArithExpr \")\"\n\nRankingExpr ::=\n      ArithExpr\n    | \"lex\" \"(\" ArithExpr \",\" RankingExpr \")\"\n\nVariable ::= any variable name provided for the target loop\nInteger ::= any mathematical integer literal\nNonNegativeInteger ::= any integer literal k such that k >= 0","candidate_history":[{"attempt":1,"candidate":{"candidate_expressions":[{"expression_ast":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_v2",0],"op":">"}],"op":"and"},"expression_kind":"invariant"},{"expression_ast":{"args":["l1_v1","l1_v2"],"op":"min"},"expression_kind":"ranking-function"}],"candidate_kind":"terminating","loop_id":"l1"},"candidate_kind":"terminating","components":{"invariant":"invalid","ranking_function":"valid"},"outcome":"validation_invalid","unresolved_checks":[{"name":"INVARIANT_INITIALIZATION","status":"invalid"},{"name":"INVARIANT_PRESERVATION","status":"invalid"}]}],"current_feedback":"===================== SEMANTIC FEEDBACK =====================\nTARGET_LOOP: l1\nCANDIDATE_KIND: terminating\n\nINVARIANT:\n{\n  \"op\": \"and\",\n  \"args\": [\n    {\n      \"op\": \">\",\n      \"args\": [\n        \"l1_v1\",\n        0\n      ]\n    },\n    {\n      \"op\": \">\",\n      \"args\": [\n        \"l1_v2\",\n        0\n      ]\n    }\n  ]\n}\n\nRANKING_FUNCTION:\n{\n  \"op\": \"min\",\n  \"args\": [\n    \"l1_v1\",\n    \"l1_v2\"\n  ]\n}\n\nFEEDBACK:\nINVARIANT_INITIALIZATION: failed - a reachable entry state violates the invariant.\nCOUNTEREXAMPLE:\nmp(hyper-res(asserted(ForAll([A, B],\n                             Implies(Or(A <= 0, B <= 0),\n                                     query!0))),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)\n\nINVARIANT_PRESERVATION: failed - a completed loop iteration can reach a next state that violates the invariant.\nCOUNTEREXAMPLE:\nmp(hyper-res(asserted(ForAll([A, B, C, D],\n                             Implies(And(l1_iteration_steps(A,\n                                        C,\n                                        B,\n                                        D),\n                                        Not(A <= 0),\n                                        Not(C <= 0),\n                                        Or(D <= 0, B <= 0),\n                                        Not(A == C)),\n                                     query!6))),\n             hyper-res(asserted(ForAll([A, B, C, D],\n                                       Implies(And(C ==\n                                        -1 + B,\n                                        Not(B <= 0),\n                                        Not(A <= 0),\n                                        Not(A <= B),\n                                        Not(A == B)),\n                                        l1_iteration_steps(A,\n                                        B,\n                                        D,\n                                        C)))),\n                       l1_iteration_steps(2, 1, 0, 0)),\n             query!6),\n   asserted(Implies(query!6, False)),\n   False)\n\nRANKING_NONNEGATIVITY: passed\n\nRANKING_DECREASE: passed\n\n\nINVARIANT_RESULT: \"invalid\"\nRANKING_FUNCTION_RESULT: \"valid\"\n","feedback_history":"==================== SYNTACTIC FEEDBACK ====================\nTARGET_LOOP: l1\nCANDIDATE_KIND: terminating\n\nINVARIANT:\n{\n  \"args\": [\n    {\n      \"args\": [\n        \"l1_v1\",\n        0\n      ],\n      \"op\": \">\"\n    },\n    {\n      \"args\": [\n        \"l1_v2\",\n        0\n      ],\n      \"op\": \">\"\n    }\n  ],\n  \"op\": \"and\"\n}\n\nRANKING_FUNCTION:\n{\n  \"args\": [\n    \"l1_v1\",\n    \"l1_v2\"\n  ],\n  \"op\": \"min\"\n}\n\nFEEDBACK:\nNo syntactic issues.\n\n","loop_information":[{"information":{"actual_exit":{"id":"l1_actual_exit","rules":[{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_entry_states"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_out","l1_v2_out"]},"op":"relation_call","relation":"l1_actual_exit"},"id":"l1_actual_exit_rule"}]},"child_loop_ids":[],"entry_states":{"id":"l1_entry_states","path_semantics":"existential_disjunction","paths":[{"condition":true,"id":"l1_entry_states_p1","updates":{"l1_v1":"arg0","l1_v2":"arg1"}}]},"function":"foo","header_to_exit":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_exit","rules":[{"body":{"arguments":{"current_state":["l1_v1","l1_v2"],"output_state":["l1_v1_out","l1_v2_out"]},"op":"relation_call","relation":"l1_exit_steps"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_header_to_exit"}],"op":"and"},"head":{"arguments":{"output_state":["l1_v1_out","l1_v2_out"],"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_exit"},"id":"l1_header_to_exit_recursive"}]},"header_to_return":{"formula_semantics":"least_fixedpoint","id":"l1_header_to_return","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_return_steps"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_base"},{"body":{"args":[{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"},{"arguments":{"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_header_to_return"}],"op":"and"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_header_to_return"},"id":"l1_header_to_return_recursive"}]},"llvm_header_block":"%5","loop_exit_steps":{"id":"l1_exit_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":[{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"="}],"op":"and"},{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":"<="}],"op":"and"}],"op":"or"},{"args":["l1_v2",0],"op":"<="}],"op":"or"},"id":"l1_exit_steps_p1","updates":{"l1_v1_out":"l1_v1","l1_v2_out":"l1_v2"}}]},"loop_guard":{"formula":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":[{"args":["l1_v1","l1_v2"],"op":"="}],"op":"not"}],"op":"and"},"id":"l1_guard"},"loop_id":"l1","loop_iteration_steps":{"id":"l1_iteration_steps","path_semantics":"existential_disjunction","paths":[{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":"<"}],"op":"and"},"id":"l1_iteration_steps_p1","updates":{"l1_v1_next":"l1_nd1","l1_v2_next":{"args":["l1_v2",1],"op":"-"}}},{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":">="},{"args":["l1_v1","l1_v2"],"op":"<"}],"op":"and"},"id":"l1_iteration_steps_p2","updates":{"l1_v1_next":{"args":["l1_v1",1],"op":"-"},"l1_v2_next":"l1_nd2"}},{"condition":{"args":[{"args":["l1_v2",0],"op":">"},{"args":["l1_v1",0],"op":">"},{"args":["l1_v1","l1_v2"],"op":"!="},{"args":["l1_v2","l1_v1"],"op":">="},{"args":["l1_v1","l1_v2"],"op":">="}],"op":"and"},"id":"l1_iteration_steps_p3","updates":{"l1_v1_next":"l1_v1","l1_v2_next":"l1_v2"}}]},"loop_return_steps":{"id":"l1_return_steps","path_semantics":"existential_disjunction","paths":[]},"next_sequential_loop_ids":[],"nondeterministic_symbols":[{"name":"l1_nd1","type":"i32"},{"name":"l1_nd2","type":"i32"},{"name":"l1_nd3","type":"i32"},{"name":"l1_nd4","type":"i32"},{"name":"l1_nd5","type":"i32"},{"name":"l1_nd6","type":"i32"}],"parent_loop_id":null,"previous_sequential_loop_ids":[],"reachable_header_states":{"formula_semantics":"least_fixedpoint","id":"l1_reachable_header_states","rules":[{"body":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_entry_states"},"head":{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_base"},{"body":{"args":[{"arguments":{"state":["l1_v1","l1_v2"]},"op":"relation_call","relation":"l1_reachable_header_states"},{"arguments":{"current_state":["l1_v1","l1_v2"],"next_state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_iteration_steps"}],"op":"and"},"head":{"arguments":{"state":["l1_v1_next","l1_v2_next"]},"op":"relation_call","relation":"l1_reachable_header_states"},"id":"l1_reachable_header_states_recursive"}]},"state_symbols":[{"current":"l1_v1","llvm_slot":"%3","next":"l1_v1_next","output":"l1_v1_out","type":"i32"},{"current":"l1_v2","llvm_slot":"%4","next":"l1_v2_next","output":"l1_v2_out","type":"i32"}],"unsupported":[]},"loop_id":"l1","role":"target"}],"previous_candidate":{"candidate_expressions":[{"expression_ast":{"args":[{"args":["l1_v1",0],"op":">"},{"args":["l1_v2",0],"op":">"}],"op":"and"},"expression_kind":"invariant"},{"expression_ast":{"args":["l1_v1","l1_v2"],"op":"min"},"expression_kind":"ranking-function"}],"candidate_kind":"terminating","loop_id":"l1"},"target_loop_id":"l1","validation_feedback":{"candidate_kind":"terminating","checks":[{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B],\n                             Implies(Or(A <= 0, B <= 0),\n                                     query!0))),\n             query!0),\n   asserted(Implies(query!0, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"sat","query_condition":"l1_bad_invariant_initialization","status":"invalid"},{"counterexample":{"answer_expression":"mp(hyper-res(asserted(ForAll([A, B, C, D],\n                             Implies(And(l1_iteration_steps(A,\n                                        C,\n                                        B,\n                                        D),\n                                        Not(A <= 0),\n                                        Not(C <= 0),\n                                        Or(D <= 0, B <= 0),\n                                        Not(A == C)),\n                                     query!6))),\n             hyper-res(asserted(ForAll([A, B, C, D],\n                                       Implies(And(C ==\n                                        -1 + B,\n                                        Not(B <= 0),\n                                        Not(A <= 0),\n                                        Not(A <= B),\n                                        Not(A == B)),\n                                        l1_iteration_steps(A,\n                                        B,\n                                        D,\n                                        C)))),\n                       l1_iteration_steps(2, 1, 0, 0)),\n             query!6),\n   asserted(Implies(query!6, False)),\n   False)","kind":"fixedpoint_answer"},"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"sat","query_condition":"l1_bad_invariant_preservation","status":"invalid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 < l1_v1, 0 < l1_v2),\n And(0 < l1_v2, 0 < l1_v1, Not(l1_v1 == l1_v2)),\n If(l1_v1 <= l1_v2, l1_v1, l1_v2) < 0]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[And(0 < l1_v1, 0 < l1_v2),\n And(0 < l1_v2, 0 < l1_v1, Not(l1_v1 == l1_v2)),\n Or(And(And(0 < l1_v2,\n            0 < l1_v1,\n            l1_v1 != l1_v2,\n            l1_v2 < l1_v1),\n        l1_v1_next == l1_nd1,\n        l1_v2_next == l1_v2 - 1),\n    And(And(0 < l1_v2,\n            0 < l1_v1,\n            l1_v1 != l1_v2,\n            l1_v2 >= l1_v1,\n            l1_v1 < l1_v2),\n        l1_v1_next == l1_v1 - 1,\n        l1_v2_next == l1_nd2),\n    And(And(0 < l1_v2,\n            0 < l1_v1,\n            l1_v1 != l1_v2,\n            l1_v2 >= l1_v1,\n            l1_v1 >= l1_v2),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2)),\n Not(If(l1_v1_next <= l1_v2_next, l1_v1_next, l1_v2_next) <\n     If(l1_v1 <= l1_v2, l1_v1, l1_v2))]","status":"valid"}],"components":{"invariant":"invalid","ranking_function":"valid"},"loop_id":"l1","status":"invalid"}}
+
+OUTPUT_SCHEMA:
+{
+  "$defs": {
+    "arith_expr": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "enum": [
+            "l1_v1",
+            "l1_v2"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "+"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "-"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "*"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "div"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "mod"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "min"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "max"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "neg"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "abs"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 3,
+              "minItems": 3,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "ite"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/nonnegative_integer"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "pow"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "bool_expr": {
+      "anyOf": [
+        {
+          "enum": [
+            "true",
+            "false"
+          ],
+          "type": "string"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "and"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "or"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "implies"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                },
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "iff"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 1,
+              "minItems": 1,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/bool_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "not"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "!="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "<="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/arith_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                ">="
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "nonnegative_integer": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "ranking_expr": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/arith_expr"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "args": {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "$ref": "#/$defs/arith_expr"
+                },
+                {
+                  "$ref": "#/$defs/ranking_expr"
+                }
+              ],
+              "type": "array"
+            },
+            "op": {
+              "enum": [
+                "lex"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "op",
+            "args"
+          ],
+          "type": "object"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "candidate_expressions": {
+      "items": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/bool_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "invariant"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/ranking_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "ranking-function"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "expression_ast": {
+                "$ref": "#/$defs/bool_expr"
+              },
+              "expression_kind": {
+                "enum": [
+                  "recurrent-set"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "expression_kind",
+              "expression_ast"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "maxItems": 2,
+      "minItems": 1,
+      "type": "array"
+    },
+    "candidate_kind": {
+      "enum": [
+        "terminating",
+        "non-terminating"
+      ],
+      "type": "string"
+    },
+    "loop_id": {
+      "enum": [
+        "l1"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "loop_id",
+    "candidate_kind",
+    "candidate_expressions"
+  ],
+  "type": "object"
+}
+

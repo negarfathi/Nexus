@@ -1,0 +1,50 @@
+{
+  "loop_id": "l2",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": {
+        "op": "or",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "=",
+                "args": [
+                  "l2_v1",
+                  0
+                ]
+              },
+              {
+                "op": "=",
+                "args": [
+                  "l2_v2",
+                  1
+                ]
+              }
+            ]
+          },
+          {
+            "op": ">=",
+            "args": [
+              "l2_v1",
+              "l2_v2"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "-",
+        "args": [
+          "l2_v1",
+          "l2_v2"
+        ]
+      }
+    }
+  ]
+}

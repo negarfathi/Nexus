@@ -1,0 +1,38 @@
+{
+  "loop_id": "l7",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": {
+        "op": "and",
+        "args": [
+          {
+            "op": ">=",
+            "args": [
+              "l7_v10",
+              0
+            ]
+          },
+          {
+            "op": ">=",
+            "args": [
+              "l7_v11",
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": {
+        "op": "+",
+        "args": [
+          "l7_v10",
+          "l7_v11"
+        ]
+      }
+    }
+  ]
+}

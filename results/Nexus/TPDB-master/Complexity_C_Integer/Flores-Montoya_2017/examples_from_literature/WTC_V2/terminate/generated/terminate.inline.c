@@ -1,0 +1,11 @@
+
+
+void terminate(int i,int j,int k){
+  int  ell;
+  while(i <= 100 && j <= k){ __asm__ __volatile__("# NEXUS_SOURCE_LOOP_ID_1_PARENT_0" ::: "memory"); 
+    ell = i;
+    i = j;
+    j = ell+1;
+    k--;
+  }
+}

@@ -1,0 +1,17 @@
+print('===================== SEMANTIC FEEDBACK =====================')
+print('TARGET_LOOP: l1')
+print('CANDIDATE_KIND: terminating')
+print()
+print('INVARIANT:')
+print("\"true\"")
+print()
+print('RANKING_FUNCTION:')
+print("{\n  \"op\": \"lex\",\n  \"args\": [\n    {\n      \"op\": \"max\",\n      \"args\": [\n        0,\n        {\n          \"op\": \"-\",\n          \"args\": [\n            4,\n            \"l1_v1\"\n          ]\n        }\n      ]\n    },\n    {\n      \"op\": \"abs\",\n      \"args\": [\n        {\n          \"op\": \"max\",\n          \"args\": [\n            \"l1_v2\",\n            0\n          ]\n        }\n      ]\n    }\n  ]\n}")
+print()
+print('FEEDBACK:')
+#!/usr/bin/env python3
+
+print("UNSUPPORTED: \"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %96\"")
+print('INVARIANT_RESULT: "unknown"')
+print('RANKING_FUNCTION_RESULT: "unknown"')
+print("VALIDATION_SUMMARY_JSON:{\"loop_id\":\"l1\",\"candidate_kind\":\"terminating\",\"status\":\"unsupported\",\"components\":{},\"checks\":[],\"reason\":\"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %96\"}")

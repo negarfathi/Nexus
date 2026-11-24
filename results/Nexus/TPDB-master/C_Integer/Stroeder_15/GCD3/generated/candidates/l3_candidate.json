@@ -1,0 +1,25 @@
+{
+  "loop_id": "l3",
+  "candidate_kind": "terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "invariant",
+      "expression_ast": {
+        "op": "not",
+        "args": [
+          {
+            "op": "<",
+            "args": [
+              "l3_v5",
+              0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "expression_kind": "ranking-function",
+      "expression_ast": 0
+    }
+  ]
+}

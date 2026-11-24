@@ -1,0 +1,54 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v1",
+        -1
+      ],
+      "op": "<="
+    },
+    {
+      "args": [
+        "l2_v6",
+        -1
+      ],
+      "op": "<="
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<=",
+      "args": [
+        "l2_v1",
+        -1
+      ]
+    },
+    {
+      "op": "<=",
+      "args": [
+        "l2_v6",
+        -1
+      ]
+    }
+  ]
+}
+
+FEEDBACK:

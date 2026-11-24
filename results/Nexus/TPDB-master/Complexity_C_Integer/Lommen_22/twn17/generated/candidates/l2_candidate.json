@@ -1,0 +1,166 @@
+{
+  "loop_id": "l2",
+  "candidate_kind": "non-terminating",
+  "candidate_expressions": [
+    {
+      "expression_kind": "recurrent-set",
+      "expression_ast": {
+        "op": "not",
+        "args": [
+          {
+            "op": "and",
+            "args": [
+              {
+                "op": "<",
+                "args": [
+                  {
+                    "op": "+",
+                    "args": [
+                      {
+                        "op": "*",
+                        "args": [
+                          "l2_v2",
+                          "l2_v2"
+                        ]
+                      },
+                      {
+                        "op": "neg",
+                        "args": [
+                          {
+                            "op": "*",
+                            "args": [
+                              {
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "op": "*",
+                                    "args": [
+                                      {
+                                        "op": "*",
+                                        "args": [
+                                          "l2_v4",
+                                          "l2_v4"
+                                        ]
+                                      },
+                                      "l2_v4"
+                                    ]
+                                  },
+                                  "l2_v4"
+                                ]
+                              },
+                              "l2_v4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "l2_v3"
+                ]
+              },
+              {
+                "op": "<",
+                "args": [
+                  {
+                    "op": "*",
+                    "args": [
+                      {
+                        "op": "*",
+                        "args": [
+                          4,
+                          {
+                            "op": "*",
+                            "args": [
+                              "l2_v2",
+                              "l2_v2"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "op": "neg",
+                        "args": [
+                          {
+                            "op": "neg",
+                            "args": [
+                              {
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "op": "*",
+                                    "args": [
+                                      {
+                                        "op": "*",
+                                        "args": [
+                                          {
+                                            "op": "*",
+                                            "args": [
+                                              "l2_v4",
+                                              "l2_v4"
+                                            ]
+                                          },
+                                          "l2_v4"
+                                        ]
+                                      },
+                                      "l2_v4"
+                                    ]
+                                  },
+                                  "l2_v4"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "op": "-",
+                    "args": [
+                      {
+                        "op": "*",
+                        "args": [
+                          3,
+                          "l2_v3"
+                        ]
+                      },
+                      {
+                        "op": "neg",
+                        "args": [
+                          {
+                            "op": "neg",
+                            "args": [
+                              {
+                                "op": "*",
+                                "args": [
+                                  {
+                                    "op": "*",
+                                    "args": [
+                                      {
+                                        "op": "*",
+                                        "args": [
+                                          "l2_v4",
+                                          "l2_v4"
+                                        ]
+                                      },
+                                      "l2_v4"
+                                    ]
+                                  },
+                                  "l2_v4"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

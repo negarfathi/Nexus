@@ -1,0 +1,57 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "args": [
+    {
+      "args": [
+        "l2_v4",
+        "l2_v4"
+      ],
+      "op": "<"
+    },
+    {
+      "args": [
+        "l2_v4",
+        0
+      ],
+      "op": ">"
+    }
+  ],
+  "op": "and"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l2
+CANDIDATE_KIND: non-terminating
+
+RECURRENT_SET:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": "<",
+      "args": [
+        "l2_v4",
+        "l2_v4"
+      ]
+    },
+    {
+      "op": ">",
+      "args": [
+        "l2_v4",
+        0
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+UNSUPPORTED: "l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %65"
+RECURRENT_SET_RESULT: "unknown"
+VALIDATION_SUMMARY_JSON:{"loop_id":"l2","candidate_kind":"non-terminating","status":"unsupported","components":{},"checks":[],"reason":"l1: source-nested child exits outside LLVM parent through an unsummarized continuation: %65"}

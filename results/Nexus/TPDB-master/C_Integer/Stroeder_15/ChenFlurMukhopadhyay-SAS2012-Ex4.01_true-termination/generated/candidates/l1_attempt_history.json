@@ -1,0 +1,99 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l1_v2",
+                  "l1_v5"
+                ],
+                "op": "<="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l1_v4",
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  "l1_v2",
+                                  "l1_v3"
+                                ],
+                                "op": "+"
+                              },
+                              {
+                                "args": [
+                                  2,
+                                  "l1_v2"
+                                ],
+                                "op": "*"
+                              }
+                            ],
+                            "op": "+"
+                          }
+                        ],
+                        "op": "+"
+                      }
+                    ],
+                    "op": "neg"
+                  }
+                ],
+                "op": "neg"
+              },
+              "l1_v5"
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              "l1_v5",
+              "l1_v2"
+            ],
+            "op": "-"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l1"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]

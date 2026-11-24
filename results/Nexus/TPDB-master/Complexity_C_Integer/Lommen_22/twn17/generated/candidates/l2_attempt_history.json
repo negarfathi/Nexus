@@ -1,0 +1,266 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l2_v2",
+                      "l2_v4"
+                    ],
+                    "op": "="
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l2_v3",
+                          "l2_v4"
+                        ],
+                        "op": "+"
+                      }
+                    ],
+                    "op": "neg"
+                  },
+                  {
+                    "args": [
+                      "l2_v2",
+                      "l2_v4"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "ite"
+              },
+              "l2_v1"
+            ],
+            "op": "="
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "false",
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_REACHABILITY",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              "l2_v2",
+                              "l2_v2"
+                            ],
+                            "op": "*"
+                          },
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              "l2_v4",
+                                              "l2_v4"
+                                            ],
+                                            "op": "*"
+                                          },
+                                          "l2_v4"
+                                        ],
+                                        "op": "*"
+                                      },
+                                      "l2_v4"
+                                    ],
+                                    "op": "*"
+                                  },
+                                  "l2_v4"
+                                ],
+                                "op": "*"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "+"
+                      },
+                      "l2_v3"
+                    ],
+                    "op": "<"
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              4,
+                              {
+                                "args": [
+                                  "l2_v2",
+                                  "l2_v2"
+                                ],
+                                "op": "*"
+                              }
+                            ],
+                            "op": "*"
+                          },
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              {
+                                                "args": [
+                                                  "l2_v4",
+                                                  "l2_v4"
+                                                ],
+                                                "op": "*"
+                                              },
+                                              "l2_v4"
+                                            ],
+                                            "op": "*"
+                                          },
+                                          "l2_v4"
+                                        ],
+                                        "op": "*"
+                                      },
+                                      "l2_v4"
+                                    ],
+                                    "op": "*"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "*"
+                      },
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              3,
+                              "l2_v3"
+                            ],
+                            "op": "*"
+                          },
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [
+                                      {
+                                        "args": [
+                                          {
+                                            "args": [
+                                              "l2_v4",
+                                              "l2_v4"
+                                            ],
+                                            "op": "*"
+                                          },
+                                          "l2_v4"
+                                        ],
+                                        "op": "*"
+                                      },
+                                      "l2_v4"
+                                    ],
+                                    "op": "*"
+                                  }
+                                ],
+                                "op": "neg"
+                              }
+                            ],
+                            "op": "neg"
+                          }
+                        ],
+                        "op": "-"
+                      }
+                    ],
+                    "op": "<"
+                  }
+                ],
+                "op": "and"
+              }
+            ],
+            "op": "not"
+          },
+          "expression_kind": "recurrent-set"
+        }
+      ],
+      "candidate_kind": "non-terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "non-terminating",
+    "components": {
+      "recurrent_set": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RECURRENT_EXISTENTIAL_PROGRESS",
+        "status": "invalid"
+      }
+    ]
+  }
+]

@@ -1,0 +1,156 @@
+==================== SYNTACTIC FEEDBACK ====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "args": [
+    {
+      "args": [
+        "l1_v2",
+        0
+      ],
+      "op": ">="
+    },
+    {
+      "args": [
+        {
+          "args": [
+            "l1_v3",
+            0
+          ],
+          "op": ">="
+        },
+        {
+          "args": [
+            "l1_v3",
+            10001
+          ],
+          "op": "<="
+        }
+      ],
+      "op": "and"
+    }
+  ],
+  "op": "and"
+}
+
+RANKING_FUNCTION:
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                "l1_v1",
+                "l1_v2"
+              ],
+              "op": "-"
+            },
+            1
+          ],
+          "op": "-"
+        },
+        0
+      ],
+      "op": "max"
+    },
+    {
+      "args": [
+        10001,
+        "l1_v3"
+      ],
+      "op": "-"
+    }
+  ],
+  "op": "lex"
+}
+
+FEEDBACK:
+No syntactic issues.
+
+===================== SEMANTIC FEEDBACK =====================
+TARGET_LOOP: l1
+CANDIDATE_KIND: terminating
+
+INVARIANT:
+{
+  "op": "and",
+  "args": [
+    {
+      "op": ">=",
+      "args": [
+        "l1_v2",
+        0
+      ]
+    },
+    {
+      "op": "and",
+      "args": [
+        {
+          "op": ">=",
+          "args": [
+            "l1_v3",
+            0
+          ]
+        },
+        {
+          "op": "<=",
+          "args": [
+            "l1_v3",
+            10001
+          ]
+        }
+      ]
+    }
+  ]
+}
+
+RANKING_FUNCTION:
+{
+  "op": "lex",
+  "args": [
+    {
+      "op": "max",
+      "args": [
+        {
+          "op": "-",
+          "args": [
+            {
+              "op": "-",
+              "args": [
+                "l1_v1",
+                "l1_v2"
+              ]
+            },
+            1
+          ]
+        },
+        0
+      ]
+    },
+    {
+      "op": "-",
+      "args": [
+        10001,
+        "l1_v3"
+      ]
+    }
+  ]
+}
+
+FEEDBACK:
+INVARIANT_INITIALIZATION: passed
+
+INVARIANT_PRESERVATION: passed
+
+RANKING_NONNEGATIVITY: passed
+
+RANKING_DECREASE: passed
+
+
+INVARIANT_RESULT: "valid"
+RANKING_FUNCTION_RESULT: "valid"
+VALIDATION_SUMMARY_JSON:{"candidate_kind":"terminating","checks":[{"description":"a reachable entry state violates the invariant.","expected":"unsat","name":"INVARIANT_INITIALIZATION","observed":"unsat","query_condition":"l1_bad_invariant_initialization","status":"valid"},{"description":"a completed loop iteration can reach a next state that violates the invariant.","expected":"unsat","name":"INVARIANT_PRESERVATION","observed":"unsat","query_condition":"l1_bad_invariant_preservation","status":"valid"},{"description":"the ranking function can be negative while the invariant and loop guard hold.","expected":"unsat","name":"RANKING_NONNEGATIVITY","observed":"unsat","query_condition":"[And(0 <= l1_v2, And(0 <= l1_v3, 10001 >= l1_v3)),\n Or(Not(0 == l1_nd1), And(0 == l1_nd1, Not(10000 < l1_v3))),\n Or(If(0 <= l1_v1 - l1_v2 - 1, l1_v1 - l1_v2 - 1, 0) < 0,\n    10001 - l1_v3 < 0)]","status":"valid"},{"description":"a completed loop iteration can fail to strictly decrease the ranking function.","expected":"unsat","name":"RANKING_DECREASE","observed":"unsat","query_condition":"[And(0 <= l1_v2, And(0 <= l1_v3, 10001 >= l1_v3)),\n Or(Not(0 == l1_nd1), And(0 == l1_nd1, Not(10000 < l1_v3))),\n Or(And(And(0 != l1_nd2, l1_v2 + 1 < l1_v1),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2 + 1,\n        1 == l1_v3_next),\n    And(And(0 == l1_nd2, 10000 >= l1_v3, l1_v2 < l1_v1),\n        l1_v1_next == l1_v1,\n        l1_v2_next == l1_v2,\n        l1_v3_next == l1_v3 + 1)),\n Not(Or(If(0 <= l1_v1_next - l1_v2_next - 1,\n           l1_v1_next - l1_v2_next - 1,\n           0) <\n        If(0 <= l1_v1 - l1_v2 - 1, l1_v1 - l1_v2 - 1, 0),\n        And(If(0 <= l1_v1_next - l1_v2_next - 1,\n               l1_v1_next - l1_v2_next - 1,\n               0) ==\n            If(0 <= l1_v1 - l1_v2 - 1, l1_v1 - l1_v2 - 1, 0),\n            10001 - l1_v3_next < 10001 - l1_v3)))]","status":"valid"}],"components":{"invariant":"valid","ranking_function":"valid"},"loop_id":"l1","status":"valid"}

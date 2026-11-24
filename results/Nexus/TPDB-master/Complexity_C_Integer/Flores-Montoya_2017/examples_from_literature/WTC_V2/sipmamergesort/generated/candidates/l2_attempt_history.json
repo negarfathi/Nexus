@@ -1,0 +1,239 @@
+[
+  {
+    "attempt": 1,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v8",
+                  "l2_v9"
+                ],
+                "op": "-"
+              },
+              0
+            ],
+            "op": "max"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 2,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v8",
+                  "l2_v9"
+                ],
+                "op": ">="
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l2_v8",
+                      "l2_v9"
+                    ],
+                    "op": "<"
+                  },
+                  "l2_v9",
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l2_v8",
+                          "l2_v9"
+                        ],
+                        "op": "-"
+                      },
+                      "l2_v9"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "ite"
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      "l2_v8",
+                      "l2_v9"
+                    ],
+                    "op": "<"
+                  },
+                  "l2_v9",
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          "l2_v8",
+                          "l2_v9"
+                        ],
+                        "op": "-"
+                      },
+                      "l2_v9"
+                    ],
+                    "op": "-"
+                  }
+                ],
+                "op": "ite"
+              }
+            ],
+            "op": "ite"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "outcome": "syntax_invalid"
+  },
+  {
+    "attempt": 3,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v8",
+                  "l2_v9"
+                ],
+                "op": "-"
+              },
+              0
+            ],
+            "op": "max"
+          },
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "duplicate_of_attempt": 1,
+    "outcome": "duplicate"
+  },
+  {
+    "attempt": 4,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": {
+            "args": [
+              {
+                "args": [
+                  "l2_v8",
+                  {
+                    "args": [
+                      2,
+                      "l2_v9"
+                    ],
+                    "op": "*"
+                  }
+                ],
+                "op": "="
+              },
+              {
+                "args": [
+                  "l2_v9",
+                  0
+                ],
+                "op": ">="
+              }
+            ],
+            "op": "and"
+          },
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": "l2_v8",
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "invalid",
+      "ranking_function": "valid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "INVARIANT_INITIALIZATION",
+        "status": "invalid"
+      }
+    ]
+  },
+  {
+    "attempt": 5,
+    "candidate": {
+      "candidate_expressions": [
+        {
+          "expression_ast": "true",
+          "expression_kind": "invariant"
+        },
+        {
+          "expression_ast": "l2_v8",
+          "expression_kind": "ranking-function"
+        }
+      ],
+      "candidate_kind": "terminating",
+      "loop_id": "l2"
+    },
+    "candidate_kind": "terminating",
+    "components": {
+      "invariant": "valid",
+      "ranking_function": "invalid"
+    },
+    "outcome": "validation_invalid",
+    "unresolved_checks": [
+      {
+        "name": "RANKING_NONNEGATIVITY",
+        "status": "invalid"
+      },
+      {
+        "name": "RANKING_DECREASE",
+        "status": "invalid"
+      }
+    ]
+  }
+]
