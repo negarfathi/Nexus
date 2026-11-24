@@ -1,6 +1,5 @@
 .DS_Store
 .venv/
-models/
 cmake-build-*/
 .idea/
 .vscode/
